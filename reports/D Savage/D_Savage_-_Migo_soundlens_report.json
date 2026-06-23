@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "D Savage - Migo.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/D Savage/D Savage - Migo.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 115.0084375,
+    "bpm": 144.23,
+    "key": "C Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 45.05986521933515
+  },
+  "loudness": {
+    "peak_db": -2.2203842998809584,
+    "rms_db": -19.519951317617586,
+    "dynamic_range_db": 17.299567017736628,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 2.2203842998809584
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.912583237991228,
+      "Bass / 808": 14.43197296195448,
+      "Mud": 14.430607919236849,
+      "Low Mids": 15.169334218428698,
+      "Mids / Melody": 15.04320216683889,
+      "Harsh Zone": 13.932859010522918,
+      "Highs": 13.189484678699696,
+      "Air": 11.822814814844063,
+      "Vocal Range": 15.856406995079112
+    },
+    "brightness_centroid_hz": 3023.6997750505257,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6287.670696930353,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.344556199945707,
+    "mid_total_percent": 44.64314430450444,
+    "top_total_percent": 25.012299493543757
+  },
+  "fingerprint": {
+    "mfcc_1": -227.34535217285156,
+    "mfcc_2": 143.46978759765625,
+    "mfcc_3": -34.28155517578125,
+    "mfcc_4": 25.28413963317871,
+    "mfcc_5": -34.329071044921875,
+    "mfcc_6": 23.387348175048828,
+    "mfcc_7": -24.227264404296875,
+    "mfcc_8": 1.0487771034240723,
+    "mfcc_9": 0.46685221791267395,
+    "mfcc_10": 0.3694049119949341,
+    "mfcc_11": -3.179905652999878,
+    "mfcc_12": -5.206139087677002,
+    "mfcc_13": 11.37172794342041,
+    "chroma_1": 0.4518207609653473,
+    "chroma_2": 0.3565114140510559,
+    "chroma_3": 0.47127875685691833,
+    "chroma_4": 0.4915723502635956,
+    "chroma_5": 0.5231779217720032,
+    "chroma_6": 0.4708995521068573,
+    "chroma_7": 0.326619029045105,
+    "chroma_8": 0.4524063766002655,
+    "chroma_9": 0.47014978528022766,
+    "chroma_10": 0.3187468945980072,
+    "chroma_11": 0.43014875054359436,
+    "chroma_12": 0.30266156792640686,
+    "spectral_contrast": 19.725005359160143,
+    "spectral_flatness": 0.0016529260901734233,
+    "zero_crossing_rate": 0.06343662333070574
+  },
+  "rhythm": {
+    "onset_count": 386,
+    "onset_density": 3.3562754906569356,
+    "drum_activity": "High",
+    "estimated_bars": 69,
+    "seconds_per_bar": 1.6640088747139985
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.0669550821185112,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.12375936657190323,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.12339911609888077,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.1403663456439972,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.08055655658245087,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.1259147673845291,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 115.0084375,
+      "avg_energy": 0.05196438729763031,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 78,
+    "master": 78,
+    "arrangement": 75,
+    "release": 77,
+    "energy": 2.740024341191207,
+    "bass_strength": 6.068911239989141,
+    "darkness": 3.9526004498989487,
+    "brightness": 6.047399550101051,
+    "drum_bounce": 8.390688726642338,
+    "vocal_space": 2.0607090868154465
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is quiet for the selected style.",
+    "Dynamic range is wide, so some sections may feel uneven.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor. Confidence: 45.1%.",
+    "Beat energy: 2.7/10. Darkness: 4.0/10.",
+    "Vocal space estimate: 2.1/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 3.36 hits/sec.",
+    "Estimated length: 69 bars at 144 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Peak: -2.22 dB. RMS: -19.52 dB. Dynamic range: 17.30 dB."
+  ],
+  "next_steps": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

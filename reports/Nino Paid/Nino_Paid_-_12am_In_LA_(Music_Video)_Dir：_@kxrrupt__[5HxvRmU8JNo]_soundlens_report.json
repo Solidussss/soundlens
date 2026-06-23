@@ -1,0 +1,166 @@
+{
+  "basic": {
+    "file_name": "Nino Paid - 12am In LA (Music Video) Dir\uff1a @kxrrupt_ [5HxvRmU8JNo].wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Nino Paid/Nino Paid - 12am In LA (Music Video) Dir\uff1a @kxrrupt_ [5HxvRmU8JNo].wav",
+    "sample_rate": 48000,
+    "duration_seconds": 83.62666666666667,
+    "bpm": 150.67,
+    "key": "F Minor",
+    "key_note": "F",
+    "key_mode": "Minor",
+    "key_confidence": 45.3009822311997
+  },
+  "loudness": {
+    "peak_db": -0.0001014735885555618,
+    "rms_db": -7.311570703275521,
+    "dynamic_range_db": 7.311469229686965,
+    "clipping_detected": true,
+    "clipping_samples": 8572,
+    "clipping_percent": 0.21354830994897958,
+    "headroom_db": 0.0001014735885555618
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.47019953911699,
+      "Bass / 808": 15.452386615027594,
+      "Mud": 14.724241608064165,
+      "Low Mids": 14.49634289596271,
+      "Mids / Melody": 13.835770568749487,
+      "Harsh Zone": 12.592935512522596,
+      "Highs": 12.623267755260487,
+      "Air": 11.39779101593903,
+      "Vocal Range": 15.197860703666516
+    },
+    "brightness_centroid_hz": 1892.3919782492878,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4017.0458168600944,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.92258615414458,
+    "mid_total_percent": 43.05635507277636,
+    "top_total_percent": 24.021058771199517
+  },
+  "fingerprint": {
+    "mfcc_1": -196.3048553466797,
+    "mfcc_2": 148.39077758789062,
+    "mfcc_3": 19.274776458740234,
+    "mfcc_4": 25.418804168701172,
+    "mfcc_5": -6.826650142669678,
+    "mfcc_6": 22.469682693481445,
+    "mfcc_7": 0.5871931910514832,
+    "mfcc_8": -3.444075584411621,
+    "mfcc_9": 1.4156215190887451,
+    "mfcc_10": 8.226177215576172,
+    "mfcc_11": -0.13055424392223358,
+    "mfcc_12": 2.3250513076782227,
+    "mfcc_13": 3.574622869491577,
+    "chroma_1": 0.6000351905822754,
+    "chroma_2": 0.38907840847969055,
+    "chroma_3": 0.2831156551837921,
+    "chroma_4": 0.2868151068687439,
+    "chroma_5": 0.2509237825870514,
+    "chroma_6": 0.5668559670448303,
+    "chroma_7": 0.33000755310058594,
+    "chroma_8": 0.30528524518013,
+    "chroma_9": 0.20281052589416504,
+    "chroma_10": 0.16459356248378754,
+    "chroma_11": 0.1959291249513626,
+    "chroma_12": 0.1955154985189438,
+    "spectral_contrast": 19.693505283414833,
+    "spectral_flatness": 0.0018468600464984775,
+    "zero_crossing_rate": 0.020667915942641245
+  },
+  "rhythm": {
+    "onset_count": 583,
+    "onset_density": 6.971460459183674,
+    "drum_activity": "High",
+    "estimated_bars": 53,
+    "seconds_per_bar": 1.5928851131612134
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.15125928819179535,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.4913022518157959,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.4916040599346161,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.4971263110637665,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 64.0,
+      "end": 83.62666666666667,
+      "avg_energy": 0.42117369174957275,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 65,
+    "release": 76,
+    "energy": 8.84421464836224,
+    "bass_strength": 6.584517230828917,
+    "darkness": 6.2152160435014245,
+    "brightness": 3.7847839564985755,
+    "drum_bounce": 10,
+    "vocal_space": 2.039397228779661
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 8572 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F Minor. Confidence: 45.3%.",
+    "Beat energy: 8.8/10. Darkness: 6.2/10.",
+    "Vocal space estimate: 2.0/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.97 hits/sec.",
+    "Estimated length: 53 bars at 151 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -7.31 dB. Dynamic range: 7.31 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Cheromani - MILLION DOLLAR MANSION.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Cheromani/Cheromani - MILLION DOLLAR MANSION.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 133.607625,
+    "bpm": 144.23,
+    "key": "D# Minor / Try C# Minor",
+    "key_note": "D#",
+    "key_mode": "Minor",
+    "key_confidence": 50.650076016051564
+  },
+  "loudness": {
+    "peak_db": 0.003965860268612772,
+    "rms_db": -4.943195065524721,
+    "dynamic_range_db": 4.947160925793334,
+    "clipping_detected": true,
+    "clipping_samples": 298394,
+    "clipping_percent": 4.652834497033135,
+    "headroom_db": -0.003965860268612772
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.69456463504976,
+      "Bass / 808": 15.173738285440589,
+      "Mud": 13.685881277335318,
+      "Low Mids": 13.56195502336176,
+      "Mids / Melody": 14.36379888302792,
+      "Harsh Zone": 13.876753739947386,
+      "Highs": 14.061693663078811,
+      "Air": 13.458368231057541,
+      "Vocal Range": 14.664346300479595
+    },
+    "brightness_centroid_hz": 5213.801329973028,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 10612.74736049018,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.86830292049035,
+    "mid_total_percent": 41.611635183725,
+    "top_total_percent": 27.520061894136354
+  },
+  "fingerprint": {
+    "mfcc_1": -4.75497579574585,
+    "mfcc_2": 80.21056365966797,
+    "mfcc_3": -18.852758407592773,
+    "mfcc_4": 52.06555938720703,
+    "mfcc_5": -22.806303024291992,
+    "mfcc_6": 35.37647247314453,
+    "mfcc_7": -6.251363277435303,
+    "mfcc_8": 22.88559341430664,
+    "mfcc_9": -8.428994178771973,
+    "mfcc_10": 12.851204872131348,
+    "mfcc_11": -0.4524195194244385,
+    "mfcc_12": 5.892900466918945,
+    "mfcc_13": 1.0313892364501953,
+    "chroma_1": 0.4471440017223358,
+    "chroma_2": 0.5064550638198853,
+    "chroma_3": 0.5223519802093506,
+    "chroma_4": 0.6292524337768555,
+    "chroma_5": 0.6610310077667236,
+    "chroma_6": 0.5327198505401611,
+    "chroma_7": 0.477072536945343,
+    "chroma_8": 0.357190877199173,
+    "chroma_9": 0.3573794662952423,
+    "chroma_10": 0.34048235416412354,
+    "chroma_11": 0.43829455971717834,
+    "chroma_12": 0.41168081760406494,
+    "spectral_contrast": 16.68902673502249,
+    "spectral_flatness": 0.010616857558488846,
+    "zero_crossing_rate": 0.11051929954444754
+  },
+  "rhythm": {
+    "onset_count": 696,
+    "onset_density": 5.209283527044208,
+    "drum_activity": "High",
+    "estimated_bars": 80,
+    "seconds_per_bar": 1.6640088747139985
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.33064404129981995,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.6181402802467346,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.6190095543861389,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.6284681558609009,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.6237983703613281,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.6286205053329468,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.6164536476135254,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 133.607625,
+      "avg_energy": 0.4229196012020111,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 75,
+    "release": 60,
+    "energy": 10,
+    "bass_strength": 6.17366058409807,
+    "darkness": 0,
+    "brightness": 10,
+    "drum_bounce": 10,
+    "vocal_space": 2.588225342871336
+  },
+  "top_problems": [
+    "Clipping detected: 298394 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Minor / Try C# Minor. Confidence: 50.7%.",
+    "Beat energy: 10.0/10. Darkness: 0.0/10.",
+    "Vocal space estimate: 2.6/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.21 hits/sec.",
+    "Estimated length: 80 bars at 144 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -4.94 dB. Dynamic range: 4.95 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

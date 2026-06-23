@@ -1,0 +1,162 @@
+{
+  "basic": {
+    "file_name": "Jaydes - miss america.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Jaydes/Jaydes - miss america.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 72.87983333333334,
+    "bpm": 143.01,
+    "key": "F# Major",
+    "key_note": "F#",
+    "key_mode": "Major",
+    "key_confidence": 45.93707140070458
+  },
+  "loudness": {
+    "peak_db": -0.07974896860045119,
+    "rms_db": -12.753193070515136,
+    "dynamic_range_db": 12.673444101914685,
+    "clipping_detected": true,
+    "clipping_samples": 8,
+    "clipping_percent": 0.00022868694814980823,
+    "headroom_db": 0.07974896860045119
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 14.146002909311012,
+      "Bass / 808": 15.461513566242155,
+      "Mud": 15.027715232060737,
+      "Low Mids": 15.575070109430056,
+      "Mids / Melody": 14.661273167005051,
+      "Harsh Zone": 13.99429885722162,
+      "Highs": 13.569255439105207,
+      "Air": 11.55916957496518,
+      "Vocal Range": 16.034931424305242
+    },
+    "brightness_centroid_hz": 2751.5284859011294,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5715.05927118396,
+    "dominant_band": "Low Mids",
+    "low_end_total_percent": 29.60751647555317,
+    "mid_total_percent": 45.26405850849584,
+    "top_total_percent": 25.128425014070388
+  },
+  "fingerprint": {
+    "mfcc_1": -117.18222045898438,
+    "mfcc_2": 146.41329956054688,
+    "mfcc_3": -32.695858001708984,
+    "mfcc_4": 48.80205154418945,
+    "mfcc_5": -10.73068618774414,
+    "mfcc_6": 15.61042594909668,
+    "mfcc_7": -6.130763530731201,
+    "mfcc_8": 10.937080383300781,
+    "mfcc_9": -7.367610931396484,
+    "mfcc_10": 15.7816801071167,
+    "mfcc_11": 5.316362380981445,
+    "mfcc_12": -5.164580345153809,
+    "mfcc_13": 3.391936779022217,
+    "chroma_1": 0.5125406384468079,
+    "chroma_2": 0.5638100504875183,
+    "chroma_3": 0.49706751108169556,
+    "chroma_4": 0.5305290222167969,
+    "chroma_5": 0.526987612247467,
+    "chroma_6": 0.5949820876121521,
+    "chroma_7": 0.6652126908302307,
+    "chroma_8": 0.41895389556884766,
+    "chroma_9": 0.378165602684021,
+    "chroma_10": 0.44432297348976135,
+    "chroma_11": 0.6453364491462708,
+    "chroma_12": 0.6813845038414001,
+    "spectral_contrast": 18.27683903866976,
+    "spectral_flatness": 0.0005260983598418534,
+    "zero_crossing_rate": 0.0516909980746012
+  },
+  "rhythm": {
+    "onset_count": 78,
+    "onset_density": 1.0702549173411025,
+    "drum_activity": "Low",
+    "estimated_bars": 43,
+    "seconds_per_bar": 1.6782043213761277
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 13.425634571009022,
+      "avg_energy": 0.2232619822025299,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 2",
+      "start": 13.425634571009022,
+      "end": 26.851269142018044,
+      "avg_energy": 0.22000131011009216,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 3",
+      "start": 26.851269142018044,
+      "end": 40.27690371302707,
+      "avg_energy": 0.2402162253856659,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 4",
+      "start": 40.27690371302707,
+      "end": 53.70253828403609,
+      "avg_energy": 0.25063514709472656,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 5",
+      "start": 53.70253828403609,
+      "end": 72.87983333333334,
+      "avg_energy": 0.22011245787143707,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 66,
+    "release": 80,
+    "energy": 6.123403464742432,
+    "bass_strength": 5.921503295110634,
+    "darkness": 4.496943028197741,
+    "brightness": 5.503056971802259,
+    "drum_bounce": 2.6756372933527564,
+    "vocal_space": 1.7639038915428404
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 8 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is low; the beat may need more bounce or percussion variation."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Add hat rolls, percussion fills, or small drum changes every 4-8 bars."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Major. Confidence: 45.9%.",
+    "Beat energy: 6.1/10. Darkness: 4.5/10.",
+    "Vocal space estimate: 1.8/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Low Mids.",
+    "Drum activity is low at 1.07 hits/sec.",
+    "Estimated length: 43 bars at 143 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.08 dB. RMS: -12.75 dB. Dynamic range: 12.67 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Add hat rolls, percussion fills, or small drum changes every 4-8 bars.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

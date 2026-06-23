@@ -1,0 +1,173 @@
+{
+  "basic": {
+    "file_name": "Midwxst - Aint On Shit.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Midwxst/Midwxst - Aint On Shit.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 111.43304166666667,
+    "bpm": 140.62,
+    "key": "D Minor",
+    "key_note": "D",
+    "key_mode": "Minor",
+    "key_confidence": 46.95750790759984
+  },
+  "loudness": {
+    "peak_db": 0.0002039790352395154,
+    "rms_db": -4.9321449133514585,
+    "dynamic_range_db": 4.932348892386698,
+    "clipping_detected": true,
+    "clipping_samples": 156906,
+    "clipping_percent": 2.9334880849598397,
+    "headroom_db": -0.0002039790352395154
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.655204961051144,
+      "Bass / 808": 14.889308205500093,
+      "Mud": 13.940611865828936,
+      "Low Mids": 13.793433077944428,
+      "Mids / Melody": 13.54388497938113,
+      "Harsh Zone": 13.041373699425577,
+      "Highs": 13.508432186791433,
+      "Air": 13.66912472177582,
+      "Vocal Range": 14.520469377890647
+    },
+    "brightness_centroid_hz": 4178.532859469123,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 10333.49212094381,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.544513166551237,
+    "mid_total_percent": 41.27792992315449,
+    "top_total_percent": 27.177556908567254
+  },
+  "fingerprint": {
+    "mfcc_1": -86.52349090576172,
+    "mfcc_2": 107.95600128173828,
+    "mfcc_3": -4.195800304412842,
+    "mfcc_4": 42.07901382446289,
+    "mfcc_5": -22.143447875976562,
+    "mfcc_6": 40.564334869384766,
+    "mfcc_7": -18.900209426879883,
+    "mfcc_8": 15.614497184753418,
+    "mfcc_9": 2.7216899394989014,
+    "mfcc_10": -1.9140868186950684,
+    "mfcc_11": 6.796172618865967,
+    "mfcc_12": 3.6971442699432373,
+    "mfcc_13": 6.778443336486816,
+    "chroma_1": 0.2146790474653244,
+    "chroma_2": 0.3115173578262329,
+    "chroma_3": 0.732265830039978,
+    "chroma_4": 0.6944387555122375,
+    "chroma_5": 0.3712306618690491,
+    "chroma_6": 0.23475533723831177,
+    "chroma_7": 0.19747720658779144,
+    "chroma_8": 0.17401918768882751,
+    "chroma_9": 0.16727592051029205,
+    "chroma_10": 0.21525238454341888,
+    "chroma_11": 0.1937388926744461,
+    "chroma_12": 0.14910386502742767,
+    "spectral_contrast": 17.64112295645719,
+    "spectral_flatness": 0.0021352136973291636,
+    "zero_crossing_rate": 0.045575284770747584
+  },
+  "rhythm": {
+    "onset_count": 771,
+    "onset_density": 6.918953197978008,
+    "drum_activity": "High",
+    "estimated_bars": 65,
+    "seconds_per_bar": 1.7067273503057887
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.600633978843689,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5920343995094299,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.6114298105239868,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.6130123734474182,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.5893576145172119,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 80.0,
+      "end": 111.43304166666667,
+      "avg_energy": 0.4672074019908905,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 81,
+    "release": 61,
+    "energy": 10,
+    "bass_strength": 6.308902633310248,
+    "darkness": 1.6429342810617538,
+    "brightness": 8.357065718938246,
+    "drum_bounce": 10,
+    "vocal_space": 2.453264813962079
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 156906 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Minor. Confidence: 47.0%.",
+    "Beat energy: 10.0/10. Darkness: 1.6/10.",
+    "Vocal space estimate: 2.5/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.92 hits/sec.",
+    "Estimated length: 65 bars at 141 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -4.93 dB. Dynamic range: 4.93 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

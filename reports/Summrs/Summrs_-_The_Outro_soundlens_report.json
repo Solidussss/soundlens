@@ -1,0 +1,172 @@
+{
+  "basic": {
+    "file_name": "Summrs - The Outro.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Summrs/Summrs - The Outro.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 110.07420833333333,
+    "bpm": 170.45,
+    "key": "D Minor",
+    "key_note": "D",
+    "key_mode": "Minor",
+    "key_confidence": 45.68039572639192
+  },
+  "loudness": {
+    "peak_db": -5.657282913388281,
+    "rms_db": -24.595371906293444,
+    "dynamic_range_db": 18.938088992905165,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 5.657282913388281
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 10.905166447973452,
+      "Bass / 808": 15.461308395250745,
+      "Mud": 16.116100539998776,
+      "Low Mids": 15.887174260089731,
+      "Mids / Melody": 14.96274081870882,
+      "Harsh Zone": 14.178000428543236,
+      "Highs": 13.566107481128888,
+      "Air": 13.101402054647407,
+      "Vocal Range": 16.75343604125734
+    },
+    "brightness_centroid_hz": 1897.7168447929428,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 3577.212027616279,
+    "dominant_band": "Mud",
+    "low_end_total_percent": 26.366474843224196,
+    "mid_total_percent": 46.96601561879733,
+    "top_total_percent": 26.667509535776297
+  },
+  "fingerprint": {
+    "mfcc_1": -336.42315673828125,
+    "mfcc_2": 150.181640625,
+    "mfcc_3": 7.125413417816162,
+    "mfcc_4": 29.482879638671875,
+    "mfcc_5": -6.63546895980835,
+    "mfcc_6": 13.427533149719238,
+    "mfcc_7": -13.490523338317871,
+    "mfcc_8": 0.36282581090927124,
+    "mfcc_9": -5.793255805969238,
+    "mfcc_10": -7.8197150230407715,
+    "mfcc_11": -8.759294509887695,
+    "mfcc_12": -7.5081682205200195,
+    "mfcc_13": -2.7535760402679443,
+    "chroma_1": 0.37428897619247437,
+    "chroma_2": 0.3381427526473999,
+    "chroma_3": 0.5443341135978699,
+    "chroma_4": 0.2032834142446518,
+    "chroma_5": 0.5226791501045227,
+    "chroma_6": 0.5982688665390015,
+    "chroma_7": 0.21554522216320038,
+    "chroma_8": 0.523577094078064,
+    "chroma_9": 0.22303195297718048,
+    "chroma_10": 0.5683692097663879,
+    "chroma_11": 0.38358399271965027,
+    "chroma_12": 0.21560049057006836,
+    "spectral_contrast": 18.72547212014002,
+    "spectral_flatness": 0.0007101141382008791,
+    "zero_crossing_rate": 0.03969305467235949
+  },
+  "rhythm": {
+    "onset_count": 313,
+    "onset_density": 2.8435362355925795,
+    "drum_activity": "Medium",
+    "estimated_bars": 78,
+    "seconds_per_bar": 1.4080375476679379
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.07658132165670395,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.07433000206947327,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.07274029403924942,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.06546168029308319,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.05242396891117096,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 80.0,
+      "end": 110.07420833333333,
+      "avg_energy": 0.009379841387271881,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 78,
+    "master": 78,
+    "arrangement": 79,
+    "release": 78,
+    "energy": 0.20231404685327803,
+    "bass_strength": 5.273294968644839,
+    "darkness": 6.204566310414115,
+    "brightness": 3.7954336895858853,
+    "drum_bounce": 7.108840588981449,
+    "vocal_space": 1.2839634611305275
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is quiet for the selected style.",
+    "Dynamic range is wide, so some sections may feel uneven.",
+    "Intro may be long for short-form listener retention.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Minor. Confidence: 45.7%.",
+    "Beat energy: 0.2/10. Darkness: 6.2/10.",
+    "Vocal space estimate: 1.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Mud.",
+    "Drum activity is medium at 2.84 hits/sec.",
+    "Estimated length: 78 bars at 170 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Peak: -5.66 dB. RMS: -24.60 dB. Dynamic range: 18.94 dB."
+  ],
+  "next_steps": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

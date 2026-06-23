@@ -1,0 +1,185 @@
+{
+  "basic": {
+    "file_name": "Lil Tony - Nan.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lil Tony/Lil Tony - Nan.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 136.48689583333334,
+    "bpm": 143.01,
+    "key": "F# Major",
+    "key_note": "F#",
+    "key_mode": "Major",
+    "key_confidence": 45.59032824805191
+  },
+  "loudness": {
+    "peak_db": -0.18139659726101043,
+    "rms_db": -15.758237096788953,
+    "dynamic_range_db": 15.576840499527943,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.18139659726101043
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.555535012116522,
+      "Bass / 808": 15.632679431209768,
+      "Mud": 15.068823317791729,
+      "Low Mids": 14.58158130969932,
+      "Mids / Melody": 13.922506818169275,
+      "Harsh Zone": 13.242104333481763,
+      "Highs": 13.462998055577208,
+      "Air": 11.775876053544772,
+      "Vocal Range": 15.493205106538355
+    },
+    "brightness_centroid_hz": 2827.5074290874572,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5657.84839989059,
+    "dominant_band": "Bass / 808",
+    "low_end_total_percent": 31.188214443326288,
+    "mid_total_percent": 43.572911445660324,
+    "top_total_percent": 25.23887410912198
+  },
+  "fingerprint": {
+    "mfcc_1": -247.64645385742188,
+    "mfcc_2": 118.31580352783203,
+    "mfcc_3": 15.657024383544922,
+    "mfcc_4": 42.0506706237793,
+    "mfcc_5": -9.577592849731445,
+    "mfcc_6": 17.557510375976562,
+    "mfcc_7": -1.8223013877868652,
+    "mfcc_8": -8.654393196105957,
+    "mfcc_9": -2.7306549549102783,
+    "mfcc_10": -7.011570930480957,
+    "mfcc_11": -11.789168357849121,
+    "mfcc_12": 0.7255173921585083,
+    "mfcc_13": 0.7302623391151428,
+    "chroma_1": 0.5418481826782227,
+    "chroma_2": 0.6342035531997681,
+    "chroma_3": 0.5861465930938721,
+    "chroma_4": 0.5996847152709961,
+    "chroma_5": 0.5003551244735718,
+    "chroma_6": 0.5923852324485779,
+    "chroma_7": 0.8005240559577942,
+    "chroma_8": 0.6888324618339539,
+    "chroma_9": 0.6856666803359985,
+    "chroma_10": 0.46552687883377075,
+    "chroma_11": 0.5293235182762146,
+    "chroma_12": 0.4397214651107788,
+    "spectral_contrast": 21.44223543213853,
+    "spectral_flatness": 0.0008377009071409702,
+    "zero_crossing_rate": 0.05495266617741872
+  },
+  "rhythm": {
+    "onset_count": 941,
+    "onset_density": 6.894434767928728,
+    "drum_activity": "High",
+    "estimated_bars": 81,
+    "seconds_per_bar": 1.6782043213761277
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.08843954652547836,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.1694057434797287,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.1840749979019165,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.1707465648651123,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.19742122292518616,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.1759318858385086,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.179741770029068,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 136.48689583333334,
+      "avg_energy": 0.1271665394306183,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 84,
+    "master": 82,
+    "arrangement": 81,
+    "release": 82,
+    "energy": 4.620881451605523,
+    "bass_strength": 6.237642888665258,
+    "darkness": 4.344985141825085,
+    "brightness": 5.655014858174915,
+    "drum_bounce": 10,
+    "vocal_space": 1.8893876286405487
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Peak is extremely close to 0 dB, so the export has almost no headroom.",
+    "Track is quiet for the selected style.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Set limiter/output ceiling around -0.3 to -1.0 dB before exporting.",
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Major. Confidence: 45.6%.",
+    "Beat energy: 4.6/10. Darkness: 4.3/10.",
+    "Vocal space estimate: 1.9/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Bass / 808.",
+    "Drum activity is high at 6.89 hits/sec.",
+    "Estimated length: 81 bars at 143 BPM."
+  ],
+  "master_notes": [
+    "Peak: -0.18 dB. RMS: -15.76 dB. Dynamic range: 15.58 dB."
+  ],
+  "next_steps": [
+    "Set limiter/output ceiling around -0.3 to -1.0 dB before exporting.",
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

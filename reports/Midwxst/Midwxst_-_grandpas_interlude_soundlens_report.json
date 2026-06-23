@@ -1,0 +1,159 @@
+{
+  "basic": {
+    "file_name": "Midwxst - grandpas interlude.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Midwxst/Midwxst - grandpas interlude.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 73.32235416666667,
+    "bpm": 117.19,
+    "key": "F# Minor",
+    "key_note": "F#",
+    "key_mode": "Minor",
+    "key_confidence": 45.87969387297625
+  },
+  "loudness": {
+    "peak_db": -2.7977474101565485,
+    "rms_db": -19.375510769461172,
+    "dynamic_range_db": 16.577763359304623,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 2.7977474101565485
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 12.285774545236048,
+      "Bass / 808": 15.786560073078412,
+      "Mud": 16.715455468300952,
+      "Low Mids": 16.07446981061366,
+      "Mids / Melody": 16.54619690336645,
+      "Harsh Zone": 16.089478518444615,
+      "Highs": 13.743770893852519,
+      "Air": 8.847772303367831,
+      "Vocal Range": 17.41749243769809
+    },
+    "brightness_centroid_hz": 1691.706715008484,
+    "brightness_label": "Low",
+    "spectral_rolloff_hz": 3037.2463267384346,
+    "dominant_band": "Mud",
+    "low_end_total_percent": 28.07233461831446,
+    "mid_total_percent": 49.33612218228106,
+    "top_total_percent": 22.59154319722035
+  },
+  "fingerprint": {
+    "mfcc_1": -263.30255126953125,
+    "mfcc_2": 196.0997772216797,
+    "mfcc_3": -18.2751407623291,
+    "mfcc_4": 19.823801040649414,
+    "mfcc_5": 12.269673347473145,
+    "mfcc_6": 1.6260240077972412,
+    "mfcc_7": -2.077223777770996,
+    "mfcc_8": -6.656959056854248,
+    "mfcc_9": -4.276166915893555,
+    "mfcc_10": 2.495835304260254,
+    "mfcc_11": -5.955543518066406,
+    "mfcc_12": -7.797091960906982,
+    "mfcc_13": 1.015406608581543,
+    "chroma_1": 0.24381935596466064,
+    "chroma_2": 0.40067318081855774,
+    "chroma_3": 0.41600000858306885,
+    "chroma_4": 0.23641936480998993,
+    "chroma_5": 0.42689356207847595,
+    "chroma_6": 0.20823442935943604,
+    "chroma_7": 0.5958309769630432,
+    "chroma_8": 0.3093227744102478,
+    "chroma_9": 0.25122684240341187,
+    "chroma_10": 0.4540150761604309,
+    "chroma_11": 0.3490687310695648,
+    "chroma_12": 0.5393872857093811,
+    "spectral_contrast": 19.504543019368718,
+    "spectral_flatness": 0.00015602096391376108,
+    "zero_crossing_rate": 0.04007024601305644
+  },
+  "rhythm": {
+    "onset_count": 418,
+    "onset_density": 5.700853508465614,
+    "drum_activity": "High",
+    "estimated_bars": 36,
+    "seconds_per_bar": 2.047956310265381
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.38365048212305,
+      "avg_energy": 0.06633999198675156,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.38365048212305,
+      "end": 32.7673009642461,
+      "avg_energy": 0.12712174654006958,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.7673009642461,
+      "end": 49.15095144636915,
+      "avg_energy": 0.12576690316200256,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 49.15095144636915,
+      "end": 73.32235416666667,
+      "avg_energy": 0.1018226221203804,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 78,
+    "master": 78,
+    "arrangement": 65,
+    "release": 74,
+    "energy": 2.812244615269414,
+    "bass_strength": 5.614466923662892,
+    "darkness": 6.616586569983031,
+    "brightness": 3.3834134300169683,
+    "drum_bounce": 10,
+    "vocal_space": 1.017464982591953
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is quiet for the selected style.",
+    "Dynamic range is wide, so some sections may feel uneven.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Minor. Confidence: 45.9%.",
+    "Beat energy: 2.8/10. Darkness: 6.6/10.",
+    "Vocal space estimate: 1.0/10. Higher means easier space for vocals.",
+    "Beat leans dark, so brighter vocals/adlibs may cut through well."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Mud.",
+    "Drum activity is high at 5.70 hits/sec.",
+    "Estimated length: 36 bars at 117 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Peak: -2.80 dB. RMS: -19.38 dB. Dynamic range: 16.58 dB."
+  ],
+  "next_steps": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

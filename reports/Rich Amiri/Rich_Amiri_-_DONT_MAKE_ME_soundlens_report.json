@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Rich Amiri - DONT MAKE ME.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Rich Amiri/Rich Amiri - DONT MAKE ME.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 131.43466666666666,
+    "bpm": 148.03,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 45.8046476579817
+  },
+  "loudness": {
+    "peak_db": 0.0011275195949930993,
+    "rms_db": -6.235820503782296,
+    "dynamic_range_db": 6.236948023377289,
+    "clipping_detected": true,
+    "clipping_samples": 27088,
+    "clipping_percent": 0.42936414543093654,
+    "headroom_db": -0.0011275195949930993
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.384674984722743,
+      "Bass / 808": 14.66854565354216,
+      "Mud": 14.118374717205572,
+      "Low Mids": 14.137894042457253,
+      "Mids / Melody": 13.987452333929271,
+      "Harsh Zone": 13.213195848471779,
+      "Highs": 13.80901679329926,
+      "Air": 12.894041473129258,
+      "Vocal Range": 14.86789031892661
+    },
+    "brightness_centroid_hz": 4110.631917328902,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 9314.244705023128,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.053220638264904,
+    "mid_total_percent": 42.24372109359209,
+    "top_total_percent": 26.70305826642852
+  },
+  "fingerprint": {
+    "mfcc_1": -72.07051086425781,
+    "mfcc_2": 112.246337890625,
+    "mfcc_3": 11.365887641906738,
+    "mfcc_4": 40.353538513183594,
+    "mfcc_5": -23.511878967285156,
+    "mfcc_6": 28.01668930053711,
+    "mfcc_7": -6.118264675140381,
+    "mfcc_8": 19.173389434814453,
+    "mfcc_9": -9.867325782775879,
+    "mfcc_10": 7.993474960327148,
+    "mfcc_11": -2.0214145183563232,
+    "mfcc_12": 14.111528396606445,
+    "mfcc_13": -4.976218223571777,
+    "chroma_1": 0.2775826156139374,
+    "chroma_2": 0.8454655408859253,
+    "chroma_3": 0.5202322602272034,
+    "chroma_4": 0.3938639760017395,
+    "chroma_5": 0.3042769730091095,
+    "chroma_6": 0.24943266808986664,
+    "chroma_7": 0.2218625545501709,
+    "chroma_8": 0.19061988592147827,
+    "chroma_9": 0.2649683654308319,
+    "chroma_10": 0.18118451535701752,
+    "chroma_11": 0.14712175726890564,
+    "chroma_12": 0.17493057250976562,
+    "spectral_contrast": 18.33347434405275,
+    "spectral_flatness": 0.0032531917095184326,
+    "zero_crossing_rate": 0.04932456870536801
+  },
+  "rhythm": {
+    "onset_count": 831,
+    "onset_density": 6.322532868040903,
+    "drum_activity": "High",
+    "estimated_bars": 81,
+    "seconds_per_bar": 1.621292981152469
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.4977177679538727,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5020256638526917,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.5074539184570312,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.49737265706062317,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.4102548360824585,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.5006301403045654,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.5055339932441711,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 131.43466666666666,
+      "avg_energy": 0.47601258754730225,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 75,
+    "release": 79,
+    "energy": 9.382089748108852,
+    "bass_strength": 6.210644127652981,
+    "darkness": 1.7787361653421954,
+    "brightness": 8.221263834657805,
+    "drum_bounce": 10,
+    "vocal_space": 2.332950964195306
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 27088 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 45.8%.",
+    "Beat energy: 9.4/10. Darkness: 1.8/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.32 hits/sec.",
+    "Estimated length: 81 bars at 148 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -6.24 dB. Dynamic range: 6.24 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

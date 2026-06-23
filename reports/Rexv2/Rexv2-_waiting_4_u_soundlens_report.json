@@ -1,0 +1,154 @@
+{
+  "basic": {
+    "file_name": "Rexv2- waiting 4 u.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Rexv2/Rexv2- waiting 4 u.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 71.1575625,
+    "bpm": 153.41,
+    "key": "F Major",
+    "key_note": "F",
+    "key_mode": "Major",
+    "key_confidence": 45.3271816925407
+  },
+  "loudness": {
+    "peak_db": -0.6041515968074684,
+    "rms_db": -16.516375442429133,
+    "dynamic_range_db": 15.912223845621664,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.6041515968074684
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 12.92411612943326,
+      "Bass / 808": 15.466594455644008,
+      "Mud": 15.224864949445902,
+      "Low Mids": 15.362969920609507,
+      "Mids / Melody": 14.710325059943774,
+      "Harsh Zone": 14.250655443719259,
+      "Highs": 14.01789934511416,
+      "Air": 12.293230137838863,
+      "Vocal Range": 15.939038257860869
+    },
+    "brightness_centroid_hz": 2946.126126872447,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6355.1244941546765,
+    "dominant_band": "Bass / 808",
+    "low_end_total_percent": 28.39071058507727,
+    "mid_total_percent": 45.29815992999919,
+    "top_total_percent": 26.31112948295302
+  },
+  "fingerprint": {
+    "mfcc_1": -173.1904296875,
+    "mfcc_2": 141.74998474121094,
+    "mfcc_3": -17.06728744506836,
+    "mfcc_4": 57.790992736816406,
+    "mfcc_5": -13.754593849182129,
+    "mfcc_6": 23.582233428955078,
+    "mfcc_7": -18.727436065673828,
+    "mfcc_8": 6.004745960235596,
+    "mfcc_9": -4.740116119384766,
+    "mfcc_10": -3.387767791748047,
+    "mfcc_11": -9.591235160827637,
+    "mfcc_12": 1.8071480989456177,
+    "mfcc_13": -4.093811511993408,
+    "chroma_1": 0.5150862336158752,
+    "chroma_2": 0.2403610795736313,
+    "chroma_3": 0.5556888580322266,
+    "chroma_4": 0.2628074884414673,
+    "chroma_5": 0.24108855426311493,
+    "chroma_6": 0.5451964139938354,
+    "chroma_7": 0.2558361291885376,
+    "chroma_8": 0.6002339124679565,
+    "chroma_9": 0.2127719223499298,
+    "chroma_10": 0.46456849575042725,
+    "chroma_11": 0.5520229339599609,
+    "chroma_12": 0.23770521581172943,
+    "spectral_contrast": 21.00653770061473,
+    "spectral_flatness": 0.00038225017488002777,
+    "zero_crossing_rate": 0.0658616173467476
+  },
+  "rhythm": {
+    "onset_count": 184,
+    "onset_density": 2.5858108897420427,
+    "drum_activity": "Medium",
+    "estimated_bars": 45,
+    "seconds_per_bar": 1.564435173717489
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.11812989413738251,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.17073571681976318,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.18789419531822205,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 48.0,
+      "end": 71.1575625,
+      "avg_energy": 0.1198202595114708,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 84,
+    "arrangement": 75,
+    "release": 82,
+    "energy": 4.241812278785433,
+    "bass_strength": 5.678142117015454,
+    "darkness": 4.107747746255106,
+    "brightness": 5.892252253744894,
+    "drum_bounce": 6.464527224355106,
+    "vocal_space": 1.7153440315631379
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is quiet for the selected style.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F Major. Confidence: 45.3%.",
+    "Beat energy: 4.2/10. Darkness: 4.1/10.",
+    "Vocal space estimate: 1.7/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Bass / 808.",
+    "Drum activity is medium at 2.59 hits/sec.",
+    "Estimated length: 45 bars at 153 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Peak: -0.60 dB. RMS: -16.52 dB. Dynamic range: 15.91 dB."
+  ],
+  "next_steps": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

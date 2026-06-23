@@ -1,0 +1,178 @@
+{
+  "basic": {
+    "file_name": "OsamaSon - Fool.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Osamason/OsamaSon - Fool.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 125.5503125,
+    "bpm": 137.2,
+    "key": "D Minor / Try G Minor",
+    "key_note": "D",
+    "key_mode": "Minor",
+    "key_confidence": 57.83397961575372
+  },
+  "loudness": {
+    "peak_db": 0.0005321992039879256,
+    "rms_db": -8.286652249578868,
+    "dynamic_range_db": 8.287184448782856,
+    "clipping_detected": true,
+    "clipping_samples": 722,
+    "clipping_percent": 0.011980588791180163,
+    "headroom_db": -0.0005321992039879256
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.781698298707546,
+      "Bass / 808": 14.374621008913453,
+      "Mud": 14.27406829985968,
+      "Low Mids": 14.423885168171507,
+      "Mids / Melody": 14.36558990180204,
+      "Harsh Zone": 13.696872496756471,
+      "Highs": 13.521964470387099,
+      "Air": 12.258172850365838,
+      "Vocal Range": 15.155994721506104
+    },
+    "brightness_centroid_hz": 2365.616125088588,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5170.154006668932,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.156319307620997,
+    "mid_total_percent": 43.063543369833226,
+    "top_total_percent": 25.780137320752935
+  },
+  "fingerprint": {
+    "mfcc_1": -129.36978149414062,
+    "mfcc_2": 151.9776153564453,
+    "mfcc_3": -19.571720123291016,
+    "mfcc_4": 41.9455680847168,
+    "mfcc_5": -5.86297607421875,
+    "mfcc_6": 20.718456268310547,
+    "mfcc_7": -0.5168145895004272,
+    "mfcc_8": 13.412801742553711,
+    "mfcc_9": -1.688344955444336,
+    "mfcc_10": 11.113298416137695,
+    "mfcc_11": 1.0259288549423218,
+    "mfcc_12": 7.1742658615112305,
+    "mfcc_13": 2.750180959701538,
+    "chroma_1": 0.21253742277622223,
+    "chroma_2": 0.18581116199493408,
+    "chroma_3": 0.528792679309845,
+    "chroma_4": 0.3372446894645691,
+    "chroma_5": 0.29502633213996887,
+    "chroma_6": 0.542510449886322,
+    "chroma_7": 0.2701321840286255,
+    "chroma_8": 0.47470778226852417,
+    "chroma_9": 0.20847740769386292,
+    "chroma_10": 0.2055523842573166,
+    "chroma_11": 0.12415479868650436,
+    "chroma_12": 0.13002997636795044,
+    "spectral_contrast": 18.65380715923002,
+    "spectral_flatness": 0.0012364196591079235,
+    "zero_crossing_rate": 0.022429867696563587
+  },
+  "rhythm": {
+    "onset_count": 653,
+    "onset_density": 5.2011021477943356,
+    "drum_activity": "High",
+    "estimated_bars": 72,
+    "seconds_per_bar": 1.7492711370262393
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.40335923433303833,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.39694738388061523,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.41486117243766785,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.41383785009384155,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.3994159698486328,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.4161893129348755,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 125.5503125,
+      "avg_energy": 0.3014482259750366,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 81,
+    "release": 84,
+    "energy": 8.356673875210566,
+    "bass_strength": 6.2312638615242,
+    "darkness": 5.268767749822824,
+    "brightness": 4.731232250177176,
+    "drum_bounce": 10,
+    "vocal_space": 2.229817656031628
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 722 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Minor / Try G Minor. Confidence: 57.8%.",
+    "Beat energy: 8.4/10. Darkness: 5.3/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.20 hits/sec.",
+    "Estimated length: 72 bars at 137 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -8.29 dB. Dynamic range: 8.29 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

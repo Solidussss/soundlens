@@ -1,0 +1,148 @@
+{
+  "basic": {
+    "file_name": "Lazer Dim 700 - blacklist.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lazer Dim 700/Lazer Dim 700 - blacklist.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 52.05914583333333,
+    "bpm": 119.68,
+    "key": "E Minor",
+    "key_note": "E",
+    "key_mode": "Minor",
+    "key_confidence": 46.25631449512728
+  },
+  "loudness": {
+    "peak_db": 0.0005145978061945645,
+    "rms_db": -6.105994180897511,
+    "dynamic_range_db": 6.106508778703706,
+    "clipping_detected": true,
+    "clipping_samples": 32607,
+    "clipping_percent": 1.3048859890533164,
+    "headroom_db": -0.0005145978061945645
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.69322011849999,
+      "Bass / 808": 13.895984567068073,
+      "Mud": 14.621460922938374,
+      "Low Mids": 14.835414258134879,
+      "Mids / Melody": 14.080792811453103,
+      "Harsh Zone": 12.747259376570996,
+      "Highs": 13.335229376176672,
+      "Air": 12.537897943909543,
+      "Vocal Range": 15.422898433931822
+    },
+    "brightness_centroid_hz": 2317.418796626426,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4653.498578672403,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.589204685568063,
+    "mid_total_percent": 43.53766799252635,
+    "top_total_percent": 25.873127320086216
+  },
+  "fingerprint": {
+    "mfcc_1": -113.93955993652344,
+    "mfcc_2": 151.6222381591797,
+    "mfcc_3": -2.882509231567383,
+    "mfcc_4": 46.61215591430664,
+    "mfcc_5": -18.32207679748535,
+    "mfcc_6": 32.77204132080078,
+    "mfcc_7": -14.723516464233398,
+    "mfcc_8": 8.598441123962402,
+    "mfcc_9": -15.076886177062988,
+    "mfcc_10": 2.9922564029693604,
+    "mfcc_11": 7.150259017944336,
+    "mfcc_12": 5.867636680603027,
+    "mfcc_13": 12.942258834838867,
+    "chroma_1": 0.20017267763614655,
+    "chroma_2": 0.2006831169128418,
+    "chroma_3": 0.24556978046894073,
+    "chroma_4": 0.5645066499710083,
+    "chroma_5": 0.8899377584457397,
+    "chroma_6": 0.4706543982028961,
+    "chroma_7": 0.26209744811058044,
+    "chroma_8": 0.21083584427833557,
+    "chroma_9": 0.1608215868473053,
+    "chroma_10": 0.14856041967868805,
+    "chroma_11": 0.12687541544437408,
+    "chroma_12": 0.1795063316822052,
+    "spectral_contrast": 19.5438502403382,
+    "spectral_flatness": 0.0004361033788882196,
+    "zero_crossing_rate": 0.025523074165130097
+  },
+  "rhythm": {
+    "onset_count": 251,
+    "onset_density": 4.821439076307037,
+    "drum_activity": "High",
+    "estimated_bars": 26,
+    "seconds_per_bar": 2.0053475935828877
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 16.0427807486631,
+      "avg_energy": 0.4688381552696228,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 16.0427807486631,
+      "end": 32.0855614973262,
+      "avg_energy": 0.4941267967224121,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 3",
+      "start": 32.0855614973262,
+      "end": 52.05914583333333,
+      "avg_energy": 0.5159958600997925,
+      "energy_label": "High"
+    }
+  ],
+  "scores": {
+    "mix": 69,
+    "master": 69,
+    "arrangement": 51,
+    "release": 64,
+    "energy": 9.447002909551244,
+    "bass_strength": 6.117840937113613,
+    "darkness": 5.365162406747149,
+    "brightness": 4.634837593252851,
+    "drum_bounce": 10,
+    "vocal_space": 2.032070736805382
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 32607 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: E Minor. Confidence: 46.3%.",
+    "Beat energy: 9.4/10. Darkness: 5.4/10.",
+    "Vocal space estimate: 2.0/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.82 hits/sec.",
+    "Estimated length: 26 bars at 120 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -6.11 dB. Dynamic range: 6.11 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

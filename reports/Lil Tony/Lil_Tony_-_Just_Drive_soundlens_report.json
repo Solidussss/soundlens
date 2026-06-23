@@ -1,0 +1,196 @@
+{
+  "basic": {
+    "file_name": "Lil Tony - Just Drive.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lil Tony/Lil Tony - Just Drive.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 145.1479375,
+    "bpm": 145.47,
+    "key": "C Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 46.27440114862626
+  },
+  "loudness": {
+    "peak_db": 0.00151678530059682,
+    "rms_db": -5.906502762085584,
+    "dynamic_range_db": 5.90801954738618,
+    "clipping_detected": true,
+    "clipping_samples": 79443,
+    "clipping_percent": 1.1402590546627642,
+    "headroom_db": -0.00151678530059682
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 18.121538193891134,
+      "Bass / 808": 16.11234893857682,
+      "Mud": 14.279050685236443,
+      "Low Mids": 14.447616349968198,
+      "Mids / Melody": 13.619124897859718,
+      "Harsh Zone": 12.802844124126093,
+      "Highs": 12.456119518033262,
+      "Air": 10.964201414564846,
+      "Vocal Range": 14.998054332379773
+    },
+    "brightness_centroid_hz": 1195.9368836861986,
+    "brightness_label": "Low",
+    "spectral_rolloff_hz": 2256.639591600529,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 34.233887132467956,
+    "mid_total_percent": 42.34579193306436,
+    "top_total_percent": 23.42032093259811
+  },
+  "fingerprint": {
+    "mfcc_1": -231.40328979492188,
+    "mfcc_2": 147.8858184814453,
+    "mfcc_3": 21.62319564819336,
+    "mfcc_4": 32.515499114990234,
+    "mfcc_5": 1.038648247718811,
+    "mfcc_6": 17.773242950439453,
+    "mfcc_7": -6.886322498321533,
+    "mfcc_8": -10.452901840209961,
+    "mfcc_9": 9.393071174621582,
+    "mfcc_10": -4.48742151260376,
+    "mfcc_11": 1.5789395570755005,
+    "mfcc_12": 11.843424797058105,
+    "mfcc_13": 7.7117228507995605,
+    "chroma_1": 0.5224701166152954,
+    "chroma_2": 0.4356483519077301,
+    "chroma_3": 0.3116377890110016,
+    "chroma_4": 0.46922048926353455,
+    "chroma_5": 0.3302471339702606,
+    "chroma_6": 0.3116447925567627,
+    "chroma_7": 0.42432183027267456,
+    "chroma_8": 0.2793024778366089,
+    "chroma_9": 0.27323344349861145,
+    "chroma_10": 0.1833377629518509,
+    "chroma_11": 0.33547449111938477,
+    "chroma_12": 0.3755505681037903,
+    "spectral_contrast": 19.96583508495943,
+    "spectral_flatness": 3.059178561670706e-05,
+    "zero_crossing_rate": 0.013261314001873898
+  },
+  "rhythm": {
+    "onset_count": 758,
+    "onset_density": 5.22225815299649,
+    "drum_activity": "High",
+    "estimated_bars": 88,
+    "seconds_per_bar": 1.6498247061249742
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.2714511752128601,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.6095072627067566,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.5818402767181396,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.5794422030448914,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.6059210300445557,
+      "energy_label": "High"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.5948322415351868,
+      "energy_label": "High"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.5845487117767334,
+      "energy_label": "High"
+    },
+    {
+      "name": "Bridge / Breakdown",
+      "start": 112.0,
+      "end": 128.0,
+      "avg_energy": 0.3806057274341583,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Outro",
+      "start": 128.0,
+      "end": 145.1479375,
+      "avg_energy": 0.0349506139755249,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 75,
+    "release": 60,
+    "energy": 9.546748618957208,
+    "bass_strength": 6.846777426493591,
+    "darkness": 7.608126232627603,
+    "brightness": 2.391873767372397,
+    "drum_bounce": 10,
+    "vocal_space": 2.2244345330528237
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 79443 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor. Confidence: 46.3%.",
+    "Beat energy: 9.5/10. Darkness: 7.6/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals.",
+    "Beat leans dark, so brighter vocals/adlibs may cut through well."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.22 hits/sec.",
+    "Estimated length: 88 bars at 145 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -5.91 dB. Dynamic range: 5.91 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

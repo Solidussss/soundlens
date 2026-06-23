@@ -1,0 +1,181 @@
+{
+  "basic": {
+    "file_name": "Lazer Dim 700 - 2 G-Locks.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lazer Dim 700/Lazer Dim 700 - 2 G-Locks.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 100.87910416666666,
+    "bpm": 137.2,
+    "key": "C Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 46.29406637364232
+  },
+  "loudness": {
+    "peak_db": 0.0001791290536851126,
+    "rms_db": -4.909687610984336,
+    "dynamic_range_db": 4.909866740038021,
+    "clipping_detected": true,
+    "clipping_samples": 36494,
+    "clipping_percent": 0.7536661560857603,
+    "headroom_db": -0.0001791290536851126
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 18.757763191382253,
+      "Bass / 808": 14.098759773583037,
+      "Mud": 14.271667320675832,
+      "Low Mids": 14.163465560092432,
+      "Mids / Melody": 13.07038855866494,
+      "Harsh Zone": 11.942871156829554,
+      "Highs": 13.756070160760814,
+      "Air": 11.881885432901472,
+      "Vocal Range": 14.880459307136942
+    },
+    "brightness_centroid_hz": 1720.6015040464713,
+    "brightness_label": "Low",
+    "spectral_rolloff_hz": 3923.7814548530346,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.85652296496529,
+    "mid_total_percent": 41.5055214394332,
+    "top_total_percent": 25.637955593662284
+  },
+  "fingerprint": {
+    "mfcc_1": -222.111572265625,
+    "mfcc_2": 105.70344543457031,
+    "mfcc_3": 16.788053512573242,
+    "mfcc_4": 58.33363342285156,
+    "mfcc_5": -8.164346694946289,
+    "mfcc_6": 26.10969352722168,
+    "mfcc_7": 17.904687881469727,
+    "mfcc_8": 10.564645767211914,
+    "mfcc_9": 9.252387046813965,
+    "mfcc_10": 5.337808132171631,
+    "mfcc_11": 7.36518669128418,
+    "mfcc_12": 11.157355308532715,
+    "mfcc_13": 11.201904296875,
+    "chroma_1": 0.9300215244293213,
+    "chroma_2": 0.5286369919776917,
+    "chroma_3": 0.21683011949062347,
+    "chroma_4": 0.23216216266155243,
+    "chroma_5": 0.12960924208164215,
+    "chroma_6": 0.0966041311621666,
+    "chroma_7": 0.06468518823385239,
+    "chroma_8": 0.062129683792591095,
+    "chroma_9": 0.04222079738974571,
+    "chroma_10": 0.029835181310772896,
+    "chroma_11": 0.027661491185426712,
+    "chroma_12": 0.022272804751992226,
+    "spectral_contrast": 19.79893073254395,
+    "spectral_flatness": 6.700259109493345e-05,
+    "zero_crossing_rate": 0.00910553152754282
+  },
+  "rhythm": {
+    "onset_count": 964,
+    "onset_density": 9.555992868526415,
+    "drum_activity": "High",
+    "estimated_bars": 58,
+    "seconds_per_bar": 1.7492711370262393
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 13.994169096209914,
+      "avg_energy": 0.40508511662483215,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 13.994169096209914,
+      "end": 27.98833819241983,
+      "avg_energy": 0.6405985355377197,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 3",
+      "start": 27.98833819241983,
+      "end": 41.98250728862974,
+      "avg_energy": 0.640938401222229,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 4",
+      "start": 41.98250728862974,
+      "end": 55.97667638483966,
+      "avg_energy": 0.6113232374191284,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 5",
+      "start": 55.97667638483966,
+      "end": 69.97084548104957,
+      "avg_energy": 0.6220219731330872,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 6",
+      "start": 69.97084548104957,
+      "end": 83.96501457725948,
+      "avg_energy": 0.6174144148826599,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 7",
+      "start": 83.96501457725948,
+      "end": 100.87910416666666,
+      "avg_energy": 0.40717706084251404,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 65,
+    "master": 65,
+    "arrangement": 81,
+    "release": 70,
+    "energy": 10,
+    "bass_strength": 6.571304592993059,
+    "darkness": 6.558796991907057,
+    "brightness": 3.4412030080929426,
+    "drum_bounce": 10,
+    "vocal_space": 2.2679808488593203
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 36494 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor. Confidence: 46.3%.",
+    "Beat energy: 10.0/10. Darkness: 6.6/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals.",
+    "Beat leans dark, so brighter vocals/adlibs may cut through well."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 9.56 hits/sec.",
+    "Estimated length: 58 bars at 137 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -4.91 dB. Dynamic range: 4.91 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

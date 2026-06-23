@@ -1,0 +1,174 @@
+{
+  "basic": {
+    "file_name": "Prettifun - Miss U Angie.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Prettifun/Prettifun - Miss U Angie.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 103.91470833333334,
+    "bpm": 148.03,
+    "key": "D# Major",
+    "key_note": "D#",
+    "key_mode": "Major",
+    "key_confidence": 46.52791925436044
+  },
+  "loudness": {
+    "peak_db": 0.000370679156700393,
+    "rms_db": -3.7996515715303376,
+    "dynamic_range_db": 3.800022250687038,
+    "clipping_detected": true,
+    "clipping_samples": 69299,
+    "clipping_percent": 1.389340536890631,
+    "headroom_db": -0.000370679156700393
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.39106171392081,
+      "Bass / 808": 15.205751223147931,
+      "Mud": 13.375468581693712,
+      "Low Mids": 13.5974551363307,
+      "Mids / Melody": 13.737900115333163,
+      "Harsh Zone": 13.260635476356104,
+      "Highs": 13.414551271744058,
+      "Air": 13.277811956048852,
+      "Vocal Range": 14.313846296456425
+    },
+    "brightness_centroid_hz": 3985.4523586552577,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 9536.594381863903,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.59681293706874,
+    "mid_total_percent": 40.71082383335757,
+    "top_total_percent": 26.69236322779291
+  },
+  "fingerprint": {
+    "mfcc_1": -80.2723159790039,
+    "mfcc_2": 95.85287475585938,
+    "mfcc_3": 1.143567442893982,
+    "mfcc_4": 41.263484954833984,
+    "mfcc_5": -8.903144836425781,
+    "mfcc_6": 32.43215560913086,
+    "mfcc_7": -7.96928071975708,
+    "mfcc_8": 25.788448333740234,
+    "mfcc_9": -3.738456964492798,
+    "mfcc_10": 19.89557647705078,
+    "mfcc_11": 1.593074083328247,
+    "mfcc_12": 17.26080894470215,
+    "mfcc_13": 1.4436869621276855,
+    "chroma_1": 0.1769314408302307,
+    "chroma_2": 0.2554595470428467,
+    "chroma_3": 0.5289391875267029,
+    "chroma_4": 0.6034046411514282,
+    "chroma_5": 0.22632138431072235,
+    "chroma_6": 0.2855493724346161,
+    "chroma_7": 0.13862499594688416,
+    "chroma_8": 0.20557084679603577,
+    "chroma_9": 0.10843045264482498,
+    "chroma_10": 0.15018029510974884,
+    "chroma_11": 0.16262981295585632,
+    "chroma_12": 0.0918649360537529,
+    "spectral_contrast": 17.345097161551866,
+    "spectral_flatness": 0.0021336148492991924,
+    "zero_crossing_rate": 0.03590884360887304
+  },
+  "rhythm": {
+    "onset_count": 819,
+    "onset_density": 7.881463684359729,
+    "drum_activity": "High",
+    "estimated_bars": 64,
+    "seconds_per_bar": 1.621292981152469
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.6246600151062012,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.691485583782196,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.6225915551185608,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.6895928978919983,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.5337419509887695,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Outro",
+      "start": 80.0,
+      "end": 103.91470833333334,
+      "avg_energy": 0.6800585985183716,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 75,
+    "release": 60,
+    "energy": 10,
+    "bass_strength": 6.519362587413748,
+    "darkness": 2.029095282689484,
+    "brightness": 7.970904717310516,
+    "drum_bounce": 10,
+    "vocal_space": 2.7073189764181294
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 69299 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Major. Confidence: 46.5%.",
+    "Beat energy: 10.0/10. Darkness: 2.0/10.",
+    "Vocal space estimate: 2.7/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 7.88 hits/sec.",
+    "Estimated length: 64 bars at 148 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -3.80 dB. Dynamic range: 3.80 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

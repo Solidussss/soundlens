@@ -1,0 +1,135 @@
+{
+  "basic": {
+    "file_name": "che - Pizza Time .wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Cheromani/che - Pizza Time .wav",
+    "sample_rate": 48000,
+    "duration_seconds": 122.29952083333333,
+    "bpm": 108.17307692307692,
+    "key": "D Minor",
+    "key_note": "D",
+    "key_mode": "Minor",
+    "key_confidence": 52.71478950796586
+  },
+  "loudness": {
+    "peak_db": 0.0003033782505152323,
+    "rms_db": -7.6234445665427835,
+    "dynamic_range_db": 7.6237479447932985,
+    "clipping_detected": true,
+    "clipping_samples": 10753,
+    "clipping_percent": 0.1831739256269231,
+    "headroom_db": -0.0003033782505152323
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 73.77230258937183,
+      "Bass / 808": 13.391750721332743,
+      "Mud": 5.683384355656592,
+      "Low Mids": 3.510153875478899,
+      "Mids / Melody": 2.0544389693032574,
+      "Harsh Zone": 1.6836105247286621,
+      "Highs": 1.0635825165149226,
+      "Air": 0.524386971984,
+      "Vocal Range": 2.5252777782320663
+    },
+    "brightness_centroid_hz": 3294.9354802897647,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 7265.768086080586,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 87.16405331070457,
+    "mid_total_percent": 11.247977200438749,
+    "top_total_percent": 1.5879694884989226
+  },
+  "rhythm": {
+    "onset_count": 765,
+    "onset_density": 6.255134891677315,
+    "drum_activity": "High",
+    "estimated_bars": 55,
+    "seconds_per_bar": 2.2186666666666666
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0,
+      "end": 17.749333333333333,
+      "avg_energy": 0.43186116218566895,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 17.749333333333333,
+      "end": 53.248,
+      "avg_energy": 0.4074176549911499,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Hook",
+      "start": 53.248,
+      "end": 70.99733333333333,
+      "avg_energy": 0.37832459807395935,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Middle / Second Movement",
+      "start": 70.99733333333333,
+      "end": 88.74666666666667,
+      "avg_energy": 0.4539833962917328,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro Estimate",
+      "start": 104.55018749999999,
+      "end": 122.29952083333333,
+      "avg_energy": 0.3733624219894409,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 60,
+    "master": 54,
+    "arrangement": 70,
+    "release": 60,
+    "energy": 8.688277716728608,
+    "bass_strength": 10,
+    "darkness": 3.410129039420471,
+    "brightness": 6.589870960579529,
+    "drum_bounce": 10,
+    "vocal_space": 7.225195704097521
+  },
+  "top_problems": [
+    "Clipping detected: 10753 samples are near/over the limit.",
+    "Low end is dominating the mix; the 808/sub may be swallowing other elements.",
+    "Hook energy does not rise much above the verse estimate.",
+    "High end is dull, so the beat may lack shine or air.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Turn the 808 down slightly or carve low-mids so the kick and melody have room.",
+    "Add brightness carefully with hats, open hats, exciter, or a gentle high shelf.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Make the hook hit harder by adding/removing layers, changing drums, or opening the melody."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Minor. Confidence: 52.7%.",
+    "Beat energy: 8.7/10. Darkness: 3.4/10.",
+    "Vocal space estimate: 7.2/10. Higher means easier space for vocals.",
+    "Because the low end is strong, vocals may need cleanup around low-mids to sit right."
+  ],
+  "producer_notes": [
+    "This has a heavy low-end profile, which can work for rage/trap if controlled.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.26 hits/sec.",
+    "Estimated length: 55 bars at 108 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable working range.",
+    "Peak: 0.00 dB. RMS: -7.62 dB. Dynamic range: 7.62 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Turn the 808 down slightly or carve low-mids so the kick and melody have room.",
+    "Add brightness carefully with hats, open hats, exciter, or a gentle high shelf.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

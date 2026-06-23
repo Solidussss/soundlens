@@ -1,0 +1,186 @@
+{
+  "basic": {
+    "file_name": "Destroy Lonely - Spillin.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Destroy Lonely/Destroy Lonely - Spillin.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 141.2934375,
+    "bpm": 137.2,
+    "key": "F Major / Try A Minor",
+    "key_note": "F",
+    "key_mode": "Major",
+    "key_confidence": 47.705331456982265
+  },
+  "loudness": {
+    "peak_db": 0.0002050144495947612,
+    "rms_db": -8.101376294770517,
+    "dynamic_range_db": 8.101581309220112,
+    "clipping_detected": true,
+    "clipping_samples": 542,
+    "clipping_percent": 0.00799164268805242,
+    "headroom_db": -0.0002050144495947612
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.998429082764332,
+      "Bass / 808": 15.057054348124622,
+      "Mud": 14.295203252875218,
+      "Low Mids": 13.286921475825109,
+      "Mids / Melody": 13.82506664403527,
+      "Harsh Zone": 13.583832056227926,
+      "Highs": 14.125894042150867,
+      "Air": 12.41143115242403,
+      "Vocal Range": 14.696877116336617
+    },
+    "brightness_centroid_hz": 2919.2763881626356,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6168.142433192421,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.055483430888955,
+    "mid_total_percent": 41.407191372735596,
+    "top_total_percent": 26.537325194574898
+  },
+  "fingerprint": {
+    "mfcc_1": -158.8249053955078,
+    "mfcc_2": 107.99275207519531,
+    "mfcc_3": -25.755706787109375,
+    "mfcc_4": 59.61650848388672,
+    "mfcc_5": 1.0303833484649658,
+    "mfcc_6": 30.346328735351562,
+    "mfcc_7": 4.962760925292969,
+    "mfcc_8": 12.351776123046875,
+    "mfcc_9": 2.6081809997558594,
+    "mfcc_10": 8.206466674804688,
+    "mfcc_11": 1.545525312423706,
+    "mfcc_12": 1.602440357208252,
+    "mfcc_13": 1.6888138055801392,
+    "chroma_1": 0.1459783911705017,
+    "chroma_2": 0.11675656586885452,
+    "chroma_3": 0.16729314625263214,
+    "chroma_4": 0.19340267777442932,
+    "chroma_5": 0.478744775056839,
+    "chroma_6": 0.6296049356460571,
+    "chroma_7": 0.18975922465324402,
+    "chroma_8": 0.1619512438774109,
+    "chroma_9": 0.15613746643066406,
+    "chroma_10": 0.3007664978504181,
+    "chroma_11": 0.12824735045433044,
+    "chroma_12": 0.14795541763305664,
+    "spectral_contrast": 20.187991447432125,
+    "spectral_flatness": 0.0006114153075031936,
+    "zero_crossing_rate": 0.03646049577262776
+  },
+  "rhythm": {
+    "onset_count": 765,
+    "onset_density": 5.4142641975144805,
+    "drum_activity": "High",
+    "estimated_bars": 81,
+    "seconds_per_bar": 1.7492711370262393
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.41799405217170715,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.4437437355518341,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.4512111246585846,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.33283326029777527,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.31811586022377014,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.43388715386390686,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.4482889771461487,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 141.2934375,
+      "avg_energy": 0.322895348072052,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 8.449311852614741,
+    "bass_strength": 6.411096686177791,
+    "darkness": 4.161447223674728,
+    "brightness": 5.838552776325272,
+    "drum_bounce": 10,
+    "vocal_space": 2.383787059446325
+  },
+  "top_problems": [
+    "Clipping detected: 542 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F Major / Try A Minor. Confidence: 47.7%.",
+    "Beat energy: 8.4/10. Darkness: 4.2/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.41 hits/sec.",
+    "Estimated length: 81 bars at 137 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -8.10 dB. Dynamic range: 8.10 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

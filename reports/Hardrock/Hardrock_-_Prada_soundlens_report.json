@@ -1,0 +1,194 @@
+{
+  "basic": {
+    "file_name": "Hardrock - Prada.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Hardrock/Hardrock - Prada.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 137.22122916666666,
+    "bpm": 125.0,
+    "key": "F# Minor",
+    "key_note": "F#",
+    "key_mode": "Minor",
+    "key_confidence": 45.66536288950992
+  },
+  "loudness": {
+    "peak_db": 7.248068105962326e-06,
+    "rms_db": -5.895962880716183,
+    "dynamic_range_db": 5.895970128784288,
+    "clipping_detected": true,
+    "clipping_samples": 198,
+    "clipping_percent": 0.003006094629126112,
+    "headroom_db": -7.248068105962326e-06
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.9562049545448,
+      "Bass / 808": 15.050325523399719,
+      "Mud": 14.200872729531245,
+      "Low Mids": 13.953822664995894,
+      "Mids / Melody": 13.614622434216766,
+      "Harsh Zone": 13.210892876088218,
+      "Highs": 13.58075445590711,
+      "Air": 11.643397235551406,
+      "Vocal Range": 14.791570245875036
+    },
+    "brightness_centroid_hz": 2046.2108307260653,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4659.296662456277,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 33.006530477944516,
+    "mid_total_percent": 41.76931782874391,
+    "top_total_percent": 25.224151691458516
+  },
+  "fingerprint": {
+    "mfcc_1": -180.5094451904297,
+    "mfcc_2": 125.1983642578125,
+    "mfcc_3": 8.195005416870117,
+    "mfcc_4": 54.87944412231445,
+    "mfcc_5": -6.754803657531738,
+    "mfcc_6": 17.957345962524414,
+    "mfcc_7": 2.1900689601898193,
+    "mfcc_8": 16.268095016479492,
+    "mfcc_9": 11.885737419128418,
+    "mfcc_10": 5.660501003265381,
+    "mfcc_11": 3.180593490600586,
+    "mfcc_12": 7.696457386016846,
+    "mfcc_13": 4.027441024780273,
+    "chroma_1": 0.33320873975753784,
+    "chroma_2": 0.6936705708503723,
+    "chroma_3": 0.4066784381866455,
+    "chroma_4": 0.30477970838546753,
+    "chroma_5": 0.2902708649635315,
+    "chroma_6": 0.25259697437286377,
+    "chroma_7": 0.6451902985572815,
+    "chroma_8": 0.23542766273021698,
+    "chroma_9": 0.25098714232444763,
+    "chroma_10": 0.25837817788124084,
+    "chroma_11": 0.16995033621788025,
+    "chroma_12": 0.22027011215686798,
+    "spectral_contrast": 20.29999675143484,
+    "spectral_flatness": 0.00010125699191121385,
+    "zero_crossing_rate": 0.01674817971482705
+  },
+  "rhythm": {
+    "onset_count": 977,
+    "onset_density": 7.119889582196875,
+    "drum_activity": "High",
+    "estimated_bars": 71,
+    "seconds_per_bar": 1.92
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 15.36,
+      "avg_energy": 0.04515041410923004,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 15.36,
+      "end": 30.72,
+      "avg_energy": 0.5198142528533936,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 3",
+      "start": 30.72,
+      "end": 46.08,
+      "avg_energy": 0.5348500609397888,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 4",
+      "start": 46.08,
+      "end": 61.44,
+      "avg_energy": 0.5509374141693115,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 5",
+      "start": 61.44,
+      "end": 76.8,
+      "avg_energy": 0.5672476887702942,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 6",
+      "start": 76.8,
+      "end": 92.16,
+      "avg_energy": 0.5206806659698486,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 7",
+      "start": 92.16,
+      "end": 107.52,
+      "avg_energy": 0.5242072939872742,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 8",
+      "start": 107.52,
+      "end": 122.88,
+      "avg_energy": 0.5397461652755737,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 9",
+      "start": 122.88,
+      "end": 137.22122916666666,
+      "avg_energy": 0.5452744364738464,
+      "energy_label": "High"
+    }
+  ],
+  "scores": {
+    "mix": 70,
+    "master": 70,
+    "arrangement": 81,
+    "release": 73,
+    "energy": 9.552018559641908,
+    "bass_strength": 6.601306095588903,
+    "darkness": 5.90757833854787,
+    "brightness": 4.09242166145213,
+    "drum_bounce": 10,
+    "vocal_space": 2.326247670330946
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 198 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Minor. Confidence: 45.7%.",
+    "Beat energy: 9.6/10. Darkness: 5.9/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 7.12 hits/sec.",
+    "Estimated length: 71 bars at 125 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -5.90 dB. Dynamic range: 5.90 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

@@ -1,0 +1,742 @@
+{
+  "profile_name": "Nettspend",
+  "track_count": 41,
+  "description": "SoundLens Pro+ profile built for Nettspend.",
+  "averages": {
+    "bpm": {
+      "avg": 152.51,
+      "min": 117.19,
+      "max": 178.57,
+      "stdev": 12.5943
+    },
+    "duration_seconds": {
+      "avg": 128.0854,
+      "min": 75.6274,
+      "max": 211.2087,
+      "stdev": 26.5964
+    },
+    "key_confidence": {
+      "avg": 47.4782,
+      "min": 45.1448,
+      "max": 51.7446,
+      "stdev": 1.82
+    },
+    "mfcc_1": {
+      "avg": -59.9689,
+      "min": -161.0716,
+      "max": 21.1008,
+      "stdev": 45.5533
+    },
+    "mfcc_2": {
+      "avg": 113.2293,
+      "min": 83.8834,
+      "max": 147.6831,
+      "stdev": 15.728
+    },
+    "mfcc_3": {
+      "avg": -21.3407,
+      "min": -45.8537,
+      "max": 8.9738,
+      "stdev": 11.8104
+    },
+    "mfcc_4": {
+      "avg": 43.1407,
+      "min": 32.1317,
+      "max": 56.5615,
+      "stdev": 6.3421
+    },
+    "mfcc_5": {
+      "avg": -13.911,
+      "min": -29.5609,
+      "max": 4.9325,
+      "stdev": 7.2267
+    },
+    "mfcc_6": {
+      "avg": 27.6789,
+      "min": 15.4619,
+      "max": 39.6166,
+      "stdev": 5.7877
+    },
+    "mfcc_7": {
+      "avg": -8.1941,
+      "min": -18.2742,
+      "max": 2.2376,
+      "stdev": 5.3267
+    },
+    "mfcc_8": {
+      "avg": 17.7978,
+      "min": 6.6484,
+      "max": 29.1436,
+      "stdev": 4.5555
+    },
+    "mfcc_9": {
+      "avg": -1.2993,
+      "min": -11.1096,
+      "max": 7.3421,
+      "stdev": 4.7736
+    },
+    "mfcc_10": {
+      "avg": 9.9483,
+      "min": -3.1433,
+      "max": 16.8687,
+      "stdev": 4.533
+    },
+    "mfcc_11": {
+      "avg": -1.0926,
+      "min": -10.4248,
+      "max": 8.399,
+      "stdev": 4.3487
+    },
+    "mfcc_12": {
+      "avg": 11.7309,
+      "min": 6.8129,
+      "max": 19.1643,
+      "stdev": 3.3851
+    },
+    "mfcc_13": {
+      "avg": 1.5757,
+      "min": -3.7784,
+      "max": 9.3087,
+      "stdev": 3.6634
+    },
+    "chroma_1": {
+      "avg": 0.3953,
+      "min": 0.1521,
+      "max": 0.9017,
+      "stdev": 0.1874
+    },
+    "chroma_2": {
+      "avg": 0.4296,
+      "min": 0.1653,
+      "max": 0.8534,
+      "stdev": 0.1826
+    },
+    "chroma_3": {
+      "avg": 0.445,
+      "min": 0.185,
+      "max": 0.9569,
+      "stdev": 0.1715
+    },
+    "chroma_4": {
+      "avg": 0.4762,
+      "min": 0.1891,
+      "max": 0.9192,
+      "stdev": 0.1691
+    },
+    "chroma_5": {
+      "avg": 0.4644,
+      "min": 0.2097,
+      "max": 0.8296,
+      "stdev": 0.1745
+    },
+    "chroma_6": {
+      "avg": 0.4288,
+      "min": 0.1762,
+      "max": 0.7768,
+      "stdev": 0.1713
+    },
+    "chroma_7": {
+      "avg": 0.4338,
+      "min": 0.1483,
+      "max": 0.9222,
+      "stdev": 0.1903
+    },
+    "chroma_8": {
+      "avg": 0.3853,
+      "min": 0.1192,
+      "max": 0.6995,
+      "stdev": 0.1486
+    },
+    "chroma_9": {
+      "avg": 0.3339,
+      "min": 0.1626,
+      "max": 0.6775,
+      "stdev": 0.1291
+    },
+    "chroma_10": {
+      "avg": 0.2927,
+      "min": 0.1267,
+      "max": 0.5923,
+      "stdev": 0.1148
+    },
+    "chroma_11": {
+      "avg": 0.2771,
+      "min": 0.1089,
+      "max": 0.57,
+      "stdev": 0.1071
+    },
+    "chroma_12": {
+      "avg": 0.2945,
+      "min": 0.1038,
+      "max": 0.6598,
+      "stdev": 0.136
+    },
+    "spectral_contrast": {
+      "avg": 17.9362,
+      "min": 15.5453,
+      "max": 20.2383,
+      "stdev": 1.2068
+    },
+    "spectral_flatness": {
+      "avg": 0.0044,
+      "min": 0.0005,
+      "max": 0.0174,
+      "stdev": 0.0037
+    },
+    "zero_crossing_rate": {
+      "avg": 0.0581,
+      "min": 0.0264,
+      "max": 0.1149,
+      "stdev": 0.0205
+    },
+    "peak_db": {
+      "avg": 0.0015,
+      "min": -0.0003,
+      "max": 0.0122,
+      "stdev": 0.0022
+    },
+    "rms_db": {
+      "avg": -6.6776,
+      "min": -11.2285,
+      "max": -4.3797,
+      "stdev": 1.5543
+    },
+    "dynamic_range_db": {
+      "avg": 6.6791,
+      "min": 4.3818,
+      "max": 11.2289,
+      "stdev": 1.5536
+    },
+    "clipping_percent": {
+      "avg": 1.2014,
+      "min": 0.0012,
+      "max": 4.8311,
+      "stdev": 1.2686
+    },
+    "low_end_total_percent": {
+      "avg": 30.9743,
+      "min": 29.7743,
+      "max": 32.7271,
+      "stdev": 0.7609
+    },
+    "mid_total_percent": {
+      "avg": 42.4235,
+      "min": 41.0137,
+      "max": 43.3922,
+      "stdev": 0.6291
+    },
+    "top_total_percent": {
+      "avg": 26.6023,
+      "min": 25.3759,
+      "max": 27.3801,
+      "stdev": 0.5141
+    },
+    "brightness_centroid_hz": {
+      "avg": 3702.5382,
+      "min": 2037.2766,
+      "max": 5352.0016,
+      "stdev": 671.9292
+    },
+    "spectral_rolloff_hz": {
+      "avg": 8025.7695,
+      "min": 4184.0167,
+      "max": 11442.8583,
+      "stdev": 1477.0782
+    },
+    "onset_density": {
+      "avg": 4.173,
+      "min": 1.8557,
+      "max": 7.6996,
+      "stdev": 1.3439
+    },
+    "estimated_bars": {
+      "avg": 81.0,
+      "min": 44.0,
+      "max": 118.0,
+      "stdev": 15.9452
+    },
+    "mix_score": {
+      "avg": 72.2195,
+      "min": 53.0,
+      "max": 86.0,
+      "stdev": 13.1292
+    },
+    "master_score": {
+      "avg": 72.2195,
+      "min": 53.0,
+      "max": 86.0,
+      "stdev": 13.1292
+    },
+    "arrangement_score": {
+      "avg": 80.4634,
+      "min": 66.0,
+      "max": 85.0,
+      "stdev": 3.163
+    },
+    "release_score": {
+      "avg": 74.5854,
+      "min": 60.0,
+      "max": 84.0,
+      "stdev": 9.2789
+    },
+    "energy": {
+      "avg": 9.1328,
+      "min": 6.8857,
+      "max": 10.0,
+      "stdev": 0.7404
+    },
+    "bass_strength": {
+      "avg": 6.1949,
+      "min": 5.9549,
+      "max": 6.5454,
+      "stdev": 0.1522
+    },
+    "darkness": {
+      "avg": 2.6121,
+      "min": 0.0,
+      "max": 5.9254,
+      "stdev": 1.3046
+    },
+    "brightness": {
+      "avg": 7.3879,
+      "min": 4.0746,
+      "max": 10.0,
+      "stdev": 1.3046
+    },
+    "drum_bounce": {
+      "avg": 8.9415,
+      "min": 4.6393,
+      "max": 10.0,
+      "stdev": 1.4707
+    },
+    "vocal_space": {
+      "avg": 2.4562,
+      "min": 2.179,
+      "max": 2.753,
+      "stdev": 0.1416
+    },
+    "stem_vocal_to_beat_db": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_bass_to_vocal_db": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_bass_to_other_db": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_drums_to_vocal_db": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_vocal_presence_score": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_bass_dominance_score": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_beat_vocal_balance_score": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_melody_presence_score": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    }
+  },
+  "frequency_bands": {
+    "Sub": {
+      "avg": 16.1183,
+      "min": 13.9197,
+      "max": 17.2004,
+      "stdev": 0.6885
+    },
+    "Bass / 808": {
+      "avg": 14.856,
+      "min": 13.9688,
+      "max": 16.7014,
+      "stdev": 0.5672
+    },
+    "Mud": {
+      "avg": 13.805,
+      "min": 13.2091,
+      "max": 14.3606,
+      "stdev": 0.2932
+    },
+    "Low Mids": {
+      "avg": 14.1525,
+      "min": 13.5925,
+      "max": 14.5722,
+      "stdev": 0.2719
+    },
+    "Mids / Melody": {
+      "avg": 14.466,
+      "min": 13.8356,
+      "max": 14.8703,
+      "stdev": 0.2754
+    },
+    "Harsh Zone": {
+      "avg": 13.9347,
+      "min": 13.0935,
+      "max": 14.4944,
+      "stdev": 0.303
+    },
+    "Highs": {
+      "avg": 13.8701,
+      "min": 13.2977,
+      "max": 14.4303,
+      "stdev": 0.2516
+    },
+    "Air": {
+      "avg": 12.7322,
+      "min": 11.7952,
+      "max": 13.4997,
+      "stdev": 0.3795
+    },
+    "Vocal Range": {
+      "avg": 14.9649,
+      "min": 14.4797,
+      "max": 15.2687,
+      "stdev": 0.2004
+    }
+  },
+  "fingerprint": {
+    "bpm_style": {
+      "avg": 146.175,
+      "min": 85.225,
+      "max": 168.75,
+      "stdev": 20.2659
+    },
+    "sub_to_bass_ratio": {
+      "avg": 1.0869,
+      "min": 0.8623,
+      "max": 1.1811,
+      "stdev": 0.0675
+    },
+    "low_end_focus": {
+      "avg": 30.9743,
+      "min": 29.7743,
+      "max": 32.7271,
+      "stdev": 0.7609
+    },
+    "mud_to_mid_ratio": {
+      "avg": 1.933,
+      "min": 1.8401,
+      "max": 2.0336,
+      "stdev": 0.0427
+    },
+    "harsh_to_air_ratio": {
+      "avg": 1.0951,
+      "min": 1.0178,
+      "max": 1.1877,
+      "stdev": 0.0349
+    },
+    "top_brightness_balance": {
+      "avg": 26.6023,
+      "min": 25.3759,
+      "max": 27.3801,
+      "stdev": 0.5141
+    },
+    "vocal_space_band": {
+      "avg": 14.9649,
+      "min": 14.4797,
+      "max": 15.2687,
+      "stdev": 0.2004
+    },
+    "bass_vs_vocal_ratio": {
+      "avg": 2.0705,
+      "min": 1.9672,
+      "max": 2.2601,
+      "stdev": 0.0737
+    },
+    "stem_vocal_to_beat_db": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_bass_to_vocal_db": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_bass_to_other_db": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_beat_vocal_balance_score": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "stem_melody_presence_score": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "section_count": {
+      "avg": 10.0,
+      "min": 6.0,
+      "max": 15.0,
+      "stdev": 1.9875
+    },
+    "intro_length": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "outro_length": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "hook_count": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "verse_count": {
+      "avg": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "stdev": 0.0
+    },
+    "high_section_count": {
+      "avg": 3.2683,
+      "min": 2.0,
+      "max": 5.0,
+      "stdev": 0.6334
+    },
+    "low_section_count": {
+      "avg": 3.2683,
+      "min": 2.0,
+      "max": 5.0,
+      "stdev": 0.6334
+    }
+  },
+  "most_common": {
+    "keys": [
+      [
+        "E Minor",
+        8
+      ],
+      [
+        "D# Minor",
+        5
+      ],
+      [
+        "F# Major",
+        4
+      ],
+      [
+        "F Minor",
+        3
+      ],
+      [
+        "C Minor",
+        3
+      ]
+    ],
+    "key_modes": [
+      [
+        "Minor",
+        29
+      ],
+      [
+        "Major",
+        12
+      ]
+    ],
+    "brightness_labels": [
+      [
+        "High",
+        25
+      ],
+      [
+        "Medium",
+        16
+      ]
+    ],
+    "drum_activity": [
+      [
+        "High",
+        34
+      ],
+      [
+        "Medium",
+        7
+      ]
+    ],
+    "dominant_bands": [
+      [
+        "Sub",
+        39
+      ],
+      [
+        "Bass / 808",
+        2
+      ]
+    ],
+    "section_names": [
+      [
+        "Section 1",
+        41
+      ],
+      [
+        "Section 2",
+        41
+      ],
+      [
+        "Section 3",
+        41
+      ],
+      [
+        "Section 4",
+        41
+      ],
+      [
+        "Section 5",
+        41
+      ],
+      [
+        "Section 6",
+        41
+      ],
+      [
+        "Section 7",
+        40
+      ],
+      [
+        "Section 8",
+        38
+      ],
+      [
+        "Section 9",
+        30
+      ],
+      [
+        "Section 10",
+        26
+      ]
+    ],
+    "section_energy_labels": [
+      [
+        "Medium",
+        142
+      ],
+      [
+        "Low",
+        134
+      ],
+      [
+        "High",
+        134
+      ]
+    ],
+    "top_problems": [
+      [
+        "Mud range is elevated around 250-500 Hz.",
+        41
+      ],
+      [
+        "Drum movement is very active; the beat could become overcrowded.",
+        33
+      ],
+      [
+        "Hook/verse contrast looks low, but arrangement detection is still an estimate.",
+        18
+      ],
+      [
+        "Track is extremely loud for the selected style and may be crushed.",
+        13
+      ],
+      [
+        "Dynamic range is tight, which can make the beat feel flattened.",
+        13
+      ],
+      [
+        "Intro may be long for short-form listener retention.",
+        3
+      ],
+      [
+        "Clipping detected: 393773 samples are near/over the limit.",
+        1
+      ],
+      [
+        "Clipping detected: 3767 samples are near/over the limit.",
+        1
+      ],
+      [
+        "Clipping detected: 2448 samples are near/over the limit.",
+        1
+      ],
+      [
+        "Clipping detected: 8084 samples are near/over the limit.",
+        1
+      ]
+    ]
+  },
+  "website_compare_fields": [
+    "bpm",
+    "bpm_style",
+    "rms_db",
+    "dynamic_range_db",
+    "low_end_total_percent",
+    "mid_total_percent",
+    "top_total_percent",
+    "brightness_centroid_hz",
+    "spectral_rolloff_hz",
+    "onset_density",
+    "energy",
+    "bass_strength",
+    "darkness",
+    "brightness",
+    "drum_bounce",
+    "vocal_space",
+    "sub_to_bass_ratio",
+    "low_end_focus",
+    "mud_to_mid_ratio",
+    "harsh_to_air_ratio",
+    "top_brightness_balance",
+    "vocal_space_band",
+    "bass_vs_vocal_ratio",
+    "stem_vocal_to_beat_db",
+    "stem_bass_to_vocal_db",
+    "stem_bass_to_other_db",
+    "stem_beat_vocal_balance_score",
+    "stem_melody_presence_score",
+    "intro_length",
+    "hook_count",
+    "verse_count",
+    "high_section_count",
+    "low_section_count"
+  ]
+}

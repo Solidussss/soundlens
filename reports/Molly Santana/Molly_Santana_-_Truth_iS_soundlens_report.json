@@ -1,0 +1,166 @@
+{
+  "basic": {
+    "file_name": "Molly Santana - Truth iS.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Molly Santana/Molly Santana - Truth iS.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 80.30622916666667,
+    "bpm": 145.47,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 49.228702548053384
+  },
+  "loudness": {
+    "peak_db": 9.215355836888459e-05,
+    "rms_db": -10.851771779834817,
+    "dynamic_range_db": 10.851863933393185,
+    "clipping_detected": true,
+    "clipping_samples": 3797,
+    "clipping_percent": 0.09850315160794655,
+    "headroom_db": -9.215355836888459e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.835756941831452,
+      "Bass / 808": 15.745674612212321,
+      "Mud": 13.496162936166517,
+      "Low Mids": 14.338861172267677,
+      "Mids / Melody": 14.119164672685821,
+      "Harsh Zone": 14.043162717666371,
+      "Highs": 13.874159612885304,
+      "Air": 11.59022005004664,
+      "Vocal Range": 14.87721380182428
+    },
+    "brightness_centroid_hz": 2884.605216793009,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5530.907574047018,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.581431554043775,
+    "mid_total_percent": 41.95418878112002,
+    "top_total_percent": 25.464379662931943
+  },
+  "fingerprint": {
+    "mfcc_1": -223.86312866210938,
+    "mfcc_2": 94.43118286132812,
+    "mfcc_3": -12.223224639892578,
+    "mfcc_4": 53.7201042175293,
+    "mfcc_5": -10.147496223449707,
+    "mfcc_6": 5.23173189163208,
+    "mfcc_7": -13.385056495666504,
+    "mfcc_8": 6.355109691619873,
+    "mfcc_9": 4.732900619506836,
+    "mfcc_10": -0.5217546820640564,
+    "mfcc_11": 11.611088752746582,
+    "mfcc_12": 8.547342300415039,
+    "mfcc_13": 9.244308471679688,
+    "chroma_1": 0.3139685094356537,
+    "chroma_2": 0.695855975151062,
+    "chroma_3": 0.5109655261039734,
+    "chroma_4": 0.43791693449020386,
+    "chroma_5": 0.4110255539417267,
+    "chroma_6": 0.2794911861419678,
+    "chroma_7": 0.25580185651779175,
+    "chroma_8": 0.2609185576438904,
+    "chroma_9": 0.36011803150177,
+    "chroma_10": 0.4012239873409271,
+    "chroma_11": 0.2807474732398987,
+    "chroma_12": 0.20987223088741302,
+    "spectral_contrast": 20.65624987874859,
+    "spectral_flatness": 0.0004895252059213817,
+    "zero_crossing_rate": 0.05971759457182229
+  },
+  "rhythm": {
+    "onset_count": 426,
+    "onset_density": 5.304694348378433,
+    "drum_activity": "High",
+    "estimated_bars": 49,
+    "seconds_per_bar": 1.6498247061249742
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.28933456540107727,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.29627111554145813,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.2826756238937378,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.3203902542591095,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 64.0,
+      "end": 80.30622916666667,
+      "avg_energy": 0.2395453155040741,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 65,
+    "release": 80,
+    "energy": 7.074114110082592,
+    "bass_strength": 6.516286310808755,
+    "darkness": 4.230789566413982,
+    "brightness": 5.769210433586018,
+    "drum_bounce": 10,
+    "vocal_space": 2.553126086638011
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 3797 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 49.2%.",
+    "Beat energy: 7.1/10. Darkness: 4.2/10.",
+    "Vocal space estimate: 2.6/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.30 hits/sec.",
+    "Estimated length: 49 bars at 145 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -10.85 dB. Dynamic range: 10.85 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "basic": {
+    "file_name": "Bktharula - WISHUWASDACREW.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Bktharula/Bktharula - WISHUWASDACREW.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 64.615375,
+    "bpm": 165.44,
+    "key": "F# Minor",
+    "key_note": "F#",
+    "key_mode": "Minor",
+    "key_confidence": 48.248931393639296
+  },
+  "loudness": {
+    "peak_db": 0.000567401892570701,
+    "rms_db": -9.296037128239078,
+    "dynamic_range_db": 9.29660453013165,
+    "clipping_detected": true,
+    "clipping_samples": 180,
+    "clipping_percent": 0.005803572292198258,
+    "headroom_db": -0.000567401892570701
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.137542046932328,
+      "Bass / 808": 15.224142402417451,
+      "Mud": 15.419511926270694,
+      "Low Mids": 14.874816550146816,
+      "Mids / Melody": 14.320811572241634,
+      "Harsh Zone": 13.155913520021207,
+      "Highs": 12.480985886774276,
+      "Air": 11.542189613369722,
+      "Vocal Range": 15.719890587491738
+    },
+    "brightness_centroid_hz": 2216.8535817525762,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4927.055391630901,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.36168444934978,
+    "mid_total_percent": 44.61514004865914,
+    "top_total_percent": 24.023175500144
+  },
+  "fingerprint": {
+    "mfcc_1": -134.1956329345703,
+    "mfcc_2": 156.94378662109375,
+    "mfcc_3": 0.7589904069900513,
+    "mfcc_4": 33.4530029296875,
+    "mfcc_5": -13.79980754852295,
+    "mfcc_6": 21.877506256103516,
+    "mfcc_7": -10.126347541809082,
+    "mfcc_8": 22.98806381225586,
+    "mfcc_9": -1.4569859504699707,
+    "mfcc_10": -4.865239143371582,
+    "mfcc_11": 2.1271631717681885,
+    "mfcc_12": 6.579305171966553,
+    "mfcc_13": -1.0286115407943726,
+    "chroma_1": 0.13359524309635162,
+    "chroma_2": 0.21163137257099152,
+    "chroma_3": 0.24333521723747253,
+    "chroma_4": 0.16793516278266907,
+    "chroma_5": 0.27813464403152466,
+    "chroma_6": 0.2370770275592804,
+    "chroma_7": 0.7336560487747192,
+    "chroma_8": 0.5287958383560181,
+    "chroma_9": 0.2343696653842926,
+    "chroma_10": 0.2903033494949341,
+    "chroma_11": 0.19297944009304047,
+    "chroma_12": 0.2836724519729614,
+    "spectral_contrast": 20.35485359525907,
+    "spectral_flatness": 0.0004783388285432011,
+    "zero_crossing_rate": 0.026301417031198416
+  },
+  "rhythm": {
+    "onset_count": 163,
+    "onset_density": 2.522619423008843,
+    "drum_activity": "Medium",
+    "estimated_bars": 45,
+    "seconds_per_bar": 1.4506769825918762
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 12.0,
+      "avg_energy": 0.3611794114112854,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 2",
+      "start": 12.0,
+      "end": 24.0,
+      "avg_energy": 0.3615950047969818,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 3",
+      "start": 24.0,
+      "end": 36.0,
+      "avg_energy": 0.3551407754421234,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 4",
+      "start": 36.0,
+      "end": 48.0,
+      "avg_energy": 0.34239503741264343,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 5",
+      "start": 48.0,
+      "end": 64.615375,
+      "avg_energy": 0.30482232570648193,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 70,
+    "release": 81,
+    "energy": 7.851981435880461,
+    "bass_strength": 6.2723368898699565,
+    "darkness": 5.566292836494847,
+    "brightness": 4.433707163505153,
+    "drum_bounce": 6.306548557522107,
+    "vocal_space": 1.7072214366136045
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 180 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Minor. Confidence: 48.2%.",
+    "Beat energy: 7.9/10. Darkness: 5.6/10.",
+    "Vocal space estimate: 1.7/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is medium at 2.52 hits/sec.",
+    "Estimated length: 45 bars at 165 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -9.30 dB. Dynamic range: 9.30 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

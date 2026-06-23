@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "Molly Santana - I Get It.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Molly Santana/Molly Santana - I Get It.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 119.955,
+    "bpm": 136.09,
+    "key": "E Major",
+    "key_note": "E",
+    "key_mode": "Major",
+    "key_confidence": 46.05522376111771
+  },
+  "loudness": {
+    "peak_db": -8.387094229005541e-05,
+    "rms_db": -9.53937031079121,
+    "dynamic_range_db": 9.539286439848919,
+    "clipping_detected": true,
+    "clipping_samples": 609,
+    "clipping_percent": 0.010576882997790837,
+    "headroom_db": 8.387094229005541e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.726558849595335,
+      "Bass / 808": 14.969530158748135,
+      "Mud": 13.791497242253495,
+      "Low Mids": 14.015570242073276,
+      "Mids / Melody": 14.234028607103083,
+      "Harsh Zone": 13.824155065488297,
+      "Highs": 13.987375689360206,
+      "Air": 12.275439209048265,
+      "Vocal Range": 14.818682365803904
+    },
+    "brightness_centroid_hz": 3320.53297772454,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 7028.530282989507,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.69608900834347,
+    "mid_total_percent": 42.04109609142986,
+    "top_total_percent": 26.26281489840847
+  },
+  "fingerprint": {
+    "mfcc_1": -133.63336181640625,
+    "mfcc_2": 118.5131607055664,
+    "mfcc_3": -16.63094139099121,
+    "mfcc_4": 46.183265686035156,
+    "mfcc_5": -14.203753471374512,
+    "mfcc_6": 23.869733810424805,
+    "mfcc_7": -13.28134822845459,
+    "mfcc_8": 13.43626880645752,
+    "mfcc_9": -0.683214545249939,
+    "mfcc_10": 1.0839413404464722,
+    "mfcc_11": 3.3029625415802,
+    "mfcc_12": 2.9194724559783936,
+    "mfcc_13": 2.3561859130859375,
+    "chroma_1": 0.16670601069927216,
+    "chroma_2": 0.1518889218568802,
+    "chroma_3": 0.21723653376102448,
+    "chroma_4": 0.22465024888515472,
+    "chroma_5": 0.7636857032775879,
+    "chroma_6": 0.3934805691242218,
+    "chroma_7": 0.2964174151420593,
+    "chroma_8": 0.30154648423194885,
+    "chroma_9": 0.2684278190135956,
+    "chroma_10": 0.45130637288093567,
+    "chroma_11": 0.21705929934978485,
+    "chroma_12": 0.26406899094581604,
+    "spectral_contrast": 19.9786147405058,
+    "spectral_flatness": 0.001658954774029553,
+    "zero_crossing_rate": 0.05805792580417482
+  },
+  "rhythm": {
+    "onset_count": 671,
+    "onset_density": 5.593764328289775,
+    "drum_activity": "High",
+    "estimated_bars": 68,
+    "seconds_per_bar": 1.7635388345947534
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.28830158710479736,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.3817979395389557,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.36957570910453796,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.35481661558151245,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.17777125537395477,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.3842213451862335,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 119.955,
+      "avg_energy": 0.3299657106399536,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 7.730314844604395,
+    "bass_strength": 6.339217801668694,
+    "darkness": 3.35893404455092,
+    "brightness": 6.64106595544908,
+    "drum_bounce": 10,
+    "vocal_space": 2.48117678280242
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 609 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: E Major. Confidence: 46.1%.",
+    "Beat energy: 7.7/10. Darkness: 3.4/10.",
+    "Vocal space estimate: 2.5/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.59 hits/sec.",
+    "Estimated length: 68 bars at 136 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -9.54 dB. Dynamic range: 9.54 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "basic": {
+    "file_name": "Summrs - For You Interlude.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Summrs/Summrs - For You Interlude.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 73.74266666666666,
+    "bpm": 125.0,
+    "key": "E Major",
+    "key_note": "E",
+    "key_mode": "Major",
+    "key_confidence": 46.49835692903818
+  },
+  "loudness": {
+    "peak_db": -2.6948552227989664,
+    "rms_db": -20.19812409191792,
+    "dynamic_range_db": 17.50326886911895,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 2.6948552227989664
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.321820061328317,
+      "Bass / 808": 15.946595617125976,
+      "Mud": 15.19612782136953,
+      "Low Mids": 15.101578873867947,
+      "Mids / Melody": 14.145924927787624,
+      "Harsh Zone": 13.405395992168495,
+      "Highs": 12.62639640035091,
+      "Air": 11.661556296076169,
+      "Vocal Range": 15.792934610145565
+    },
+    "brightness_centroid_hz": 1537.1144017047413,
+    "brightness_label": "Low",
+    "spectral_rolloff_hz": 2909.046635449812,
+    "dominant_band": "Bass / 808",
+    "low_end_total_percent": 31.268415678454293,
+    "mid_total_percent": 44.4436316230251,
+    "top_total_percent": 24.287952696427077
+  },
+  "fingerprint": {
+    "mfcc_1": -328.915283203125,
+    "mfcc_2": 183.96498107910156,
+    "mfcc_3": 14.81090259552002,
+    "mfcc_4": 15.117504119873047,
+    "mfcc_5": -0.06802773475646973,
+    "mfcc_6": 7.526317596435547,
+    "mfcc_7": -3.519359827041626,
+    "mfcc_8": 3.4246649742126465,
+    "mfcc_9": -0.26893702149391174,
+    "mfcc_10": -4.972264289855957,
+    "mfcc_11": -5.417450428009033,
+    "mfcc_12": 5.668750762939453,
+    "mfcc_13": 5.593737602233887,
+    "chroma_1": 0.19254976511001587,
+    "chroma_2": 0.25639840960502625,
+    "chroma_3": 0.32308992743492126,
+    "chroma_4": 0.3408418595790863,
+    "chroma_5": 0.4971587359905243,
+    "chroma_6": 0.2341054379940033,
+    "chroma_7": 0.2893947660923004,
+    "chroma_8": 0.22626236081123352,
+    "chroma_9": 0.19090667366981506,
+    "chroma_10": 0.4403480887413025,
+    "chroma_11": 0.21178969740867615,
+    "chroma_12": 0.489224374294281,
+    "spectral_contrast": 19.439681054724485,
+    "spectral_flatness": 0.00048112552030943334,
+    "zero_crossing_rate": 0.031228883989911773
+  },
+  "rhythm": {
+    "onset_count": 267,
+    "onset_density": 3.620699007358924,
+    "drum_activity": "High",
+    "estimated_bars": 38,
+    "seconds_per_bar": 1.92
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.056097351014614105,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.10547835379838943,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.12503311038017273,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 48.0,
+      "end": 73.74266666666666,
+      "avg_energy": 0.09370718151330948,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 78,
+    "master": 78,
+    "arrangement": 71,
+    "release": 76,
+    "energy": 2.4009379540410407,
+    "bass_strength": 6.253683135690858,
+    "darkness": 6.925771196590517,
+    "brightness": 3.0742288034094827,
+    "drum_bounce": 9.05174751839731,
+    "vocal_space": 1.7641804608996239
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is quiet for the selected style.",
+    "Dynamic range is wide, so some sections may feel uneven.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: E Major. Confidence: 46.5%.",
+    "Beat energy: 2.4/10. Darkness: 6.9/10.",
+    "Vocal space estimate: 1.8/10. Higher means easier space for vocals.",
+    "Beat leans dark, so brighter vocals/adlibs may cut through well."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Bass / 808.",
+    "Drum activity is high at 3.62 hits/sec.",
+    "Estimated length: 38 bars at 125 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Peak: -2.69 dB. RMS: -20.20 dB. Dynamic range: 17.50 dB."
+  ],
+  "next_steps": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

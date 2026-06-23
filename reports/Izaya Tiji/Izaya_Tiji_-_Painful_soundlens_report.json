@@ -1,0 +1,152 @@
+{
+  "basic": {
+    "file_name": "Izaya Tiji - Painful.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Izaya Tiji/Izaya Tiji - Painful.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 55.29833333333333,
+    "bpm": 138.32,
+    "key": "E Minor",
+    "key_note": "E",
+    "key_mode": "Minor",
+    "key_confidence": 47.87965778602734
+  },
+  "loudness": {
+    "peak_db": 0.00032822787660072197,
+    "rms_db": -8.70927654802182,
+    "dynamic_range_db": 8.709604775898422,
+    "clipping_detected": true,
+    "clipping_samples": 10330,
+    "clipping_percent": 0.3891768889960517,
+    "headroom_db": -0.00032822787660072197
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.628525773103824,
+      "Bass / 808": 15.368985220888687,
+      "Mud": 14.27002658943004,
+      "Low Mids": 13.79826914949103,
+      "Mids / Melody": 13.576102205054594,
+      "Harsh Zone": 12.920990377271071,
+      "Highs": 13.454748807889674,
+      "Air": 11.903342252181517,
+      "Vocal Range": 14.78738305707505
+    },
+    "brightness_centroid_hz": 1855.7645084539074,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 3911.7888138862104,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.99751099399251,
+    "mid_total_percent": 41.64439794397567,
+    "top_total_percent": 25.35809106007119
+  },
+  "fingerprint": {
+    "mfcc_1": -230.7925262451172,
+    "mfcc_2": 127.36425018310547,
+    "mfcc_3": 19.455219268798828,
+    "mfcc_4": 45.10013961791992,
+    "mfcc_5": 3.0921685695648193,
+    "mfcc_6": 29.292707443237305,
+    "mfcc_7": 2.7157058715820312,
+    "mfcc_8": 3.8466527462005615,
+    "mfcc_9": 5.194479942321777,
+    "mfcc_10": 2.118069887161255,
+    "mfcc_11": 4.935903072357178,
+    "mfcc_12": 1.9055118560791016,
+    "mfcc_13": 7.913319110870361,
+    "chroma_1": 0.4296146035194397,
+    "chroma_2": 0.2851852476596832,
+    "chroma_3": 0.276902973651886,
+    "chroma_4": 0.3241370618343353,
+    "chroma_5": 0.6675031185150146,
+    "chroma_6": 0.257148414850235,
+    "chroma_7": 0.19298292696475983,
+    "chroma_8": 0.1824462115764618,
+    "chroma_9": 0.14996834099292755,
+    "chroma_10": 0.18641485273838043,
+    "chroma_11": 0.12049198895692825,
+    "chroma_12": 0.22608469426631927,
+    "spectral_contrast": 20.116603515565927,
+    "spectral_flatness": 7.066334364935756e-05,
+    "zero_crossing_rate": 0.026119138741562197
+  },
+  "rhythm": {
+    "onset_count": 226,
+    "onset_density": 4.086922450947889,
+    "drum_activity": "High",
+    "estimated_bars": 32,
+    "seconds_per_bar": 1.735106998264893
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.046683769673109055,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.4267450273036957,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 32.0,
+      "end": 55.29833333333333,
+      "avg_energy": 0.43923914432525635,
+      "energy_label": "High"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 50,
+    "release": 72,
+    "energy": 8.14536172598909,
+    "bass_strength": 6.599502198798502,
+    "darkness": 6.288470983092186,
+    "brightness": 3.711529016907815,
+    "drum_bounce": 10,
+    "vocal_space": 2.320808057157837
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 10330 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: E Minor. Confidence: 47.9%.",
+    "Beat energy: 8.1/10. Darkness: 6.3/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.09 hits/sec.",
+    "Estimated length: 32 bars at 138 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -8.71 dB. Dynamic range: 8.71 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

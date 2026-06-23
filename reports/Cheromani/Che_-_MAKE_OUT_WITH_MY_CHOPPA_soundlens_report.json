@@ -1,0 +1,136 @@
+{
+  "basic": {
+    "file_name": "Che - MAKE OUT WITH MY CHOPPA.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Cheromani/Che - MAKE OUT WITH MY CHOPPA.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 120.88310416666667,
+    "bpm": 148.02631578947367,
+    "key": "C Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 54.68459980907781
+  },
+  "loudness": {
+    "peak_db": 0.005679595014248348,
+    "rms_db": -4.132306770148348,
+    "dynamic_range_db": 4.137986365162596,
+    "clipping_detected": true,
+    "clipping_samples": 356406,
+    "clipping_percent": 6.142401000691267,
+    "headroom_db": -0.005679595014248348
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 63.462086707948615,
+      "Bass / 808": 13.803112736866316,
+      "Mud": 9.057299494522395,
+      "Low Mids": 5.827586843229028,
+      "Mids / Melody": 4.478414626547638,
+      "Harsh Zone": 3.430362639438276,
+      "Highs": 2.4493500099080023,
+      "Air": 0.9221495807313571,
+      "Vocal Range": 5.226755812666575
+    },
+    "brightness_centroid_hz": 4332.980944191933,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 8745.86040214418,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 77.26519944481493,
+    "mid_total_percent": 19.36330096429906,
+    "top_total_percent": 3.3714995906393597
+  },
+  "rhythm": {
+    "onset_count": 651,
+    "onset_density": 5.38536799239072,
+    "drum_activity": "High",
+    "estimated_bars": 75,
+    "seconds_per_bar": 1.6213333333333335
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0,
+      "end": 12.970666666666668,
+      "avg_energy": 0.6559869647026062,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 12.970666666666668,
+      "end": 38.912000000000006,
+      "avg_energy": 0.6454373002052307,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Hook",
+      "start": 38.912000000000006,
+      "end": 51.88266666666667,
+      "avg_energy": 0.6365848183631897,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Middle / Second Movement",
+      "start": 51.88266666666667,
+      "end": 64.85333333333334,
+      "avg_energy": 0.5108596682548523,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Outro Estimate",
+      "start": 107.9124375,
+      "end": 120.88310416666667,
+      "avg_energy": 0.5682835578918457,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 38,
+    "master": 30,
+    "arrangement": 70,
+    "release": 41,
+    "energy": 10,
+    "bass_strength": 10,
+    "darkness": 1.3340381116161328,
+    "brightness": 8.665961888383867,
+    "drum_bounce": 10,
+    "vocal_space": 5.544567796015467
+  },
+  "top_problems": [
+    "Clipping detected: 356406 samples are near/over the limit.",
+    "Low end is dominating the mix; the 808/sub may be swallowing other elements.",
+    "Track is extremely loud and may be crushed or distorted.",
+    "Hook energy does not rise much above the verse estimate.",
+    "Dynamic range is tight, which can make the beat feel flattened."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping and check whether the punch comes back.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Turn the 808 down slightly or carve low-mids so the kick and melody have room.",
+    "Add brightness carefully with hats, open hats, exciter, or a gentle high shelf.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Make the hook hit harder by adding/removing layers, changing drums, or opening the melody."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor. Confidence: 54.7%.",
+    "Beat energy: 10.0/10. Darkness: 1.3/10.",
+    "Vocal space estimate: 5.5/10. Higher means easier space for vocals.",
+    "Because the low end is strong, vocals may need cleanup around low-mids to sit right."
+  ],
+  "producer_notes": [
+    "This has a heavy low-end profile, which can work for rage/trap if controlled.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.39 hits/sec.",
+    "Estimated length: 75 bars at 148 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.01 dB. RMS: -4.13 dB. Dynamic range: 4.14 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping and check whether the punch comes back.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

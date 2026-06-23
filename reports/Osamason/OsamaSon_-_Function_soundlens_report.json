@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "OsamaSon - Function.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Osamason/OsamaSon - Function.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 137.14866666666666,
+    "bpm": 172.19,
+    "key": "C Minor / Try A Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 57.6489579416289
+  },
+  "loudness": {
+    "peak_db": 0.001576830053212435,
+    "rms_db": -7.505602386066798,
+    "dynamic_range_db": 7.507179216120011,
+    "clipping_detected": true,
+    "clipping_samples": 3825,
+    "clipping_percent": 0.058103007442045856,
+    "headroom_db": -0.001576830053212435
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.850292897852544,
+      "Bass / 808": 14.548699504870793,
+      "Mud": 13.879508619159244,
+      "Low Mids": 14.013678855228074,
+      "Mids / Melody": 14.353829091031836,
+      "Harsh Zone": 14.009760107234499,
+      "Highs": 14.077770754652708,
+      "Air": 13.276220275509628,
+      "Vocal Range": 14.838067681279258
+    },
+    "brightness_centroid_hz": 5105.18566897221,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 11232.441014349044,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.398992402723337,
+    "mid_total_percent": 42.24701656541915,
+    "top_total_percent": 27.353991030162334
+  },
+  "fingerprint": {
+    "mfcc_1": -50.19591522216797,
+    "mfcc_2": 77.0062026977539,
+    "mfcc_3": -10.73183536529541,
+    "mfcc_4": 42.55794143676758,
+    "mfcc_5": -14.032450675964355,
+    "mfcc_6": 31.785585403442383,
+    "mfcc_7": -14.03416633605957,
+    "mfcc_8": 19.52086067199707,
+    "mfcc_9": -11.518356323242188,
+    "mfcc_10": 15.685893058776855,
+    "mfcc_11": -6.592401027679443,
+    "mfcc_12": 21.629182815551758,
+    "mfcc_13": -11.621716499328613,
+    "chroma_1": 0.8415600657463074,
+    "chroma_2": 0.6429651379585266,
+    "chroma_3": 0.5912986993789673,
+    "chroma_4": 0.584903359413147,
+    "chroma_5": 0.5196772813796997,
+    "chroma_6": 0.4298039972782135,
+    "chroma_7": 0.4416903853416443,
+    "chroma_8": 0.39679622650146484,
+    "chroma_9": 0.2830471694469452,
+    "chroma_10": 0.30528125166893005,
+    "chroma_11": 0.30420589447021484,
+    "chroma_12": 0.4068364202976227,
+    "spectral_contrast": 17.217416159254075,
+    "spectral_flatness": 0.007421009708195925,
+    "zero_crossing_rate": 0.09826745599772516
+  },
+  "rhythm": {
+    "onset_count": 415,
+    "onset_density": 3.02591348560929,
+    "drum_activity": "High",
+    "estimated_bars": 98,
+    "seconds_per_bar": 1.3938091642952553
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.4492620527744293,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.4550793468952179,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.43277180194854736,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.4368145763874054,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.4585172235965729,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.395293653011322,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.4625352919101715,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 137.14866666666666,
+      "avg_energy": 0.3138994872570038,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 8.747198806966601,
+    "bass_strength": 6.079798480544667,
+    "darkness": 0,
+    "brightness": 10,
+    "drum_bounce": 7.564783714023226,
+    "vocal_space": 2.446242430160863
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 3825 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor / Try A Minor. Confidence: 57.6%.",
+    "Beat energy: 8.7/10. Darkness: 0.0/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 3.03 hits/sec.",
+    "Estimated length: 98 bars at 172 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -7.51 dB. Dynamic range: 7.51 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

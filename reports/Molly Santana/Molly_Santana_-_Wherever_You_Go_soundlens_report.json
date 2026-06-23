@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "Molly Santana - Wherever You Go.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Molly Santana/Molly Santana - Wherever You Go.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 127.34697916666667,
+    "bpm": 130.81,
+    "key": "C# Major",
+    "key_note": "C#",
+    "key_mode": "Major",
+    "key_confidence": 48.17060466264265
+  },
+  "loudness": {
+    "peak_db": -9.836673532226796e-06,
+    "rms_db": -10.881145777272422,
+    "dynamic_range_db": 10.88113594059889,
+    "clipping_detected": true,
+    "clipping_samples": 718,
+    "clipping_percent": 0.011746123411185482,
+    "headroom_db": 9.836673532226796e-06
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.276453585804337,
+      "Bass / 808": 14.97254663348567,
+      "Mud": 14.402093609382819,
+      "Low Mids": 14.678420219508817,
+      "Mids / Melody": 14.886611359003012,
+      "Harsh Zone": 13.8544250257993,
+      "Highs": 13.209292358400686,
+      "Air": 11.574582232601703,
+      "Vocal Range": 15.47684732197536
+    },
+    "brightness_centroid_hz": 2232.1669657473417,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4486.521327163079,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.249000219290007,
+    "mid_total_percent": 43.96712518789465,
+    "top_total_percent": 24.783874591002387
+  },
+  "fingerprint": {
+    "mfcc_1": -161.54568481445312,
+    "mfcc_2": 150.33755493164062,
+    "mfcc_3": -8.230766296386719,
+    "mfcc_4": 23.198448181152344,
+    "mfcc_5": -9.167020797729492,
+    "mfcc_6": 17.953500747680664,
+    "mfcc_7": -8.863996505737305,
+    "mfcc_8": 11.428589820861816,
+    "mfcc_9": 2.732947826385498,
+    "mfcc_10": -4.46867036819458,
+    "mfcc_11": 2.1567609310150146,
+    "mfcc_12": 2.9053704738616943,
+    "mfcc_13": -4.900333404541016,
+    "chroma_1": 0.6715177297592163,
+    "chroma_2": 0.7930868864059448,
+    "chroma_3": 0.48626768589019775,
+    "chroma_4": 0.46837764978408813,
+    "chroma_5": 0.2887880206108093,
+    "chroma_6": 0.39949730038642883,
+    "chroma_7": 0.24675266444683075,
+    "chroma_8": 0.30522671341896057,
+    "chroma_9": 0.3667503893375397,
+    "chroma_10": 0.21815510094165802,
+    "chroma_11": 0.3577098250389099,
+    "chroma_12": 0.23601120710372925,
+    "spectral_contrast": 20.66013070101803,
+    "spectral_flatness": 0.0006341721164062619,
+    "zero_crossing_rate": 0.037979643591904685
+  },
+  "rhythm": {
+    "onset_count": 448,
+    "onset_density": 3.5179476021466938,
+    "drum_activity": "High",
+    "estimated_bars": 69,
+    "seconds_per_bar": 1.8347221160461737
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.22014640271663666,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.3487035036087036,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.3411279320716858,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.3356974422931671,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.2713507115840912,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.29913055896759033,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 127.34697916666667,
+      "avg_energy": 0.21137084066867828,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 7.059427111363789,
+    "bass_strength": 6.249800043858001,
+    "darkness": 5.535666068505317,
+    "brightness": 4.464333931494683,
+    "drum_bounce": 8.794869005366735,
+    "vocal_space": 2.1422453820313274
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 718 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Major. Confidence: 48.2%.",
+    "Beat energy: 7.1/10. Darkness: 5.5/10.",
+    "Vocal space estimate: 2.1/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 3.52 hits/sec.",
+    "Estimated length: 69 bars at 131 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -10.88 dB. Dynamic range: 10.88 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

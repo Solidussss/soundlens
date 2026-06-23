@@ -1,0 +1,173 @@
+{
+  "basic": {
+    "file_name": "UntilJapan - NeverForget.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/UntilJapan/UntilJapan - NeverForget.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 107.46195833333333,
+    "bpm": 143.01,
+    "key": "C Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 46.91423976177498
+  },
+  "loudness": {
+    "peak_db": 0.00010561410865473841,
+    "rms_db": -7.892705126237132,
+    "dynamic_range_db": 7.892810740345787,
+    "clipping_detected": true,
+    "clipping_samples": 1101,
+    "clipping_percent": 0.021344762700909275,
+    "headroom_db": -0.00010561410865473841
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.24987690450133,
+      "Bass / 808": 15.294950410233007,
+      "Mud": 14.233765087492237,
+      "Low Mids": 13.910972938432858,
+      "Mids / Melody": 14.06228196832869,
+      "Harsh Zone": 13.607743288027931,
+      "Highs": 13.742798121240508,
+      "Air": 12.50535456800956,
+      "Vocal Range": 14.852982101286994
+    },
+    "brightness_centroid_hz": 3025.460395780791,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6762.9807692307695,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.544827314734338,
+    "mid_total_percent": 42.207019994253784,
+    "top_total_percent": 26.24815268925007
+  },
+  "fingerprint": {
+    "mfcc_1": -83.12081909179688,
+    "mfcc_2": 135.22872924804688,
+    "mfcc_3": -20.771499633789062,
+    "mfcc_4": 61.374576568603516,
+    "mfcc_5": -13.27519702911377,
+    "mfcc_6": 40.20466613769531,
+    "mfcc_7": -9.633381843566895,
+    "mfcc_8": 17.970993041992188,
+    "mfcc_9": 7.342377662658691,
+    "mfcc_10": 10.493692398071289,
+    "mfcc_11": 1.3899399042129517,
+    "mfcc_12": 9.689140319824219,
+    "mfcc_13": 7.053726673126221,
+    "chroma_1": 0.6983641982078552,
+    "chroma_2": 0.571575403213501,
+    "chroma_3": 0.6016180515289307,
+    "chroma_4": 0.6635765433311462,
+    "chroma_5": 0.47314950823783875,
+    "chroma_6": 0.48645898699760437,
+    "chroma_7": 0.5002778768539429,
+    "chroma_8": 0.6079097390174866,
+    "chroma_9": 0.6377378702163696,
+    "chroma_10": 0.5337052941322327,
+    "chroma_11": 0.4693629741668701,
+    "chroma_12": 0.3662286102771759,
+    "spectral_contrast": 19.48797250894592,
+    "spectral_flatness": 0.0006336967344395816,
+    "zero_crossing_rate": 0.04135434437034739
+  },
+  "rhythm": {
+    "onset_count": 560,
+    "onset_density": 5.211146425072129,
+    "drum_activity": "High",
+    "estimated_bars": 64,
+    "seconds_per_bar": 1.6782043213761277
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.4133671224117279,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.40470069646835327,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.40769147872924805,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.41200146079063416,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.4007839858531952,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 80.0,
+      "end": 107.46195833333333,
+      "avg_energy": 0.3891015946865082,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 8.553647436881434,
+    "bass_strength": 6.308965462946867,
+    "darkness": 3.9490792084384188,
+    "brightness": 6.050920791561581,
+    "drum_bounce": 10,
+    "vocal_space": 2.319212116655553
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 1101 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor. Confidence: 46.9%.",
+    "Beat energy: 8.6/10. Darkness: 3.9/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.21 hits/sec.",
+    "Estimated length: 64 bars at 143 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -7.89 dB. Dynamic range: 7.89 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

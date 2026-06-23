@@ -1,0 +1,183 @@
+{
+  "basic": {
+    "file_name": "BoofPaxkMooky - Is You Crazy.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/BoofPaxkMooky/BoofPaxkMooky - Is You Crazy.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 131.30497916666667,
+    "bpm": 122.28,
+    "key": "F Major",
+    "key_note": "F",
+    "key_mode": "Major",
+    "key_confidence": 45.006797775834634
+  },
+  "loudness": {
+    "peak_db": -0.4446174098211223,
+    "rms_db": -12.546556697519996,
+    "dynamic_range_db": 12.101939287698874,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.4446174098211223
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.63593098774755,
+      "Bass / 808": 14.881815776107068,
+      "Mud": 15.073249930668876,
+      "Low Mids": 14.808998686773236,
+      "Mids / Melody": 13.795019265468175,
+      "Harsh Zone": 12.501403256483067,
+      "Highs": 12.774211075253197,
+      "Air": 11.0307742760169,
+      "Vocal Range": 15.597490059819751
+    },
+    "brightness_centroid_hz": 2078.562832952016,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4059.9880686433794,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.51774676385462,
+    "mid_total_percent": 43.677267882910286,
+    "top_total_percent": 23.804985351270098
+  },
+  "fingerprint": {
+    "mfcc_1": -270.468017578125,
+    "mfcc_2": 149.8744659423828,
+    "mfcc_3": 21.926313400268555,
+    "mfcc_4": 30.866275787353516,
+    "mfcc_5": -4.023026943206787,
+    "mfcc_6": 17.661502838134766,
+    "mfcc_7": -1.6279038190841675,
+    "mfcc_8": 2.734441041946411,
+    "mfcc_9": -1.1349763870239258,
+    "mfcc_10": 4.382804870605469,
+    "mfcc_11": -3.111887216567993,
+    "mfcc_12": 7.068875789642334,
+    "mfcc_13": 8.575450897216797,
+    "chroma_1": 0.41286027431488037,
+    "chroma_2": 0.29896387457847595,
+    "chroma_3": 0.20857904851436615,
+    "chroma_4": 0.22156187891960144,
+    "chroma_5": 0.5195699334144592,
+    "chroma_6": 0.6746771931648254,
+    "chroma_7": 0.29539987444877625,
+    "chroma_8": 0.25457763671875,
+    "chroma_9": 0.17812281847000122,
+    "chroma_10": 0.16904933750629425,
+    "chroma_11": 0.16846686601638794,
+    "chroma_12": 0.2601158320903778,
+    "spectral_contrast": 19.538788169808566,
+    "spectral_flatness": 0.007287143263965845,
+    "zero_crossing_rate": 0.03026796367282697
+  },
+  "rhythm": {
+    "onset_count": 644,
+    "onset_density": 4.904612179120524,
+    "drum_activity": "High",
+    "estimated_bars": 67,
+    "seconds_per_bar": 1.9627085377821394
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.2659979462623596,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.26092463731765747,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.24192048609256744,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.26047366857528687,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.2660699188709259,
+      "energy_label": "High"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.2685031294822693,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.2132454216480255,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 131.30497916666667,
+      "avg_energy": 0.04985307529568672,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 94,
+    "master": 94,
+    "arrangement": 75,
+    "release": 88,
+    "energy": 6.226721651240002,
+    "bass_strength": 6.503549352770923,
+    "darkness": 5.842874334095968,
+    "brightness": 4.157125665904032,
+    "drum_bounce": 10,
+    "vocal_space": 1.855128786764844
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F Major. Confidence: 45.0%.",
+    "Beat energy: 6.2/10. Darkness: 5.8/10.",
+    "Vocal space estimate: 1.9/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.90 hits/sec.",
+    "Estimated length: 67 bars at 122 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.44 dB. RMS: -12.55 dB. Dynamic range: 12.10 dB."
+  ],
+  "next_steps": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

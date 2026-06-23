@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Destroy Lonely - all the time.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Destroy Lonely/Destroy Lonely - all the time.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 139.25008333333332,
+    "bpm": 137.2,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 86.13685216742749
+  },
+  "loudness": {
+    "peak_db": 1.0354381157011374e-05,
+    "rms_db": -5.278514597542578,
+    "dynamic_range_db": 5.2785249519237345,
+    "clipping_detected": true,
+    "clipping_samples": 4948,
+    "clipping_percent": 0.07402748412478509,
+    "headroom_db": -1.0354381157011374e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.53315379747512,
+      "Bass / 808": 14.866722087055834,
+      "Mud": 14.220115380233144,
+      "Low Mids": 13.798341972780074,
+      "Mids / Melody": 14.005315263740654,
+      "Harsh Zone": 13.584544745989948,
+      "Highs": 13.566674451532682,
+      "Air": 12.009677045384882,
+      "Vocal Range": 14.817253052437751
+    },
+    "brightness_centroid_hz": 2425.2493269869815,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5621.2657985446185,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.39987588453096,
+    "mid_total_percent": 42.023772616753874,
+    "top_total_percent": 25.576351496917564
+  },
+  "fingerprint": {
+    "mfcc_1": -143.20494079589844,
+    "mfcc_2": 122.49392700195312,
+    "mfcc_3": 8.961837768554688,
+    "mfcc_4": 55.65176010131836,
+    "mfcc_5": -3.0590271949768066,
+    "mfcc_6": 31.384958267211914,
+    "mfcc_7": 10.005067825317383,
+    "mfcc_8": 13.158708572387695,
+    "mfcc_9": -1.170941948890686,
+    "mfcc_10": 14.195640563964844,
+    "mfcc_11": 4.444087982177734,
+    "mfcc_12": 8.350314140319824,
+    "mfcc_13": 4.78133487701416,
+    "chroma_1": 0.17133545875549316,
+    "chroma_2": 0.5911500453948975,
+    "chroma_3": 0.2969139814376831,
+    "chroma_4": 0.2793668210506439,
+    "chroma_5": 0.6253179311752319,
+    "chroma_6": 0.18054087460041046,
+    "chroma_7": 0.12182475626468658,
+    "chroma_8": 0.10620371252298355,
+    "chroma_9": 0.13110175728797913,
+    "chroma_10": 0.08681906759738922,
+    "chroma_11": 0.08040899783372879,
+    "chroma_12": 0.08343890309333801,
+    "spectral_contrast": 18.923786797968535,
+    "spectral_flatness": 0.0005459414096549153,
+    "zero_crossing_rate": 0.015799591870930677
+  },
+  "rhythm": {
+    "onset_count": 791,
+    "onset_density": 5.680427480294746,
+    "drum_activity": "High",
+    "estimated_bars": 80,
+    "seconds_per_bar": 1.7492711370262393
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.5536614656448364,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5462006330490112,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.5456976890563965,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.5186158418655396,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.5324082374572754,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.5516173243522644,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.5237312316894531,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 139.25008333333332,
+      "avg_energy": 0.5670092701911926,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 70,
+    "master": 70,
+    "arrangement": 75,
+    "release": 72,
+    "energy": 9.86074270122871,
+    "bass_strength": 6.4799751769061915,
+    "darkness": 5.149501346026037,
+    "brightness": 4.850498653973963,
+    "drum_bounce": 10,
+    "vocal_space": 2.3407621375095884
+  },
+  "top_problems": [
+    "Clipping detected: 4948 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 86.1%.",
+    "Beat energy: 9.9/10. Darkness: 5.1/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.68 hits/sec.",
+    "Estimated length: 80 bars at 137 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -5.28 dB. Dynamic range: 5.28 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

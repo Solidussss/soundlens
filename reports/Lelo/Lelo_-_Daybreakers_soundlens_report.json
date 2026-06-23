@@ -1,0 +1,186 @@
+{
+  "basic": {
+    "file_name": "Lelo - Daybreakers.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lelo/Lelo - Daybreakers.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 132.0,
+    "bpm": 159.2,
+    "key": "E Minor",
+    "key_note": "E",
+    "key_mode": "Minor",
+    "key_confidence": 45.15497283126371
+  },
+  "loudness": {
+    "peak_db": -0.21548594843764285,
+    "rms_db": -13.508461259619306,
+    "dynamic_range_db": 13.292975311181664,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.21548594843764285
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.08237644458014,
+      "Bass / 808": 15.652901719205726,
+      "Mud": 14.141796882472013,
+      "Low Mids": 14.164743892403491,
+      "Mids / Melody": 13.999157567389911,
+      "Harsh Zone": 13.40216161109753,
+      "Highs": 13.181021790886897,
+      "Air": 12.778001701204717,
+      "Vocal Range": 14.89262627079721
+    },
+    "brightness_centroid_hz": 3531.0705136467946,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 7522.687560601164,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.735278163785868,
+    "mid_total_percent": 42.305698342265416,
+    "top_total_percent": 25.959023492091614
+  },
+  "fingerprint": {
+    "mfcc_1": -170.41354370117188,
+    "mfcc_2": 120.73123168945312,
+    "mfcc_3": 8.811334609985352,
+    "mfcc_4": 40.36875534057617,
+    "mfcc_5": 7.416657447814941,
+    "mfcc_6": 25.04873275756836,
+    "mfcc_7": -7.053633689880371,
+    "mfcc_8": 9.283574104309082,
+    "mfcc_9": -7.2904486656188965,
+    "mfcc_10": 3.4999523162841797,
+    "mfcc_11": -3.444549083709717,
+    "mfcc_12": 7.486844539642334,
+    "mfcc_13": 2.8336849212646484,
+    "chroma_1": 0.4233775734901428,
+    "chroma_2": 0.4330971837043762,
+    "chroma_3": 0.4442720115184784,
+    "chroma_4": 0.4286120533943176,
+    "chroma_5": 0.7260852456092834,
+    "chroma_6": 0.603786289691925,
+    "chroma_7": 0.7462910413742065,
+    "chroma_8": 0.6404339075088501,
+    "chroma_9": 0.5646240711212158,
+    "chroma_10": 0.5609974265098572,
+    "chroma_11": 0.5027839541435242,
+    "chroma_12": 0.7237995266914368,
+    "spectral_contrast": 19.4388415258688,
+    "spectral_flatness": 0.002294862875714898,
+    "zero_crossing_rate": 0.0617152228229032
+  },
+  "rhythm": {
+    "onset_count": 917,
+    "onset_density": 6.946969696969697,
+    "drum_activity": "High",
+    "estimated_bars": 88,
+    "seconds_per_bar": 1.5075376884422111
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.14487364888191223,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.23422178626060486,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.23390236496925354,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.23075130581855774,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.21940864622592926,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.23243668675422668,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.23251865804195404,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 132.0,
+      "avg_energy": 0.1490238755941391,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 92,
+    "master": 92,
+    "arrangement": 75,
+    "release": 87,
+    "energy": 5.745769370190347,
+    "bass_strength": 6.347055632757174,
+    "darkness": 2.937858972706411,
+    "brightness": 7.062141027293589,
+    "drum_bounce": 10,
+    "vocal_space": 2.3197464052392673
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Peak is extremely close to 0 dB, so the export has almost no headroom.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Set limiter/output ceiling around -0.3 to -1.0 dB before exporting.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: E Minor. Confidence: 45.2%.",
+    "Beat energy: 5.7/10. Darkness: 2.9/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.95 hits/sec.",
+    "Estimated length: 88 bars at 159 BPM."
+  ],
+  "master_notes": [
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.22 dB. RMS: -13.51 dB. Dynamic range: 13.29 dB."
+  ],
+  "next_steps": [
+    "Set limiter/output ceiling around -0.3 to -1.0 dB before exporting.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

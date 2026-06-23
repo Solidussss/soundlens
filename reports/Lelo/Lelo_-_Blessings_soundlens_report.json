@@ -1,0 +1,162 @@
+{
+  "basic": {
+    "file_name": "Lelo - Blessings.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lelo/Lelo - Blessings.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 91.0,
+    "bpm": 156.25,
+    "key": "G Minor",
+    "key_note": "G",
+    "key_mode": "Minor",
+    "key_confidence": 45.03440778444681
+  },
+  "loudness": {
+    "peak_db": -0.6795000415957604,
+    "rms_db": -11.332934004601407,
+    "dynamic_range_db": 10.653433963005646,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.6795000415957604
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.12976720137654,
+      "Bass / 808": 15.465623736929556,
+      "Mud": 14.678662997644526,
+      "Low Mids": 14.416359193797627,
+      "Mids / Melody": 14.07277383753764,
+      "Harsh Zone": 13.542192287665312,
+      "Highs": 13.142848082416423,
+      "Air": 12.093964948450413,
+      "Vocal Range": 15.198714835809088
+    },
+    "brightness_centroid_hz": 2571.666680453821,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5678.267295182841,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.595390938306096,
+    "mid_total_percent": 43.167796028979794,
+    "top_total_percent": 25.236813030866834
+  },
+  "fingerprint": {
+    "mfcc_1": -144.01377868652344,
+    "mfcc_2": 145.2314453125,
+    "mfcc_3": 9.966294288635254,
+    "mfcc_4": 45.453182220458984,
+    "mfcc_5": 6.655736923217773,
+    "mfcc_6": 30.082733154296875,
+    "mfcc_7": -5.610709190368652,
+    "mfcc_8": 15.748586654663086,
+    "mfcc_9": -4.024773597717285,
+    "mfcc_10": 0.7596995830535889,
+    "mfcc_11": -4.029584884643555,
+    "mfcc_12": 2.168126344680786,
+    "mfcc_13": -1.777550458908081,
+    "chroma_1": 0.20353983342647552,
+    "chroma_2": 0.20205634832382202,
+    "chroma_3": 0.3816264569759369,
+    "chroma_4": 0.19603167474269867,
+    "chroma_5": 0.16867387294769287,
+    "chroma_6": 0.15767069160938263,
+    "chroma_7": 0.1552438884973526,
+    "chroma_8": 0.8823418021202087,
+    "chroma_9": 0.5323385000228882,
+    "chroma_10": 0.4091606140136719,
+    "chroma_11": 0.2764213979244232,
+    "chroma_12": 0.2109525352716446,
+    "spectral_contrast": 21.520929506141513,
+    "spectral_flatness": 0.0004915650351904333,
+    "zero_crossing_rate": 0.035405598500498126
+  },
+  "rhythm": {
+    "onset_count": 636,
+    "onset_density": 6.989010989010989,
+    "drum_activity": "High",
+    "estimated_bars": 59,
+    "seconds_per_bar": 1.536
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.2879405915737152,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.2767365872859955,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.29347914457321167,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.1974107027053833,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Outro",
+      "start": 64.0,
+      "end": 91.0,
+      "avg_energy": 0.2816261053085327,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 94,
+    "master": 94,
+    "arrangement": 71,
+    "release": 87,
+    "energy": 6.8335329976992965,
+    "bass_strength": 6.319078187661219,
+    "darkness": 4.856666639092358,
+    "brightness": 5.143333360907642,
+    "drum_bounce": 10,
+    "vocal_space": 2.0690549161139566
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: G Minor. Confidence: 45.0%.",
+    "Beat energy: 6.8/10. Darkness: 4.9/10.",
+    "Vocal space estimate: 2.1/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.99 hits/sec.",
+    "Estimated length: 59 bars at 156 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.68 dB. RMS: -11.33 dB. Dynamic range: 10.65 dB."
+  ],
+  "next_steps": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

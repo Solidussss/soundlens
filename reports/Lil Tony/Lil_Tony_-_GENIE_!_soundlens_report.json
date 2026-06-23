@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "Lil Tony - GENIE !.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lil Tony/Lil Tony - GENIE !.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 121.75202083333333,
+    "bpm": 143.01,
+    "key": "F Minor",
+    "key_note": "F",
+    "key_mode": "Minor",
+    "key_confidence": 46.71789579417522
+  },
+  "loudness": {
+    "peak_db": 0.00033444027201386556,
+    "rms_db": -12.556275831000399,
+    "dynamic_range_db": 12.556610271272412,
+    "clipping_detected": true,
+    "clipping_samples": 383,
+    "clipping_percent": 0.006553621543242695,
+    "headroom_db": -0.00033444027201386556
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.706482005878769,
+      "Bass / 808": 15.28652834703552,
+      "Mud": 14.25283425436398,
+      "Low Mids": 14.05615414716108,
+      "Mids / Melody": 14.104419521967996,
+      "Harsh Zone": 13.563428563722995,
+      "Highs": 13.77923522875636,
+      "Air": 12.814346493025575,
+      "Vocal Range": 14.941922205149346
+    },
+    "brightness_centroid_hz": 3177.7797883391504,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6756.787943495401,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.99301035291429,
+    "mid_total_percent": 42.413407923493054,
+    "top_total_percent": 26.593581721781934
+  },
+  "fingerprint": {
+    "mfcc_1": -152.025390625,
+    "mfcc_2": 131.6920928955078,
+    "mfcc_3": 0.1383466124534607,
+    "mfcc_4": 59.6966667175293,
+    "mfcc_5": -7.4920172691345215,
+    "mfcc_6": 42.599029541015625,
+    "mfcc_7": -5.246550559997559,
+    "mfcc_8": 6.971848487854004,
+    "mfcc_9": 1.1963551044464111,
+    "mfcc_10": 3.0781092643737793,
+    "mfcc_11": 3.787187337875366,
+    "mfcc_12": 4.280486106872559,
+    "mfcc_13": 2.4134488105773926,
+    "chroma_1": 0.39863085746765137,
+    "chroma_2": 0.2690790295600891,
+    "chroma_3": 0.29229381680488586,
+    "chroma_4": 0.4471568465232849,
+    "chroma_5": 0.30609622597694397,
+    "chroma_6": 0.5603418350219727,
+    "chroma_7": 0.4042622148990631,
+    "chroma_8": 0.5527231097221375,
+    "chroma_9": 0.5546771287918091,
+    "chroma_10": 0.35047826170921326,
+    "chroma_11": 0.5126063227653503,
+    "chroma_12": 0.31644102931022644,
+    "spectral_contrast": 20.741294658689885,
+    "spectral_flatness": 0.0004990004817955196,
+    "zero_crossing_rate": 0.06144481630530004
+  },
+  "rhythm": {
+    "onset_count": 979,
+    "onset_density": 8.040934296607329,
+    "drum_activity": "High",
+    "estimated_bars": 73,
+    "seconds_per_bar": 1.6782043213761277
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.15713462233543396,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.25615406036376953,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.25550827383995056,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.26135894656181335,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.2492045909166336,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.2569095194339752,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 121.75202083333333,
+      "avg_energy": 0.20914168655872345,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 6.221862084499801,
+    "bass_strength": 6.198602070582858,
+    "darkness": 3.644440423321699,
+    "brightness": 6.355559576678301,
+    "drum_bounce": 10,
+    "vocal_space": 2.290844277231397
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 383 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F Minor. Confidence: 46.7%.",
+    "Beat energy: 6.2/10. Darkness: 3.6/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 8.04 hits/sec.",
+    "Estimated length: 73 bars at 143 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -12.56 dB. Dynamic range: 12.56 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

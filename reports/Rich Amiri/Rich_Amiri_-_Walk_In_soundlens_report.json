@@ -1,0 +1,172 @@
+{
+  "basic": {
+    "file_name": "Rich Amiri - Walk In.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Rich Amiri/Rich Amiri - Walk In.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 108.544,
+    "bpm": 159.2,
+    "key": "F# Minor",
+    "key_note": "F#",
+    "key_mode": "Minor",
+    "key_confidence": 47.79396728417246
+  },
+  "loudness": {
+    "peak_db": -0.052855523228100956,
+    "rms_db": -11.05181151780629,
+    "dynamic_range_db": 10.998955994578187,
+    "clipping_detected": true,
+    "clipping_samples": 3,
+    "clipping_percent": 5.758033608490566e-05,
+    "headroom_db": 0.052855523228100956
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.670168346355755,
+      "Bass / 808": 14.742221324782797,
+      "Mud": 14.697106835438914,
+      "Low Mids": 14.79822576282785,
+      "Mids / Melody": 14.079725674728552,
+      "Harsh Zone": 12.50486882912637,
+      "Highs": 13.28227190828058,
+      "Air": 11.730280145727763,
+      "Vocal Range": 15.38613771069407
+    },
+    "brightness_centroid_hz": 1754.2487399047484,
+    "brightness_label": "Low",
+    "spectral_rolloff_hz": 3398.531922472241,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.412389671138552,
+    "mid_total_percent": 43.575058272995314,
+    "top_total_percent": 25.012552054008342
+  },
+  "fingerprint": {
+    "mfcc_1": -211.98150634765625,
+    "mfcc_2": 159.2050018310547,
+    "mfcc_3": 22.478612899780273,
+    "mfcc_4": 37.34797668457031,
+    "mfcc_5": -16.510061264038086,
+    "mfcc_6": 15.212969779968262,
+    "mfcc_7": 0.09107383340597153,
+    "mfcc_8": 6.184426307678223,
+    "mfcc_9": 2.677342176437378,
+    "mfcc_10": 0.3235136568546295,
+    "mfcc_11": 3.9205338954925537,
+    "mfcc_12": 7.077815055847168,
+    "mfcc_13": 2.99336314201355,
+    "chroma_1": 0.30623993277549744,
+    "chroma_2": 0.383705735206604,
+    "chroma_3": 0.36777952313423157,
+    "chroma_4": 0.31951889395713806,
+    "chroma_5": 0.2603738009929657,
+    "chroma_6": 0.2524702548980713,
+    "chroma_7": 0.6922674179077148,
+    "chroma_8": 0.5289105176925659,
+    "chroma_9": 0.2277572900056839,
+    "chroma_10": 0.25736352801322937,
+    "chroma_11": 0.13771376013755798,
+    "chroma_12": 0.22443512082099915,
+    "spectral_contrast": 21.533627757093413,
+    "spectral_flatness": 9.094162669498473e-05,
+    "zero_crossing_rate": 0.023266599163555075
+  },
+  "rhythm": {
+    "onset_count": 528,
+    "onset_density": 4.86438679245283,
+    "drum_activity": "High",
+    "estimated_bars": 72,
+    "seconds_per_bar": 1.5075376884422111
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.26565563678741455,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.2901041507720947,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.3417932093143463,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.329472154378891,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.21654614806175232,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Outro",
+      "start": 80.0,
+      "end": 108.544,
+      "avg_energy": 0.24315939843654633,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 81,
+    "release": 84,
+    "energy": 6.974094241096855,
+    "bass_strength": 6.28247793422771,
+    "darkness": 6.491502520190503,
+    "brightness": 3.5084974798094968,
+    "drum_bounce": 10,
+    "vocal_space": 2.0071250139918853
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 3 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Minor. Confidence: 47.8%.",
+    "Beat energy: 7.0/10. Darkness: 6.5/10.",
+    "Vocal space estimate: 2.0/10. Higher means easier space for vocals.",
+    "Beat leans dark, so brighter vocals/adlibs may cut through well."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.86 hits/sec.",
+    "Estimated length: 72 bars at 159 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.05 dB. RMS: -11.05 dB. Dynamic range: 11.00 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

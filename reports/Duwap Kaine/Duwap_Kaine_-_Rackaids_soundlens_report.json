@@ -1,0 +1,178 @@
+{
+  "basic": {
+    "file_name": "Duwap Kaine - Rackaids.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Duwap Kaine/Duwap Kaine - Rackaids.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 83.304,
+    "bpm": 150.67,
+    "key": "D# Major",
+    "key_note": "D#",
+    "key_mode": "Major",
+    "key_confidence": 47.173582299529016
+  },
+  "loudness": {
+    "peak_db": -0.15554840101919767,
+    "rms_db": -9.349527810149292,
+    "dynamic_range_db": 9.193979409130094,
+    "clipping_detected": true,
+    "clipping_samples": 2,
+    "clipping_percent": 5.001760619738148e-05,
+    "headroom_db": 0.15554840101919767
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.962888880163042,
+      "Bass / 808": 14.63314828311212,
+      "Mud": 13.967576892269909,
+      "Low Mids": 14.648536222341251,
+      "Mids / Melody": 14.605741720509174,
+      "Harsh Zone": 13.665151594706753,
+      "Highs": 13.305637836117976,
+      "Air": 11.876470163616736,
+      "Vocal Range": 15.303213283880446
+    },
+    "brightness_centroid_hz": 2219.8044962655003,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4593.659971190781,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.596037163275163,
+    "mid_total_percent": 43.22185483512033,
+    "top_total_percent": 25.18210799973471
+  },
+  "fingerprint": {
+    "mfcc_1": -183.91937255859375,
+    "mfcc_2": 141.73204040527344,
+    "mfcc_3": -6.119106769561768,
+    "mfcc_4": 34.63020324707031,
+    "mfcc_5": -10.461867332458496,
+    "mfcc_6": 25.91465950012207,
+    "mfcc_7": -3.228379249572754,
+    "mfcc_8": 8.358232498168945,
+    "mfcc_9": 7.332674980163574,
+    "mfcc_10": 0.9238353371620178,
+    "mfcc_11": 5.411741256713867,
+    "mfcc_12": 9.102736473083496,
+    "mfcc_13": 4.220713138580322,
+    "chroma_1": 0.18729956448078156,
+    "chroma_2": 0.20880894362926483,
+    "chroma_3": 0.37827426195144653,
+    "chroma_4": 0.8910620212554932,
+    "chroma_5": 0.2549791932106018,
+    "chroma_6": 0.21767300367355347,
+    "chroma_7": 0.1374228149652481,
+    "chroma_8": 0.16217730939388275,
+    "chroma_9": 0.10621652007102966,
+    "chroma_10": 0.1612384170293808,
+    "chroma_11": 0.239639550447464,
+    "chroma_12": 0.10549364238977432,
+    "spectral_contrast": 21.910190828751375,
+    "spectral_flatness": 0.0004521380178630352,
+    "zero_crossing_rate": 0.035930060119238154
+  },
+  "rhythm": {
+    "onset_count": 457,
+    "onset_density": 5.4859310477288,
+    "drum_activity": "High",
+    "estimated_bars": 52,
+    "seconds_per_bar": 1.5928851131612134
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 12.743080905289707,
+      "avg_energy": 0.21493715047836304,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 12.743080905289707,
+      "end": 25.486161810579414,
+      "avg_energy": 0.34990373253822327,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 3",
+      "start": 25.486161810579414,
+      "end": 38.22924271586912,
+      "avg_energy": 0.3421197831630707,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 4",
+      "start": 38.22924271586912,
+      "end": 50.97232362115883,
+      "avg_energy": 0.34950679540634155,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 5",
+      "start": 50.97232362115883,
+      "end": 63.71540452644854,
+      "avg_energy": 0.37053021788597107,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 6",
+      "start": 63.71540452644854,
+      "end": 76.45848543173824,
+      "avg_energy": 0.3768266439437866,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 7",
+      "start": 76.45848543173824,
+      "end": 83.304,
+      "avg_energy": 0.3666633665561676,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 89,
+    "master": 89,
+    "arrangement": 71,
+    "release": 84,
+    "energy": 7.825236094925354,
+    "bass_strength": 6.319207432655032,
+    "darkness": 5.560391007469,
+    "brightness": 4.439608992531,
+    "drum_bounce": 10,
+    "vocal_space": 2.3203212113290004
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 2 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Major. Confidence: 47.2%.",
+    "Beat energy: 7.8/10. Darkness: 5.6/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.49 hits/sec.",
+    "Estimated length: 52 bars at 151 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.16 dB. RMS: -9.35 dB. Dynamic range: 9.19 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

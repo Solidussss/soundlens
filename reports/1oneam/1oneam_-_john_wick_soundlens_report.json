@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "1oneam - john wick.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/1oneam/1oneam - john wick.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 97.44254166666667,
+    "bpm": 137.2,
+    "key": "D# Major",
+    "key_note": "D#",
+    "key_mode": "Major",
+    "key_confidence": 47.908197174918435
+  },
+  "loudness": {
+    "peak_db": -0.00011700536488524761,
+    "rms_db": -5.73504591427906,
+    "dynamic_range_db": 5.734928908914175,
+    "clipping_detected": true,
+    "clipping_samples": 15532,
+    "clipping_percent": 0.33207603968321503,
+    "headroom_db": 0.00011700536488524761
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.309721868201823,
+      "Bass / 808": 14.904039562386576,
+      "Mud": 14.348192559847348,
+      "Low Mids": 14.463102360260793,
+      "Mids / Melody": 13.629951996338189,
+      "Harsh Zone": 12.974793464187695,
+      "Highs": 13.324287513123398,
+      "Air": 12.02070413802677,
+      "Vocal Range": 15.035439977248686
+    },
+    "brightness_centroid_hz": 2138.3336480861185,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4773.96939306042,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.2137614305884,
+    "mid_total_percent": 42.44124691644633,
+    "top_total_percent": 25.344991651150167
+  },
+  "fingerprint": {
+    "mfcc_1": -148.61968994140625,
+    "mfcc_2": 138.28253173828125,
+    "mfcc_3": 18.613407135009766,
+    "mfcc_4": 61.66647720336914,
+    "mfcc_5": -11.058899879455566,
+    "mfcc_6": 30.94191551208496,
+    "mfcc_7": -8.454565048217773,
+    "mfcc_8": 12.7247953414917,
+    "mfcc_9": 3.870699167251587,
+    "mfcc_10": 2.6777310371398926,
+    "mfcc_11": 4.1498613357543945,
+    "mfcc_12": 8.056131362915039,
+    "mfcc_13": 7.522996425628662,
+    "chroma_1": 0.38277530670166016,
+    "chroma_2": 0.4372245967388153,
+    "chroma_3": 0.3495456874370575,
+    "chroma_4": 0.6858894228935242,
+    "chroma_5": 0.5023971796035767,
+    "chroma_6": 0.28160354495048523,
+    "chroma_7": 0.2338353842496872,
+    "chroma_8": 0.360034316778183,
+    "chroma_9": 0.2906132936477661,
+    "chroma_10": 0.180069237947464,
+    "chroma_11": 0.18928463757038116,
+    "chroma_12": 0.16562001407146454,
+    "spectral_contrast": 18.97769203458561,
+    "spectral_flatness": 0.00023575160594191402,
+    "zero_crossing_rate": 0.014806583758619747
+  },
+  "rhythm": {
+    "onset_count": 553,
+    "onset_density": 5.675139323558627,
+    "drum_activity": "High",
+    "estimated_bars": 56,
+    "seconds_per_bar": 1.7492711370262393
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 13.994169096209914,
+      "avg_energy": 0.4618443250656128,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 13.994169096209914,
+      "end": 27.98833819241983,
+      "avg_energy": 0.5331262946128845,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 3",
+      "start": 27.98833819241983,
+      "end": 41.98250728862974,
+      "avg_energy": 0.5323725342750549,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 4",
+      "start": 41.98250728862974,
+      "end": 55.97667638483966,
+      "avg_energy": 0.5378562808036804,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 5",
+      "start": 55.97667638483966,
+      "end": 69.97084548104957,
+      "avg_energy": 0.5309978127479553,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 6",
+      "start": 69.97084548104957,
+      "end": 83.96501457725948,
+      "avg_energy": 0.5326336622238159,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 7",
+      "start": 83.96501457725948,
+      "end": 97.44254166666667,
+      "avg_energy": 0.4813929796218872,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 65,
+    "master": 65,
+    "arrangement": 66,
+    "release": 65,
+    "energy": 9.63247704286047,
+    "bass_strength": 6.442752286117679,
+    "darkness": 5.723332703827763,
+    "brightness": 4.276667296172237,
+    "drum_bounce": 10,
+    "vocal_space": 2.194565496023804
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 15532 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Major. Confidence: 47.9%.",
+    "Beat energy: 9.6/10. Darkness: 5.7/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.68 hits/sec.",
+    "Estimated length: 56 bars at 137 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: -0.00 dB. RMS: -5.74 dB. Dynamic range: 5.73 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

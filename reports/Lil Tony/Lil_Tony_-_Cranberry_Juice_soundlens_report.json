@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Lil Tony - Cranberry Juice.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lil Tony/Lil Tony - Cranberry Juice.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 129.2640625,
+    "bpm": 148.03,
+    "key": "E Minor",
+    "key_note": "E",
+    "key_mode": "Minor",
+    "key_confidence": 47.55054680748302
+  },
+  "loudness": {
+    "peak_db": -0.00010665084424619883,
+    "rms_db": -8.197288276335419,
+    "dynamic_range_db": 8.197181625491172,
+    "clipping_detected": true,
+    "clipping_samples": 1966,
+    "clipping_percent": 0.031685785315105144,
+    "headroom_db": 0.00010665084424619883
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.82952893405731,
+      "Bass / 808": 14.971868229187429,
+      "Mud": 13.908955843477456,
+      "Low Mids": 14.1940988702628,
+      "Mids / Melody": 14.80253960183496,
+      "Harsh Zone": 14.382563957945043,
+      "Highs": 13.455252766617143,
+      "Air": 11.837755752766002,
+      "Vocal Range": 15.136379753469514
+    },
+    "brightness_centroid_hz": 2799.997742133564,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6214.194266234837,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.80139716324474,
+    "mid_total_percent": 42.905594315575215,
+    "top_total_percent": 25.293008519383143
+  },
+  "fingerprint": {
+    "mfcc_1": -98.25031280517578,
+    "mfcc_2": 131.36514282226562,
+    "mfcc_3": -33.789241790771484,
+    "mfcc_4": 46.348236083984375,
+    "mfcc_5": -4.827024459838867,
+    "mfcc_6": 31.33673667907715,
+    "mfcc_7": -1.583834171295166,
+    "mfcc_8": 25.125154495239258,
+    "mfcc_9": 4.831322193145752,
+    "mfcc_10": 16.72086524963379,
+    "mfcc_11": -2.674532413482666,
+    "mfcc_12": 13.74538803100586,
+    "mfcc_13": 2.6686036586761475,
+    "chroma_1": 0.44487378001213074,
+    "chroma_2": 0.43815189599990845,
+    "chroma_3": 0.4579572081565857,
+    "chroma_4": 0.46581515669822693,
+    "chroma_5": 0.5735012292861938,
+    "chroma_6": 0.4249844551086426,
+    "chroma_7": 0.4990999102592468,
+    "chroma_8": 0.44845297932624817,
+    "chroma_9": 0.32740601897239685,
+    "chroma_10": 0.2675562798976898,
+    "chroma_11": 0.21609291434288025,
+    "chroma_12": 0.2108009308576584,
+    "spectral_contrast": 19.251426249458532,
+    "spectral_flatness": 0.000554011610802263,
+    "zero_crossing_rate": 0.017235534401043816
+  },
+  "rhythm": {
+    "onset_count": 930,
+    "onset_density": 7.194575058322958,
+    "drum_activity": "High",
+    "estimated_bars": 80,
+    "seconds_per_bar": 1.621292981152469
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.37615305185317993,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.41636574268341064,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.4160582423210144,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.4130249321460724,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.4145382046699524,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.3727760910987854,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.41450709104537964,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 129.2640625,
+      "avg_energy": 0.2763533890247345,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 8.40135586183229,
+    "bass_strength": 6.360279432648948,
+    "darkness": 4.400004515732872,
+    "brightness": 5.599995484267128,
+    "drum_bounce": 10,
+    "vocal_space": 2.4086892525714756
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 1966 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: E Minor. Confidence: 47.6%.",
+    "Beat energy: 8.4/10. Darkness: 4.4/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 7.19 hits/sec.",
+    "Estimated length: 80 bars at 148 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -8.20 dB. Dynamic range: 8.20 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

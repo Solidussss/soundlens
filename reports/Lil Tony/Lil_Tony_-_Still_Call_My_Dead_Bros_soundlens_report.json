@@ -1,0 +1,157 @@
+{
+  "basic": {
+    "file_name": "Lil Tony - Still Call My Dead Bros.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lil Tony/Lil Tony - Still Call My Dead Bros.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 77.3456875,
+    "bpm": 153.41,
+    "key": "E Minor",
+    "key_note": "E",
+    "key_mode": "Minor",
+    "key_confidence": 46.151876966320486
+  },
+  "loudness": {
+    "peak_db": -5.8586909255977755,
+    "rms_db": -13.320753196053225,
+    "dynamic_range_db": 7.46206227045545,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 5.8586909255977755
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.595731871466917,
+      "Bass / 808": 15.260179320009026,
+      "Mud": 14.368351563528734,
+      "Low Mids": 14.257737335681425,
+      "Mids / Melody": 13.513212277303902,
+      "Harsh Zone": 12.972308035257937,
+      "Highs": 13.35307384144106,
+      "Air": 11.651713788539043,
+      "Vocal Range": 15.017689284068755
+    },
+    "brightness_centroid_hz": 1848.8735781487956,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 3995.8513599696635,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.85591119147594,
+    "mid_total_percent": 42.13930117651406,
+    "top_total_percent": 25.0047876299801
+  },
+  "fingerprint": {
+    "mfcc_1": -241.3972625732422,
+    "mfcc_2": 154.02853393554688,
+    "mfcc_3": 11.226476669311523,
+    "mfcc_4": 58.50801467895508,
+    "mfcc_5": -3.375941753387451,
+    "mfcc_6": 33.8566780090332,
+    "mfcc_7": 0.10066498070955276,
+    "mfcc_8": 10.931426048278809,
+    "mfcc_9": 10.444838523864746,
+    "mfcc_10": 6.84413480758667,
+    "mfcc_11": 2.9835565090179443,
+    "mfcc_12": 6.450138568878174,
+    "mfcc_13": 15.705204010009766,
+    "chroma_1": 0.14105328917503357,
+    "chroma_2": 0.1342419683933258,
+    "chroma_3": 0.15635351836681366,
+    "chroma_4": 0.23498205840587616,
+    "chroma_5": 0.8988634347915649,
+    "chroma_6": 0.8165752291679382,
+    "chroma_7": 0.38101544976234436,
+    "chroma_8": 0.21898603439331055,
+    "chroma_9": 0.15817327797412872,
+    "chroma_10": 0.11865232139825821,
+    "chroma_11": 0.10553468018770218,
+    "chroma_12": 0.18571457266807556,
+    "spectral_contrast": 19.0950440653104,
+    "spectral_flatness": 5.430916280602105e-05,
+    "zero_crossing_rate": 0.02091623970111693
+  },
+  "rhythm": {
+    "onset_count": 509,
+    "onset_density": 6.5808452475129915,
+    "drum_activity": "High",
+    "estimated_bars": 49,
+    "seconds_per_bar": 1.564435173717489
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.22335727512836456,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.2145894169807434,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.22077876329421997,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 48.0,
+      "end": 77.3456875,
+      "avg_energy": 0.20930537581443787,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 94,
+    "master": 94,
+    "arrangement": 65,
+    "release": 85,
+    "energy": 5.8396234019733875,
+    "bass_strength": 6.571182238295188,
+    "darkness": 6.302252843702409,
+    "brightness": 3.697747156297591,
+    "drum_bounce": 10,
+    "vocal_space": 2.2158397552054456
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: E Minor. Confidence: 46.2%.",
+    "Beat energy: 5.8/10. Darkness: 6.3/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.58 hits/sec.",
+    "Estimated length: 49 bars at 153 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -5.86 dB. RMS: -13.32 dB. Dynamic range: 7.46 dB."
+  ],
+  "next_steps": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

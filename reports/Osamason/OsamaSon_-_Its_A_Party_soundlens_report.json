@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "OsamaSon - Its A Party.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Osamason/OsamaSon - Its A Party.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 136.34758333333335,
+    "bpm": 168.75,
+    "key": "D# Minor / Try E Minor",
+    "key_note": "D#",
+    "key_mode": "Minor",
+    "key_confidence": 62.7097399344921
+  },
+  "loudness": {
+    "peak_db": -2.1744240607498573e-05,
+    "rms_db": -6.058998486245358,
+    "dynamic_range_db": 6.0589767420047504,
+    "clipping_detected": true,
+    "clipping_samples": 63626,
+    "clipping_percent": 0.9721783358829854,
+    "headroom_db": 2.1744240607498573e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.386034920745153,
+      "Bass / 808": 14.389824184744313,
+      "Mud": 14.147081439110117,
+      "Low Mids": 14.477444619245974,
+      "Mids / Melody": 14.208058025687151,
+      "Harsh Zone": 13.716739863813693,
+      "Highs": 13.719699385975973,
+      "Air": 12.671857422782468,
+      "Vocal Range": 15.078064648906874
+    },
+    "brightness_centroid_hz": 3872.3390392367287,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 8666.083005749824,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.775859105489467,
+    "mid_total_percent": 42.83258408404324,
+    "top_total_percent": 26.39155680875844
+  },
+  "fingerprint": {
+    "mfcc_1": -48.954288482666016,
+    "mfcc_2": 104.85660552978516,
+    "mfcc_3": -13.052620887756348,
+    "mfcc_4": 44.107486724853516,
+    "mfcc_5": -10.264825820922852,
+    "mfcc_6": 26.01302719116211,
+    "mfcc_7": -10.086539268493652,
+    "mfcc_8": 13.68948745727539,
+    "mfcc_9": -9.187994003295898,
+    "mfcc_10": 10.547621726989746,
+    "mfcc_11": -3.913827419281006,
+    "mfcc_12": 13.694048881530762,
+    "mfcc_13": 1.1821131706237793,
+    "chroma_1": 0.18937130272388458,
+    "chroma_2": 0.2168883979320526,
+    "chroma_3": 0.3126838505268097,
+    "chroma_4": 0.8547402620315552,
+    "chroma_5": 0.7014951109886169,
+    "chroma_6": 0.39989498257637024,
+    "chroma_7": 0.25375527143478394,
+    "chroma_8": 0.17686960101127625,
+    "chroma_9": 0.16652320325374603,
+    "chroma_10": 0.1263578087091446,
+    "chroma_11": 0.18442147970199585,
+    "chroma_12": 0.17860287427902222,
+    "spectral_contrast": 17.281117909330074,
+    "spectral_flatness": 0.004380753729492426,
+    "zero_crossing_rate": 0.05622216915287882
+  },
+  "rhythm": {
+    "onset_count": 509,
+    "onset_density": 3.733106136216813,
+    "drum_activity": "High",
+    "estimated_bars": 96,
+    "seconds_per_bar": 1.4222222222222223
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.35454675555229187,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.55599445104599,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.3971157670021057,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.5627632737159729,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.39834439754486084,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.5648792386054993,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.4219236969947815,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 136.34758333333335,
+      "avg_energy": 0.5993611812591553,
+      "energy_label": "High"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 75,
+    "release": 79,
+    "energy": 9.470500756877321,
+    "bass_strength": 6.155171821097893,
+    "darkness": 2.2553219215265425,
+    "brightness": 7.7446780784734575,
+    "drum_bounce": 9.332765340542032,
+    "vocal_space": 2.2729610501779574
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 63626 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Minor / Try E Minor. Confidence: 62.7%.",
+    "Beat energy: 9.5/10. Darkness: 2.3/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 3.73 hits/sec.",
+    "Estimated length: 96 bars at 169 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -6.06 dB. Dynamic range: 6.06 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

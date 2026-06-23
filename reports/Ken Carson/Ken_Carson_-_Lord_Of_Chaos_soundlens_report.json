@@ -1,0 +1,181 @@
+{
+  "basic": {
+    "file_name": "Ken Carson - Lord Of Chaos.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Ken Carson/Ken Carson - Lord Of Chaos.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 122.0673125,
+    "bpm": 159.2,
+    "key": "D# Minor",
+    "key_note": "D#",
+    "key_mode": "Minor",
+    "key_confidence": 73.99705974848774
+  },
+  "loudness": {
+    "peak_db": 0.002853200477063937,
+    "rms_db": -4.630258199268122,
+    "dynamic_range_db": 4.633111399745187,
+    "clipping_detected": true,
+    "clipping_samples": 139627,
+    "clipping_percent": 2.3830260319144267,
+    "headroom_db": -0.002853200477063937
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.0664245098016,
+      "Bass / 808": 15.459972918979961,
+      "Mud": 14.343553918346485,
+      "Low Mids": 14.131954572406178,
+      "Mids / Melody": 13.98956180691761,
+      "Harsh Zone": 13.332530765544215,
+      "Highs": 13.194804610063837,
+      "Air": 11.813727661727318,
+      "Vocal Range": 14.95078963371691
+    },
+    "brightness_centroid_hz": 2600.903102462884,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6240.621450104858,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.526397428781564,
+    "mid_total_percent": 42.46507029767027,
+    "top_total_percent": 25.008532271791154
+  },
+  "fingerprint": {
+    "mfcc_1": -84.61235046386719,
+    "mfcc_2": 127.42322540283203,
+    "mfcc_3": -5.647305488586426,
+    "mfcc_4": 56.44496154785156,
+    "mfcc_5": -5.107461452484131,
+    "mfcc_6": 32.81774139404297,
+    "mfcc_7": -0.7480409145355225,
+    "mfcc_8": 15.884149551391602,
+    "mfcc_9": -1.855349063873291,
+    "mfcc_10": 10.328681945800781,
+    "mfcc_11": 1.212485432624817,
+    "mfcc_12": 8.610499382019043,
+    "mfcc_13": -0.4779452979564667,
+    "chroma_1": 0.09001901745796204,
+    "chroma_2": 0.14225929975509644,
+    "chroma_3": 0.23981040716171265,
+    "chroma_4": 0.9239025115966797,
+    "chroma_5": 0.321917861700058,
+    "chroma_6": 0.1448086053133011,
+    "chroma_7": 0.10763049870729446,
+    "chroma_8": 0.12003937363624573,
+    "chroma_9": 0.09221441298723221,
+    "chroma_10": 0.07184336334466934,
+    "chroma_11": 0.2213689386844635,
+    "chroma_12": 0.07939969748258591,
+    "spectral_contrast": 17.74034475573764,
+    "spectral_flatness": 0.0006734792259521782,
+    "zero_crossing_rate": 0.0174412492354072
+  },
+  "rhythm": {
+    "onset_count": 438,
+    "onset_density": 3.5881841832144867,
+    "drum_activity": "High",
+    "estimated_bars": 81,
+    "seconds_per_bar": 1.5075376884422111
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.3481038808822632,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.6390838027000427,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.6456892490386963,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.5900313258171082,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.45695069432258606,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.6577963829040527,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 122.0673125,
+      "avg_energy": 0.6511628031730652,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 75,
+    "release": 60,
+    "energy": 10,
+    "bass_strength": 6.505279485756313,
+    "darkness": 4.798193795074233,
+    "brightness": 5.201806204925767,
+    "drum_bounce": 8.970460458036216,
+    "vocal_space": 2.2437277794605226
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 139627 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Minor. Confidence: 74.0%.",
+    "Beat energy: 10.0/10. Darkness: 4.8/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 3.59 hits/sec.",
+    "Estimated length: 81 bars at 159 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -4.63 dB. Dynamic range: 4.63 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

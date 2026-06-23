@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Izaya Tiji - Sick to my tummy.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Izaya Tiji/Izaya Tiji - Sick to my tummy.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 141.88802083333334,
+    "bpm": 150.67,
+    "key": "E Major",
+    "key_note": "E",
+    "key_mode": "Major",
+    "key_confidence": 46.43847384580417
+  },
+  "loudness": {
+    "peak_db": -0.1541375377398107,
+    "rms_db": -11.8874089019528,
+    "dynamic_range_db": 11.733271364212989,
+    "clipping_detected": true,
+    "clipping_samples": 1,
+    "clipping_percent": 1.4682940258786821e-05,
+    "headroom_db": 0.1541375377398107
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.028482837884624,
+      "Bass / 808": 14.88493170246036,
+      "Mud": 14.409363285506723,
+      "Low Mids": 14.943873262552012,
+      "Mids / Melody": 14.419080260178093,
+      "Harsh Zone": 13.361856344965037,
+      "Highs": 12.851815354346016,
+      "Air": 11.46245329518794,
+      "Vocal Range": 15.488295182692498
+    },
+    "brightness_centroid_hz": 1960.522804477883,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 3957.2605803202287,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.913414540344984,
+    "mid_total_percent": 43.77231680823683,
+    "top_total_percent": 24.314268649533958
+  },
+  "fingerprint": {
+    "mfcc_1": -238.0068359375,
+    "mfcc_2": 141.66786193847656,
+    "mfcc_3": 4.337249279022217,
+    "mfcc_4": 32.154964447021484,
+    "mfcc_5": -7.042630195617676,
+    "mfcc_6": 25.369226455688477,
+    "mfcc_7": -7.470395565032959,
+    "mfcc_8": 1.6588789224624634,
+    "mfcc_9": 2.629582166671753,
+    "mfcc_10": -6.1298604011535645,
+    "mfcc_11": 0.2047228217124939,
+    "mfcc_12": 0.8983169794082642,
+    "mfcc_13": 11.028029441833496,
+    "chroma_1": 0.4000197649002075,
+    "chroma_2": 0.443479984998703,
+    "chroma_3": 0.2704606056213379,
+    "chroma_4": 0.46172499656677246,
+    "chroma_5": 0.6184746026992798,
+    "chroma_6": 0.3666762113571167,
+    "chroma_7": 0.3819303512573242,
+    "chroma_8": 0.2478698343038559,
+    "chroma_9": 0.34817802906036377,
+    "chroma_10": 0.17937782406806946,
+    "chroma_11": 0.26436647772789,
+    "chroma_12": 0.39035722613334656,
+    "spectral_contrast": 21.276385559213114,
+    "spectral_flatness": 0.00014179317804519087,
+    "zero_crossing_rate": 0.029414476527850862
+  },
+  "rhythm": {
+    "onset_count": 657,
+    "onset_density": 4.630412040011012,
+    "drum_activity": "High",
+    "estimated_bars": 89,
+    "seconds_per_bar": 1.5928851131612134
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.12158388644456863,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.3049033582210541,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.3012217581272125,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.30147990584373474,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.08668223768472672,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Bridge / Breakdown",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.15579485893249512,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.3021243214607239,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 141.88802083333334,
+      "avg_energy": 0.2942981421947479,
+      "energy_label": "High"
+    }
+  ],
+  "scores": {
+    "mix": 89,
+    "master": 89,
+    "arrangement": 75,
+    "release": 85,
+    "energy": 6.5562955490236,
+    "bass_strength": 6.382682908068997,
+    "darkness": 6.078954391044234,
+    "brightness": 3.921045608955766,
+    "drum_bounce": 10,
+    "vocal_space": 2.1014156482898807
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 1 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: E Major. Confidence: 46.4%.",
+    "Beat energy: 6.6/10. Darkness: 6.1/10.",
+    "Vocal space estimate: 2.1/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.63 hits/sec.",
+    "Estimated length: 89 bars at 151 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.15 dB. RMS: -11.89 dB. Dynamic range: 11.73 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

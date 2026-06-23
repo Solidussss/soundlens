@@ -1,0 +1,185 @@
+{
+  "basic": {
+    "file_name": "Ken Carson - overseas.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Ken Carson/Ken Carson - overseas.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 141.08445833333334,
+    "bpm": 150.67,
+    "key": "F# Minor",
+    "key_note": "F#",
+    "key_mode": "Minor",
+    "key_confidence": 70.55005146649911
+  },
+  "loudness": {
+    "peak_db": 0.0013801301783486224,
+    "rms_db": -8.623923489988346,
+    "dynamic_range_db": 8.625303620166695,
+    "clipping_detected": true,
+    "clipping_samples": 19782,
+    "clipping_percent": 0.2921122601798509,
+    "headroom_db": -0.0013801301783486224
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.341234729077295,
+      "Bass / 808": 15.440438557036954,
+      "Mud": 13.866112908511175,
+      "Low Mids": 13.969929506278241,
+      "Mids / Melody": 14.333923562142356,
+      "Harsh Zone": 13.831352857892638,
+      "Highs": 13.844260806126632,
+      "Air": 13.20409992912184,
+      "Vocal Range": 14.784045967658024
+    },
+    "brightness_centroid_hz": 4448.162668800868,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 9702.926542299841,
+    "dominant_band": "Bass / 808",
+    "low_end_total_percent": 30.78167328611425,
+    "mid_total_percent": 42.16996597693178,
+    "top_total_percent": 27.048360735248473
+  },
+  "fingerprint": {
+    "mfcc_1": -44.241424560546875,
+    "mfcc_2": 105.12165832519531,
+    "mfcc_3": -13.583035469055176,
+    "mfcc_4": 50.134422302246094,
+    "mfcc_5": -18.357751846313477,
+    "mfcc_6": 35.877098083496094,
+    "mfcc_7": -12.683826446533203,
+    "mfcc_8": 21.734180450439453,
+    "mfcc_9": -3.165558099746704,
+    "mfcc_10": 13.523752212524414,
+    "mfcc_11": -0.8570073246955872,
+    "mfcc_12": 12.253643989562988,
+    "mfcc_13": -7.698695182800293,
+    "chroma_1": 0.1998450607061386,
+    "chroma_2": 0.43918225169181824,
+    "chroma_3": 0.3622710108757019,
+    "chroma_4": 0.18318459391593933,
+    "chroma_5": 0.24236144125461578,
+    "chroma_6": 0.18419082462787628,
+    "chroma_7": 0.5926604866981506,
+    "chroma_8": 0.1931600570678711,
+    "chroma_9": 0.1947505921125412,
+    "chroma_10": 0.377556174993515,
+    "chroma_11": 0.19980488717556,
+    "chroma_12": 0.31973668932914734,
+    "spectral_contrast": 19.01802469677476,
+    "spectral_flatness": 0.00470820814371109,
+    "zero_crossing_rate": 0.08261488397312315
+  },
+  "rhythm": {
+    "onset_count": 429,
+    "onset_density": 3.040731807513643,
+    "drum_activity": "High",
+    "estimated_bars": 89,
+    "seconds_per_bar": 1.5928851131612134
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.10327775031328201,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.29658377170562744,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.45443233847618103,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.4258601665496826,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.41540399193763733,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.34234046936035156,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Bridge / Breakdown",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.28478267788887024,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 141.08445833333334,
+      "avg_energy": 0.4407690465450287,
+      "energy_label": "High"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 81,
+    "release": 81,
+    "energy": 8.188038255005827,
+    "bass_strength": 6.15633465722285,
+    "darkness": 1.103674662398264,
+    "brightness": 8.896325337601736,
+    "drum_bounce": 7.601829518784108,
+    "vocal_space": 2.4578506214129243
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 19782 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Minor. Confidence: 70.6%.",
+    "Beat energy: 8.2/10. Darkness: 1.1/10.",
+    "Vocal space estimate: 2.5/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Bass / 808.",
+    "Drum activity is high at 3.04 hits/sec.",
+    "Estimated length: 89 bars at 151 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -8.62 dB. Dynamic range: 8.63 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

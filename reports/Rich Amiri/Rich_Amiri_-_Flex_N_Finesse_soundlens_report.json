@@ -1,0 +1,167 @@
+{
+  "basic": {
+    "file_name": "Rich Amiri - Flex N Finesse.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Rich Amiri/Rich Amiri - Flex N Finesse.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 93.34422916666666,
+    "bpm": 144.23,
+    "key": "D# Major",
+    "key_note": "D#",
+    "key_mode": "Major",
+    "key_confidence": 48.30924698947225
+  },
+  "loudness": {
+    "peak_db": 0.0009908583482412174,
+    "rms_db": -5.95203014091172,
+    "dynamic_range_db": 5.953020999259961,
+    "clipping_detected": true,
+    "clipping_samples": 10166,
+    "clipping_percent": 0.22689315510711583,
+    "headroom_db": -0.0009908583482412174
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.300580729105775,
+      "Bass / 808": 15.260404476967606,
+      "Mud": 13.966588808226724,
+      "Low Mids": 14.094903887286256,
+      "Mids / Melody": 14.258159580646467,
+      "Harsh Zone": 13.692075541051796,
+      "Highs": 13.783721708676058,
+      "Air": 12.335640807352748,
+      "Vocal Range": 14.882622762013028
+    },
+    "brightness_centroid_hz": 3270.1262540496296,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 7256.040583580896,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.560985206073383,
+    "mid_total_percent": 42.319652276159445,
+    "top_total_percent": 26.119362516028808
+  },
+  "fingerprint": {
+    "mfcc_1": -42.02895736694336,
+    "mfcc_2": 121.72700500488281,
+    "mfcc_3": -30.538406372070312,
+    "mfcc_4": 56.07122802734375,
+    "mfcc_5": -11.12176513671875,
+    "mfcc_6": 30.021303176879883,
+    "mfcc_7": 6.718934535980225,
+    "mfcc_8": 15.286955833435059,
+    "mfcc_9": -1.3310215473175049,
+    "mfcc_10": 18.347139358520508,
+    "mfcc_11": 4.3929619789123535,
+    "mfcc_12": 18.143617630004883,
+    "mfcc_13": 2.7640419006347656,
+    "chroma_1": 0.20371267199516296,
+    "chroma_2": 0.19483543932437897,
+    "chroma_3": 0.2020912915468216,
+    "chroma_4": 0.6982448697090149,
+    "chroma_5": 0.31554481387138367,
+    "chroma_6": 0.2512025833129883,
+    "chroma_7": 0.2007201611995697,
+    "chroma_8": 0.17912209033966064,
+    "chroma_9": 0.41364964842796326,
+    "chroma_10": 0.26670628786087036,
+    "chroma_11": 0.456597238779068,
+    "chroma_12": 0.2200765758752823,
+    "spectral_contrast": 18.75901754607774,
+    "spectral_flatness": 0.0019930924754589796,
+    "zero_crossing_rate": 0.03487506427102376
+  },
+  "rhythm": {
+    "onset_count": 406,
+    "onset_density": 4.349492235616244,
+    "drum_activity": "High",
+    "estimated_bars": 56,
+    "seconds_per_bar": 1.6640088747139985
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.4981095790863037,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5256827473640442,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.5078995227813721,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.48322510719299316,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 64.0,
+      "end": 93.34422916666666,
+      "avg_energy": 0.5039573907852173,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 65,
+    "master": 65,
+    "arrangement": 65,
+    "release": 65,
+    "energy": 9.52398492954414,
+    "bass_strength": 6.312197041214676,
+    "darkness": 3.4597474919007407,
+    "brightness": 6.540252508099259,
+    "drum_bounce": 10,
+    "vocal_space": 2.3998067785255586
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 10166 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Major. Confidence: 48.3%.",
+    "Beat energy: 9.5/10. Darkness: 3.5/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.35 hits/sec.",
+    "Estimated length: 56 bars at 144 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -5.95 dB. Dynamic range: 5.95 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

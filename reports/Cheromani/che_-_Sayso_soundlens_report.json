@@ -1,0 +1,135 @@
+{
+  "basic": {
+    "file_name": "che - Sayso.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Cheromani/che - Sayso.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 128.96364583333335,
+    "bpm": 137.1951219512195,
+    "key": "D Minor",
+    "key_note": "D",
+    "key_mode": "Minor",
+    "key_confidence": 57.14700636447839
+  },
+  "loudness": {
+    "peak_db": 0.02070065464191237,
+    "rms_db": -5.37212856656371,
+    "dynamic_range_db": 5.392829221205622,
+    "clipping_detected": true,
+    "clipping_samples": 207121,
+    "clipping_percent": 3.3459203215376423,
+    "headroom_db": -0.02070065464191237
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 67.60291745220898,
+      "Bass / 808": 12.223079306216194,
+      "Mud": 8.72203131344862,
+      "Low Mids": 6.88873523804178,
+      "Mids / Melody": 2.753983924983668,
+      "Harsh Zone": 2.09478024075802,
+      "Highs": 1.194901163142318,
+      "Air": 0.6143516016792561,
+      "Vocal Range": 3.956739730588083
+    },
+    "brightness_centroid_hz": 3703.1696535133947,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 8048.67708936399,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 79.82599675842518,
+    "mid_total_percent": 18.364750476474068,
+    "top_total_percent": 1.8092527648215742
+  },
+  "rhythm": {
+    "onset_count": 352,
+    "onset_density": 2.729451371550929,
+    "drum_activity": "Medium",
+    "estimated_bars": 74,
+    "seconds_per_bar": 1.7493333333333334
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0,
+      "end": 13.994666666666667,
+      "avg_energy": 0.44612544775009155,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 13.994666666666667,
+      "end": 41.984,
+      "avg_energy": 0.6175410747528076,
+      "energy_label": "High"
+    },
+    {
+      "name": "Hook",
+      "start": 41.984,
+      "end": 55.97866666666667,
+      "avg_energy": 0.48513558506965637,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Middle / Second Movement",
+      "start": 55.97866666666667,
+      "end": 69.97333333333333,
+      "avg_energy": 0.6265128254890442,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro Estimate",
+      "start": 114.96897916666668,
+      "end": 128.96364583333335,
+      "avg_energy": 0.23108451068401337,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 38,
+    "master": 30,
+    "arrangement": 75,
+    "release": 42,
+    "energy": 9.813935716718145,
+    "bass_strength": 10,
+    "darkness": 2.5936606929732102,
+    "brightness": 7.40633930702679,
+    "drum_bounce": 6.823628428877323,
+    "vocal_space": 5.527082440614584
+  },
+  "top_problems": [
+    "Clipping detected: 207121 samples are near/over the limit.",
+    "Low end is dominating the mix; the 808/sub may be swallowing other elements.",
+    "Track is extremely loud and may be crushed or distorted.",
+    "Hook energy does not rise much above the verse estimate.",
+    "Dynamic range is tight, which can make the beat feel flattened."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping and check whether the punch comes back.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Turn the 808 down slightly or carve low-mids so the kick and melody have room.",
+    "Add brightness carefully with hats, open hats, exciter, or a gentle high shelf.",
+    "Make the hook hit harder by adding/removing layers, changing drums, or opening the melody."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Minor. Confidence: 57.1%.",
+    "Beat energy: 9.8/10. Darkness: 2.6/10.",
+    "Vocal space estimate: 5.5/10. Higher means easier space for vocals.",
+    "Because the low end is strong, vocals may need cleanup around low-mids to sit right."
+  ],
+  "producer_notes": [
+    "This has a heavy low-end profile, which can work for rage/trap if controlled.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is medium at 2.73 hits/sec.",
+    "Estimated length: 74 bars at 137 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.02 dB. RMS: -5.37 dB. Dynamic range: 5.39 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping and check whether the punch comes back.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

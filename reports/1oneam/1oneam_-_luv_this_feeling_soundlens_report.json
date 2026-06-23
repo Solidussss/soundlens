@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "1oneam - luv this feeling.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/1oneam/1oneam - luv this feeling.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 94.2498125,
+    "bpm": 165.44,
+    "key": "D Minor",
+    "key_note": "D",
+    "key_mode": "Minor",
+    "key_confidence": 45.479403379271616
+  },
+  "loudness": {
+    "peak_db": 6.109067040362034e-05,
+    "rms_db": -5.815004845579143,
+    "dynamic_range_db": 5.815065936249546,
+    "clipping_detected": true,
+    "clipping_samples": 25895,
+    "clipping_percent": 0.5723928274835206,
+    "headroom_db": -6.109067040362034e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.94306868888333,
+      "Bass / 808": 14.526837709839723,
+      "Mud": 14.655995907288865,
+      "Low Mids": 14.748341442602172,
+      "Mids / Melody": 14.520766520565328,
+      "Harsh Zone": 13.568457239086717,
+      "Highs": 13.12880607165043,
+      "Air": 11.476183657381421,
+      "Vocal Range": 15.451284173107233
+    },
+    "brightness_centroid_hz": 2069.536127573945,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4413.239340482119,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.469906398723055,
+    "mid_total_percent": 43.92510387045637,
+    "top_total_percent": 24.60498972903185
+  },
+  "fingerprint": {
+    "mfcc_1": -99.32981872558594,
+    "mfcc_2": 156.98092651367188,
+    "mfcc_3": -25.078622817993164,
+    "mfcc_4": 30.71282958984375,
+    "mfcc_5": -18.177427291870117,
+    "mfcc_6": 14.905889511108398,
+    "mfcc_7": -6.538087368011475,
+    "mfcc_8": 5.354754447937012,
+    "mfcc_9": 4.514056205749512,
+    "mfcc_10": -1.0751874446868896,
+    "mfcc_11": 4.339509963989258,
+    "mfcc_12": 8.211179733276367,
+    "mfcc_13": 3.149156332015991,
+    "chroma_1": 0.3456316292285919,
+    "chroma_2": 0.4126155972480774,
+    "chroma_3": 0.8816187381744385,
+    "chroma_4": 0.6393933892250061,
+    "chroma_5": 0.4700802266597748,
+    "chroma_6": 0.2915131449699402,
+    "chroma_7": 0.26452773809432983,
+    "chroma_8": 0.35485026240348816,
+    "chroma_9": 0.2637401223182678,
+    "chroma_10": 0.34655070304870605,
+    "chroma_11": 0.23727644979953766,
+    "chroma_12": 0.25027549266815186,
+    "spectral_contrast": 19.675153309557007,
+    "spectral_flatness": 0.00023473215696867555,
+    "zero_crossing_rate": 0.025427041630121095
+  },
+  "rhythm": {
+    "onset_count": 322,
+    "onset_density": 3.416452419998183,
+    "drum_activity": "High",
+    "estimated_bars": 65,
+    "seconds_per_bar": 1.4506769825918762
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 12.0,
+      "avg_energy": 0.30741387605667114,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 12.0,
+      "end": 24.0,
+      "avg_energy": 0.5613137483596802,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 3",
+      "start": 24.0,
+      "end": 36.0,
+      "avg_energy": 0.5484606623649597,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 4",
+      "start": 36.0,
+      "end": 48.0,
+      "avg_energy": 0.5495474338531494,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 5",
+      "start": 48.0,
+      "end": 60.0,
+      "avg_energy": 0.5154889822006226,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 6",
+      "start": 60.0,
+      "end": 72.0,
+      "avg_energy": 0.5292498469352722,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 7",
+      "start": 72.0,
+      "end": 84.0,
+      "avg_energy": 0.5487838387489319,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 8",
+      "start": 84.0,
+      "end": 94.2498125,
+      "avg_energy": 0.48309317231178284,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 65,
+    "master": 65,
+    "arrangement": 71,
+    "release": 67,
+    "energy": 9.592497577210429,
+    "bass_strength": 6.293981279744611,
+    "darkness": 5.86092774485211,
+    "brightness": 4.13907225514789,
+    "drum_bounce": 8.541131049995457,
+    "vocal_space": 2.0306957167127155
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 25895 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Minor. Confidence: 45.5%.",
+    "Beat energy: 9.6/10. Darkness: 5.9/10.",
+    "Vocal space estimate: 2.0/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 3.42 hits/sec.",
+    "Estimated length: 65 bars at 165 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -5.82 dB. Dynamic range: 5.82 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

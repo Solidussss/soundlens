@@ -1,0 +1,173 @@
+{
+  "basic": {
+    "file_name": "Southsidesilhouette - Desperate Ho \u29f8 In Kali.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Southsidesilhouette/Southsidesilhouette - Desperate Ho \u29f8 In Kali.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 103.7119375,
+    "bpm": 156.25,
+    "key": "B Minor",
+    "key_note": "B",
+    "key_mode": "Minor",
+    "key_confidence": 47.02935557940022
+  },
+  "loudness": {
+    "peak_db": -0.022478927341639133,
+    "rms_db": -14.639324197955597,
+    "dynamic_range_db": 14.616845270613958,
+    "clipping_detected": true,
+    "clipping_samples": 1,
+    "clipping_percent": 2.0087690805442078e-05,
+    "headroom_db": 0.022478927341639133
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.8547295592083,
+      "Bass / 808": 14.954082789127565,
+      "Mud": 14.56591423932014,
+      "Low Mids": 14.320549693045503,
+      "Mids / Melody": 14.314131535583355,
+      "Harsh Zone": 13.167292850605422,
+      "Highs": 13.749658172350287,
+      "Air": 12.240934009484988,
+      "Vocal Range": 15.280030170789729
+    },
+    "brightness_centroid_hz": 2844.019327166102,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5919.124595032397,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.808812348335863,
+    "mid_total_percent": 43.200595467949,
+    "top_total_percent": 25.990592181835275
+  },
+  "fingerprint": {
+    "mfcc_1": -163.0291748046875,
+    "mfcc_2": 148.65550231933594,
+    "mfcc_3": -23.816341400146484,
+    "mfcc_4": 37.6550178527832,
+    "mfcc_5": -24.66913414001465,
+    "mfcc_6": 26.720169067382812,
+    "mfcc_7": -3.5756852626800537,
+    "mfcc_8": 11.169290542602539,
+    "mfcc_9": 2.353170156478882,
+    "mfcc_10": 4.407986640930176,
+    "mfcc_11": -0.6099256873130798,
+    "mfcc_12": -2.1438896656036377,
+    "mfcc_13": 6.256990432739258,
+    "chroma_1": 0.46649253368377686,
+    "chroma_2": 0.38389095664024353,
+    "chroma_3": 0.5849575400352478,
+    "chroma_4": 0.3497757017612457,
+    "chroma_5": 0.4860396087169647,
+    "chroma_6": 0.2392493188381195,
+    "chroma_7": 0.4663589596748352,
+    "chroma_8": 0.2656647861003876,
+    "chroma_9": 0.20453216135501862,
+    "chroma_10": 0.3798069953918457,
+    "chroma_11": 0.25656867027282715,
+    "chroma_12": 0.5542455315589905,
+    "spectral_contrast": 20.153225033816497,
+    "spectral_flatness": 0.00024084131291601807,
+    "zero_crossing_rate": 0.052955439904093383
+  },
+  "rhythm": {
+    "onset_count": 625,
+    "onset_density": 6.026307241632622,
+    "drum_activity": "High",
+    "estimated_bars": 68,
+    "seconds_per_bar": 1.536
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.15704046189785004,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.2235703468322754,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.21149136126041412,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.21389739215373993,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.19793559610843658,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 80.0,
+      "end": 103.7119375,
+      "avg_energy": 0.11149898171424866,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 5.1803379010222015,
+    "bass_strength": 6.161762469667172,
+    "darkness": 4.311961345667796,
+    "brightness": 5.688038654332204,
+    "drum_bounce": 10,
+    "vocal_space": 2.12784149097973
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 1 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: B Minor. Confidence: 47.0%.",
+    "Beat energy: 5.2/10. Darkness: 4.3/10.",
+    "Vocal space estimate: 2.1/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.03 hits/sec.",
+    "Estimated length: 68 bars at 156 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.02 dB. RMS: -14.64 dB. Dynamic range: 14.62 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

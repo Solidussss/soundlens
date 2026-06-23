@@ -1,0 +1,157 @@
+{
+  "basic": {
+    "file_name": "Izaya Tiji - Earth is Hell.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Izaya Tiji/Izaya Tiji - Earth is Hell.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 79.67347916666667,
+    "bpm": 145.47,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 46.93648789614896
+  },
+  "loudness": {
+    "peak_db": 0.0002764577420294983,
+    "rms_db": -6.2686542184560405,
+    "dynamic_range_db": 6.26893067619807,
+    "clipping_detected": true,
+    "clipping_samples": 10938,
+    "clipping_percent": 0.2860111073137836,
+    "headroom_db": -0.0002764577420294983
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.631051874298603,
+      "Bass / 808": 14.498839736109431,
+      "Mud": 14.278674295152058,
+      "Low Mids": 14.005091295339621,
+      "Mids / Melody": 13.691797464872089,
+      "Harsh Zone": 12.896169707032518,
+      "Highs": 13.345722276544041,
+      "Air": 12.54882305580638,
+      "Vocal Range": 14.88495884255602
+    },
+    "brightness_centroid_hz": 2080.2137401036402,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4715.15436746988,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.12989161040804,
+    "mid_total_percent": 41.975563055363764,
+    "top_total_percent": 25.89454533235042
+  },
+  "fingerprint": {
+    "mfcc_1": -202.22633361816406,
+    "mfcc_2": 120.20817565917969,
+    "mfcc_3": 21.137332916259766,
+    "mfcc_4": 33.59476089477539,
+    "mfcc_5": -8.473276138305664,
+    "mfcc_6": 36.894004821777344,
+    "mfcc_7": -2.1400420665740967,
+    "mfcc_8": 10.50171184539795,
+    "mfcc_9": 5.606021404266357,
+    "mfcc_10": 8.129976272583008,
+    "mfcc_11": 5.041455268859863,
+    "mfcc_12": 5.29695463180542,
+    "mfcc_13": 3.4959499835968018,
+    "chroma_1": 0.4379739761352539,
+    "chroma_2": 0.6249606609344482,
+    "chroma_3": 0.5775167942047119,
+    "chroma_4": 0.6677150130271912,
+    "chroma_5": 0.6532726883888245,
+    "chroma_6": 0.5121352076530457,
+    "chroma_7": 0.36340662837028503,
+    "chroma_8": 0.271173357963562,
+    "chroma_9": 0.2570066452026367,
+    "chroma_10": 0.36226171255111694,
+    "chroma_11": 0.21755832433700562,
+    "chroma_12": 0.19005180895328522,
+    "spectral_contrast": 18.664372208021934,
+    "spectral_flatness": 0.0002684272767510265,
+    "zero_crossing_rate": 0.013100840863453814
+  },
+  "rhythm": {
+    "onset_count": 440,
+    "onset_density": 5.5225403057845215,
+    "drum_activity": "High",
+    "estimated_bars": 48,
+    "seconds_per_bar": 1.6498247061249742
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.012052929028868675,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5195174813270569,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.5560445189476013,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 48.0,
+      "end": 79.67347916666667,
+      "avg_energy": 0.5489567518234253,
+      "energy_label": "High"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 71,
+    "release": 78,
+    "energy": 9.365672890771979,
+    "bass_strength": 6.425978322081607,
+    "darkness": 5.8395725197927195,
+    "brightness": 4.1604274802072805,
+    "drum_bounce": 10,
+    "vocal_space": 2.2878029540335163
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 10938 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 46.9%.",
+    "Beat energy: 9.4/10. Darkness: 5.8/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.52 hits/sec.",
+    "Estimated length: 48 bars at 145 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -6.27 dB. Dynamic range: 6.27 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

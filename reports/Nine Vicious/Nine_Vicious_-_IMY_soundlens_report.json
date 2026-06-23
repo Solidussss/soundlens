@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Nine Vicious - IMY.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Nine Vicious/Nine Vicious - IMY.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 139.8675625,
+    "bpm": 152.03,
+    "key": "C# Major",
+    "key_note": "C#",
+    "key_mode": "Major",
+    "key_confidence": 45.32552314363413
+  },
+  "loudness": {
+    "peak_db": -8.542411552559219e-05,
+    "rms_db": -8.144579287017336,
+    "dynamic_range_db": 8.144493862901811,
+    "clipping_detected": true,
+    "clipping_samples": 1086,
+    "clipping_percent": 0.016176016508473865,
+    "headroom_db": 8.542411552559219e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.003329396154285,
+      "Bass / 808": 14.007065144011008,
+      "Mud": 14.386604221681786,
+      "Low Mids": 14.630103990997062,
+      "Mids / Melody": 14.245433949317448,
+      "Harsh Zone": 13.409232526086868,
+      "Highs": 13.669724725347162,
+      "Air": 13.057738570774527,
+      "Vocal Range": 15.200132153987559
+    },
+    "brightness_centroid_hz": 3615.3663878964853,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 8243.633464882178,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.010394540165294,
+    "mid_total_percent": 43.262142161996294,
+    "top_total_percent": 26.72746329612169
+  },
+  "fingerprint": {
+    "mfcc_1": -77.60873413085938,
+    "mfcc_2": 123.92644500732422,
+    "mfcc_3": -0.527481198310852,
+    "mfcc_4": 44.27035140991211,
+    "mfcc_5": -22.920665740966797,
+    "mfcc_6": 31.892379760742188,
+    "mfcc_7": -14.84180736541748,
+    "mfcc_8": 6.775469779968262,
+    "mfcc_9": -2.432631492614746,
+    "mfcc_10": 12.440299987792969,
+    "mfcc_11": -11.29438591003418,
+    "mfcc_12": 3.354135751724243,
+    "mfcc_13": 1.7757312059402466,
+    "chroma_1": 0.5151327252388,
+    "chroma_2": 0.7068727016448975,
+    "chroma_3": 0.34391018748283386,
+    "chroma_4": 0.3721424639225006,
+    "chroma_5": 0.38984736800193787,
+    "chroma_6": 0.3331824839115143,
+    "chroma_7": 0.3118130564689636,
+    "chroma_8": 0.21489445865154266,
+    "chroma_9": 0.35700127482414246,
+    "chroma_10": 0.22400884330272675,
+    "chroma_11": 0.3980255424976349,
+    "chroma_12": 0.27571964263916016,
+    "spectral_contrast": 20.277701626783582,
+    "spectral_flatness": 0.0013374087866395712,
+    "zero_crossing_rate": 0.051834631246186993
+  },
+  "rhythm": {
+    "onset_count": 650,
+    "onset_density": 4.6472533615505025,
+    "drum_activity": "High",
+    "estimated_bars": 89,
+    "seconds_per_bar": 1.5786357955666646
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.3566182255744934,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.4406023919582367,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.4448237419128418,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.4246313273906708,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.4208882451057434,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.35934656858444214,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.4428770840167999,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 139.8675625,
+      "avg_energy": 0.2816874384880066,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 8.427710356491332,
+    "bass_strength": 6.0020789080330585,
+    "darkness": 2.769267224207029,
+    "brightness": 7.230732775792971,
+    "drum_bounce": 10,
+    "vocal_space": 2.155343455470562
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 1086 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Major. Confidence: 45.3%.",
+    "Beat energy: 8.4/10. Darkness: 2.8/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.65 hits/sec.",
+    "Estimated length: 89 bars at 152 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -8.14 dB. Dynamic range: 8.14 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

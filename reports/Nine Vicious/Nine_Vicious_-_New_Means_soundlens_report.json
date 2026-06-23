@@ -1,0 +1,194 @@
+{
+  "basic": {
+    "file_name": "Nine Vicious - New Means.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Nine Vicious/Nine Vicious - New Means.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 146.66666666666666,
+    "bpm": 144.23,
+    "key": "C Major",
+    "key_note": "C",
+    "key_mode": "Major",
+    "key_confidence": 45.02525764687027
+  },
+  "loudness": {
+    "peak_db": 0.0005777555973548458,
+    "rms_db": -6.178930130735103,
+    "dynamic_range_db": 6.179507886332458,
+    "clipping_detected": true,
+    "clipping_samples": 31084,
+    "clipping_percent": 0.44153409090909085,
+    "headroom_db": -0.0005777555973548458
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.372504612563233,
+      "Bass / 808": 13.665944821307473,
+      "Mud": 13.996405682685618,
+      "Low Mids": 14.737965339797892,
+      "Mids / Melody": 14.457330495582168,
+      "Harsh Zone": 13.659971098855536,
+      "Highs": 14.03280912119412,
+      "Air": 12.737039925164112,
+      "Vocal Range": 15.245492669203516
+    },
+    "brightness_centroid_hz": 3309.8982249405785,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 7160.654793287761,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.038449433870706,
+    "mid_total_percent": 43.19170151806568,
+    "top_total_percent": 26.76984904635823
+  },
+  "fingerprint": {
+    "mfcc_1": -76.37007141113281,
+    "mfcc_2": 127.09711456298828,
+    "mfcc_3": -14.608293533325195,
+    "mfcc_4": 39.725502014160156,
+    "mfcc_5": -28.652488708496094,
+    "mfcc_6": 24.747303009033203,
+    "mfcc_7": -17.158763885498047,
+    "mfcc_8": 9.050148963928223,
+    "mfcc_9": 4.906042575836182,
+    "mfcc_10": 14.31859016418457,
+    "mfcc_11": -3.9948582649230957,
+    "mfcc_12": 10.65015983581543,
+    "mfcc_13": 5.892041206359863,
+    "chroma_1": 0.9158346652984619,
+    "chroma_2": 0.6672836542129517,
+    "chroma_3": 0.42250990867614746,
+    "chroma_4": 0.33405375480651855,
+    "chroma_5": 0.29366177320480347,
+    "chroma_6": 0.23896202445030212,
+    "chroma_7": 0.3706290125846863,
+    "chroma_8": 0.2485382854938507,
+    "chroma_9": 0.20776155591011047,
+    "chroma_10": 0.2517077326774597,
+    "chroma_11": 0.17434115707874298,
+    "chroma_12": 0.28589704632759094,
+    "spectral_contrast": 19.183654205784695,
+    "spectral_flatness": 0.001978825544938445,
+    "zero_crossing_rate": 0.04141105078721548
+  },
+  "rhythm": {
+    "onset_count": 933,
+    "onset_density": 6.361363636363636,
+    "drum_activity": "High",
+    "estimated_bars": 88,
+    "seconds_per_bar": 1.6640088747139985
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.3928010165691376,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5105383992195129,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.5089139938354492,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.5178830027580261,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.5203772783279419,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.4306409955024719,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.5060710906982422,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 112.0,
+      "end": 128.0,
+      "avg_energy": 0.5035200715065002,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 128.0,
+      "end": 146.66666666666666,
+      "avg_energy": 0.5084443092346191,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 75,
+    "release": 79,
+    "energy": 9.410534934632448,
+    "bass_strength": 6.007689886774141,
+    "darkness": 3.3802035501188428,
+    "brightness": 6.619796449881157,
+    "drum_bounce": 10,
+    "vocal_space": 2.296014106954626
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 31084 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Major. Confidence: 45.0%.",
+    "Beat energy: 9.4/10. Darkness: 3.4/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.36 hits/sec.",
+    "Estimated length: 88 bars at 144 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -6.18 dB. Dynamic range: 6.18 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

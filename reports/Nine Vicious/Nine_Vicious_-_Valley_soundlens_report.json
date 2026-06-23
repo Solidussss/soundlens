@@ -1,0 +1,173 @@
+{
+  "basic": {
+    "file_name": "Nine Vicious - Valley.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Nine Vicious/Nine Vicious - Valley.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 109.71429166666667,
+    "bpm": 140.62,
+    "key": "D Major",
+    "key_note": "D",
+    "key_mode": "Major",
+    "key_confidence": 49.90321053271974
+  },
+  "loudness": {
+    "peak_db": 0.00022468729889312835,
+    "rms_db": -11.066985162993356,
+    "dynamic_range_db": 11.06720985029225,
+    "clipping_detected": true,
+    "clipping_samples": 2026,
+    "clipping_percent": 0.03847113506558512,
+    "headroom_db": -0.00022468729889312835
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.395479027718837,
+      "Bass / 808": 14.452005015709545,
+      "Mud": 14.233172382389276,
+      "Low Mids": 14.933927808367459,
+      "Mids / Melody": 14.707965039909624,
+      "Harsh Zone": 13.906970389451317,
+      "Highs": 13.279101164791648,
+      "Air": 12.998349559341941,
+      "Vocal Range": 15.482199718730797
+    },
+    "brightness_centroid_hz": 3583.6254755497557,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 8279.858545595956,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 29.84748404342838,
+    "mid_total_percent": 43.87506523066636,
+    "top_total_percent": 26.277450724133587
+  },
+  "fingerprint": {
+    "mfcc_1": -81.44733428955078,
+    "mfcc_2": 135.4564971923828,
+    "mfcc_3": -18.286357879638672,
+    "mfcc_4": 33.58177947998047,
+    "mfcc_5": -21.110679626464844,
+    "mfcc_6": 30.753847122192383,
+    "mfcc_7": -21.887786865234375,
+    "mfcc_8": 18.231460571289062,
+    "mfcc_9": -7.383208751678467,
+    "mfcc_10": 16.464384078979492,
+    "mfcc_11": -7.310829162597656,
+    "mfcc_12": 6.346872329711914,
+    "mfcc_13": 6.276556015014648,
+    "chroma_1": 0.14453865587711334,
+    "chroma_2": 0.28729867935180664,
+    "chroma_3": 0.6708635687828064,
+    "chroma_4": 0.221134752035141,
+    "chroma_5": 0.38330233097076416,
+    "chroma_6": 0.1439136564731598,
+    "chroma_7": 0.23498006165027618,
+    "chroma_8": 0.10053683072328568,
+    "chroma_9": 0.163404181599617,
+    "chroma_10": 0.17645974457263947,
+    "chroma_11": 0.11187958717346191,
+    "chroma_12": 0.32180893421173096,
+    "spectral_contrast": 19.470092707942555,
+    "spectral_flatness": 0.0015423326985910535,
+    "zero_crossing_rate": 0.06060108627624927
+  },
+  "rhythm": {
+    "onset_count": 660,
+    "onset_density": 6.015624673631474,
+    "drum_activity": "High",
+    "estimated_bars": 64,
+    "seconds_per_bar": 1.7067273503057887
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.15245822072029114,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.3357398808002472,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.3186665177345276,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.31662023067474365,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.33786311745643616,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 80.0,
+      "end": 109.71429166666667,
+      "avg_energy": 0.21322205662727356,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 6.966507418503322,
+    "bass_strength": 5.969496808685676,
+    "darkness": 2.8327490489004887,
+    "brightness": 7.167250951099511,
+    "drum_bounce": 10,
+    "vocal_space": 2.173312788706081
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 2026 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Major. Confidence: 49.9%.",
+    "Beat energy: 7.0/10. Darkness: 2.8/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.02 hits/sec.",
+    "Estimated length: 64 bars at 141 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -11.07 dB. Dynamic range: 11.07 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

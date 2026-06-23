@@ -1,0 +1,166 @@
+{
+  "basic": {
+    "file_name": "Nino Paid - Meezy.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Nino Paid/Nino Paid - Meezy.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 92.9698125,
+    "bpm": 125.0,
+    "key": "B Major",
+    "key_note": "B",
+    "key_mode": "Major",
+    "key_confidence": 46.41835530434273
+  },
+  "loudness": {
+    "peak_db": -4.814803452645077e-05,
+    "rms_db": -16.1868117780261,
+    "dynamic_range_db": 16.186763629991574,
+    "clipping_detected": true,
+    "clipping_samples": 8,
+    "clipping_percent": 0.00017926965988736038,
+    "headroom_db": 4.814803452645077e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.568988768595535,
+      "Bass / 808": 15.476190156472283,
+      "Mud": 15.182053714040189,
+      "Low Mids": 14.633217926302155,
+      "Mids / Melody": 14.103241629187455,
+      "Harsh Zone": 13.185550325074539,
+      "Highs": 13.4308115981744,
+      "Air": 11.605496205287679,
+      "Vocal Range": 15.559732962855943
+    },
+    "brightness_centroid_hz": 2289.490143280064,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4773.989645479578,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.045178925067816,
+    "mid_total_percent": 43.9185132695298,
+    "top_total_percent": 25.03630780346208
+  },
+  "fingerprint": {
+    "mfcc_1": -219.8188934326172,
+    "mfcc_2": 142.22027587890625,
+    "mfcc_3": 4.6347246170043945,
+    "mfcc_4": 36.82378005981445,
+    "mfcc_5": -3.6620962619781494,
+    "mfcc_6": 20.819110870361328,
+    "mfcc_7": -5.6338210105896,
+    "mfcc_8": 2.6817920207977295,
+    "mfcc_9": 5.529600143432617,
+    "mfcc_10": 2.774599552154541,
+    "mfcc_11": 1.0077437162399292,
+    "mfcc_12": -3.460270404815674,
+    "mfcc_13": 6.199756145477295,
+    "chroma_1": 0.36701712012290955,
+    "chroma_2": 0.4594312608242035,
+    "chroma_3": 0.49757859110832214,
+    "chroma_4": 0.5970972776412964,
+    "chroma_5": 0.36245566606521606,
+    "chroma_6": 0.4546271562576294,
+    "chroma_7": 0.6015959978103638,
+    "chroma_8": 0.42068830132484436,
+    "chroma_9": 0.4192022681236267,
+    "chroma_10": 0.4396912753582001,
+    "chroma_11": 0.4819044768810272,
+    "chroma_12": 0.692274272441864,
+    "spectral_contrast": 20.53203351890807,
+    "spectral_flatness": 0.0005039726383984089,
+    "zero_crossing_rate": 0.04450838212411083
+  },
+  "rhythm": {
+    "onset_count": 533,
+    "onset_density": 5.733043723197785,
+    "drum_activity": "High",
+    "estimated_bars": 48,
+    "seconds_per_bar": 1.92
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.16504283249378204,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.17175109684467316,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.17492344975471497,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.16296496987342834,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 64.0,
+      "end": 92.9698125,
+      "avg_energy": 0.11964192241430283,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 70,
+    "master": 70,
+    "arrangement": 65,
+    "release": 68,
+    "energy": 4.4065941109869495,
+    "bass_strength": 6.209035785013564,
+    "darkness": 5.421019713439872,
+    "brightness": 4.578980286560128,
+    "drum_bounce": 10,
+    "vocal_space": 1.8367188106264738
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 8 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is quiet for the selected style.",
+    "Dynamic range is wide, so some sections may feel uneven.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: B Major. Confidence: 46.4%.",
+    "Beat energy: 4.4/10. Darkness: 5.4/10.",
+    "Vocal space estimate: 1.8/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.73 hits/sec.",
+    "Estimated length: 48 bars at 125 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: -0.00 dB. RMS: -16.19 dB. Dynamic range: 16.19 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

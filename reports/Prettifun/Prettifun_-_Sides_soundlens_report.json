@@ -1,0 +1,194 @@
+{
+  "basic": {
+    "file_name": "Prettifun - Sides.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Prettifun/Prettifun - Sides.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 157.88958333333332,
+    "bpm": 145.47,
+    "key": "D Minor",
+    "key_note": "D",
+    "key_mode": "Minor",
+    "key_confidence": 46.42221165406856
+  },
+  "loudness": {
+    "peak_db": 0.00015842068141444474,
+    "rms_db": -4.892128824856542,
+    "dynamic_range_db": 4.892287245537956,
+    "clipping_detected": true,
+    "clipping_samples": 16256,
+    "clipping_percent": 0.21449588979640305,
+    "headroom_db": -0.00015842068141444474
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.351567503732408,
+      "Bass / 808": 15.092650616391149,
+      "Mud": 13.815839481186568,
+      "Low Mids": 13.808789893661555,
+      "Mids / Melody": 13.71537276889667,
+      "Harsh Zone": 13.281026021488493,
+      "Highs": 13.467600452012393,
+      "Air": 12.7481792823559,
+      "Vocal Range": 14.457177051615638
+    },
+    "brightness_centroid_hz": 2925.518005823042,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6816.195935790042,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.44421812012356,
+    "mid_total_percent": 41.34000214374479,
+    "top_total_percent": 26.215779734368294
+  },
+  "fingerprint": {
+    "mfcc_1": -105.26786804199219,
+    "mfcc_2": 122.75054168701172,
+    "mfcc_3": -4.5946502685546875,
+    "mfcc_4": 58.69649887084961,
+    "mfcc_5": -12.002230644226074,
+    "mfcc_6": 26.52352523803711,
+    "mfcc_7": -4.0586323738098145,
+    "mfcc_8": 22.31928062438965,
+    "mfcc_9": 3.610212564468384,
+    "mfcc_10": 6.372738838195801,
+    "mfcc_11": 8.191758155822754,
+    "mfcc_12": 9.225610733032227,
+    "mfcc_13": 5.828643798828125,
+    "chroma_1": 0.38026246428489685,
+    "chroma_2": 0.25757449865341187,
+    "chroma_3": 0.5263416767120361,
+    "chroma_4": 0.30223241448402405,
+    "chroma_5": 0.5414775013923645,
+    "chroma_6": 0.3745060861110687,
+    "chroma_7": 0.24310444295406342,
+    "chroma_8": 0.25841224193573,
+    "chroma_9": 0.14231576025485992,
+    "chroma_10": 0.2026142179965973,
+    "chroma_11": 0.1208529844880104,
+    "chroma_12": 0.179864764213562,
+    "spectral_contrast": 18.806085349467402,
+    "spectral_flatness": 0.0007375982240773737,
+    "zero_crossing_rate": 0.028563051250168885
+  },
+  "rhythm": {
+    "onset_count": 680,
+    "onset_density": 4.306807236069511,
+    "drum_activity": "High",
+    "estimated_bars": 96,
+    "seconds_per_bar": 1.6498247061249742
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.581177830696106,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5972133874893188,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.6187791228294373,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.5835652351379395,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.6345801949501038,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.5548797845840454,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.615111768245697,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 112.0,
+      "end": 128.0,
+      "avg_energy": 0.6329568028450012,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 128.0,
+      "end": 157.88958333333332,
+      "avg_energy": 0.39508742094039917,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 65,
+    "master": 65,
+    "arrangement": 81,
+    "release": 70,
+    "energy": 10,
+    "bass_strength": 6.488843624024712,
+    "darkness": 4.148963988353915,
+    "brightness": 5.851036011646085,
+    "drum_bounce": 10,
+    "vocal_space": 2.5009799370022936
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 16256 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Minor. Confidence: 46.4%.",
+    "Beat energy: 10.0/10. Darkness: 4.1/10.",
+    "Vocal space estimate: 2.5/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.31 hits/sec.",
+    "Estimated length: 96 bars at 145 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -4.89 dB. Dynamic range: 4.89 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

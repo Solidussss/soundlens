@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Xaviersobased - Party At My Place.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Xaviersobased/Xaviersobased - Party At My Place.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 141.6,
+    "bpm": 150.67,
+    "key": "C Major",
+    "key_note": "C",
+    "key_mode": "Major",
+    "key_confidence": 45.21631776635835
+  },
+  "loudness": {
+    "peak_db": 7.248068105962326e-06,
+    "rms_db": -7.1772461466308,
+    "dynamic_range_db": 7.177253394698906,
+    "clipping_detected": true,
+    "clipping_samples": 9424,
+    "clipping_percent": 0.13865348399246705,
+    "headroom_db": -7.248068105962326e-06
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.406617483796165,
+      "Bass / 808": 14.723654405383298,
+      "Mud": 14.008079071319637,
+      "Low Mids": 14.124564318612446,
+      "Mids / Melody": 14.489316019728832,
+      "Harsh Zone": 13.733231969452431,
+      "Highs": 13.605958698265574,
+      "Air": 12.641810001163847,
+      "Vocal Range": 15.000684522792238
+    },
+    "brightness_centroid_hz": 3649.0493526013056,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 7706.033208421211,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.13027188917946,
+    "mid_total_percent": 42.62195940966092,
+    "top_total_percent": 26.24776869942942
+  },
+  "fingerprint": {
+    "mfcc_1": -93.91600799560547,
+    "mfcc_2": 109.01026153564453,
+    "mfcc_3": -16.76641082763672,
+    "mfcc_4": 43.86825942993164,
+    "mfcc_5": -11.408472061157227,
+    "mfcc_6": 30.020626068115234,
+    "mfcc_7": -5.788290023803711,
+    "mfcc_8": 20.30213737487793,
+    "mfcc_9": -4.297248840332031,
+    "mfcc_10": 9.713973045349121,
+    "mfcc_11": -1.0922468900680542,
+    "mfcc_12": 8.616549491882324,
+    "mfcc_13": 1.7941406965255737,
+    "chroma_1": 0.8310916423797607,
+    "chroma_2": 0.6991883516311646,
+    "chroma_3": 0.7832037806510925,
+    "chroma_4": 0.6698449850082397,
+    "chroma_5": 0.6563534140586853,
+    "chroma_6": 0.6668115258216858,
+    "chroma_7": 0.5651903748512268,
+    "chroma_8": 0.42500054836273193,
+    "chroma_9": 0.4484037160873413,
+    "chroma_10": 0.4941631257534027,
+    "chroma_11": 0.4197010397911072,
+    "chroma_12": 0.367696076631546,
+    "spectral_contrast": 18.31810713254961,
+    "spectral_flatness": 0.0025380251463502645,
+    "zero_crossing_rate": 0.060217075514556344
+  },
+  "rhythm": {
+    "onset_count": 689,
+    "onset_density": 4.8658192090395485,
+    "drum_activity": "High",
+    "estimated_bars": 89,
+    "seconds_per_bar": 1.5928851131612134
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.3488616943359375,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.37275275588035583,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.3611425459384918,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.4646202623844147,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.42019400000572205,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.4919333755970001,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.5074924826622009,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 141.6,
+      "avg_energy": 0.47199174761772156,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 75,
+    "release": 79,
+    "energy": 8.9113769266846,
+    "bass_strength": 6.226054377835892,
+    "darkness": 2.7019012947973886,
+    "brightness": 7.298098705202611,
+    "drum_bounce": 10,
+    "vocal_space": 2.378973468813225
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 9424 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Major. Confidence: 45.2%.",
+    "Beat energy: 8.9/10. Darkness: 2.7/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.87 hits/sec.",
+    "Estimated length: 89 bars at 151 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -7.18 dB. Dynamic range: 7.18 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

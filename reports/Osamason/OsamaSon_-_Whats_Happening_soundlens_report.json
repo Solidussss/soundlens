@@ -1,0 +1,188 @@
+{
+  "basic": {
+    "file_name": "OsamaSon - Whats Happening.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Osamason/OsamaSon - Whats Happening.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 130.63547916666667,
+    "bpm": 148.03,
+    "key": "C# Minor / Try C Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 46.97051453475021
+  },
+  "loudness": {
+    "peak_db": 0.001535419923415194,
+    "rms_db": -4.213401397313472,
+    "dynamic_range_db": 4.214936817236887,
+    "clipping_detected": true,
+    "clipping_samples": 245419,
+    "clipping_percent": 3.913864645308359,
+    "headroom_db": -0.001535419923415194
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.498687615852745,
+      "Bass / 808": 14.180303235437625,
+      "Mud": 13.807110603302327,
+      "Low Mids": 14.431162021918848,
+      "Mids / Melody": 14.494151089284571,
+      "Harsh Zone": 13.923795639491912,
+      "Highs": 13.832609329225026,
+      "Air": 12.755976103286521,
+      "Vocal Range": 15.076144700519636
+    },
+    "brightness_centroid_hz": 3825.8956299698543,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 8753.372361814174,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.678990851290372,
+    "mid_total_percent": 42.73242371450574,
+    "top_total_percent": 26.588585432511547
+  },
+  "fingerprint": {
+    "mfcc_1": -6.017725467681885,
+    "mfcc_2": 110.22126007080078,
+    "mfcc_3": -21.123580932617188,
+    "mfcc_4": 37.162593841552734,
+    "mfcc_5": -14.537864685058594,
+    "mfcc_6": 29.820817947387695,
+    "mfcc_7": -8.436984062194824,
+    "mfcc_8": 17.0398006439209,
+    "mfcc_9": -4.742455005645752,
+    "mfcc_10": 17.128934860229492,
+    "mfcc_11": 1.567392349243164,
+    "mfcc_12": 16.52911376953125,
+    "mfcc_13": 1.1802178621292114,
+    "chroma_1": 0.7079304456710815,
+    "chroma_2": 0.7244460582733154,
+    "chroma_3": 0.7734776735305786,
+    "chroma_4": 0.7737123966217041,
+    "chroma_5": 0.6282678246498108,
+    "chroma_6": 0.5685839056968689,
+    "chroma_7": 0.49849918484687805,
+    "chroma_8": 0.4218478202819824,
+    "chroma_9": 0.6198002696037292,
+    "chroma_10": 0.5190853476524353,
+    "chroma_11": 0.3963664770126343,
+    "chroma_12": 0.5265997052192688,
+    "spectral_contrast": 15.656074836664681,
+    "spectral_flatness": 0.00461598252877593,
+    "zero_crossing_rate": 0.03556934359181091
+  },
+  "rhythm": {
+    "onset_count": 598,
+    "onset_density": 4.577623198649295,
+    "drum_activity": "High",
+    "estimated_bars": 81,
+    "seconds_per_bar": 1.621292981152469
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.6443235874176025,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5967634916305542,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.600064754486084,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.5986661911010742,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.6000058054924011,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.5952703356742859,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.6227701306343079,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 130.63547916666667,
+      "avg_energy": 0.6569157242774963,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 75,
+    "release": 60,
+    "energy": 10,
+    "bass_strength": 6.135798170258075,
+    "darkness": 2.348208740060292,
+    "brightness": 7.651791259939708,
+    "drum_bounce": 10,
+    "vocal_space": 2.415561184119234
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 245419 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor / Try C Minor. Confidence: 47.0%.",
+    "Beat energy: 10.0/10. Darkness: 2.3/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.58 hits/sec.",
+    "Estimated length: 81 bars at 148 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -4.21 dB. Dynamic range: 4.21 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

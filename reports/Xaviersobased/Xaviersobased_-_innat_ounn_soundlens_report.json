@@ -1,0 +1,162 @@
+{
+  "basic": {
+    "file_name": "Xaviersobased - innat ounn.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Xaviersobased/Xaviersobased - innat ounn.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 83.2,
+    "bpm": 168.75,
+    "key": "C# Major",
+    "key_note": "C#",
+    "key_mode": "Major",
+    "key_confidence": 47.80694201476342
+  },
+  "loudness": {
+    "peak_db": -0.5067419872369345,
+    "rms_db": -13.088452007220543,
+    "dynamic_range_db": 12.581710019983609,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.5067419872369345
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.46356900105528,
+      "Bass / 808": 15.198291286286175,
+      "Mud": 13.773555371645424,
+      "Low Mids": 13.60470781062825,
+      "Mids / Melody": 13.367971579888927,
+      "Harsh Zone": 13.255400492186425,
+      "Highs": 14.165126616577703,
+      "Air": 12.426778331915903,
+      "Vocal Range": 14.387258328631876
+    },
+    "brightness_centroid_hz": 3145.746808558342,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6605.643507242661,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.661860287341455,
+    "mid_total_percent": 40.7462347621626,
+    "top_total_percent": 26.591904948493607
+  },
+  "fingerprint": {
+    "mfcc_1": -220.65716552734375,
+    "mfcc_2": 112.58527374267578,
+    "mfcc_3": 4.88184118270874,
+    "mfcc_4": 50.96295166015625,
+    "mfcc_5": -14.072304725646973,
+    "mfcc_6": 9.586020469665527,
+    "mfcc_7": -9.69633960723877,
+    "mfcc_8": -0.43151307106018066,
+    "mfcc_9": 2.3272478580474854,
+    "mfcc_10": 5.337298393249512,
+    "mfcc_11": -3.208183765411377,
+    "mfcc_12": 10.51157283782959,
+    "mfcc_13": 2.4923136234283447,
+    "chroma_1": 0.40516161918640137,
+    "chroma_2": 0.5780081748962402,
+    "chroma_3": 0.38107025623321533,
+    "chroma_4": 0.4450860917568207,
+    "chroma_5": 0.26604121923446655,
+    "chroma_6": 0.5177419781684875,
+    "chroma_7": 0.35357412695884705,
+    "chroma_8": 0.33359912037849426,
+    "chroma_9": 0.30898281931877136,
+    "chroma_10": 0.18877378106117249,
+    "chroma_11": 0.25211799144744873,
+    "chroma_12": 0.15845243632793427,
+    "spectral_contrast": 19.411193620939585,
+    "spectral_flatness": 0.0014283605851233006,
+    "zero_crossing_rate": 0.05969918970724907
+  },
+  "rhythm": {
+    "onset_count": 417,
+    "onset_density": 5.012019230769231,
+    "drum_activity": "High",
+    "estimated_bars": 58,
+    "seconds_per_bar": 1.4222222222222223
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.20802894234657288,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.20777177810668945,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.24256394803524017,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.2450954169034958,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 64.0,
+      "end": 83.2,
+      "avg_energy": 0.2041422724723816,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 94,
+    "master": 94,
+    "arrangement": 71,
+    "release": 87,
+    "energy": 5.955773996389729,
+    "bass_strength": 6.532372057468291,
+    "darkness": 3.708506382883316,
+    "brightness": 6.291493617116684,
+    "drum_bounce": 10,
+    "vocal_space": 2.547048164109224
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Major. Confidence: 47.8%.",
+    "Beat energy: 6.0/10. Darkness: 3.7/10.",
+    "Vocal space estimate: 2.5/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.01 hits/sec.",
+    "Estimated length: 58 bars at 169 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.51 dB. RMS: -13.09 dB. Dynamic range: 12.58 dB."
+  ],
+  "next_steps": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

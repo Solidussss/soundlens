@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Nino Paid - Joey Storywav.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Nino Paid/Nino Paid - Joey Storywav.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 128.77333333333334,
+    "bpm": 133.93,
+    "key": "C Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 45.463360291313144
+  },
+  "loudness": {
+    "peak_db": -0.00010095586315622375,
+    "rms_db": -8.838292385255357,
+    "dynamic_range_db": 8.838191429392202,
+    "clipping_detected": true,
+    "clipping_samples": 5253,
+    "clipping_percent": 0.08498459826050941,
+    "headroom_db": 0.00010095586315622375
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.876714439329174,
+      "Bass / 808": 14.843615119467007,
+      "Mud": 14.291495377199857,
+      "Low Mids": 13.873953369927372,
+      "Mids / Melody": 14.166831786989531,
+      "Harsh Zone": 13.734024691655222,
+      "Highs": 13.809754143124724,
+      "Air": 12.137635762150921,
+      "Vocal Range": 14.869045704128142
+    },
+    "brightness_centroid_hz": 2654.997512291597,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5524.779595999337,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.72032955879618,
+    "mid_total_percent": 42.33228053411676,
+    "top_total_percent": 25.947389905275646
+  },
+  "fingerprint": {
+    "mfcc_1": -144.06700134277344,
+    "mfcc_2": 137.96116638183594,
+    "mfcc_3": -16.234907150268555,
+    "mfcc_4": 45.55247116088867,
+    "mfcc_5": -1.688324213027954,
+    "mfcc_6": 29.45099639892578,
+    "mfcc_7": -6.310939788818359,
+    "mfcc_8": 8.667222023010254,
+    "mfcc_9": 5.690796375274658,
+    "mfcc_10": 6.887879848480225,
+    "mfcc_11": -1.700603723526001,
+    "mfcc_12": 4.4922943115234375,
+    "mfcc_13": 2.9264426231384277,
+    "chroma_1": 0.5883362889289856,
+    "chroma_2": 0.58452308177948,
+    "chroma_3": 0.5131840705871582,
+    "chroma_4": 0.7101154327392578,
+    "chroma_5": 0.4108518362045288,
+    "chroma_6": 0.4149688184261322,
+    "chroma_7": 0.44768026471138,
+    "chroma_8": 0.2905830442905426,
+    "chroma_9": 0.28515830636024475,
+    "chroma_10": 0.26623737812042236,
+    "chroma_11": 0.35003694891929626,
+    "chroma_12": 0.34601083397865295,
+    "spectral_contrast": 18.7998113344572,
+    "spectral_flatness": 0.0007196692167781293,
+    "zero_crossing_rate": 0.0335644118720492
+  },
+  "rhythm": {
+    "onset_count": 723,
+    "onset_density": 5.614516463035825,
+    "drum_activity": "High",
+    "estimated_bars": 72,
+    "seconds_per_bar": 1.7919808855372208
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.14447876811027527,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.4229518175125122,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.4251910448074341,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.4322386384010315,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.2964678704738617,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.35464242100715637,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.42898041009902954,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 128.77333333333334,
+      "avg_energy": 0.2874058187007904,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 8.080853807372321,
+    "bass_strength": 6.344065911759236,
+    "darkness": 4.690004975416806,
+    "brightness": 5.309995024583194,
+    "drum_bounce": 10,
+    "vocal_space": 2.3014085105590043
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 5253 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor. Confidence: 45.5%.",
+    "Beat energy: 8.1/10. Darkness: 4.7/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.61 hits/sec.",
+    "Estimated length: 72 bars at 134 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -8.84 dB. Dynamic range: 8.84 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

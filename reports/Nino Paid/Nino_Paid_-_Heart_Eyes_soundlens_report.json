@@ -1,0 +1,171 @@
+{
+  "basic": {
+    "file_name": "Nino Paid - Heart Eyes.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Nino Paid/Nino Paid - Heart Eyes.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 96.0130625,
+    "bpm": 140.62,
+    "key": "G Minor",
+    "key_note": "G",
+    "key_mode": "Minor",
+    "key_confidence": 47.55290476921797
+  },
+  "loudness": {
+    "peak_db": -0.1138390640405686,
+    "rms_db": -11.064698357390908,
+    "dynamic_range_db": 10.950859293350339,
+    "clipping_detected": true,
+    "clipping_samples": 4,
+    "clipping_percent": 8.679374572947648e-05,
+    "headroom_db": 0.1138390640405686
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.18877322340978,
+      "Bass / 808": 15.139893508151303,
+      "Mud": 14.450377047053934,
+      "Low Mids": 14.283105933517948,
+      "Mids / Melody": 14.39936080325116,
+      "Harsh Zone": 13.744053189780022,
+      "Highs": 13.464851579455047,
+      "Air": 12.073637903328738,
+      "Vocal Range": 15.165177548909217
+    },
+    "brightness_centroid_hz": 2459.284080443464,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5393.06716562986,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.328666731561082,
+    "mid_total_percent": 43.13284378382304,
+    "top_total_percent": 25.538489482783785
+  },
+  "fingerprint": {
+    "mfcc_1": -159.50462341308594,
+    "mfcc_2": 140.87762451171875,
+    "mfcc_3": -3.3292810916900635,
+    "mfcc_4": 41.20214080810547,
+    "mfcc_5": -0.4335976541042328,
+    "mfcc_6": 36.17353057861328,
+    "mfcc_7": -6.970312118530273,
+    "mfcc_8": 4.467936992645264,
+    "mfcc_9": 3.9454965591430664,
+    "mfcc_10": 7.560506343841553,
+    "mfcc_11": -2.5851261615753174,
+    "mfcc_12": 2.4817185401916504,
+    "mfcc_13": 6.394125938415527,
+    "chroma_1": 0.2758905291557312,
+    "chroma_2": 0.2738293707370758,
+    "chroma_3": 0.4957328736782074,
+    "chroma_4": 0.5259284377098083,
+    "chroma_5": 0.4400036633014679,
+    "chroma_6": 0.4769972860813141,
+    "chroma_7": 0.3939949870109558,
+    "chroma_8": 0.5531737804412842,
+    "chroma_9": 0.44236549735069275,
+    "chroma_10": 0.42828598618507385,
+    "chroma_11": 0.4002917408943176,
+    "chroma_12": 0.266862690448761,
+    "spectral_contrast": 20.378469465903287,
+    "spectral_flatness": 0.00020618789130821824,
+    "zero_crossing_rate": 0.04284231325330482
+  },
+  "rhythm": {
+    "onset_count": 484,
+    "onset_density": 5.040980751967994,
+    "drum_activity": "High",
+    "estimated_bars": 56,
+    "seconds_per_bar": 1.7067273503057887
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.1387290209531784,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.22087030112743378,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.3287186920642853,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.3126183748245239,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.3295965790748596,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 80.0,
+      "end": 96.0130625,
+      "avg_energy": 0.2951148748397827,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 89,
+    "master": 89,
+    "arrangement": 71,
+    "release": 84,
+    "energy": 6.967650821304546,
+    "bass_strength": 6.265733346312216,
+    "darkness": 5.081431839113072,
+    "brightness": 4.918568160886928,
+    "drum_bounce": 10,
+    "vocal_space": 2.1794054763901487
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 4 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: G Minor. Confidence: 47.6%.",
+    "Beat energy: 7.0/10. Darkness: 5.1/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.04 hits/sec.",
+    "Estimated length: 56 bars at 141 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.11 dB. RMS: -11.06 dB. Dynamic range: 10.95 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

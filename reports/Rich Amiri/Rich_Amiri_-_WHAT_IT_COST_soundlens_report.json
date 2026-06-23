@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Rich Amiri - WHAT IT COST.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Rich Amiri/Rich Amiri - WHAT IT COST.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 131.904,
+    "bpm": 130.81,
+    "key": "A Major",
+    "key_note": "A",
+    "key_mode": "Major",
+    "key_confidence": 45.80971774334688
+  },
+  "loudness": {
+    "peak_db": -8.387094229005541e-05,
+    "rms_db": -9.995501455210919,
+    "dynamic_range_db": 9.995417584268628,
+    "clipping_detected": true,
+    "clipping_samples": 538,
+    "clipping_percent": 0.008497341500889537,
+    "headroom_db": 8.387094229005541e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.017810246560984,
+      "Bass / 808": 13.9645089363105,
+      "Mud": 14.250414309721924,
+      "Low Mids": 14.537865081244888,
+      "Mids / Melody": 14.720111132604544,
+      "Harsh Zone": 13.936808578534098,
+      "Highs": 14.010308687521606,
+      "Air": 12.498981604273224,
+      "Vocal Range": 15.256049147189454
+    },
+    "brightness_centroid_hz": 3201.6733693609267,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6586.868025794453,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 29.982319182871485,
+    "mid_total_percent": 43.50839052357136,
+    "top_total_percent": 26.50929029179483
+  },
+  "fingerprint": {
+    "mfcc_1": -119.71831512451172,
+    "mfcc_2": 128.41053771972656,
+    "mfcc_3": -21.79606819152832,
+    "mfcc_4": 48.94027328491211,
+    "mfcc_5": -22.64747428894043,
+    "mfcc_6": 23.366168975830078,
+    "mfcc_7": -1.5295456647872925,
+    "mfcc_8": 10.323172569274902,
+    "mfcc_9": -10.01937484741211,
+    "mfcc_10": 2.5308804512023926,
+    "mfcc_11": 0.2891163229942322,
+    "mfcc_12": 4.576137542724609,
+    "mfcc_13": -7.551521301269531,
+    "chroma_1": 0.32998964190483093,
+    "chroma_2": 0.3284338414669037,
+    "chroma_3": 0.2925383150577545,
+    "chroma_4": 0.2848931849002838,
+    "chroma_5": 0.43657270073890686,
+    "chroma_6": 0.28086933493614197,
+    "chroma_7": 0.22745130956172943,
+    "chroma_8": 0.2269136905670166,
+    "chroma_9": 0.36673906445503235,
+    "chroma_10": 0.7404298782348633,
+    "chroma_11": 0.3058311939239502,
+    "chroma_12": 0.36661404371261597,
+    "spectral_contrast": 20.490704832207122,
+    "spectral_flatness": 0.0009655787143856287,
+    "zero_crossing_rate": 0.04831425902856392
+  },
+  "rhythm": {
+    "onset_count": 570,
+    "onset_density": 4.32132459970888,
+    "drum_activity": "High",
+    "estimated_bars": 72,
+    "seconds_per_bar": 1.8347221160461737
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.11844517290592194,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.3735988736152649,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.34367525577545166,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.3367571532726288,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.3058520257472992,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.2914506494998932,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.3633815348148346,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 131.904,
+      "avg_energy": 0.3227642774581909,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 7.502249272394541,
+    "bass_strength": 5.996463836574297,
+    "darkness": 3.5966532612781466,
+    "brightness": 6.4033467387218534,
+    "drum_bounce": 10,
+    "vocal_space": 2.2229964073619612
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 538 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: A Major. Confidence: 45.8%.",
+    "Beat energy: 7.5/10. Darkness: 3.6/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.32 hits/sec.",
+    "Estimated length: 72 bars at 131 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -10.00 dB. Dynamic range: 10.00 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

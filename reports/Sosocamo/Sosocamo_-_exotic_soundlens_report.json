@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "Sosocamo - exotic.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Sosocamo/Sosocamo - exotic.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 125.65333333333334,
+    "bpm": 162.26,
+    "key": "A Minor",
+    "key_note": "A",
+    "key_mode": "Minor",
+    "key_confidence": 47.47574450330901
+  },
+  "loudness": {
+    "peak_db": -0.00010561539286119766,
+    "rms_db": -12.332199683823786,
+    "dynamic_range_db": 12.332094068430925,
+    "clipping_detected": true,
+    "clipping_samples": 21162,
+    "clipping_percent": 0.35086613964346347,
+    "headroom_db": 0.00010561539286119766
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 14.932602437463105,
+      "Bass / 808": 15.517164329625292,
+      "Mud": 14.855962464278702,
+      "Low Mids": 14.312020546275544,
+      "Mids / Melody": 14.588279559593223,
+      "Harsh Zone": 13.787824758489394,
+      "Highs": 13.500515693132122,
+      "Air": 12.293454967834913,
+      "Vocal Range": 15.280346161222248
+    },
+    "brightness_centroid_hz": 2509.26115053758,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5086.540297937357,
+    "dominant_band": "Bass / 808",
+    "low_end_total_percent": 30.4497667670884,
+    "mid_total_percent": 43.75626257014747,
+    "top_total_percent": 25.793970660967034
+  },
+  "fingerprint": {
+    "mfcc_1": -148.4274444580078,
+    "mfcc_2": 149.173828125,
+    "mfcc_3": -7.502459526062012,
+    "mfcc_4": 18.08070945739746,
+    "mfcc_5": -9.567788124084473,
+    "mfcc_6": 25.28013038635254,
+    "mfcc_7": -8.788272857666016,
+    "mfcc_8": 2.2949445247650146,
+    "mfcc_9": -1.918294072151184,
+    "mfcc_10": -6.677168369293213,
+    "mfcc_11": -5.053842544555664,
+    "mfcc_12": -4.123874664306641,
+    "mfcc_13": -4.149627685546875,
+    "chroma_1": 0.5842750668525696,
+    "chroma_2": 0.35589221119880676,
+    "chroma_3": 0.6194959282875061,
+    "chroma_4": 0.32112884521484375,
+    "chroma_5": 0.46043524146080017,
+    "chroma_6": 0.28695255517959595,
+    "chroma_7": 0.2995711863040924,
+    "chroma_8": 0.347001850605011,
+    "chroma_9": 0.2918740212917328,
+    "chroma_10": 0.6346017122268677,
+    "chroma_11": 0.2944861352443695,
+    "chroma_12": 0.4075942635536194,
+    "spectral_contrast": 20.79074423055423,
+    "spectral_flatness": 0.0008733145077712834,
+    "zero_crossing_rate": 0.05082642668809948
+  },
+  "rhythm": {
+    "onset_count": 496,
+    "onset_density": 3.9473684210526314,
+    "drum_activity": "High",
+    "estimated_bars": 85,
+    "seconds_per_bar": 1.4791076050782694
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.2837013900279999,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.26305443048477173,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.21813464164733887,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.2728597819805145,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.21863864362239838,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.24243368208408356,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 125.65333333333334,
+      "avg_energy": 0.20870408415794373,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 75,
+    "release": 79,
+    "energy": 6.333900158088107,
+    "bass_strength": 6.0899533534176795,
+    "darkness": 4.981477698924841,
+    "brightness": 5.018522301075159,
+    "drum_bounce": 9.868421052631579,
+    "vocal_space": 2.0130406505348697
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 21162 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: A Minor. Confidence: 47.5%.",
+    "Beat energy: 6.3/10. Darkness: 5.0/10.",
+    "Vocal space estimate: 2.0/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Bass / 808.",
+    "Drum activity is high at 3.95 hits/sec.",
+    "Estimated length: 85 bars at 162 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -12.33 dB. Dynamic range: 12.33 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

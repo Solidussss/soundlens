@@ -1,0 +1,159 @@
+{
+  "basic": {
+    "file_name": "Jaydes - so\uff1f.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Jaydes/Jaydes - so\uff1f.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 50.015791666666665,
+    "bpm": 172.19,
+    "key": "F# Major",
+    "key_note": "F#",
+    "key_mode": "Major",
+    "key_confidence": 46.57364764582846
+  },
+  "loudness": {
+    "peak_db": -0.8743507833309266,
+    "rms_db": -17.95836987079322,
+    "dynamic_range_db": 17.084019087462295,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.8743507833309266
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 13.514719746730952,
+      "Bass / 808": 17.3591142854381,
+      "Mud": 16.532554449500758,
+      "Low Mids": 15.920683145471038,
+      "Mids / Melody": 14.943265041823835,
+      "Harsh Zone": 12.97183047032043,
+      "Highs": 11.976805221203133,
+      "Air": 9.752858107614616,
+      "Vocal Range": 16.999624403078002
+    },
+    "brightness_centroid_hz": 1375.9008930141986,
+    "brightness_label": "Low",
+    "spectral_rolloff_hz": 2585.662587971849,
+    "dominant_band": "Bass / 808",
+    "low_end_total_percent": 30.87383403216905,
+    "mid_total_percent": 47.39650263679563,
+    "top_total_percent": 21.72966332881775
+  },
+  "fingerprint": {
+    "mfcc_1": -263.6396484375,
+    "mfcc_2": 175.2951202392578,
+    "mfcc_3": 4.68748664855957,
+    "mfcc_4": 22.48878288269043,
+    "mfcc_5": 1.6979475021362305,
+    "mfcc_6": 19.28352928161621,
+    "mfcc_7": 6.705393314361572,
+    "mfcc_8": 2.926903247833252,
+    "mfcc_9": 6.946789741516113,
+    "mfcc_10": -2.5977542400360107,
+    "mfcc_11": -6.99983024597168,
+    "mfcc_12": -8.22476577758789,
+    "mfcc_13": 2.3021037578582764,
+    "chroma_1": 0.21876218914985657,
+    "chroma_2": 0.24900537729263306,
+    "chroma_3": 0.23113718628883362,
+    "chroma_4": 0.40014755725860596,
+    "chroma_5": 0.24372340738773346,
+    "chroma_6": 0.27375173568725586,
+    "chroma_7": 0.6302308440208435,
+    "chroma_8": 0.5454806685447693,
+    "chroma_9": 0.5039698481559753,
+    "chroma_10": 0.22415941953659058,
+    "chroma_11": 0.4099861681461334,
+    "chroma_12": 0.3351556658744812,
+    "spectral_contrast": 19.888537344601136,
+    "spectral_flatness": 0.00010592305625323206,
+    "zero_crossing_rate": 0.02090112414027511
+  },
+  "rhythm": {
+    "onset_count": 226,
+    "onset_density": 4.518572884064117,
+    "drum_activity": "High",
+    "estimated_bars": 36,
+    "seconds_per_bar": 1.3938091642952553
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 12.0,
+      "avg_energy": 0.11853350698947906,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 12.0,
+      "end": 24.0,
+      "avg_energy": 0.1239212304353714,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 3",
+      "start": 24.0,
+      "end": 36.0,
+      "avg_energy": 0.1401621550321579,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 4",
+      "start": 36.0,
+      "end": 50.015791666666665,
+      "avg_energy": 0.12290190905332565,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 78,
+    "master": 78,
+    "arrangement": 51,
+    "release": 70,
+    "energy": 3.52081506460339,
+    "bass_strength": 6.17476680643381,
+    "darkness": 7.2481982139716035,
+    "brightness": 2.751801786028397,
+    "drum_bounce": 10,
+    "vocal_space": 1.112594913703834
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is quiet for the selected style.",
+    "Dynamic range is wide, so some sections may feel uneven.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Major. Confidence: 46.6%.",
+    "Beat energy: 3.5/10. Darkness: 7.2/10.",
+    "Vocal space estimate: 1.1/10. Higher means easier space for vocals.",
+    "Beat leans dark, so brighter vocals/adlibs may cut through well."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Bass / 808.",
+    "Drum activity is high at 4.52 hits/sec.",
+    "Estimated length: 36 bars at 172 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Peak: -0.87 dB. RMS: -17.96 dB. Dynamic range: 17.08 dB."
+  ],
+  "next_steps": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

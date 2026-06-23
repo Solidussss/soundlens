@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "OhSxnta - stay the night.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/OhSxnta/OhSxnta - stay the night.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 135.3998125,
+    "bpm": 156.25,
+    "key": "C Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 47.84109209963085
+  },
+  "loudness": {
+    "peak_db": 0.00036964376209326714,
+    "rms_db": -10.198982138917403,
+    "dynamic_range_db": 10.199351782679496,
+    "clipping_detected": true,
+    "clipping_samples": 1154,
+    "clipping_percent": 0.017756056099905358,
+    "headroom_db": -0.00036964376209326714
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.854892186245852,
+      "Bass / 808": 14.803627561478502,
+      "Mud": 14.322469677069769,
+      "Low Mids": 13.909839958838823,
+      "Mids / Melody": 13.683997449276152,
+      "Harsh Zone": 12.927738534132423,
+      "Highs": 13.44758326496377,
+      "Air": 12.977589900296083,
+      "Vocal Range": 14.799977941355131
+    },
+    "brightness_centroid_hz": 3439.9079460332423,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 8016.43000630219,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.658519747724355,
+    "mid_total_percent": 41.91630708518474,
+    "top_total_percent": 26.425173165259853
+  },
+  "fingerprint": {
+    "mfcc_1": -160.95614624023438,
+    "mfcc_2": 120.03962707519531,
+    "mfcc_3": 22.71666145324707,
+    "mfcc_4": 36.37834930419922,
+    "mfcc_5": -8.380996704101562,
+    "mfcc_6": 34.51823806762695,
+    "mfcc_7": -10.069947242736816,
+    "mfcc_8": 22.038389205932617,
+    "mfcc_9": -2.637538433074951,
+    "mfcc_10": 9.560394287109375,
+    "mfcc_11": -6.380796432495117,
+    "mfcc_12": 6.94342041015625,
+    "mfcc_13": -2.346142053604126,
+    "chroma_1": 0.67156583070755,
+    "chroma_2": 0.609216570854187,
+    "chroma_3": 0.5496060252189636,
+    "chroma_4": 0.49508798122406006,
+    "chroma_5": 0.3575429320335388,
+    "chroma_6": 0.42771875858306885,
+    "chroma_7": 0.3269304931163788,
+    "chroma_8": 0.2813170552253723,
+    "chroma_9": 0.300228476524353,
+    "chroma_10": 0.21050438284873962,
+    "chroma_11": 0.40541326999664307,
+    "chroma_12": 0.2005394697189331,
+    "spectral_contrast": 20.06009388368172,
+    "spectral_flatness": 0.0008573270752094686,
+    "zero_crossing_rate": 0.03811005537803293
+  },
+  "rhythm": {
+    "onset_count": 816,
+    "onset_density": 6.026596233285035,
+    "drum_activity": "High",
+    "estimated_bars": 88,
+    "seconds_per_bar": 1.536
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.301174521446228,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.3397482931613922,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.3296242356300354,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.33581921458244324,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.3298587203025818,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.2966902554035187,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.2640223503112793,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 135.3998125,
+      "avg_energy": 0.2794992923736572,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 7.4005089305412985,
+    "bass_strength": 6.331703949544871,
+    "darkness": 3.1201841079335155,
+    "brightness": 6.8798158920664845,
+    "drum_bounce": 10,
+    "vocal_space": 2.2838921350522607
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 1154 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor. Confidence: 47.8%.",
+    "Beat energy: 7.4/10. Darkness: 3.1/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.03 hits/sec.",
+    "Estimated length: 88 bars at 156 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -10.20 dB. Dynamic range: 10.20 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

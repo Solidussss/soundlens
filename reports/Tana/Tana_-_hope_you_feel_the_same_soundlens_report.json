@@ -1,0 +1,185 @@
+{
+  "basic": {
+    "file_name": "Tana - hope you feel the same.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Tana/Tana - hope you feel the same.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 130.99758333333332,
+    "bpm": 127.84,
+    "key": "D Major",
+    "key_note": "D",
+    "key_mode": "Major",
+    "key_confidence": 47.45292951060283
+  },
+  "loudness": {
+    "peak_db": 0.0006605847913274897,
+    "rms_db": -12.931737303034508,
+    "dynamic_range_db": 12.932397887825836,
+    "clipping_detected": true,
+    "clipping_samples": 72,
+    "clipping_percent": 0.0011450592918062737,
+    "headroom_db": -0.0006605847913274897
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.273883122863266,
+      "Bass / 808": 15.182241741805882,
+      "Mud": 14.571465881477383,
+      "Low Mids": 14.979182477195582,
+      "Mids / Melody": 13.897669495558148,
+      "Harsh Zone": 12.894580338527003,
+      "Highs": 13.263005118617176,
+      "Air": 12.832552160680743,
+      "Vocal Range": 15.390471524793895
+    },
+    "brightness_centroid_hz": 3212.6322771579544,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 7550.183958231559,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.45612486466915,
+    "mid_total_percent": 43.448317854231114,
+    "top_total_percent": 26.09555727929792
+  },
+  "fingerprint": {
+    "mfcc_1": -167.755859375,
+    "mfcc_2": 130.02734375,
+    "mfcc_3": 8.697964668273926,
+    "mfcc_4": 26.636829376220703,
+    "mfcc_5": -8.958976745605469,
+    "mfcc_6": 27.17679786682129,
+    "mfcc_7": -15.691865921020508,
+    "mfcc_8": 8.026710510253906,
+    "mfcc_9": -4.118192195892334,
+    "mfcc_10": 5.036738395690918,
+    "mfcc_11": -7.387223243713379,
+    "mfcc_12": 10.963279724121094,
+    "mfcc_13": 1.4391798973083496,
+    "chroma_1": 0.3513931930065155,
+    "chroma_2": 0.24999725818634033,
+    "chroma_3": 0.612143874168396,
+    "chroma_4": 0.22017358243465424,
+    "chroma_5": 0.34577035903930664,
+    "chroma_6": 0.2619001269340515,
+    "chroma_7": 0.3091178834438324,
+    "chroma_8": 0.4838167428970337,
+    "chroma_9": 0.31127336621284485,
+    "chroma_10": 0.4316266179084778,
+    "chroma_11": 0.18236906826496124,
+    "chroma_12": 0.2687951624393463,
+    "spectral_contrast": 20.732729717833564,
+    "spectral_flatness": 0.001113584847189486,
+    "zero_crossing_rate": 0.05652767865321202
+  },
+  "rhythm": {
+    "onset_count": 410,
+    "onset_density": 3.1298287309371484,
+    "drum_activity": "High",
+    "estimated_bars": 70,
+    "seconds_per_bar": 1.8773466833541927
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.0937834158539772,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.170378178358078,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.24604207277297974,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.26359549164772034,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.2709266245365143,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.1973048895597458,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.2798280417919159,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 130.99758333333332,
+      "avg_energy": 0.22170649468898773,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 81,
+    "release": 84,
+    "energy": 6.034131348482746,
+    "bass_strength": 6.09122497293383,
+    "darkness": 3.574735445684091,
+    "brightness": 6.425264554315909,
+    "drum_bounce": 7.824571827342871,
+    "vocal_space": 2.0315304363811064
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 72 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Major. Confidence: 47.5%.",
+    "Beat energy: 6.0/10. Darkness: 3.6/10.",
+    "Vocal space estimate: 2.0/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 3.13 hits/sec.",
+    "Estimated length: 70 bars at 128 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -12.93 dB. Dynamic range: 12.93 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

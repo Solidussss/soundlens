@@ -1,0 +1,194 @@
+{
+  "basic": {
+    "file_name": "Lelo - Spare Me.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lelo/Lelo - Spare Me.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 159.5555625,
+    "bpm": 133.93,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 50.37875724684381
+  },
+  "loudness": {
+    "peak_db": -0.16648469544991915,
+    "rms_db": -12.36158213241237,
+    "dynamic_range_db": 12.19509743696245,
+    "clipping_detected": true,
+    "clipping_samples": 1,
+    "clipping_percent": 1.3057102495773742e-05,
+    "headroom_db": 0.16648469544991915
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 18.103948353443467,
+      "Bass / 808": 13.967853010754608,
+      "Mud": 14.345904580836836,
+      "Low Mids": 14.748102811195295,
+      "Mids / Melody": 14.020185781246134,
+      "Harsh Zone": 12.995596648628432,
+      "Highs": 12.953936859310932,
+      "Air": 11.860068601225091,
+      "Vocal Range": 15.324594492044735
+    },
+    "brightness_centroid_hz": 1911.7144411261513,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 3821.8808493214788,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.07180136419807,
+    "mid_total_percent": 43.11419317327827,
+    "top_total_percent": 24.814005460536023
+  },
+  "fingerprint": {
+    "mfcc_1": -259.02569580078125,
+    "mfcc_2": 140.3057403564453,
+    "mfcc_3": 4.955724716186523,
+    "mfcc_4": 23.087791442871094,
+    "mfcc_5": -12.05296516418457,
+    "mfcc_6": 9.493128776550293,
+    "mfcc_7": -11.79342269897461,
+    "mfcc_8": -6.607174396514893,
+    "mfcc_9": 3.676300287246704,
+    "mfcc_10": -12.104223251342773,
+    "mfcc_11": -1.9597011804580688,
+    "mfcc_12": 3.0865542888641357,
+    "mfcc_13": 2.9849653244018555,
+    "chroma_1": 0.4665895998477936,
+    "chroma_2": 0.6427008509635925,
+    "chroma_3": 0.5566102862358093,
+    "chroma_4": 0.33238086104393005,
+    "chroma_5": 0.47732409834861755,
+    "chroma_6": 0.24362987279891968,
+    "chroma_7": 0.29339563846588135,
+    "chroma_8": 0.16061194241046906,
+    "chroma_9": 0.11185304820537567,
+    "chroma_10": 0.10524208843708038,
+    "chroma_11": 0.08894161880016327,
+    "chroma_12": 0.1474912315607071,
+    "spectral_contrast": 20.764115668411605,
+    "spectral_flatness": 0.0005482069682329893,
+    "zero_crossing_rate": 0.030449635253024934
+  },
+  "rhythm": {
+    "onset_count": 1015,
+    "onset_density": 6.361420335940967,
+    "drum_activity": "High",
+    "estimated_bars": 89,
+    "seconds_per_bar": 1.7919808855372208
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.23917777836322784,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.25477200746536255,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.24491624534130096,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.25098276138305664,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.2661761939525604,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.2374451458454132,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.2660695016384125,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 112.0,
+      "end": 128.0,
+      "avg_energy": 0.23893411457538605,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 128.0,
+      "end": 159.5555625,
+      "avg_energy": 0.1998070329427719,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 89,
+    "master": 89,
+    "arrangement": 75,
+    "release": 85,
+    "energy": 6.319208933793815,
+    "bass_strength": 6.414360272839614,
+    "darkness": 6.176571117747697,
+    "brightness": 3.8234288822523026,
+    "drum_bounce": 10,
+    "vocal_space": 2.154766337494509
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 1 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 50.4%.",
+    "Beat energy: 6.3/10. Darkness: 6.2/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.36 hits/sec.",
+    "Estimated length: 89 bars at 134 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.17 dB. RMS: -12.36 dB. Dynamic range: 12.20 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

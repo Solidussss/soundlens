@@ -1,0 +1,188 @@
+{
+  "basic": {
+    "file_name": "Fimiguerrero - Gucci.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Fimiguerrero/Fimiguerrero - Gucci.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 100.45060416666666,
+    "bpm": 172.19,
+    "key": "D# Minor",
+    "key_note": "D#",
+    "key_mode": "Minor",
+    "key_confidence": 45.085982197439414
+  },
+  "loudness": {
+    "peak_db": 0.00019362488489850589,
+    "rms_db": -5.576130198352694,
+    "dynamic_range_db": 5.576323823237593,
+    "clipping_detected": true,
+    "clipping_samples": 191129,
+    "clipping_percent": 3.963992252410959,
+    "headroom_db": -0.00019362488489850589
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.738621234675247,
+      "Bass / 808": 14.566939124555804,
+      "Mud": 14.377353023774592,
+      "Low Mids": 13.96350000922944,
+      "Mids / Melody": 13.938870404932624,
+      "Harsh Zone": 13.528089081275748,
+      "Highs": 13.8472193511618,
+      "Air": 12.567496849915244,
+      "Vocal Range": 14.899198989799997
+    },
+    "brightness_centroid_hz": 3343.4082683357615,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 7066.903967137397,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.305560359231052,
+    "mid_total_percent": 42.27972343793665,
+    "top_total_percent": 26.41471620107704
+  },
+  "fingerprint": {
+    "mfcc_1": -80.76918029785156,
+    "mfcc_2": 116.7627182006836,
+    "mfcc_3": -18.698347091674805,
+    "mfcc_4": 50.0144157409668,
+    "mfcc_5": -14.186124801635742,
+    "mfcc_6": 27.5466251373291,
+    "mfcc_7": -3.0028069019317627,
+    "mfcc_8": 13.233464241027832,
+    "mfcc_9": -5.681398868560791,
+    "mfcc_10": 6.320577144622803,
+    "mfcc_11": -3.499580144882202,
+    "mfcc_12": 5.470859527587891,
+    "mfcc_13": -4.65310525894165,
+    "chroma_1": 0.33744069933891296,
+    "chroma_2": 0.45278453826904297,
+    "chroma_3": 0.3964218497276306,
+    "chroma_4": 0.5151404738426208,
+    "chroma_5": 0.5863016843795776,
+    "chroma_6": 0.3463168740272522,
+    "chroma_7": 0.48148801922798157,
+    "chroma_8": 0.25428909063339233,
+    "chroma_9": 0.23612737655639648,
+    "chroma_10": 0.17594140768051147,
+    "chroma_11": 0.2545556128025055,
+    "chroma_12": 0.2616264522075653,
+    "spectral_contrast": 17.370717547686088,
+    "spectral_flatness": 0.003035171888768673,
+    "zero_crossing_rate": 0.05753952288835209
+  },
+  "rhythm": {
+    "onset_count": 654,
+    "onset_density": 6.510662682674258,
+    "drum_activity": "High",
+    "estimated_bars": 72,
+    "seconds_per_bar": 1.3938091642952553
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 12.0,
+      "avg_energy": 0.29327481985092163,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 12.0,
+      "end": 24.0,
+      "avg_energy": 0.6279364228248596,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 3",
+      "start": 24.0,
+      "end": 36.0,
+      "avg_energy": 0.6148640513420105,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 4",
+      "start": 36.0,
+      "end": 48.0,
+      "avg_energy": 0.5350083708763123,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 5",
+      "start": 48.0,
+      "end": 60.0,
+      "avg_energy": 0.2208256721496582,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 6",
+      "start": 60.0,
+      "end": 72.0,
+      "avg_energy": 0.46668365597724915,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 7",
+      "start": 72.0,
+      "end": 84.0,
+      "avg_energy": 0.6120355725288391,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 8",
+      "start": 84.0,
+      "end": 100.45060416666666,
+      "avg_energy": 0.6232390999794006,
+      "energy_label": "High"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 81,
+    "release": 61,
+    "energy": 9.711934900823653,
+    "bass_strength": 6.2611120718462105,
+    "darkness": 3.3131834633284774,
+    "brightness": 6.686816536671523,
+    "drum_bounce": 10,
+    "vocal_space": 2.2542730748859574
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 191129 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Minor. Confidence: 45.1%.",
+    "Beat energy: 9.7/10. Darkness: 3.3/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.51 hits/sec.",
+    "Estimated length: 72 bars at 172 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -5.58 dB. Dynamic range: 5.58 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

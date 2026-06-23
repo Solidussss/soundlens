@@ -1,0 +1,185 @@
+{
+  "basic": {
+    "file_name": "1oneam - 2 Friends.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/1oneam/1oneam - 2 Friends.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 100.5191875,
+    "bpm": 153.41,
+    "key": "D# Major",
+    "key_note": "D#",
+    "key_mode": "Major",
+    "key_confidence": 50.250656311837254
+  },
+  "loudness": {
+    "peak_db": -0.00011752309124122258,
+    "rms_db": -6.016781019436772,
+    "dynamic_range_db": 6.016663496345531,
+    "clipping_detected": true,
+    "clipping_samples": 3484,
+    "clipping_percent": 0.0722084361588511,
+    "headroom_db": 0.00011752309124122258
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.15132736847208,
+      "Bass / 808": 15.060871214635505,
+      "Mud": 14.304640852294423,
+      "Low Mids": 14.630950716721603,
+      "Mids / Melody": 13.873735987537165,
+      "Harsh Zone": 12.93897899589062,
+      "Highs": 13.238493259033804,
+      "Air": 11.739980599500916,
+      "Vocal Range": 15.162192162658798
+    },
+    "brightness_centroid_hz": 2628.550377038073,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5849.292696837861,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.212198583107586,
+    "mid_total_percent": 42.80932755655319,
+    "top_total_percent": 24.97847385853472
+  },
+  "fingerprint": {
+    "mfcc_1": -124.26158905029297,
+    "mfcc_2": 130.97564697265625,
+    "mfcc_3": 2.559875726699829,
+    "mfcc_4": 50.16719436645508,
+    "mfcc_5": -18.07904052734375,
+    "mfcc_6": 26.66565704345703,
+    "mfcc_7": -13.248421669006348,
+    "mfcc_8": 13.281940460205078,
+    "mfcc_9": 2.4520680904388428,
+    "mfcc_10": 5.59506893157959,
+    "mfcc_11": 1.6136159896850586,
+    "mfcc_12": 9.644426345825195,
+    "mfcc_13": 4.730661869049072,
+    "chroma_1": 0.19374340772628784,
+    "chroma_2": 0.20964233577251434,
+    "chroma_3": 0.5155023336410522,
+    "chroma_4": 0.6708835363388062,
+    "chroma_5": 0.34745875000953674,
+    "chroma_6": 0.20083323121070862,
+    "chroma_7": 0.17341357469558716,
+    "chroma_8": 0.46425193548202515,
+    "chroma_9": 0.3224080204963684,
+    "chroma_10": 0.25640952587127686,
+    "chroma_11": 0.22809626162052155,
+    "chroma_12": 0.16276083886623383,
+    "spectral_contrast": 20.051258160813017,
+    "spectral_flatness": 0.00025873459526337683,
+    "zero_crossing_rate": 0.02673396837529181
+  },
+  "rhythm": {
+    "onset_count": 636,
+    "onset_density": 6.327150226915633,
+    "drum_activity": "High",
+    "estimated_bars": 64,
+    "seconds_per_bar": 1.564435173717489
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 12.515481389739913,
+      "avg_energy": 0.403655469417572,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 12.515481389739913,
+      "end": 25.030962779479825,
+      "avg_energy": 0.5197468996047974,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 3",
+      "start": 25.030962779479825,
+      "end": 37.54644416921974,
+      "avg_energy": 0.5227397680282593,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 4",
+      "start": 37.54644416921974,
+      "end": 50.06192555895965,
+      "avg_energy": 0.5194965600967407,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 5",
+      "start": 50.06192555895965,
+      "end": 62.57740694869956,
+      "avg_energy": 0.5197134017944336,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 6",
+      "start": 62.57740694869956,
+      "end": 75.09288833843948,
+      "avg_energy": 0.4779166281223297,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 7",
+      "start": 75.09288833843948,
+      "end": 87.6083697281794,
+      "avg_energy": 0.5160931348800659,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 8",
+      "start": 87.6083697281794,
+      "end": 100.5191875,
+      "avg_energy": 0.5102666616439819,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 81,
+    "release": 84,
+    "energy": 9.491609490281615,
+    "bass_strength": 6.442439716621517,
+    "darkness": 4.742899245923854,
+    "brightness": 5.257100754076146,
+    "drum_bounce": 10,
+    "vocal_space": 2.188007842407716
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 3484 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Major. Confidence: 50.3%.",
+    "Beat energy: 9.5/10. Darkness: 4.7/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.33 hits/sec.",
+    "Estimated length: 64 bars at 153 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -6.02 dB. Dynamic range: 6.02 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

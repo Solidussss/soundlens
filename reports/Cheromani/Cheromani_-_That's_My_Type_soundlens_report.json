@@ -1,0 +1,193 @@
+{
+  "basic": {
+    "file_name": "Cheromani - That's My Type.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Cheromani/Cheromani - That's My Type.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 149.056,
+    "bpm": 140.62,
+    "key": "C# Major / Try G# Major",
+    "key_note": "C#",
+    "key_mode": "Major",
+    "key_confidence": 54.41081341056078
+  },
+  "loudness": {
+    "peak_db": 0.0005290930775573666,
+    "rms_db": -9.527759103537587,
+    "dynamic_range_db": 9.528288196615144,
+    "clipping_detected": true,
+    "clipping_samples": 10130,
+    "clipping_percent": 0.14158548912265637,
+    "headroom_db": -0.0005290930775573666
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.384647267431264,
+      "Bass / 808": 14.702308269409825,
+      "Mud": 13.682222918812414,
+      "Low Mids": 14.848531258179154,
+      "Mids / Melody": 14.974477490105754,
+      "Harsh Zone": 14.10899073782429,
+      "Highs": 13.748111320289299,
+      "Air": 12.659701474054453,
+      "Vocal Range": 15.46914058036363
+    },
+    "brightness_centroid_hz": 3506.3185597368943,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 7173.585644007156,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.08695553684109,
+    "mid_total_percent": 43.50523166709732,
+    "top_total_percent": 26.40781279434375
+  },
+  "fingerprint": {
+    "mfcc_1": -97.98545837402344,
+    "mfcc_2": 115.2057876586914,
+    "mfcc_3": -40.897254943847656,
+    "mfcc_4": 35.18758010864258,
+    "mfcc_5": -27.877737045288086,
+    "mfcc_6": 21.520170211791992,
+    "mfcc_7": -18.527339935302734,
+    "mfcc_8": 13.031854629516602,
+    "mfcc_9": -1.7483104467391968,
+    "mfcc_10": 8.625238418579102,
+    "mfcc_11": -1.0395207405090332,
+    "mfcc_12": 8.128313064575195,
+    "mfcc_13": 7.152924537658691,
+    "chroma_1": 0.3531002700328827,
+    "chroma_2": 0.7172959446907043,
+    "chroma_3": 0.5754552483558655,
+    "chroma_4": 0.47035226225852966,
+    "chroma_5": 0.34660959243774414,
+    "chroma_6": 0.35760828852653503,
+    "chroma_7": 0.26786091923713684,
+    "chroma_8": 0.24750849604606628,
+    "chroma_9": 0.41987287998199463,
+    "chroma_10": 0.28377097845077515,
+    "chroma_11": 0.3119819164276123,
+    "chroma_12": 0.1993686705827713,
+    "spectral_contrast": 20.03205230408989,
+    "spectral_flatness": 0.0013477305183187127,
+    "zero_crossing_rate": 0.07497445913461538
+  },
+  "rhythm": {
+    "onset_count": 634,
+    "onset_density": 4.253434950622585,
+    "drum_activity": "High",
+    "estimated_bars": 87,
+    "seconds_per_bar": 1.7067273503057887
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.29799211025238037,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.38106346130371094,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.39023590087890625,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.34334519505500793,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.2493283897638321,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.38336068391799927,
+      "energy_label": "High"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.39190223813056946,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 112.0,
+      "end": 128.0,
+      "avg_energy": 0.3438417315483093,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 128.0,
+      "end": 149.056,
+      "avg_energy": 0.2016073763370514,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 75,
+    "release": 79,
+    "energy": 7.7361204482312065,
+    "bass_strength": 6.017391107368217,
+    "darkness": 2.987362880526211,
+    "brightness": 7.012637119473789,
+    "drum_bounce": 10,
+    "vocal_space": 2.4058920813065843
+  },
+  "top_problems": [
+    "Clipping detected: 10130 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Major / Try G# Major. Confidence: 54.4%.",
+    "Beat energy: 7.7/10. Darkness: 3.0/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.25 hits/sec.",
+    "Estimated length: 87 bars at 141 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -9.53 dB. Dynamic range: 9.53 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

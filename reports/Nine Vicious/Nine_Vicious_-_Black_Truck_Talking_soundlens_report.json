@@ -1,0 +1,192 @@
+{
+  "basic": {
+    "file_name": "Nine Vicious - Black Truck Talking.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Nine Vicious/Nine Vicious - Black Truck Talking.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 153.901875,
+    "bpm": 125.0,
+    "key": "C Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 48.25886033356782
+  },
+  "loudness": {
+    "peak_db": 1.3460693097157829e-05,
+    "rms_db": -11.246806967792422,
+    "dynamic_range_db": 11.246820428485519,
+    "clipping_detected": true,
+    "clipping_samples": 511,
+    "clipping_percent": 0.006917286312030528,
+    "headroom_db": -1.3460693097157829e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.618358254277243,
+      "Bass / 808": 14.780419890207913,
+      "Mud": 14.09993875776096,
+      "Low Mids": 14.2244732952963,
+      "Mids / Melody": 14.333601623591342,
+      "Harsh Zone": 13.33257132794066,
+      "Highs": 13.410091143205724,
+      "Air": 12.53311703383988,
+      "Vocal Range": 15.038036780909156
+    },
+    "brightness_centroid_hz": 2858.166196679721,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6100.64042033405,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.398778144485156,
+    "mid_total_percent": 42.6580136766486,
+    "top_total_percent": 25.943208177045605
+  },
+  "fingerprint": {
+    "mfcc_1": -178.42813110351562,
+    "mfcc_2": 128.80308532714844,
+    "mfcc_3": 2.0808658599853516,
+    "mfcc_4": 28.86673927307129,
+    "mfcc_5": -8.620983123779297,
+    "mfcc_6": 24.080453872680664,
+    "mfcc_7": -7.85519552230835,
+    "mfcc_8": 10.672872543334961,
+    "mfcc_9": 4.856715202331543,
+    "mfcc_10": 5.9987030029296875,
+    "mfcc_11": -4.216775417327881,
+    "mfcc_12": 7.249366283416748,
+    "mfcc_13": 5.687158584594727,
+    "chroma_1": 0.6264296770095825,
+    "chroma_2": 0.5112830400466919,
+    "chroma_3": 0.31628578901290894,
+    "chroma_4": 0.4055294692516327,
+    "chroma_5": 0.2558153569698334,
+    "chroma_6": 0.3981568217277527,
+    "chroma_7": 0.17445717751979828,
+    "chroma_8": 0.26053038239479065,
+    "chroma_9": 0.3350960910320282,
+    "chroma_10": 0.16728106141090393,
+    "chroma_11": 0.353605717420578,
+    "chroma_12": 0.16276662051677704,
+    "spectral_contrast": 19.98378829621943,
+    "spectral_flatness": 0.0009578864555805922,
+    "zero_crossing_rate": 0.04912693458053226
+  },
+  "rhythm": {
+    "onset_count": 661,
+    "onset_density": 4.294944424816137,
+    "drum_activity": "High",
+    "estimated_bars": 80,
+    "seconds_per_bar": 1.92
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.14236046373844147,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.4505234658718109,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.26823318004608154,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.24572478234767914,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.28316816687583923,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.4298243224620819,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.24441081285476685,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Bridge / Breakdown",
+      "start": 112.0,
+      "end": 128.0,
+      "avg_energy": 0.19429965317249298,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Outro",
+      "start": 128.0,
+      "end": 153.901875,
+      "avg_energy": 0.04879312962293625,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 6.876596516103789,
+    "bass_strength": 6.279755628897031,
+    "darkness": 4.283667606640558,
+    "brightness": 5.716332393359442,
+    "drum_bounce": 10,
+    "vocal_space": 2.3279568832818587
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 511 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor. Confidence: 48.3%.",
+    "Beat energy: 6.9/10. Darkness: 4.3/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.29 hits/sec.",
+    "Estimated length: 80 bars at 125 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -11.25 dB. Dynamic range: 11.25 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

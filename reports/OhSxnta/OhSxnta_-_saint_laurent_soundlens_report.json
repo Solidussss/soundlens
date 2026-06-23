@@ -1,0 +1,162 @@
+{
+  "basic": {
+    "file_name": "OhSxnta - saint laurent.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/OhSxnta/OhSxnta - saint laurent.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 88.81633333333333,
+    "bpm": 140.62,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 47.67391203860319
+  },
+  "loudness": {
+    "peak_db": -0.0001082040215551449,
+    "rms_db": -13.427358616516107,
+    "dynamic_range_db": 13.427250412494553,
+    "clipping_detected": true,
+    "clipping_samples": 3,
+    "clipping_percent": 7.036993946308674e-05,
+    "headroom_db": 0.0001082040215551449
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.379646131380703,
+      "Bass / 808": 14.257312335424022,
+      "Mud": 14.19920566355163,
+      "Low Mids": 14.637726828801728,
+      "Mids / Melody": 14.511161659707572,
+      "Harsh Zone": 13.833652840179097,
+      "Highs": 14.095080382867971,
+      "Air": 12.919866996432047,
+      "Vocal Range": 15.29771845303895
+    },
+    "brightness_centroid_hz": 4327.44217152228,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 9310.603871442296,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 29.636958466804725,
+    "mid_total_percent": 43.34809415206093,
+    "top_total_percent": 27.01494737930002
+  },
+  "fingerprint": {
+    "mfcc_1": -88.79777526855469,
+    "mfcc_2": 124.63589477539062,
+    "mfcc_3": -25.729299545288086,
+    "mfcc_4": 59.48064422607422,
+    "mfcc_5": -37.10426712036133,
+    "mfcc_6": 32.55521011352539,
+    "mfcc_7": -25.76070213317871,
+    "mfcc_8": 20.90373992919922,
+    "mfcc_9": -3.9870100021362305,
+    "mfcc_10": 14.7147855758667,
+    "mfcc_11": -6.615439414978027,
+    "mfcc_12": 11.7791166305542,
+    "mfcc_13": -1.127948522567749,
+    "chroma_1": 0.4562951922416687,
+    "chroma_2": 0.5599727034568787,
+    "chroma_3": 0.3749958276748657,
+    "chroma_4": 0.4536494016647339,
+    "chroma_5": 0.4360235929489136,
+    "chroma_6": 0.3427189588546753,
+    "chroma_7": 0.4587590992450714,
+    "chroma_8": 0.3779872953891754,
+    "chroma_9": 0.4913676679134369,
+    "chroma_10": 0.457734078168869,
+    "chroma_11": 0.30964747071266174,
+    "chroma_12": 0.3402983844280243,
+    "spectral_contrast": 20.26983633310101,
+    "spectral_flatness": 0.009767995215952396,
+    "zero_crossing_rate": 0.09430131743875345
+  },
+  "rhythm": {
+    "onset_count": 207,
+    "onset_density": 2.330652395017433,
+    "drum_activity": "Medium",
+    "estimated_bars": 52,
+    "seconds_per_bar": 1.7067273503057887
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.2338009476661682,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.1771380454301834,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.2293267548084259,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.2361311912536621,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 64.0,
+      "end": 88.81633333333333,
+      "avg_energy": 0.19295623898506165,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 5.786320691741946,
+    "bass_strength": 5.927391693360945,
+    "darkness": 1.345115656955441,
+    "brightness": 8.654884343044559,
+    "drum_bounce": 5.826630987543583,
+    "vocal_space": 2.2292139018933863
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 3 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 47.7%.",
+    "Beat energy: 5.8/10. Darkness: 1.3/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is medium at 2.33 hits/sec.",
+    "Estimated length: 52 bars at 141 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -13.43 dB. Dynamic range: 13.43 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

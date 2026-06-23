@@ -1,0 +1,192 @@
+{
+  "basic": {
+    "file_name": "Eskdeekid - Panic.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Eskdeekid/Eskdeekid - Panic.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 112.9411875,
+    "bpm": 168.75,
+    "key": "D Minor",
+    "key_note": "D",
+    "key_mode": "Minor",
+    "key_confidence": 45.593022112052466
+  },
+  "loudness": {
+    "peak_db": 0.00207994735945884,
+    "rms_db": -6.156958723875166,
+    "dynamic_range_db": 6.159038671234625,
+    "clipping_detected": true,
+    "clipping_samples": 125672,
+    "clipping_percent": 2.318168176394167,
+    "headroom_db": -0.00207994735945884
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.174645935626046,
+      "Bass / 808": 14.914982220862715,
+      "Mud": 14.00967062544527,
+      "Low Mids": 14.244606960140693,
+      "Mids / Melody": 14.079869704732669,
+      "Harsh Zone": 13.368175910197897,
+      "Highs": 13.751821433985828,
+      "Air": 12.824403117495658,
+      "Vocal Range": 14.849406182898045
+    },
+    "brightness_centroid_hz": 3540.8881446567443,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 7522.910715128907,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.08962815648876,
+    "mid_total_percent": 42.33414729031863,
+    "top_total_percent": 26.576224551481488
+  },
+  "fingerprint": {
+    "mfcc_1": -68.38645935058594,
+    "mfcc_2": 123.20948791503906,
+    "mfcc_3": -13.212961196899414,
+    "mfcc_4": 30.965559005737305,
+    "mfcc_5": -23.940105438232422,
+    "mfcc_6": 24.16912269592285,
+    "mfcc_7": -13.027154922485352,
+    "mfcc_8": 9.848761558532715,
+    "mfcc_9": -6.3410563468933105,
+    "mfcc_10": 6.178726673126221,
+    "mfcc_11": -2.8579087257385254,
+    "mfcc_12": 5.353324890136719,
+    "mfcc_13": 2.056623935699463,
+    "chroma_1": 0.23472926020622253,
+    "chroma_2": 0.28024232387542725,
+    "chroma_3": 0.834542453289032,
+    "chroma_4": 0.5145057439804077,
+    "chroma_5": 0.4129275381565094,
+    "chroma_6": 0.33104178309440613,
+    "chroma_7": 0.2705026865005493,
+    "chroma_8": 0.29334086179733276,
+    "chroma_9": 0.23600679636001587,
+    "chroma_10": 0.3580397665500641,
+    "chroma_11": 0.2648483216762543,
+    "chroma_12": 0.22518929839134216,
+    "spectral_contrast": 17.360478345020855,
+    "spectral_flatness": 0.005909177009016275,
+    "zero_crossing_rate": 0.06137495647015771
+  },
+  "rhythm": {
+    "onset_count": 732,
+    "onset_density": 6.481249367065492,
+    "drum_activity": "High",
+    "estimated_bars": 79,
+    "seconds_per_bar": 1.4222222222222223
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 12.0,
+      "avg_energy": 0.29893118143081665,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 12.0,
+      "end": 24.0,
+      "avg_energy": 0.5230767726898193,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 3",
+      "start": 24.0,
+      "end": 36.0,
+      "avg_energy": 0.5019431710243225,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 4",
+      "start": 36.0,
+      "end": 48.0,
+      "avg_energy": 0.5026533603668213,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 5",
+      "start": 48.0,
+      "end": 60.0,
+      "avg_energy": 0.4824182689189911,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 6",
+      "start": 60.0,
+      "end": 72.0,
+      "avg_energy": 0.5226141214370728,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 7",
+      "start": 72.0,
+      "end": 84.0,
+      "avg_energy": 0.5091014504432678,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 8",
+      "start": 84.0,
+      "end": 96.0,
+      "avg_energy": 0.5037829875946045,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 9",
+      "start": 96.0,
+      "end": 112.9411875,
+      "avg_energy": 0.5281496644020081,
+      "energy_label": "High"
+    }
+  ],
+  "scores": {
+    "mix": 69,
+    "master": 69,
+    "arrangement": 81,
+    "release": 73,
+    "energy": 9.421520638062416,
+    "bass_strength": 6.217925631297752,
+    "darkness": 2.9182237106865117,
+    "brightness": 7.081776289313488,
+    "drum_bounce": 10,
+    "vocal_space": 2.361187898373222
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 125672 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Minor. Confidence: 45.6%.",
+    "Beat energy: 9.4/10. Darkness: 2.9/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.48 hits/sec.",
+    "Estimated length: 79 bars at 169 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -6.16 dB. Dynamic range: 6.16 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

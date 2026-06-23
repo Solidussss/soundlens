@@ -1,0 +1,176 @@
+{
+  "basic": {
+    "file_name": "Lelo - Mozart.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lelo/Lelo - Mozart.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 128.0,
+    "bpm": 119.68,
+    "key": "D# Minor",
+    "key_note": "D#",
+    "key_mode": "Minor",
+    "key_confidence": 45.823844230306634
+  },
+  "loudness": {
+    "peak_db": -0.8367483256687751,
+    "rms_db": -13.42604512874922,
+    "dynamic_range_db": 12.589296803080444,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.8367483256687751
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.76582010585482,
+      "Bass / 808": 15.278876664411115,
+      "Mud": 14.440623199427622,
+      "Low Mids": 14.466204768467907,
+      "Mids / Melody": 14.024293099795104,
+      "Harsh Zone": 13.438866950698955,
+      "Highs": 13.62786045550148,
+      "Air": 12.396321704710015,
+      "Vocal Range": 15.144019822053616
+    },
+    "brightness_centroid_hz": 3376.645816128549,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 7114.87389071744,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.044696770265936,
+    "mid_total_percent": 42.93112106769063,
+    "top_total_percent": 26.024182160211495
+  },
+  "fingerprint": {
+    "mfcc_1": -141.4828338623047,
+    "mfcc_2": 130.3187713623047,
+    "mfcc_3": -7.2639689445495605,
+    "mfcc_4": 38.922752380371094,
+    "mfcc_5": -10.667214393615723,
+    "mfcc_6": 21.853904724121094,
+    "mfcc_7": -11.251765251159668,
+    "mfcc_8": 6.066439628601074,
+    "mfcc_9": -7.858636856079102,
+    "mfcc_10": 1.7444499731063843,
+    "mfcc_11": -6.958003520965576,
+    "mfcc_12": 1.8255568742752075,
+    "mfcc_13": -2.9034371376037598,
+    "chroma_1": 0.49847710132598877,
+    "chroma_2": 0.5012635588645935,
+    "chroma_3": 0.46972164511680603,
+    "chroma_4": 0.6272495985031128,
+    "chroma_5": 0.6385359168052673,
+    "chroma_6": 0.6226354241371155,
+    "chroma_7": 0.5665745735168457,
+    "chroma_8": 0.5961055755615234,
+    "chroma_9": 0.6294780373573303,
+    "chroma_10": 0.6251822113990784,
+    "chroma_11": 0.7629484534263611,
+    "chroma_12": 0.6586689352989197,
+    "spectral_contrast": 19.927602778507904,
+    "spectral_flatness": 0.001630141749046743,
+    "zero_crossing_rate": 0.06183204622271061
+  },
+  "rhythm": {
+    "onset_count": 933,
+    "onset_density": 7.2890625,
+    "drum_activity": "High",
+    "estimated_bars": 64,
+    "seconds_per_bar": 2.0053475935828877
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0427807486631,
+      "avg_energy": 0.2071651965379715,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0427807486631,
+      "end": 32.0855614973262,
+      "avg_energy": 0.2390442043542862,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0855614973262,
+      "end": 48.1283422459893,
+      "avg_energy": 0.20376704633235931,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.1283422459893,
+      "end": 64.1711229946524,
+      "avg_energy": 0.2210322916507721,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.1711229946524,
+      "end": 80.21390374331551,
+      "avg_energy": 0.23535022139549255,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.21390374331551,
+      "end": 96.25668449197862,
+      "avg_energy": 0.18242411315441132,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 96.25668449197862,
+      "end": 128.0,
+      "avg_energy": 0.20531690120697021,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 94,
+    "master": 94,
+    "arrangement": 75,
+    "release": 88,
+    "energy": 5.78697743562539,
+    "bass_strength": 6.208939354053188,
+    "darkness": 3.246708367742902,
+    "brightness": 6.753291632257098,
+    "drum_bounce": 10,
+    "vocal_space": 2.1571500390192497
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Minor. Confidence: 45.8%.",
+    "Beat energy: 5.8/10. Darkness: 3.2/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 7.29 hits/sec.",
+    "Estimated length: 64 bars at 120 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.84 dB. RMS: -13.43 dB. Dynamic range: 12.59 dB."
+  ],
+  "next_steps": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

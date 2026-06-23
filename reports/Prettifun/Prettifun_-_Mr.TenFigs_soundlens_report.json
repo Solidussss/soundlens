@@ -1,0 +1,194 @@
+{
+  "basic": {
+    "file_name": "Prettifun - Mr.TenFigs.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Prettifun/Prettifun - Mr.TenFigs.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 147.299125,
+    "bpm": 156.25,
+    "key": "D Minor",
+    "key_note": "D",
+    "key_mode": "Minor",
+    "key_confidence": 45.92060520172838
+  },
+  "loudness": {
+    "peak_db": 0.0010726482921428887,
+    "rms_db": -6.6194705162605905,
+    "dynamic_range_db": 6.620543164552734,
+    "clipping_detected": true,
+    "clipping_samples": 27141,
+    "clipping_percent": 0.3838702368394924,
+    "headroom_db": -0.0010726482921428887
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.112571538155034,
+      "Bass / 808": 15.05216281971126,
+      "Mud": 14.241349792538943,
+      "Low Mids": 13.407809048350854,
+      "Mids / Melody": 13.814333785690325,
+      "Harsh Zone": 13.502615197179582,
+      "Highs": 13.568380705087376,
+      "Air": 12.803392308682204,
+      "Vocal Range": 14.575446467055489
+    },
+    "brightness_centroid_hz": 2581.9648260741637,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5682.309015206372,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.164734357866294,
+    "mid_total_percent": 41.46349262658012,
+    "top_total_percent": 26.37177301376958
+  },
+  "fingerprint": {
+    "mfcc_1": -203.03269958496094,
+    "mfcc_2": 91.08380889892578,
+    "mfcc_3": 21.395456314086914,
+    "mfcc_4": 59.87362289428711,
+    "mfcc_5": 8.250970840454102,
+    "mfcc_6": 25.652755737304688,
+    "mfcc_7": 2.968724489212036,
+    "mfcc_8": 21.00009536743164,
+    "mfcc_9": 3.711642026901245,
+    "mfcc_10": 9.179943084716797,
+    "mfcc_11": 5.835421562194824,
+    "mfcc_12": 11.198786735534668,
+    "mfcc_13": 3.3877503871917725,
+    "chroma_1": 0.5451009273529053,
+    "chroma_2": 0.7192263603210449,
+    "chroma_3": 0.8668411374092102,
+    "chroma_4": 0.7176494002342224,
+    "chroma_5": 0.5236488580703735,
+    "chroma_6": 0.3906048536300659,
+    "chroma_7": 0.38646283745765686,
+    "chroma_8": 0.45964816212654114,
+    "chroma_9": 0.3678828775882721,
+    "chroma_10": 0.3274713158607483,
+    "chroma_11": 0.28405120968818665,
+    "chroma_12": 0.22243523597717285,
+    "spectral_contrast": 20.266315899598144,
+    "spectral_flatness": 0.0006612258148379624,
+    "zero_crossing_rate": 0.017968573214608978
+  },
+  "rhythm": {
+    "onset_count": 885,
+    "onset_density": 6.008182329664212,
+    "drum_activity": "High",
+    "estimated_bars": 96,
+    "seconds_per_bar": 1.536
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.39087212085723877,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.4991244077682495,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.495893269777298,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.47788482904434204,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.37098217010498047,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.49482256174087524,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.5002669095993042,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 112.0,
+      "end": 128.0,
+      "avg_energy": 0.49050700664520264,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 128.0,
+      "end": 147.299125,
+      "avg_energy": 0.4602920711040497,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 75,
+    "release": 79,
+    "energy": 9.190264741869704,
+    "bass_strength": 6.432946871573259,
+    "darkness": 4.836070347851672,
+    "brightness": 5.163929652148328,
+    "drum_bounce": 10,
+    "vocal_space": 2.388058790362873
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 27141 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Minor. Confidence: 45.9%.",
+    "Beat energy: 9.2/10. Darkness: 4.8/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.01 hits/sec.",
+    "Estimated length: 96 bars at 156 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -6.62 dB. Dynamic range: 6.62 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

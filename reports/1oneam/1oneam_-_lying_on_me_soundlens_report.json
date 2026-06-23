@@ -1,0 +1,177 @@
+{
+  "basic": {
+    "file_name": "1oneam - lying on me.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/1oneam/1oneam - lying on me.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 97.46577083333334,
+    "bpm": 137.2,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 47.934683853995224
+  },
+  "loudness": {
+    "peak_db": -1.2425273681693113e-05,
+    "rms_db": -8.510781304791465,
+    "dynamic_range_db": 8.510768879517784,
+    "clipping_detected": true,
+    "clipping_samples": 1818,
+    "clipping_percent": 0.038859796291732335,
+    "headroom_db": 1.2425273681693113e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 18.06428773412045,
+      "Bass / 808": 15.267531266369518,
+      "Mud": 14.646532643580906,
+      "Low Mids": 14.75247948932871,
+      "Mids / Melody": 13.297405848275123,
+      "Harsh Zone": 12.622897308747124,
+      "Highs": 12.394170541097742,
+      "Air": 11.577592475277628,
+      "Vocal Range": 15.27716863017497
+    },
+    "brightness_centroid_hz": 1625.49225087584,
+    "brightness_label": "Low",
+    "spectral_rolloff_hz": 3490.587040380827,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 33.33181900048997,
+    "mid_total_percent": 42.69641798118474,
+    "top_total_percent": 23.97176301637537
+  },
+  "fingerprint": {
+    "mfcc_1": -224.1796875,
+    "mfcc_2": 151.86827087402344,
+    "mfcc_3": 35.011810302734375,
+    "mfcc_4": 37.700218200683594,
+    "mfcc_5": -5.209746360778809,
+    "mfcc_6": 20.359540939331055,
+    "mfcc_7": -15.179244995117188,
+    "mfcc_8": 11.948573112487793,
+    "mfcc_9": 10.854643821716309,
+    "mfcc_10": 2.8040449619293213,
+    "mfcc_11": 4.181791305541992,
+    "mfcc_12": 0.2140866369009018,
+    "mfcc_13": 1.7000007629394531,
+    "chroma_1": 0.5541543364524841,
+    "chroma_2": 0.6475757956504822,
+    "chroma_3": 0.5275446176528931,
+    "chroma_4": 0.5689444541931152,
+    "chroma_5": 0.5176339745521545,
+    "chroma_6": 0.36617210507392883,
+    "chroma_7": 0.31941044330596924,
+    "chroma_8": 0.2365085929632187,
+    "chroma_9": 0.25748592615127563,
+    "chroma_10": 0.1762317419052124,
+    "chroma_11": 0.2577365040779114,
+    "chroma_12": 0.22107724845409393,
+    "spectral_contrast": 20.352607351197705,
+    "spectral_flatness": 0.00015142963093239814,
+    "zero_crossing_rate": 0.021662951924655286
+  },
+  "rhythm": {
+    "onset_count": 477,
+    "onset_density": 4.89402583000827,
+    "drum_activity": "High",
+    "estimated_bars": 56,
+    "seconds_per_bar": 1.7492711370262393
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 13.994169096209914,
+      "avg_energy": 0.3751698434352875,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 2",
+      "start": 13.994169096209914,
+      "end": 27.98833819241983,
+      "avg_energy": 0.3652254045009613,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 3",
+      "start": 27.98833819241983,
+      "end": 41.98250728862974,
+      "avg_energy": 0.38536351919174194,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 4",
+      "start": 41.98250728862974,
+      "end": 55.97667638483966,
+      "avg_energy": 0.38134944438934326,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 5",
+      "start": 55.97667638483966,
+      "end": 69.97084548104957,
+      "avg_energy": 0.36080917716026306,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 6",
+      "start": 69.97084548104957,
+      "end": 83.96501457725948,
+      "avg_energy": 0.3845883905887604,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 7",
+      "start": 83.96501457725948,
+      "end": 97.46577083333334,
+      "avg_energy": 0.37434133887290955,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 66,
+    "release": 80,
+    "energy": 8.244609347604268,
+    "bass_strength": 6.666363800097995,
+    "darkness": 6.74901549824832,
+    "brightness": 3.25098450175168,
+    "drum_bounce": 10,
+    "vocal_space": 2.0338898726635355
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 1818 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 47.9%.",
+    "Beat energy: 8.2/10. Darkness: 6.7/10.",
+    "Vocal space estimate: 2.0/10. Higher means easier space for vocals.",
+    "Beat leans dark, so brighter vocals/adlibs may cut through well."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.89 hits/sec.",
+    "Estimated length: 56 bars at 137 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -8.51 dB. Dynamic range: 8.51 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

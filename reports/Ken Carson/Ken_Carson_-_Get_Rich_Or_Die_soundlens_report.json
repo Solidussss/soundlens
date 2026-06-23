@@ -1,0 +1,185 @@
+{
+  "basic": {
+    "file_name": "Ken Carson - Get Rich Or Die.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Ken Carson/Ken Carson - Get Rich Or Die.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 139.60533333333333,
+    "bpm": 152.03,
+    "key": "C# Minor / Try F Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 51.76627496258635
+  },
+  "loudness": {
+    "peak_db": 0.00011700378875757766,
+    "rms_db": -8.938300498428655,
+    "dynamic_range_db": 8.938417502217412,
+    "clipping_detected": true,
+    "clipping_samples": 19623,
+    "clipping_percent": 0.2928344428102078,
+    "headroom_db": -0.00011700378875757766
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.687552893420772,
+      "Bass / 808": 14.836309852403327,
+      "Mud": 13.809269529223222,
+      "Low Mids": 14.254359815338406,
+      "Mids / Melody": 14.631062494842913,
+      "Harsh Zone": 13.94091014283976,
+      "Highs": 13.831748025813424,
+      "Air": 11.94969738716715,
+      "Vocal Range": 15.08368773969962
+    },
+    "brightness_centroid_hz": 3873.960317826629,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 7669.026114485446,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.523862745824097,
+    "mid_total_percent": 42.69469183940454,
+    "top_total_percent": 25.781445412980574
+  },
+  "fingerprint": {
+    "mfcc_1": -128.78636169433594,
+    "mfcc_2": 101.16915130615234,
+    "mfcc_3": -31.69318199157715,
+    "mfcc_4": 37.442230224609375,
+    "mfcc_5": -18.444721221923828,
+    "mfcc_6": 28.563003540039062,
+    "mfcc_7": -2.474445104598999,
+    "mfcc_8": 6.509643077850342,
+    "mfcc_9": 1.4786198139190674,
+    "mfcc_10": 6.856678485870361,
+    "mfcc_11": -1.0476363897323608,
+    "mfcc_12": 9.132314682006836,
+    "mfcc_13": -0.42950719594955444,
+    "chroma_1": 0.25725629925727844,
+    "chroma_2": 0.35544031858444214,
+    "chroma_3": 0.2801210880279541,
+    "chroma_4": 0.5912927985191345,
+    "chroma_5": 0.7742626667022705,
+    "chroma_6": 0.5656153559684753,
+    "chroma_7": 0.3743411600589752,
+    "chroma_8": 0.2649974524974823,
+    "chroma_9": 0.3778131604194641,
+    "chroma_10": 0.2514227628707886,
+    "chroma_11": 0.2485177218914032,
+    "chroma_12": 0.2677801251411438,
+    "spectral_contrast": 19.823375779716237,
+    "spectral_flatness": 0.0021603021305054426,
+    "zero_crossing_rate": 0.08042278314567576
+  },
+  "rhythm": {
+    "onset_count": 716,
+    "onset_density": 5.128743887530562,
+    "drum_activity": "High",
+    "estimated_bars": 88,
+    "seconds_per_bar": 1.5786357955666646
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.3120220899581909,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.3717603385448456,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.42846331000328064,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.34117770195007324,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.34411147236824036,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.41334396600723267,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.3486531376838684,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 139.60533333333333,
+      "avg_energy": 0.3118595480918884,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 81,
+    "release": 81,
+    "energy": 8.030849750785674,
+    "bass_strength": 6.304772549164819,
+    "darkness": 2.2520793643467423,
+    "brightness": 7.747920635653258,
+    "drum_bounce": 10,
+    "vocal_space": 2.4399550718337952
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 19623 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor / Try F Minor. Confidence: 51.8%.",
+    "Beat energy: 8.0/10. Darkness: 2.3/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.13 hits/sec.",
+    "Estimated length: 88 bars at 152 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -8.94 dB. Dynamic range: 8.94 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

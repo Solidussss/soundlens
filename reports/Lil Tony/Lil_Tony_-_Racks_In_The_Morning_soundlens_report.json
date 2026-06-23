@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "Lil Tony - Racks In The Morning.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lil Tony/Lil Tony - Racks In The Morning.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 126.4094375,
+    "bpm": 152.03,
+    "key": "D Major",
+    "key_note": "D",
+    "key_mode": "Major",
+    "key_confidence": 45.04310375400674
+  },
+  "loudness": {
+    "peak_db": 5.073634972880228e-05,
+    "rms_db": -8.359457188766807,
+    "dynamic_range_db": 8.359507925116537,
+    "clipping_detected": true,
+    "clipping_samples": 62,
+    "clipping_percent": 0.0010218118933300899,
+    "headroom_db": -5.073634972880228e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.373108787214516,
+      "Bass / 808": 14.600061143993361,
+      "Mud": 14.15856206487378,
+      "Low Mids": 14.331198880848023,
+      "Mids / Melody": 13.91562883556209,
+      "Harsh Zone": 13.407708323537179,
+      "Highs": 13.723356962846603,
+      "Air": 11.898083322812194,
+      "Vocal Range": 14.991943012359165
+    },
+    "brightness_centroid_hz": 2375.980740294214,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5443.20758796726,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.973169931207877,
+    "mid_total_percent": 42.405389781283894,
+    "top_total_percent": 25.6214402856588
+  },
+  "fingerprint": {
+    "mfcc_1": -166.76185607910156,
+    "mfcc_2": 131.55520629882812,
+    "mfcc_3": -4.131885528564453,
+    "mfcc_4": 55.62492752075195,
+    "mfcc_5": -12.4307279586792,
+    "mfcc_6": 38.471656799316406,
+    "mfcc_7": -3.813051700592041,
+    "mfcc_8": 0.9172795414924622,
+    "mfcc_9": 7.685892105102539,
+    "mfcc_10": 12.93549633026123,
+    "mfcc_11": 3.2690107822418213,
+    "mfcc_12": 10.869062423706055,
+    "mfcc_13": 13.164680480957031,
+    "chroma_1": 0.1562962830066681,
+    "chroma_2": 0.5063823461532593,
+    "chroma_3": 0.7832981944084167,
+    "chroma_4": 0.3669329285621643,
+    "chroma_5": 0.2128753364086151,
+    "chroma_6": 0.1556919515132904,
+    "chroma_7": 0.14508692920207977,
+    "chroma_8": 0.11869997531175613,
+    "chroma_9": 0.13146346807479858,
+    "chroma_10": 0.247328519821167,
+    "chroma_11": 0.1449861377477646,
+    "chroma_12": 0.10989492386579514,
+    "spectral_contrast": 20.857081976465842,
+    "spectral_flatness": 0.00011409539001761004,
+    "zero_crossing_rate": 0.013970752072609907
+  },
+  "rhythm": {
+    "onset_count": 955,
+    "onset_density": 7.554815675846988,
+    "drum_activity": "High",
+    "estimated_bars": 80,
+    "seconds_per_bar": 1.5786357955666646
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.3776647448539734,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.385301798582077,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.383728563785553,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.3848080635070801,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.38397812843322754,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.38541340827941895,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 126.4094375,
+      "avg_energy": 0.37711772322654724,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 8.320271405616596,
+    "bass_strength": 6.394633986241575,
+    "darkness": 5.248038519411573,
+    "brightness": 4.751961480588427,
+    "drum_bounce": 10,
+    "vocal_space": 2.2892610482150557
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 62 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Major. Confidence: 45.0%.",
+    "Beat energy: 8.3/10. Darkness: 5.2/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 7.55 hits/sec.",
+    "Estimated length: 80 bars at 152 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -8.36 dB. Dynamic range: 8.36 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

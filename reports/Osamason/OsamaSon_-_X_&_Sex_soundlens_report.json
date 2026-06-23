@@ -1,0 +1,153 @@
+{
+  "basic": {
+    "file_name": "OsamaSon - X & Sex.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Osamason/OsamaSon - X & Sex.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 54.976,
+    "bpm": 150.67,
+    "key": "C Minor / Try F# Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 45.20952632165021
+  },
+  "loudness": {
+    "peak_db": 0.005247053772985186,
+    "rms_db": -3.3585381776353547,
+    "dynamic_range_db": 3.36378523140834,
+    "clipping_detected": true,
+    "clipping_samples": 236309,
+    "clipping_percent": 8.955006123884361,
+    "headroom_db": -0.005247053772985186
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.09746839334516,
+      "Bass / 808": 15.516414174122586,
+      "Mud": 13.533555795496554,
+      "Low Mids": 13.85789354231837,
+      "Mids / Melody": 13.653396190661619,
+      "Harsh Zone": 12.958663438807813,
+      "Highs": 13.5979804932133,
+      "Air": 12.74329140904186,
+      "Vocal Range": 14.501856332019047
+    },
+    "brightness_centroid_hz": 3241.4660629109308,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 7855.340688651794,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.61388256746775,
+    "mid_total_percent": 41.04484552847654,
+    "top_total_percent": 26.34127190225516
+  },
+  "fingerprint": {
+    "mfcc_1": -69.19901275634766,
+    "mfcc_2": 107.97174835205078,
+    "mfcc_3": 4.5211405754089355,
+    "mfcc_4": 44.41215896606445,
+    "mfcc_5": -13.068532943725586,
+    "mfcc_6": 36.83940124511719,
+    "mfcc_7": -1.8414794206619263,
+    "mfcc_8": 13.571958541870117,
+    "mfcc_9": 0.18389970064163208,
+    "mfcc_10": 16.401601791381836,
+    "mfcc_11": -0.3359443247318268,
+    "mfcc_12": 16.143047332763672,
+    "mfcc_13": 5.632481575012207,
+    "chroma_1": 0.6724536418914795,
+    "chroma_2": 0.6074520945549011,
+    "chroma_3": 0.41005030274391174,
+    "chroma_4": 0.5361553430557251,
+    "chroma_5": 0.3525325655937195,
+    "chroma_6": 0.2673458158969879,
+    "chroma_7": 0.6381597518920898,
+    "chroma_8": 0.31057435274124146,
+    "chroma_9": 0.2592500150203705,
+    "chroma_10": 0.24924783408641815,
+    "chroma_11": 0.1850237101316452,
+    "chroma_12": 0.34729811549186707,
+    "spectral_contrast": 15.554953972470958,
+    "spectral_flatness": 0.002163195749744773,
+    "zero_crossing_rate": 0.025808813500242483
+  },
+  "rhythm": {
+    "onset_count": 376,
+    "onset_density": 6.839348079161816,
+    "drum_activity": "High",
+    "estimated_bars": 35,
+    "seconds_per_bar": 1.5928851131612134
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.6326569318771362,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.6893635988235474,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 32.0,
+      "end": 54.976,
+      "avg_energy": 0.7032275795936584,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 50,
+    "release": 52,
+    "energy": 10,
+    "bass_strength": 6.522776513493549,
+    "darkness": 3.5170678741781387,
+    "brightness": 6.482932125821861,
+    "drum_bounce": 10,
+    "vocal_space": 2.606878604327325
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 236309 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor / Try F# Minor. Confidence: 45.2%.",
+    "Beat energy: 10.0/10. Darkness: 3.5/10.",
+    "Vocal space estimate: 2.6/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.84 hits/sec.",
+    "Estimated length: 35 bars at 151 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.01 dB. RMS: -3.36 dB. Dynamic range: 3.36 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

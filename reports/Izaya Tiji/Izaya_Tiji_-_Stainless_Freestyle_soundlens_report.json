@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "Izaya Tiji - Stainless Freestyle.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Izaya Tiji/Izaya Tiji - Stainless Freestyle.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 113.05797916666667,
+    "bpm": 140.62,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 49.113280019110455
+  },
+  "loudness": {
+    "peak_db": -6.575060839671852e-05,
+    "rms_db": -14.447627703228136,
+    "dynamic_range_db": 14.44756195261974,
+    "clipping_detected": true,
+    "clipping_samples": 1771,
+    "clipping_percent": 0.03263443553943469,
+    "headroom_db": 6.575060839671852e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.548472035616065,
+      "Bass / 808": 15.528178730282752,
+      "Mud": 15.10410708061837,
+      "Low Mids": 14.387427255755703,
+      "Mids / Melody": 13.863313075663704,
+      "Harsh Zone": 13.007898364532721,
+      "Highs": 12.937413519204538,
+      "Air": 11.63108830092541,
+      "Vocal Range": 15.394278544596512
+    },
+    "brightness_centroid_hz": 2354.6606695950304,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5006.995135613208,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.07665076589882,
+    "mid_total_percent": 43.35484741203778,
+    "top_total_percent": 24.568501820129946
+  },
+  "fingerprint": {
+    "mfcc_1": -249.70452880859375,
+    "mfcc_2": 131.21751403808594,
+    "mfcc_3": 20.983783721923828,
+    "mfcc_4": 29.937211990356445,
+    "mfcc_5": -0.7467937469482422,
+    "mfcc_6": 34.06745147705078,
+    "mfcc_7": -7.549591541290283,
+    "mfcc_8": 4.857067584991455,
+    "mfcc_9": 8.612751960754395,
+    "mfcc_10": -8.969922065734863,
+    "mfcc_11": 2.9741384983062744,
+    "mfcc_12": 3.6358697414398193,
+    "mfcc_13": -0.25589144229888916,
+    "chroma_1": 0.46932774782180786,
+    "chroma_2": 0.7124306559562683,
+    "chroma_3": 0.6515049338340759,
+    "chroma_4": 0.4002964198589325,
+    "chroma_5": 0.49306410551071167,
+    "chroma_6": 0.2905692756175995,
+    "chroma_7": 0.3360455334186554,
+    "chroma_8": 0.3425883650779724,
+    "chroma_9": 0.31455621123313904,
+    "chroma_10": 0.42286622524261475,
+    "chroma_11": 0.27141273021698,
+    "chroma_12": 0.3002921938896179,
+    "spectral_contrast": 19.41485033000773,
+    "spectral_flatness": 0.005255178548395634,
+    "zero_crossing_rate": 0.037364571049528304
+  },
+  "rhythm": {
+    "onset_count": 766,
+    "onset_density": 6.775284731303978,
+    "drum_activity": "High",
+    "estimated_bars": 66,
+    "seconds_per_bar": 1.7067273503057887
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.17246778309345245,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.2303740680217743,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.23041312396526337,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.2260662317276001,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.16558735072612762,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.18742138147354126,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 113.05797916666667,
+      "avg_energy": 0.06274895370006561,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 5.276186148385932,
+    "bass_strength": 6.415330153179764,
+    "darkness": 5.290678660809939,
+    "brightness": 4.709321339190061,
+    "drum_bounce": 10,
+    "vocal_space": 1.9030104169304085
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 1771 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 49.1%.",
+    "Beat energy: 5.3/10. Darkness: 5.3/10.",
+    "Vocal space estimate: 1.9/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.78 hits/sec.",
+    "Estimated length: 66 bars at 141 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -14.45 dB. Dynamic range: 14.45 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

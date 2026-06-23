@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Yung Fazo - Count It Up.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Yung Fazo/Yung Fazo - Count It Up.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 133.26933333333332,
+    "bpm": 156.25,
+    "key": "D# Minor",
+    "key_note": "D#",
+    "key_mode": "Minor",
+    "key_confidence": 47.65416703687465
+  },
+  "loudness": {
+    "peak_db": 0.000178093636244155,
+    "rms_db": -9.562104658119729,
+    "dynamic_range_db": 9.562282751755973,
+    "clipping_detected": true,
+    "clipping_samples": 143,
+    "clipping_percent": 0.0022354480150472227,
+    "headroom_db": -0.000178093636244155
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.38818291961467,
+      "Bass / 808": 14.51869037239758,
+      "Mud": 13.997363601059265,
+      "Low Mids": 13.990819403052923,
+      "Mids / Melody": 13.787160674596924,
+      "Harsh Zone": 13.425117277151532,
+      "Highs": 13.695624064973385,
+      "Air": 13.622158962528896,
+      "Vocal Range": 14.718900818419744
+    },
+    "brightness_centroid_hz": 4857.235014939243,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 10795.62199879952,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.90687329201225,
+    "mid_total_percent": 41.77534367870911,
+    "top_total_percent": 27.31778302750228
+  },
+  "fingerprint": {
+    "mfcc_1": -110.88489532470703,
+    "mfcc_2": 95.71039581298828,
+    "mfcc_3": 10.382275581359863,
+    "mfcc_4": 47.40211486816406,
+    "mfcc_5": -12.158032417297363,
+    "mfcc_6": 34.22221374511719,
+    "mfcc_7": -17.66059684753418,
+    "mfcc_8": 19.940967559814453,
+    "mfcc_9": -5.323554992675781,
+    "mfcc_10": 14.571206092834473,
+    "mfcc_11": -9.493915557861328,
+    "mfcc_12": 15.01082706451416,
+    "mfcc_13": -1.895421028137207,
+    "chroma_1": 0.4589632749557495,
+    "chroma_2": 0.589667022228241,
+    "chroma_3": 0.416195273399353,
+    "chroma_4": 0.7562370896339417,
+    "chroma_5": 0.4396010637283325,
+    "chroma_6": 0.34668436646461487,
+    "chroma_7": 0.4345118999481201,
+    "chroma_8": 0.30372223258018494,
+    "chroma_9": 0.37546494603157043,
+    "chroma_10": 0.2644573748111725,
+    "chroma_11": 0.297091543674469,
+    "chroma_12": 0.2830740213394165,
+    "spectral_contrast": 20.24284517245093,
+    "spectral_flatness": 0.0019709242042154074,
+    "zero_crossing_rate": 0.061031990921368545
+  },
+  "rhythm": {
+    "onset_count": 479,
+    "onset_density": 3.594225228109493,
+    "drum_activity": "High",
+    "estimated_bars": 87,
+    "seconds_per_bar": 1.536
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.3521198332309723,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.363385409116745,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.3389209508895874,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.36352792382240295,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.3338935673236847,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.35678765177726746,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.3293108642101288,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 133.26933333333332,
+      "avg_energy": 0.231126070022583,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 7.7189476709401355,
+    "bass_strength": 6.18137465840245,
+    "darkness": 0.28552997012151415,
+    "brightness": 9.714470029878486,
+    "drum_bounce": 8.985563070273733,
+    "vocal_space": 2.4023660734258767
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 143 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D# Minor. Confidence: 47.7%.",
+    "Beat energy: 7.7/10. Darkness: 0.3/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 3.59 hits/sec.",
+    "Estimated length: 87 bars at 156 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -9.56 dB. Dynamic range: 9.56 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

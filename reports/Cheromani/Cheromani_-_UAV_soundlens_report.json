@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Cheromani - UAV.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Cheromani/Cheromani - UAV.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 136.25470833333333,
+    "bpm": 156.25,
+    "key": "F# Minor / Try G Minor",
+    "key_note": "F#",
+    "key_mode": "Minor",
+    "key_confidence": 46.041246598674704
+  },
+  "loudness": {
+    "peak_db": 0.006864316583149437,
+    "rms_db": -4.94836619711395,
+    "dynamic_range_db": 4.955230513697099,
+    "clipping_detected": true,
+    "clipping_samples": 200257,
+    "clipping_percent": 3.0619278294052834,
+    "headroom_db": -0.006864316583149437
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.294466196603636,
+      "Bass / 808": 14.426218524239873,
+      "Mud": 13.913425226432222,
+      "Low Mids": 14.220409883804871,
+      "Mids / Melody": 14.607600787221028,
+      "Harsh Zone": 14.226499874718593,
+      "Highs": 14.173059934161971,
+      "Air": 13.364819445916872,
+      "Vocal Range": 14.996923110231641
+    },
+    "brightness_centroid_hz": 5353.228290198404,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 11550.21613727102,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 29.720684720843508,
+    "mid_total_percent": 42.74143589745812,
+    "top_total_percent": 27.53787938007884
+  },
+  "fingerprint": {
+    "mfcc_1": 54.33251190185547,
+    "mfcc_2": 89.17257690429688,
+    "mfcc_3": -18.10124397277832,
+    "mfcc_4": 36.13240432739258,
+    "mfcc_5": -10.169581413269043,
+    "mfcc_6": 23.053800582885742,
+    "mfcc_7": -5.342548370361328,
+    "mfcc_8": 17.431554794311523,
+    "mfcc_9": -5.699324607849121,
+    "mfcc_10": 12.413318634033203,
+    "mfcc_11": -3.5991008281707764,
+    "mfcc_12": 10.948325157165527,
+    "mfcc_13": -1.2877652645111084,
+    "chroma_1": 0.4997705817222595,
+    "chroma_2": 0.4706660509109497,
+    "chroma_3": 0.47262924909591675,
+    "chroma_4": 0.40342140197753906,
+    "chroma_5": 0.37459689378738403,
+    "chroma_6": 0.3573724925518036,
+    "chroma_7": 0.6329250931739807,
+    "chroma_8": 0.7377491593360901,
+    "chroma_9": 0.5302877426147461,
+    "chroma_10": 0.47461846470832825,
+    "chroma_11": 0.36363139748573303,
+    "chroma_12": 0.42102980613708496,
+    "spectral_contrast": 14.972972282931911,
+    "spectral_flatness": 0.03238436207175255,
+    "zero_crossing_rate": 0.10449715670013308
+  },
+  "rhythm": {
+    "onset_count": 838,
+    "onset_density": 6.15024618415327,
+    "drum_activity": "High",
+    "estimated_bars": 89,
+    "seconds_per_bar": 1.536
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.6303006410598755,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5650004148483276,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.5679803490638733,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.5452901721000671,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.5049659609794617,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.5289701819419861,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.5674931406974792,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 136.25470833333333,
+      "avg_energy": 0.5923381447792053,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 75,
+    "release": 60,
+    "energy": 10,
+    "bass_strength": 5.944136944168702,
+    "darkness": 0,
+    "brightness": 10,
+    "drum_bounce": 10,
+    "vocal_space": 2.4031427831692724
+  },
+  "top_problems": [
+    "Clipping detected: 200257 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Minor / Try G Minor. Confidence: 46.0%.",
+    "Beat energy: 10.0/10. Darkness: 0.0/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.15 hits/sec.",
+    "Estimated length: 89 bars at 156 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.01 dB. RMS: -4.95 dB. Dynamic range: 4.96 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

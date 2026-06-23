@@ -1,0 +1,152 @@
+{
+  "basic": {
+    "file_name": "D Savage - Get Money (Interlude).wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/D Savage/D Savage - Get Money (Interlude).wav",
+    "sample_rate": 48000,
+    "duration_seconds": 53.93066666666667,
+    "bpm": 144.23,
+    "key": "F Minor",
+    "key_note": "F",
+    "key_mode": "Minor",
+    "key_confidence": 45.00387622566191
+  },
+  "loudness": {
+    "peak_db": 0.0003292632761448072,
+    "rms_db": -11.22374136887338,
+    "dynamic_range_db": 11.224070632149525,
+    "clipping_detected": true,
+    "clipping_samples": 1830,
+    "clipping_percent": 0.07069261768196203,
+    "headroom_db": -0.0003292632761448072
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.78827329450879,
+      "Bass / 808": 14.892254788135793,
+      "Mud": 13.850316342064268,
+      "Low Mids": 14.402920030058928,
+      "Mids / Melody": 14.969744380317026,
+      "Harsh Zone": 14.248285499182808,
+      "Highs": 13.843307461353932,
+      "Air": 11.253183701618287,
+      "Vocal Range": 15.39116109236183
+    },
+    "brightness_centroid_hz": 2886.380140700058,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6302.4860342100055,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.680528082644585,
+    "mid_total_percent": 43.22298075244022,
+    "top_total_percent": 25.09649116297222
+  },
+  "fingerprint": {
+    "mfcc_1": -121.28895568847656,
+    "mfcc_2": 130.6679229736328,
+    "mfcc_3": -39.058677673339844,
+    "mfcc_4": 42.16657638549805,
+    "mfcc_5": -17.626895904541016,
+    "mfcc_6": 20.516510009765625,
+    "mfcc_7": -0.9939662218093872,
+    "mfcc_8": 3.663790702819824,
+    "mfcc_9": 6.46083402633667,
+    "mfcc_10": 3.88470721244812,
+    "mfcc_11": 0.08899145573377609,
+    "mfcc_12": 4.88901424407959,
+    "mfcc_13": 7.584210395812988,
+    "chroma_1": 0.5273389220237732,
+    "chroma_2": 0.6749184131622314,
+    "chroma_3": 0.4403577446937561,
+    "chroma_4": 0.454184889793396,
+    "chroma_5": 0.4710250496864319,
+    "chroma_6": 0.6358460187911987,
+    "chroma_7": 0.3329066336154938,
+    "chroma_8": 0.36799532175064087,
+    "chroma_9": 0.371622234582901,
+    "chroma_10": 0.3277154564857483,
+    "chroma_11": 0.45059525966644287,
+    "chroma_12": 0.32140469551086426,
+    "spectral_contrast": 19.550947488164557,
+    "spectral_flatness": 0.00035872403532266617,
+    "zero_crossing_rate": 0.04554417530774174
+  },
+  "rhythm": {
+    "onset_count": 367,
+    "onset_density": 6.805033623417722,
+    "drum_activity": "High",
+    "estimated_bars": 32,
+    "seconds_per_bar": 1.6640088747139985
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.265695184469223,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.29421767592430115,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 32.0,
+      "end": 53.93066666666667,
+      "avg_energy": 0.2662143409252167,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 50,
+    "release": 75,
+    "energy": 6.88812931556331,
+    "bass_strength": 6.336105616528917,
+    "darkness": 4.2272397185998845,
+    "brightness": 5.7727602814001155,
+    "drum_bounce": 10,
+    "vocal_space": 2.40231345888016
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 1830 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F Minor. Confidence: 45.0%.",
+    "Beat energy: 6.9/10. Darkness: 4.2/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.81 hits/sec.",
+    "Estimated length: 32 bars at 144 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -11.22 dB. Dynamic range: 11.22 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

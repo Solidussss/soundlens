@@ -1,0 +1,178 @@
+{
+  "basic": {
+    "file_name": "Rich Amiri - GUTTA GUTTA.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Rich Amiri/Rich Amiri - GUTTA GUTTA.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 127.168,
+    "bpm": 152.03,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 46.71331806938784
+  },
+  "loudness": {
+    "peak_db": -7.248101371569167e-05,
+    "rms_db": -9.728827288576497,
+    "dynamic_range_db": 9.728754807562781,
+    "clipping_detected": true,
+    "clipping_samples": 10902,
+    "clipping_percent": 0.17860232133870155,
+    "headroom_db": 7.248101371569167e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.940247498436383,
+      "Bass / 808": 14.75087035741128,
+      "Mud": 14.55121300045206,
+      "Low Mids": 14.672701309924083,
+      "Mids / Melody": 14.681122024282658,
+      "Harsh Zone": 13.902682637911553,
+      "Highs": 13.66371123893598,
+      "Air": 11.74013456879443,
+      "Vocal Range": 15.414127722090281
+    },
+    "brightness_centroid_hz": 2714.1810262590884,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5574.952298079343,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.691117855847665,
+    "mid_total_percent": 43.9050363346588,
+    "top_total_percent": 25.40384580773041
+  },
+  "fingerprint": {
+    "mfcc_1": -82.84252166748047,
+    "mfcc_2": 150.15208435058594,
+    "mfcc_3": -30.56720733642578,
+    "mfcc_4": 36.18608093261719,
+    "mfcc_5": -13.769712448120117,
+    "mfcc_6": 17.906700134277344,
+    "mfcc_7": 0.6939627528190613,
+    "mfcc_8": 8.076537132263184,
+    "mfcc_9": -8.607579231262207,
+    "mfcc_10": 1.1864677667617798,
+    "mfcc_11": -3.3311593532562256,
+    "mfcc_12": 2.8045599460601807,
+    "mfcc_13": -4.286900997161865,
+    "chroma_1": 0.4150853753089905,
+    "chroma_2": 0.9406266808509827,
+    "chroma_3": 0.566344141960144,
+    "chroma_4": 0.5191701054573059,
+    "chroma_5": 0.4713713228702545,
+    "chroma_6": 0.37279731035232544,
+    "chroma_7": 0.30533334612846375,
+    "chroma_8": 0.27751076221466064,
+    "chroma_9": 0.3748042583465576,
+    "chroma_10": 0.25588440895080566,
+    "chroma_11": 0.23756758868694305,
+    "chroma_12": 0.28940072655677795,
+    "spectral_contrast": 19.011068827329492,
+    "spectral_flatness": 0.0008366101537831128,
+    "zero_crossing_rate": 0.049203171522477565
+  },
+  "rhythm": {
+    "onset_count": 506,
+    "onset_density": 3.978988424760946,
+    "drum_activity": "High",
+    "estimated_bars": 81,
+    "seconds_per_bar": 1.5786357955666646
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.34327232837677,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.32726576924324036,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.363841712474823,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.3486177921295166,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.28414207696914673,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.33025819063186646,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 127.168,
+      "avg_energy": 0.30173036456108093,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 81,
+    "release": 81,
+    "energy": 7.635586355711752,
+    "bass_strength": 6.138223571169533,
+    "darkness": 4.571637947481824,
+    "brightness": 5.428362052518176,
+    "drum_bounce": 9.947471061902366,
+    "vocal_space": 2.0834146126871635
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 10902 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 46.7%.",
+    "Beat energy: 7.6/10. Darkness: 4.6/10.",
+    "Vocal space estimate: 2.1/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 3.98 hits/sec.",
+    "Estimated length: 81 bars at 152 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -9.73 dB. Dynamic range: 9.73 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

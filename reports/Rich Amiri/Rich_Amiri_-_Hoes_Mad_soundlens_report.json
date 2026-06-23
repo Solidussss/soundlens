@@ -1,0 +1,178 @@
+{
+  "basic": {
+    "file_name": "Rich Amiri - Hoes Mad.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Rich Amiri/Rich Amiri - Hoes Mad.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 127.33825,
+    "bpm": 152.03,
+    "key": "F# Major",
+    "key_note": "F#",
+    "key_mode": "Major",
+    "key_confidence": 45.32491962065745
+  },
+  "loudness": {
+    "peak_db": 0.000441085700435243,
+    "rms_db": -7.128415356129118,
+    "dynamic_range_db": 7.128856441829553,
+    "clipping_detected": true,
+    "clipping_samples": 9844,
+    "clipping_percent": 0.16105399071632706,
+    "headroom_db": -0.000441085700435243
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.583579341817387,
+      "Bass / 808": 14.447102739725773,
+      "Mud": 14.278146111374737,
+      "Low Mids": 14.160673762688472,
+      "Mids / Melody": 14.093125159369105,
+      "Harsh Zone": 13.325329767159644,
+      "Highs": 13.561379356195483,
+      "Air": 12.875993527078954,
+      "Vocal Range": 14.979940916907907
+    },
+    "brightness_centroid_hz": 3444.8247719621986,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 7629.984084436254,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.030682081543162,
+    "mid_total_percent": 42.53194503343231,
+    "top_total_percent": 26.437372883274435
+  },
+  "fingerprint": {
+    "mfcc_1": -98.6107177734375,
+    "mfcc_2": 121.0391616821289,
+    "mfcc_3": -11.735665321350098,
+    "mfcc_4": 38.34062576293945,
+    "mfcc_5": -20.76177978515625,
+    "mfcc_6": 24.224712371826172,
+    "mfcc_7": -10.358830451965332,
+    "mfcc_8": 14.187749862670898,
+    "mfcc_9": -10.002942085266113,
+    "mfcc_10": 3.349083662033081,
+    "mfcc_11": -5.668025493621826,
+    "mfcc_12": 6.159523963928223,
+    "mfcc_13": -4.33319091796875,
+    "chroma_1": 0.2631409466266632,
+    "chroma_2": 0.49135106801986694,
+    "chroma_3": 0.2570151686668396,
+    "chroma_4": 0.3139597475528717,
+    "chroma_5": 0.31567075848579407,
+    "chroma_6": 0.24611268937587738,
+    "chroma_7": 0.5260282754898071,
+    "chroma_8": 0.2520372271537781,
+    "chroma_9": 0.4690011441707611,
+    "chroma_10": 0.2465958148241043,
+    "chroma_11": 0.1991301029920578,
+    "chroma_12": 0.28791913390159607,
+    "spectral_contrast": 19.737067500619908,
+    "spectral_flatness": 0.001540921162813902,
+    "zero_crossing_rate": 0.044550980848969676
+  },
+  "rhythm": {
+    "onset_count": 764,
+    "onset_density": 5.999768333552566,
+    "drum_activity": "High",
+    "estimated_bars": 81,
+    "seconds_per_bar": 1.5786357955666646
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.08938587456941605,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.37149402499198914,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.5193548798561096,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.5306106209754944,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.4578116834163666,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.38544270396232605,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 127.33825,
+      "avg_energy": 0.49826040863990784,
+      "energy_label": "High"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 81,
+    "release": 81,
+    "energy": 8.935792321935441,
+    "bass_strength": 6.206136416308633,
+    "darkness": 3.1103504560756026,
+    "brightness": 6.889649543924397,
+    "drum_bounce": 10,
+    "vocal_space": 2.265788160780324
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 9844 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Major. Confidence: 45.3%.",
+    "Beat energy: 8.9/10. Darkness: 3.1/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.00 hits/sec.",
+    "Estimated length: 81 bars at 152 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -7.13 dB. Dynamic range: 7.13 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

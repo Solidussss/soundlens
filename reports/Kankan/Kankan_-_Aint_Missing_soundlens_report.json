@@ -1,0 +1,164 @@
+{
+  "basic": {
+    "file_name": "Kankan - Aint Missing.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Kankan/Kankan - Aint Missing.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 65.6428125,
+    "bpm": 137.2,
+    "key": "G Minor",
+    "key_note": "G",
+    "key_mode": "Minor",
+    "key_confidence": 46.54818288729624
+  },
+  "loudness": {
+    "peak_db": 0.00010975581223834707,
+    "rms_db": -9.552983406247456,
+    "dynamic_range_db": 9.553093162059694,
+    "clipping_detected": true,
+    "clipping_samples": 112,
+    "clipping_percent": 0.003554590738069508,
+    "headroom_db": -0.00010975581223834707
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.282880593963476,
+      "Bass / 808": 15.223332593543718,
+      "Mud": 13.75410512507421,
+      "Low Mids": 13.408756618391356,
+      "Mids / Melody": 14.277711095411322,
+      "Harsh Zone": 13.857090566094332,
+      "Highs": 13.708468089876199,
+      "Air": 12.344745881812507,
+      "Vocal Range": 14.705035520577558
+    },
+    "brightness_centroid_hz": 2843.4301074469868,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5650.036809504468,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.50621318750719,
+    "mid_total_percent": 41.44057283887689,
+    "top_total_percent": 26.053213971688706
+  },
+  "fingerprint": {
+    "mfcc_1": -218.07748413085938,
+    "mfcc_2": 111.96372985839844,
+    "mfcc_3": -6.559782028198242,
+    "mfcc_4": 32.946807861328125,
+    "mfcc_5": -3.4191999435424805,
+    "mfcc_6": 18.084630966186523,
+    "mfcc_7": -7.782652378082275,
+    "mfcc_8": 4.026480197906494,
+    "mfcc_9": 0.7277048826217651,
+    "mfcc_10": -3.4089040756225586,
+    "mfcc_11": -1.9395124912261963,
+    "mfcc_12": 2.744624614715576,
+    "mfcc_13": 3.4880006313323975,
+    "chroma_1": 0.19323328137397766,
+    "chroma_2": 0.18251490592956543,
+    "chroma_3": 0.47300732135772705,
+    "chroma_4": 0.5429497361183167,
+    "chroma_5": 0.26331984996795654,
+    "chroma_6": 0.28547853231430054,
+    "chroma_7": 0.2521085739135742,
+    "chroma_8": 0.5005356073379517,
+    "chroma_9": 0.22610332071781158,
+    "chroma_10": 0.3093741238117218,
+    "chroma_11": 0.19080963730812073,
+    "chroma_12": 0.13954271376132965,
+    "spectral_contrast": 20.053351294741102,
+    "spectral_flatness": 0.0007785664638504386,
+    "zero_crossing_rate": 0.06105919349106417
+  },
+  "rhythm": {
+    "onset_count": 285,
+    "onset_density": 4.34167868721347,
+    "drum_activity": "High",
+    "estimated_bars": 38,
+    "seconds_per_bar": 1.7492711370262393
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 13.994169096209914,
+      "avg_energy": 0.02389766275882721,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 13.994169096209914,
+      "end": 27.98833819241983,
+      "avg_energy": 0.4402233958244324,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 3",
+      "start": 27.98833819241983,
+      "end": 41.98250728862974,
+      "avg_energy": 0.44082438945770264,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 4",
+      "start": 41.98250728862974,
+      "end": 55.97667638483966,
+      "avg_energy": 0.3355270326137543,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 5",
+      "start": 55.97667638483966,
+      "end": 65.6428125,
+      "avg_energy": 0.1643361747264862,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 71,
+    "release": 82,
+    "energy": 7.723508296876272,
+    "bass_strength": 6.501242637501439,
+    "darkness": 4.313139785106026,
+    "brightness": 5.686860214893974,
+    "drum_bounce": 10,
+    "vocal_space": 2.5828212902001226
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 112 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: G Minor. Confidence: 46.5%.",
+    "Beat energy: 7.7/10. Darkness: 4.3/10.",
+    "Vocal space estimate: 2.6/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.34 hits/sec.",
+    "Estimated length: 38 bars at 137 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -9.55 dB. Dynamic range: 9.55 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

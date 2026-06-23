@@ -1,0 +1,152 @@
+{
+  "basic": {
+    "file_name": "Izaya Tiji - Just Came Down.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Izaya Tiji/Izaya Tiji - Just Came Down.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 48.0653125,
+    "bpm": 152.03,
+    "key": "A# Major",
+    "key_note": "A#",
+    "key_mode": "Major",
+    "key_confidence": 47.11916638092416
+  },
+  "loudness": {
+    "peak_db": 0.0002702453051454462,
+    "rms_db": -7.516456189649849,
+    "dynamic_range_db": 7.516726434954995,
+    "clipping_detected": true,
+    "clipping_samples": 25079,
+    "clipping_percent": 1.087019181799071,
+    "headroom_db": -0.0002702453051454462
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.73858888338289,
+      "Bass / 808": 15.655008342791538,
+      "Mud": 14.230239962122218,
+      "Low Mids": 14.03095112273406,
+      "Mids / Melody": 13.767676864098362,
+      "Harsh Zone": 12.987560758011805,
+      "Highs": 13.270871287082219,
+      "Air": 12.306663535919794,
+      "Vocal Range": 14.890157160259502
+    },
+    "brightness_centroid_hz": 2982.6491796398304,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6786.245701131573,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.39359722617443,
+    "mid_total_percent": 42.02886794895464,
+    "top_total_percent": 25.57753482300201
+  },
+  "fingerprint": {
+    "mfcc_1": -169.7154541015625,
+    "mfcc_2": 116.52511596679688,
+    "mfcc_3": -7.033027648925781,
+    "mfcc_4": 29.382530212402344,
+    "mfcc_5": -13.641231536865234,
+    "mfcc_6": 33.40298843383789,
+    "mfcc_7": -13.314617156982422,
+    "mfcc_8": 10.096951484680176,
+    "mfcc_9": 2.058302164077759,
+    "mfcc_10": 2.671194314956665,
+    "mfcc_11": 5.791827201843262,
+    "mfcc_12": 7.760304927825928,
+    "mfcc_13": 4.332956790924072,
+    "chroma_1": 0.3491626977920532,
+    "chroma_2": 0.26082098484039307,
+    "chroma_3": 0.2871439456939697,
+    "chroma_4": 0.5349207520484924,
+    "chroma_5": 0.47701871395111084,
+    "chroma_6": 0.5526799559593201,
+    "chroma_7": 0.34489989280700684,
+    "chroma_8": 0.3494892418384552,
+    "chroma_9": 0.261788934469223,
+    "chroma_10": 0.23610419034957886,
+    "chroma_11": 0.5344638824462891,
+    "chroma_12": 0.34761351346969604,
+    "spectral_contrast": 18.024944809528513,
+    "spectral_flatness": 0.002698474796488881,
+    "zero_crossing_rate": 0.03931861202019082
+  },
+  "rhythm": {
+    "onset_count": 309,
+    "onset_density": 6.428752543739313,
+    "drum_activity": "High",
+    "estimated_bars": 30,
+    "seconds_per_bar": 1.5786357955666646
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.4209005534648895,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5211759805679321,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 32.0,
+      "end": 48.0653125,
+      "avg_energy": 0.2882162928581238,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 69,
+    "master": 69,
+    "arrangement": 50,
+    "release": 63,
+    "energy": 8.741771905175074,
+    "bass_strength": 6.478719445234885,
+    "darkness": 4.034701640720339,
+    "brightness": 5.965298359279661,
+    "drum_bounce": 10,
+    "vocal_space": 2.3034824261891043
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 25079 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: A# Major. Confidence: 47.1%.",
+    "Beat energy: 8.7/10. Darkness: 4.0/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.43 hits/sec.",
+    "Estimated length: 30 bars at 152 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -7.52 dB. Dynamic range: 7.52 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "basic": {
+    "file_name": "Feng - Walk in the park.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Feng/Feng - Walk in the park.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 85.7276875,
+    "bpm": 156.25,
+    "key": "A Minor",
+    "key_note": "A",
+    "key_mode": "Minor",
+    "key_confidence": 49.135274573526736
+  },
+  "loudness": {
+    "peak_db": -0.00012477126346510154,
+    "rms_db": -17.307167320447455,
+    "dynamic_range_db": 17.30704254918399,
+    "clipping_detected": true,
+    "clipping_samples": 88,
+    "clipping_percent": 0.0021385545169795156,
+    "headroom_db": 0.00012477126346510154
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 8.588341126156756,
+      "Bass / 808": 14.444547160449448,
+      "Mud": 15.38619297666551,
+      "Low Mids": 16.167398546699953,
+      "Mids / Melody": 15.927055041713665,
+      "Harsh Zone": 14.62523367374824,
+      "Highs": 14.441264796356567,
+      "Air": 15.045200349919725,
+      "Vocal Range": 16.820186602979202
+    },
+    "brightness_centroid_hz": 4867.088559235713,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 10204.440206233669,
+    "dominant_band": "Low Mids",
+    "low_end_total_percent": 23.0328882866062,
+    "mid_total_percent": 47.48064656507913,
+    "top_total_percent": 29.48646514627629
+  },
+  "fingerprint": {
+    "mfcc_1": -124.88960266113281,
+    "mfcc_2": 113.38471984863281,
+    "mfcc_3": -32.91661071777344,
+    "mfcc_4": 25.088809967041016,
+    "mfcc_5": -42.385345458984375,
+    "mfcc_6": 14.549301147460938,
+    "mfcc_7": -38.33000564575195,
+    "mfcc_8": 12.841178894042969,
+    "mfcc_9": -24.78775978088379,
+    "mfcc_10": 1.398959994316101,
+    "mfcc_11": -16.123567581176758,
+    "mfcc_12": -4.690555095672607,
+    "mfcc_13": -8.8460054397583,
+    "chroma_1": 0.5543270707130432,
+    "chroma_2": 0.33598119020462036,
+    "chroma_3": 0.5728532671928406,
+    "chroma_4": 0.35897567868232727,
+    "chroma_5": 0.5606034994125366,
+    "chroma_6": 0.5917857885360718,
+    "chroma_7": 0.4043848514556885,
+    "chroma_8": 0.450637549161911,
+    "chroma_9": 0.2975377142429352,
+    "chroma_10": 0.6468241214752197,
+    "chroma_11": 0.2976478040218353,
+    "chroma_12": 0.5004087686538696,
+    "spectral_contrast": 19.756877529426294,
+    "spectral_flatness": 0.0032127853482961655,
+    "zero_crossing_rate": 0.14014856581280327
+  },
+  "rhythm": {
+    "onset_count": 426,
+    "onset_density": 4.969223041272401,
+    "drum_activity": "High",
+    "estimated_bars": 56,
+    "seconds_per_bar": 1.536
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.12120483815670013,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.15112869441509247,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.149335116147995,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.1479024887084961,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 64.0,
+      "end": 85.7276875,
+      "avg_energy": 0.11480720341205597,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 70,
+    "master": 70,
+    "arrangement": 65,
+    "release": 68,
+    "energy": 3.8464163397762725,
+    "bass_strength": 4.606577657321241,
+    "darkness": 0.2658228815285746,
+    "brightness": 9.734177118471425,
+    "drum_bounce": 10,
+    "vocal_space": 1.5358944455195171
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 88 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is quiet for the selected style.",
+    "Dynamic range is wide, so some sections may feel uneven.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: A Minor. Confidence: 49.1%.",
+    "Beat energy: 3.8/10. Darkness: 0.3/10.",
+    "Vocal space estimate: 1.5/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Low Mids.",
+    "Drum activity is high at 4.97 hits/sec.",
+    "Estimated length: 56 bars at 156 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: -0.00 dB. RMS: -17.31 dB. Dynamic range: 17.31 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "basic": {
+    "file_name": "Yung Fazo - This The Way Life Goes.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Yung Fazo/Yung Fazo - This The Way Life Goes.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 141.1425,
+    "bpm": 165.44,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 46.66172519852788
+  },
+  "loudness": {
+    "peak_db": 5.3842647227287326e-05,
+    "rms_db": -7.17657308914603,
+    "dynamic_range_db": 7.176626931793257,
+    "clipping_detected": true,
+    "clipping_samples": 397,
+    "clipping_percent": 0.005859916986969434,
+    "headroom_db": -5.3842647227287326e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.595313124642807,
+      "Bass / 808": 15.579457016484541,
+      "Mud": 14.238798274160864,
+      "Low Mids": 14.760002456403878,
+      "Mids / Melody": 13.78324609374496,
+      "Harsh Zone": 12.932088916136763,
+      "Highs": 12.019132467046468,
+      "Air": 12.024050565673058,
+      "Vocal Range": 15.113544744842008
+    },
+    "brightness_centroid_hz": 1675.3423153959989,
+    "brightness_label": "Low",
+    "spectral_rolloff_hz": 3444.4552680798006,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 33.17477014112735,
+    "mid_total_percent": 42.7820468243097,
+    "top_total_percent": 24.043183032719526
+  },
+  "fingerprint": {
+    "mfcc_1": -194.2217254638672,
+    "mfcc_2": 151.2113800048828,
+    "mfcc_3": 11.77224063873291,
+    "mfcc_4": 30.27110481262207,
+    "mfcc_5": 13.4530029296875,
+    "mfcc_6": 13.181045532226562,
+    "mfcc_7": -3.7118465900421143,
+    "mfcc_8": 22.14856719970703,
+    "mfcc_9": 8.528173446655273,
+    "mfcc_10": 12.279613494873047,
+    "mfcc_11": 7.463251113891602,
+    "mfcc_12": 10.230484008789062,
+    "mfcc_13": 3.0146543979644775,
+    "chroma_1": 0.24205224215984344,
+    "chroma_2": 0.36683523654937744,
+    "chroma_3": 0.4755704402923584,
+    "chroma_4": 0.453677237033844,
+    "chroma_5": 0.46228253841400146,
+    "chroma_6": 0.18514865636825562,
+    "chroma_7": 0.28273794054985046,
+    "chroma_8": 0.20344431698322296,
+    "chroma_9": 0.22475284337997437,
+    "chroma_10": 0.14267650246620178,
+    "chroma_11": 0.12324399501085281,
+    "chroma_12": 0.14543794095516205,
+    "spectral_contrast": 20.40543039571906,
+    "spectral_flatness": 0.00019795163825619966,
+    "zero_crossing_rate": 0.017750183903404368
+  },
+  "rhythm": {
+    "onset_count": 938,
+    "onset_density": 6.645765804063269,
+    "drum_activity": "High",
+    "estimated_bars": 97,
+    "seconds_per_bar": 1.4506769825918762
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.5002683997154236,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.4406169354915619,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.43030455708503723,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.4462616741657257,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.4412059783935547,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.4200233221054077,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.42684680223464966,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 141.1425,
+      "avg_energy": 0.4111992120742798,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 8.911713455426984,
+    "bass_strength": 6.6349540282254695,
+    "darkness": 6.6493153692080025,
+    "brightness": 3.3506846307919975,
+    "drum_bounce": 10,
+    "vocal_space": 2.1959089108493863
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 397 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 46.7%.",
+    "Beat energy: 8.9/10. Darkness: 6.6/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals.",
+    "Beat leans dark, so brighter vocals/adlibs may cut through well."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.65 hits/sec.",
+    "Estimated length: 97 bars at 165 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -7.18 dB. Dynamic range: 7.18 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

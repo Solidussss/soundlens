@@ -1,0 +1,179 @@
+{
+  "basic": {
+    "file_name": "Kankan - Missed My Exit.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Kankan/Kankan - Missed My Exit.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 91.37066666666666,
+    "bpm": 143.01,
+    "key": "E Major",
+    "key_note": "E",
+    "key_mode": "Major",
+    "key_confidence": 45.894669616854195
+  },
+  "loudness": {
+    "peak_db": -0.4440572597539963,
+    "rms_db": -20.75703129692637,
+    "dynamic_range_db": 20.312974037172374,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.4440572597539963
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 13.906195244644614,
+      "Bass / 808": 15.441827606829253,
+      "Mud": 14.48100074209725,
+      "Low Mids": 13.629576366169815,
+      "Mids / Melody": 14.498906816858096,
+      "Harsh Zone": 13.838663735194284,
+      "Highs": 14.768425624414125,
+      "Air": 13.274067596968703,
+      "Vocal Range": 15.147619260171583
+    },
+    "brightness_centroid_hz": 4073.09056434168,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 9301.297858059997,
+    "dominant_band": "Bass / 808",
+    "low_end_total_percent": 29.348022851473868,
+    "mid_total_percent": 42.60948392512516,
+    "top_total_percent": 28.042493221382827
+  },
+  "fingerprint": {
+    "mfcc_1": -216.54608154296875,
+    "mfcc_2": 118.68464660644531,
+    "mfcc_3": -15.420494079589844,
+    "mfcc_4": 53.98365020751953,
+    "mfcc_5": -20.002395629882812,
+    "mfcc_6": 51.216529846191406,
+    "mfcc_7": -9.754377365112305,
+    "mfcc_8": 25.08342742919922,
+    "mfcc_9": -7.988399505615234,
+    "mfcc_10": 9.99661636352539,
+    "mfcc_11": -6.564444065093994,
+    "mfcc_12": 4.013537883758545,
+    "mfcc_13": 2.364096164703369,
+    "chroma_1": 0.2933526337146759,
+    "chroma_2": 0.4010900557041168,
+    "chroma_3": 0.3858942985534668,
+    "chroma_4": 0.6451410055160522,
+    "chroma_5": 0.6851897835731506,
+    "chroma_6": 0.3397243320941925,
+    "chroma_7": 0.34335315227508545,
+    "chroma_8": 0.28353792428970337,
+    "chroma_9": 0.3419666588306427,
+    "chroma_10": 0.22511854767799377,
+    "chroma_11": 0.40601637959480286,
+    "chroma_12": 0.47897735238075256,
+    "spectral_contrast": 19.82911229806655,
+    "spectral_flatness": 0.0013767777709290385,
+    "zero_crossing_rate": 0.07751081548383332
+  },
+  "rhythm": {
+    "onset_count": 383,
+    "onset_density": 4.191717254261032,
+    "drum_activity": "High",
+    "estimated_bars": 54,
+    "seconds_per_bar": 1.6782043213761277
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 13.425634571009022,
+      "avg_energy": 0.03435134142637253,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 13.425634571009022,
+      "end": 26.851269142018044,
+      "avg_energy": 0.11856508255004883,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 3",
+      "start": 26.851269142018044,
+      "end": 40.27690371302707,
+      "avg_energy": 0.11605986952781677,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 4",
+      "start": 40.27690371302707,
+      "end": 53.70253828403609,
+      "avg_energy": 0.10268298536539078,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 5",
+      "start": 53.70253828403609,
+      "end": 67.12817285504511,
+      "avg_energy": 0.11601340025663376,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 6",
+      "start": 67.12817285504511,
+      "end": 80.55380742605414,
+      "avg_energy": 0.04022958129644394,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 7",
+      "start": 80.55380742605414,
+      "end": 91.37066666666666,
+      "avg_energy": 0.05938341096043587,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 78,
+    "master": 78,
+    "arrangement": 71,
+    "release": 76,
+    "energy": 2.1214843515368145,
+    "bass_strength": 5.869604570294774,
+    "darkness": 1.8538188713166406,
+    "brightness": 8.14618112868336,
+    "drum_bounce": 10,
+    "vocal_space": 2.260517365136841
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is quiet for the selected style.",
+    "Dynamic range is wide, so some sections may feel uneven.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: E Major. Confidence: 45.9%.",
+    "Beat energy: 2.1/10. Darkness: 1.9/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Bass / 808.",
+    "Drum activity is high at 4.19 hits/sec.",
+    "Estimated length: 54 bars at 143 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Peak: -0.44 dB. RMS: -20.76 dB. Dynamic range: 20.31 dB."
+  ],
+  "next_steps": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

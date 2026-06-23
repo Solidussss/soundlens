@@ -1,0 +1,165 @@
+{
+  "basic": {
+    "file_name": "Izaya Tiji- Jet Lag.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Izaya Tiji/Izaya Tiji- Jet Lag.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 87.0051875,
+    "bpm": 140.62,
+    "key": "C Major",
+    "key_note": "C",
+    "key_mode": "Major",
+    "key_confidence": 48.928993790299714
+  },
+  "loudness": {
+    "peak_db": -0.7464779512980074,
+    "rms_db": -10.45616388980237,
+    "dynamic_range_db": 9.709685938504363,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.7464779512980074
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 18.19995759694822,
+      "Bass / 808": 14.578635133593497,
+      "Mud": 14.780728083088151,
+      "Low Mids": 14.304821927456828,
+      "Mids / Melody": 13.82527557394177,
+      "Harsh Zone": 12.179041475414175,
+      "Highs": 12.98164410255831,
+      "Air": 11.328937580398431,
+      "Vocal Range": 15.279918439276404
+    },
+    "brightness_centroid_hz": 1586.1419646185066,
+    "brightness_label": "Low",
+    "spectral_rolloff_hz": 3219.1062890768667,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.77859273054172,
+    "mid_total_percent": 42.910825584486744,
+    "top_total_percent": 24.31058168295674
+  },
+  "fingerprint": {
+    "mfcc_1": -266.7594909667969,
+    "mfcc_2": 140.56295776367188,
+    "mfcc_3": 20.109050750732422,
+    "mfcc_4": 39.59489440917969,
+    "mfcc_5": -13.79137897491455,
+    "mfcc_6": 15.266569137573242,
+    "mfcc_7": 10.474532127380371,
+    "mfcc_8": 9.291152954101562,
+    "mfcc_9": 11.434333801269531,
+    "mfcc_10": -3.596428394317627,
+    "mfcc_11": -2.698812246322632,
+    "mfcc_12": -4.144312381744385,
+    "mfcc_13": 5.841521739959717,
+    "chroma_1": 0.7451642155647278,
+    "chroma_2": 0.5714948773384094,
+    "chroma_3": 0.5154869556427002,
+    "chroma_4": 0.30405494570732117,
+    "chroma_5": 0.44321662187576294,
+    "chroma_6": 0.37676766514778137,
+    "chroma_7": 0.25545939803123474,
+    "chroma_8": 0.26107901334762573,
+    "chroma_9": 0.1260620653629303,
+    "chroma_10": 0.21007198095321655,
+    "chroma_11": 0.10432156175374985,
+    "chroma_12": 0.21033045649528503,
+    "spectral_contrast": 20.057811476176298,
+    "spectral_flatness": 0.0018395871156826615,
+    "zero_crossing_rate": 0.01860598785935393
+  },
+  "rhythm": {
+    "onset_count": 549,
+    "onset_density": 6.309968586643181,
+    "drum_activity": "High",
+    "estimated_bars": 51,
+    "seconds_per_bar": 1.7067273503057887
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.3365354835987091,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.39116835594177246,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.3843688368797302,
+      "energy_label": "High"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.24966810643672943,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 64.0,
+      "end": 87.0051875,
+      "avg_energy": 0.09589055925607681,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 94,
+    "master": 94,
+    "arrangement": 65,
+    "release": 85,
+    "energy": 7.271918055098815,
+    "bass_strength": 6.555718546108343,
+    "darkness": 6.827716070762987,
+    "brightness": 3.1722839292370133,
+    "drum_bounce": 10,
+    "vocal_space": 2.04416277712805
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Major. Confidence: 48.9%.",
+    "Beat energy: 7.3/10. Darkness: 6.8/10.",
+    "Vocal space estimate: 2.0/10. Higher means easier space for vocals.",
+    "Beat leans dark, so brighter vocals/adlibs may cut through well."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.31 hits/sec.",
+    "Estimated length: 51 bars at 141 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.75 dB. RMS: -10.46 dB. Dynamic range: 9.71 dB."
+  ],
+  "next_steps": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

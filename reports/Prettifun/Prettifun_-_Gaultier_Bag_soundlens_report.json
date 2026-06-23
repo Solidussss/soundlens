@@ -1,0 +1,188 @@
+{
+  "basic": {
+    "file_name": "Prettifun - Gaultier Bag.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Prettifun/Prettifun - Gaultier Bag.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 138.97204166666666,
+    "bpm": 152.03,
+    "key": "C Major",
+    "key_note": "C",
+    "key_mode": "Major",
+    "key_confidence": 45.60793474730754
+  },
+  "loudness": {
+    "peak_db": 0.005073203377898881,
+    "rms_db": -4.316676452217921,
+    "dynamic_range_db": 4.32174965559582,
+    "clipping_detected": true,
+    "clipping_samples": 118196,
+    "clipping_percent": 1.7718791759373662,
+    "headroom_db": -0.005073203377898881
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.661876920503566,
+      "Bass / 808": 14.960993944921713,
+      "Mud": 13.716669919440552,
+      "Low Mids": 13.864292489213422,
+      "Mids / Melody": 13.98680688606732,
+      "Harsh Zone": 13.408876367049194,
+      "Highs": 13.522295960871142,
+      "Air": 13.287063877282513,
+      "Vocal Range": 14.575288705849191
+    },
+    "brightness_centroid_hz": 3972.181919218602,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 9566.243452106839,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.622870865425277,
+    "mid_total_percent": 41.567769294721295,
+    "top_total_percent": 26.809359838153654
+  },
+  "fingerprint": {
+    "mfcc_1": -34.49237823486328,
+    "mfcc_2": 109.21446228027344,
+    "mfcc_3": -0.47642749547958374,
+    "mfcc_4": 41.58718490600586,
+    "mfcc_5": -9.6031494140625,
+    "mfcc_6": 34.599884033203125,
+    "mfcc_7": -4.175245761871338,
+    "mfcc_8": 26.77828025817871,
+    "mfcc_9": -5.475155353546143,
+    "mfcc_10": 21.00411605834961,
+    "mfcc_11": -0.24680183827877045,
+    "mfcc_12": 15.645600318908691,
+    "mfcc_13": 0.17619697749614716,
+    "chroma_1": 0.5009093880653381,
+    "chroma_2": 0.4161301553249359,
+    "chroma_3": 0.5010893940925598,
+    "chroma_4": 0.3951621949672699,
+    "chroma_5": 0.5913243889808655,
+    "chroma_6": 0.5354443788528442,
+    "chroma_7": 0.36846214532852173,
+    "chroma_8": 0.31206372380256653,
+    "chroma_9": 0.2514422833919525,
+    "chroma_10": 0.2806990444660187,
+    "chroma_11": 0.22927215695381165,
+    "chroma_12": 0.2446383535861969,
+    "spectral_contrast": 16.88559090492385,
+    "spectral_flatness": 0.003554103197529912,
+    "zero_crossing_rate": 0.022504859951838208
+  },
+  "rhythm": {
+    "onset_count": 643,
+    "onset_density": 4.6268299169287355,
+    "drum_activity": "High",
+    "estimated_bars": 88,
+    "seconds_per_bar": 1.5786357955666646
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.659011960029602,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.6869515776634216,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.5480133295059204,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.47691693902015686,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.6915950179100037,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.6871911883354187,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.5378016829490662,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 138.97204166666666,
+      "avg_energy": 0.5664823651313782,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 75,
+    "release": 60,
+    "energy": 10,
+    "bass_strength": 6.324574173085056,
+    "darkness": 2.055636161562796,
+    "brightness": 7.944363838437204,
+    "drum_bounce": 10,
+    "vocal_space": 2.5327188194790047
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 118196 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Major. Confidence: 45.6%.",
+    "Beat energy: 10.0/10. Darkness: 2.1/10.",
+    "Vocal space estimate: 2.5/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.63 hits/sec.",
+    "Estimated length: 88 bars at 152 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.01 dB. RMS: -4.32 dB. Dynamic range: 4.32 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

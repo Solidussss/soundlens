@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "Kankan - Gallo.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Kankan/Kankan - Gallo.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 102.3535625,
+    "bpm": 140.62,
+    "key": "F Minor",
+    "key_note": "F",
+    "key_mode": "Minor",
+    "key_confidence": 46.69619139597575
+  },
+  "loudness": {
+    "peak_db": -1.0441437887216805,
+    "rms_db": -14.078971330608123,
+    "dynamic_range_db": 13.034827541886443,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 1.0441437887216805
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.85897263232075,
+      "Bass / 808": 15.286297527636453,
+      "Mud": 14.64437024943877,
+      "Low Mids": 13.879113682032004,
+      "Mids / Melody": 13.848027752498988,
+      "Harsh Zone": 13.049337762987411,
+      "Highs": 13.456731303703634,
+      "Air": 12.026486850421227,
+      "Vocal Range": 14.96326415626616
+    },
+    "brightness_centroid_hz": 2897.1401212128053,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6415.961891673614,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.14527015995721,
+    "mid_total_percent": 42.371511683969764,
+    "top_total_percent": 25.483218154124863
+  },
+  "fingerprint": {
+    "mfcc_1": -215.81048583984375,
+    "mfcc_2": 123.44284057617188,
+    "mfcc_3": 3.275773763656616,
+    "mfcc_4": 54.69607162475586,
+    "mfcc_5": -17.255441665649414,
+    "mfcc_6": 34.62031555175781,
+    "mfcc_7": -0.45563164353370667,
+    "mfcc_8": 9.315957069396973,
+    "mfcc_9": -0.20960713922977448,
+    "mfcc_10": 0.6005635857582092,
+    "mfcc_11": 0.04669578745961189,
+    "mfcc_12": 0.9573812484741211,
+    "mfcc_13": 4.650222301483154,
+    "chroma_1": 0.531085729598999,
+    "chroma_2": 0.42035627365112305,
+    "chroma_3": 0.22639471292495728,
+    "chroma_4": 0.1925654113292694,
+    "chroma_5": 0.20477743446826935,
+    "chroma_6": 0.6322187781333923,
+    "chroma_7": 0.21668124198913574,
+    "chroma_8": 0.2215258628129959,
+    "chroma_9": 0.1799607127904892,
+    "chroma_10": 0.11978790909051895,
+    "chroma_11": 0.13654300570487976,
+    "chroma_12": 0.13397708535194397,
+    "spectral_contrast": 20.64689440006583,
+    "spectral_flatness": 0.0003332016640342772,
+    "zero_crossing_rate": 0.04037759263299812
+  },
+  "rhythm": {
+    "onset_count": 571,
+    "onset_density": 5.578701767219876,
+    "drum_activity": "High",
+    "estimated_bars": 60,
+    "seconds_per_bar": 1.7067273503057887
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 13.65381880244631,
+      "avg_energy": 0.18929359316825867,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 13.65381880244631,
+      "end": 27.30763760489262,
+      "avg_energy": 0.15893332660198212,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 3",
+      "start": 27.30763760489262,
+      "end": 40.96145640733893,
+      "avg_energy": 0.2278946042060852,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 4",
+      "start": 40.96145640733893,
+      "end": 54.61527520978524,
+      "avg_energy": 0.23557278513908386,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 5",
+      "start": 54.61527520978524,
+      "end": 68.26909401223155,
+      "avg_energy": 0.19990377128124237,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 6",
+      "start": 68.26909401223155,
+      "end": 81.92291281467786,
+      "avg_energy": 0.20321860909461975,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 7",
+      "start": 81.92291281467786,
+      "end": 95.57673161712417,
+      "avg_energy": 0.20508255064487457,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 8",
+      "start": 95.57673161712417,
+      "end": 102.3535625,
+      "avg_energy": 0.04950057715177536,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 94,
+    "master": 94,
+    "arrangement": 81,
+    "release": 90,
+    "energy": 5.460514334695938,
+    "bass_strength": 6.429054031991441,
+    "darkness": 4.205719757574389,
+    "brightness": 5.794280242425611,
+    "drum_bounce": 10,
+    "vocal_space": 2.1595213742199206
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F Minor. Confidence: 46.7%.",
+    "Beat energy: 5.5/10. Darkness: 4.2/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.58 hits/sec.",
+    "Estimated length: 60 bars at 141 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -1.04 dB. RMS: -14.08 dB. Dynamic range: 13.03 dB."
+  ],
+  "next_steps": [
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

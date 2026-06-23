@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Lil Tony - Nada Arriba Freestyle.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lil Tony/Lil Tony - Nada Arriba Freestyle.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 134.582875,
+    "bpm": 156.25,
+    "key": "D Major",
+    "key_note": "D",
+    "key_mode": "Major",
+    "key_confidence": 46.7940241825276
+  },
+  "loudness": {
+    "peak_db": 0.0007092465744529602,
+    "rms_db": -7.4414615729491125,
+    "dynamic_range_db": 7.442170819523565,
+    "clipping_detected": true,
+    "clipping_samples": 6893,
+    "clipping_percent": 0.10670314976304873,
+    "headroom_db": -0.0007092465744529602
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.32898644302339,
+      "Bass / 808": 15.227572725331969,
+      "Mud": 13.957396020437862,
+      "Low Mids": 14.253746225455249,
+      "Mids / Melody": 14.264250620261693,
+      "Harsh Zone": 13.782719650545975,
+      "Highs": 13.318882429930397,
+      "Air": 12.649165533821844,
+      "Vocal Range": 14.949644567492882
+    },
+    "brightness_centroid_hz": 2563.7028600817735,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5967.358758321446,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.556559168355356,
+    "mid_total_percent": 42.475392866154806,
+    "top_total_percent": 25.96804796375224
+  },
+  "fingerprint": {
+    "mfcc_1": -106.9607925415039,
+    "mfcc_2": 163.7760009765625,
+    "mfcc_3": -11.478401184082031,
+    "mfcc_4": 33.89909744262695,
+    "mfcc_5": -4.550442695617676,
+    "mfcc_6": 38.57633590698242,
+    "mfcc_7": -6.5364603996276855,
+    "mfcc_8": 9.196720123291016,
+    "mfcc_9": 5.37841272354126,
+    "mfcc_10": 16.826658248901367,
+    "mfcc_11": -0.7949516177177429,
+    "mfcc_12": 7.604819297790527,
+    "mfcc_13": 13.324254035949707,
+    "chroma_1": 0.21826013922691345,
+    "chroma_2": 0.4856092035770416,
+    "chroma_3": 0.5622992515563965,
+    "chroma_4": 0.4610265791416168,
+    "chroma_5": 0.35446760058403015,
+    "chroma_6": 0.22986876964569092,
+    "chroma_7": 0.4475526809692383,
+    "chroma_8": 0.4268225431442261,
+    "chroma_9": 0.49786803126335144,
+    "chroma_10": 0.465236097574234,
+    "chroma_11": 0.27623510360717773,
+    "chroma_12": 0.19158846139907837,
+    "spectral_contrast": 19.054553807152423,
+    "spectral_flatness": 0.0005465165013447404,
+    "zero_crossing_rate": 0.037333044807021716
+  },
+  "rhythm": {
+    "onset_count": 949,
+    "onset_density": 7.0514172029688025,
+    "drum_activity": "High",
+    "estimated_bars": 88,
+    "seconds_per_bar": 1.536
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.277099072933197,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.45293182134628296,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.44772812724113464,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.44576069712638855,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.44455277919769287,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.45182526111602783,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.441402405500412,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 134.582875,
+      "avg_energy": 0.410967081785202,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 81,
+    "master": 81,
+    "arrangement": 75,
+    "release": 79,
+    "energy": 8.779269213525444,
+    "bass_strength": 6.311311833671072,
+    "darkness": 4.872594279836453,
+    "brightness": 5.127405720163547,
+    "drum_bounce": 10,
+    "vocal_space": 2.380792131045534
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 6893 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: D Major. Confidence: 46.8%.",
+    "Beat energy: 8.8/10. Darkness: 4.9/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 7.05 hits/sec.",
+    "Estimated length: 88 bars at 156 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -7.44 dB. Dynamic range: 7.44 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

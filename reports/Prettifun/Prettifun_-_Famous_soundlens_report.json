@@ -1,0 +1,188 @@
+{
+  "basic": {
+    "file_name": "Prettifun - Famous.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Prettifun/Prettifun - Famous.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 128.32085416666666,
+    "bpm": 150.67,
+    "key": "C# Major",
+    "key_note": "C#",
+    "key_mode": "Major",
+    "key_confidence": 47.484592708198875
+  },
+  "loudness": {
+    "peak_db": 0.0008231347884358399,
+    "rms_db": -5.099630090997888,
+    "dynamic_range_db": 5.100453225786324,
+    "clipping_detected": true,
+    "clipping_samples": 53690,
+    "clipping_percent": 0.8716756710595722,
+    "headroom_db": -0.0008231347884358399
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.508162474030065,
+      "Bass / 808": 15.183932805047487,
+      "Mud": 14.158224005406868,
+      "Low Mids": 13.880496900584586,
+      "Mids / Melody": 13.966194095800223,
+      "Harsh Zone": 13.436272038330074,
+      "Highs": 13.477372595871767,
+      "Air": 12.825617121548369,
+      "Vocal Range": 14.67440563594567
+    },
+    "brightness_centroid_hz": 3134.0400421274617,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 7023.936861025683,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.692095279077552,
+    "mid_total_percent": 42.00491500179167,
+    "top_total_percent": 26.302989717420136
+  },
+  "fingerprint": {
+    "mfcc_1": -66.11071014404297,
+    "mfcc_2": 129.64198303222656,
+    "mfcc_3": 0.6697151064872742,
+    "mfcc_4": 46.66432189941406,
+    "mfcc_5": -11.723356246948242,
+    "mfcc_6": 29.14230728149414,
+    "mfcc_7": -3.3018760681152344,
+    "mfcc_8": 24.361785888671875,
+    "mfcc_9": -3.502490282058716,
+    "mfcc_10": 14.698534965515137,
+    "mfcc_11": -2.2035367488861084,
+    "mfcc_12": 4.571761608123779,
+    "mfcc_13": -4.160367012023926,
+    "chroma_1": 0.6850225925445557,
+    "chroma_2": 0.7478561401367188,
+    "chroma_3": 0.4850548505783081,
+    "chroma_4": 0.4339621961116791,
+    "chroma_5": 0.3604537546634674,
+    "chroma_6": 0.6309183239936829,
+    "chroma_7": 0.48768189549446106,
+    "chroma_8": 0.44530877470970154,
+    "chroma_9": 0.41396379470825195,
+    "chroma_10": 0.2873668372631073,
+    "chroma_11": 0.40005508065223694,
+    "chroma_12": 0.25827351212501526,
+    "spectral_contrast": 17.85543811858915,
+    "spectral_flatness": 0.002163635566830635,
+    "zero_crossing_rate": 0.04016398392693874
+  },
+  "rhythm": {
+    "onset_count": 866,
+    "onset_density": 6.748708194189662,
+    "drum_activity": "High",
+    "estimated_bars": 81,
+    "seconds_per_bar": 1.5928851131612134
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.5581510663032532,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5633562803268433,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.5594577193260193,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.55708909034729,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.5426220297813416,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.5600370764732361,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.5627244114875793,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 128.32085416666666,
+      "avg_energy": 0.5438120365142822,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 65,
+    "master": 65,
+    "arrangement": 75,
+    "release": 68,
+    "energy": 9.950184954501056,
+    "bass_strength": 6.3384190558155105,
+    "darkness": 3.7319199157450766,
+    "brightness": 6.268080084254923,
+    "drum_bounce": 10,
+    "vocal_space": 2.3537822691823127
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 53690 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Major. Confidence: 47.5%.",
+    "Beat energy: 10.0/10. Darkness: 3.7/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.75 hits/sec.",
+    "Estimated length: 81 bars at 151 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -5.10 dB. Dynamic range: 5.10 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "basic": {
+    "file_name": "Dom Corleo - Should've Known.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Dom Corleo/Dom Corleo - Should've Known.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 110.08966666666667,
+    "bpm": 145.47,
+    "key": "C# Major",
+    "key_note": "C#",
+    "key_mode": "Major",
+    "key_confidence": 47.18949480798284
+  },
+  "loudness": {
+    "peak_db": 0.005060785359384227,
+    "rms_db": -4.023851597963778,
+    "dynamic_range_db": 4.028912383323162,
+    "clipping_detected": true,
+    "clipping_samples": 146024,
+    "clipping_percent": 2.763353508806458,
+    "headroom_db": -0.005060785359384227
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.84330528396692,
+      "Bass / 808": 14.851075370732008,
+      "Mud": 13.994770273824006,
+      "Low Mids": 14.017272600099895,
+      "Mids / Melody": 13.793358873979845,
+      "Harsh Zone": 13.142518365365651,
+      "Highs": 13.4948745587362,
+      "Air": 13.005343036932402,
+      "Vocal Range": 14.723180252908104
+    },
+    "brightness_centroid_hz": 3536.4217922712514,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 8248.607965555662,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.69438065469893,
+    "mid_total_percent": 41.805401747903744,
+    "top_total_percent": 26.5002175956686
+  },
+  "fingerprint": {
+    "mfcc_1": -64.40567016601562,
+    "mfcc_2": 112.12686157226562,
+    "mfcc_3": -0.3787335753440857,
+    "mfcc_4": 40.08138656616211,
+    "mfcc_5": -14.484630584716797,
+    "mfcc_6": 35.036922454833984,
+    "mfcc_7": -6.626316547393799,
+    "mfcc_8": 15.750005722045898,
+    "mfcc_9": -0.6766517162322998,
+    "mfcc_10": 12.462891578674316,
+    "mfcc_11": -0.8210189938545227,
+    "mfcc_12": 16.188480377197266,
+    "mfcc_13": 6.392601490020752,
+    "chroma_1": 0.44836872816085815,
+    "chroma_2": 0.9544922709465027,
+    "chroma_3": 0.48271963000297546,
+    "chroma_4": 0.34769171476364136,
+    "chroma_5": 0.2619360685348511,
+    "chroma_6": 0.34445300698280334,
+    "chroma_7": 0.19124062359333038,
+    "chroma_8": 0.2193976640701294,
+    "chroma_9": 0.21992447972297668,
+    "chroma_10": 0.19886459410190582,
+    "chroma_11": 0.2823787033557892,
+    "chroma_12": 0.17355354130268097,
+    "spectral_contrast": 15.95074691467367,
+    "spectral_flatness": 0.0029679746367037296,
+    "zero_crossing_rate": 0.032107058727352
+  },
+  "rhythm": {
+    "onset_count": 604,
+    "onset_density": 5.486436813627679,
+    "drum_activity": "High",
+    "estimated_bars": 67,
+    "seconds_per_bar": 1.6498247061249742
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.6960137486457825,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.625876247882843,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.6362966895103455,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.6455364227294922,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.6010535955429077,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 80.0,
+      "end": 110.08966666666667,
+      "avg_energy": 0.5947415232658386,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 53,
+    "master": 53,
+    "arrangement": 75,
+    "release": 60,
+    "energy": 10,
+    "bass_strength": 6.338876130939786,
+    "darkness": 2.927156415457497,
+    "brightness": 7.072843584542503,
+    "drum_bounce": 10,
+    "vocal_space": 2.3996243761704124
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 146024 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Major. Confidence: 47.2%.",
+    "Beat energy: 10.0/10. Darkness: 2.9/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.49 hits/sec.",
+    "Estimated length: 67 bars at 145 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.01 dB. RMS: -4.02 dB. Dynamic range: 4.03 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

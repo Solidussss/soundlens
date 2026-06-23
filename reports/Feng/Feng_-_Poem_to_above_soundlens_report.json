@@ -1,0 +1,152 @@
+{
+  "basic": {
+    "file_name": "Feng - Poem to above.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Feng/Feng - Poem to above.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 62.6041875,
+    "bpm": 137.2,
+    "key": "F Minor",
+    "key_note": "F",
+    "key_mode": "Minor",
+    "key_confidence": 47.30342737111061
+  },
+  "loudness": {
+    "peak_db": -2.1226519960433416e-05,
+    "rms_db": -11.570802782022461,
+    "dynamic_range_db": 11.570781555502501,
+    "clipping_detected": true,
+    "clipping_samples": 901,
+    "clipping_percent": 0.029983351087071182,
+    "headroom_db": 2.1226519960433416e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.41763980467507,
+      "Bass / 808": 15.514631844633467,
+      "Mud": 14.525179034104807,
+      "Low Mids": 14.012703903704738,
+      "Mids / Melody": 13.577221387302165,
+      "Harsh Zone": 12.976825828979774,
+      "Highs": 12.82856118936681,
+      "Air": 13.124062834307464,
+      "Vocal Range": 14.940372360772503
+    },
+    "brightness_centroid_hz": 2820.331307071311,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 6071.997444633731,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.932271649308536,
+    "mid_total_percent": 42.11510432511171,
+    "top_total_percent": 25.952624023674275
+  },
+  "fingerprint": {
+    "mfcc_1": -184.98410034179688,
+    "mfcc_2": 129.09097290039062,
+    "mfcc_3": 19.550992965698242,
+    "mfcc_4": 39.117679595947266,
+    "mfcc_5": -3.1927261352539062,
+    "mfcc_6": 31.767024993896484,
+    "mfcc_7": -12.71749496459961,
+    "mfcc_8": 13.956305503845215,
+    "mfcc_9": -7.6628828048706055,
+    "mfcc_10": 2.240159511566162,
+    "mfcc_11": -1.4476232528686523,
+    "mfcc_12": -2.610337257385254,
+    "mfcc_13": 9.046636581420898,
+    "chroma_1": 0.3335828185081482,
+    "chroma_2": 0.43566808104515076,
+    "chroma_3": 0.2837720513343811,
+    "chroma_4": 0.2742231488227844,
+    "chroma_5": 0.2782800793647766,
+    "chroma_6": 0.8434000611305237,
+    "chroma_7": 0.7681589126586914,
+    "chroma_8": 0.38348543643951416,
+    "chroma_9": 0.32359158992767334,
+    "chroma_10": 0.2755715548992157,
+    "chroma_11": 0.27287423610687256,
+    "chroma_12": 0.21514491736888885,
+    "spectral_contrast": 20.626602398975674,
+    "spectral_flatness": 0.00034703940036706626,
+    "zero_crossing_rate": 0.044130643100511076
+  },
+  "rhythm": {
+    "onset_count": 284,
+    "onset_density": 4.5364377582569855,
+    "drum_activity": "High",
+    "estimated_bars": 36,
+    "seconds_per_bar": 1.7492711370262393
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.24574778974056244,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.32501232624053955,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 32.0,
+      "end": 62.6041875,
+      "avg_energy": 0.23596100509166718,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 65,
+    "release": 80,
+    "energy": 6.714598608988769,
+    "bass_strength": 6.386454329861707,
+    "darkness": 4.359337385857378,
+    "brightness": 5.640662614142622,
+    "drum_bounce": 10,
+    "vocal_space": 2.1881135429716867
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 901 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F Minor. Confidence: 47.3%.",
+    "Beat energy: 6.7/10. Darkness: 4.4/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.54 hits/sec.",
+    "Estimated length: 36 bars at 137 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -11.57 dB. Dynamic range: 11.57 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "XaviersoBased- Left Hand.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Xaviersobased/XaviersoBased- Left Hand.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 132.58666666666667,
+    "bpm": 140.62,
+    "key": "F Minor",
+    "key_note": "F",
+    "key_mode": "Minor",
+    "key_confidence": 46.74191109902618
+  },
+  "loudness": {
+    "peak_db": -2.8992332906568946e-05,
+    "rms_db": -12.052971419154083,
+    "dynamic_range_db": 12.052942426821177,
+    "clipping_detected": true,
+    "clipping_samples": 99,
+    "clipping_percent": 0.0015555862831858407,
+    "headroom_db": 2.8992332906568946e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.425523844520333,
+      "Bass / 808": 14.264602138794807,
+      "Mud": 13.686106032627862,
+      "Low Mids": 14.753266924240888,
+      "Mids / Melody": 14.384707079023926,
+      "Harsh Zone": 13.941707693185782,
+      "Highs": 14.304992813039192,
+      "Air": 13.180801165985356,
+      "Vocal Range": 15.193725878272424
+    },
+    "brightness_centroid_hz": 4253.863778625835,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 8715.901149344381,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 29.69012598331514,
+    "mid_total_percent": 42.82408003589268,
+    "top_total_percent": 27.48579397902455
+  },
+  "fingerprint": {
+    "mfcc_1": -83.91781616210938,
+    "mfcc_2": 119.07077026367188,
+    "mfcc_3": -40.29833984375,
+    "mfcc_4": 70.52283477783203,
+    "mfcc_5": -35.428428649902344,
+    "mfcc_6": 31.09319496154785,
+    "mfcc_7": -14.719575881958008,
+    "mfcc_8": 14.14264965057373,
+    "mfcc_9": 1.0933666229248047,
+    "mfcc_10": 5.397636890411377,
+    "mfcc_11": 4.251762390136719,
+    "mfcc_12": 5.926774024963379,
+    "mfcc_13": 13.719773292541504,
+    "chroma_1": 0.2082584947347641,
+    "chroma_2": 0.19804246723651886,
+    "chroma_3": 0.16097082197666168,
+    "chroma_4": 0.2297409474849701,
+    "chroma_5": 0.24422354996204376,
+    "chroma_6": 0.8943477272987366,
+    "chroma_7": 0.6584170460700989,
+    "chroma_8": 0.27616217732429504,
+    "chroma_9": 0.2621396780014038,
+    "chroma_10": 0.17219799757003784,
+    "chroma_11": 0.24025574326515198,
+    "chroma_12": 0.1270318329334259,
+    "spectral_contrast": 20.111787213876074,
+    "spectral_flatness": 0.0012064275797456503,
+    "zero_crossing_rate": 0.09153476408525059
+  },
+  "rhythm": {
+    "onset_count": 650,
+    "onset_density": 4.902453740949316,
+    "drum_activity": "High",
+    "estimated_bars": 78,
+    "seconds_per_bar": 1.7067273503057887
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.18964706361293793,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.2750335931777954,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.2564154863357544,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.27036458253860474,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.29419010877609253,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.22153928875923157,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.2720811069011688,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 132.58666666666667,
+      "avg_energy": 0.20937314629554749,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 6.473514290422958,
+    "bass_strength": 5.938025196663029,
+    "darkness": 1.4922724427483303,
+    "brightness": 8.50772755725167,
+    "drum_bounce": 10,
+    "vocal_space": 2.417948026343014
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 99 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F Minor. Confidence: 46.7%.",
+    "Beat energy: 6.5/10. Darkness: 1.5/10.",
+    "Vocal space estimate: 2.4/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 4.90 hits/sec.",
+    "Estimated length: 78 bars at 141 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -12.05 dB. Dynamic range: 12.05 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "basic": {
+    "file_name": "Eem Triplin - Flowers in Narnia.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Eem Triplin/Eem Triplin - Flowers in Narnia.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 120.47414583333334,
+    "bpm": 117.19,
+    "key": "C Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 45.53111659479168
+  },
+  "loudness": {
+    "peak_db": 0.00011907463808076778,
+    "rms_db": -12.61705368615058,
+    "dynamic_range_db": 12.61717276078866,
+    "clipping_detected": true,
+    "clipping_samples": 4102,
+    "clipping_percent": 0.07093499832865247,
+    "headroom_db": -0.00011907463808076778
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.332569705710513,
+      "Bass / 808": 14.646355011365298,
+      "Mud": 14.529781572560086,
+      "Low Mids": 14.161367407187287,
+      "Mids / Melody": 13.766852187745032,
+      "Harsh Zone": 13.158921967705384,
+      "Highs": 13.83671946073663,
+      "Air": 13.726354652913733,
+      "Vocal Range": 15.01814064429437
+    },
+    "brightness_centroid_hz": 4684.055710366756,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 9408.74833997344,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 29.978924717075813,
+    "mid_total_percent": 42.458001167492405,
+    "top_total_percent": 27.563074113650362
+  },
+  "fingerprint": {
+    "mfcc_1": -154.7887725830078,
+    "mfcc_2": 97.41837310791016,
+    "mfcc_3": 13.533344268798828,
+    "mfcc_4": 15.3590669631958,
+    "mfcc_5": -12.845005989074707,
+    "mfcc_6": 18.994091033935547,
+    "mfcc_7": -30.16860008239746,
+    "mfcc_8": -1.7925753593444824,
+    "mfcc_9": -16.666553497314453,
+    "mfcc_10": -12.28633975982666,
+    "mfcc_11": -18.363798141479492,
+    "mfcc_12": -3.3332765102386475,
+    "mfcc_13": -16.933992385864258,
+    "chroma_1": 0.7064175009727478,
+    "chroma_2": 0.4455856382846832,
+    "chroma_3": 0.500680685043335,
+    "chroma_4": 0.5326900482177734,
+    "chroma_5": 0.467450350522995,
+    "chroma_6": 0.6109333634376526,
+    "chroma_7": 0.4384212791919708,
+    "chroma_8": 0.48728781938552856,
+    "chroma_9": 0.39002206921577454,
+    "chroma_10": 0.43715545535087585,
+    "chroma_11": 0.42269641160964966,
+    "chroma_12": 0.4179542362689972,
+    "spectral_contrast": 20.8803574921306,
+    "spectral_flatness": 0.0036462817806750536,
+    "zero_crossing_rate": 0.10101330787959274
+  },
+  "rhythm": {
+    "onset_count": 739,
+    "onset_density": 6.134096198717602,
+    "drum_activity": "High",
+    "estimated_bars": 59,
+    "seconds_per_bar": 2.047956310265381
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 16.38365048212305,
+      "avg_energy": 0.07298190146684647,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Section 2",
+      "start": 16.38365048212305,
+      "end": 32.7673009642461,
+      "avg_energy": 0.2513185143470764,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 3",
+      "start": 32.7673009642461,
+      "end": 49.15095144636915,
+      "avg_energy": 0.2693140506744385,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 4",
+      "start": 49.15095144636915,
+      "end": 65.5346019284922,
+      "avg_energy": 0.26605522632598877,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 5",
+      "start": 65.5346019284922,
+      "end": 81.91825241061524,
+      "avg_energy": 0.2431623935699463,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 6",
+      "start": 81.91825241061524,
+      "end": 98.30190289273828,
+      "avg_energy": 0.2643899917602539,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 7",
+      "start": 98.30190289273828,
+      "end": 120.47414583333334,
+      "avg_energy": 0.21348457038402557,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 81,
+    "release": 84,
+    "energy": 6.19147315692471,
+    "bass_strength": 5.995784943415162,
+    "darkness": 0.6318885792664872,
+    "brightness": 9.368111420733513,
+    "drum_bounce": 10,
+    "vocal_space": 2.1650348842349247
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 4102 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor. Confidence: 45.5%.",
+    "Beat energy: 6.2/10. Darkness: 0.6/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.13 hits/sec.",
+    "Estimated length: 59 bars at 117 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -12.62 dB. Dynamic range: 12.62 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "basic": {
+    "file_name": "Feng - Devil horns and a halo.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Feng/Feng - Devil horns and a halo.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 47.97345833333333,
+    "bpm": 122.28,
+    "key": "C Minor",
+    "key_note": "C",
+    "key_mode": "Minor",
+    "key_confidence": 45.603734846691985
+  },
+  "loudness": {
+    "peak_db": 0.003704009905128704,
+    "rms_db": -5.083978366589443,
+    "dynamic_range_db": 5.0876823764945724,
+    "clipping_detected": true,
+    "clipping_samples": 16616,
+    "clipping_percent": 0.7215795539721183,
+    "headroom_db": -0.003704009905128704
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 18.279724511749535,
+      "Bass / 808": 15.269086189057457,
+      "Mud": 13.859232702806892,
+      "Low Mids": 13.682528501503077,
+      "Mids / Melody": 13.644013516880172,
+      "Harsh Zone": 12.959442475862746,
+      "Highs": 12.650473216856398,
+      "Air": 12.614941359184712,
+      "Vocal Range": 14.454162135332258
+    },
+    "brightness_centroid_hz": 1663.190446928549,
+    "brightness_label": "Low",
+    "spectral_rolloff_hz": 3700.2904068474877,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 33.548810700806996,
+    "mid_total_percent": 41.18577472119014,
+    "top_total_percent": 25.26541457604111
+  },
+  "fingerprint": {
+    "mfcc_1": -219.729248046875,
+    "mfcc_2": 135.1681365966797,
+    "mfcc_3": 39.304988861083984,
+    "mfcc_4": 38.94106674194336,
+    "mfcc_5": 4.691705226898193,
+    "mfcc_6": 32.2909049987793,
+    "mfcc_7": -2.7377278804779053,
+    "mfcc_8": 19.109006881713867,
+    "mfcc_9": 2.3109323978424072,
+    "mfcc_10": 9.07299518585205,
+    "mfcc_11": 10.218207359313965,
+    "mfcc_12": 5.0427775382995605,
+    "mfcc_13": 16.931747436523438,
+    "chroma_1": 0.7788907885551453,
+    "chroma_2": 0.7323358654975891,
+    "chroma_3": 0.45376861095428467,
+    "chroma_4": 0.286624014377594,
+    "chroma_5": 0.2751256227493286,
+    "chroma_6": 0.29194679856300354,
+    "chroma_7": 0.23783840239048004,
+    "chroma_8": 0.3203684687614441,
+    "chroma_9": 0.323525607585907,
+    "chroma_10": 0.20589615404605865,
+    "chroma_11": 0.21720890700817108,
+    "chroma_12": 0.2060965746641159,
+    "spectral_contrast": 18.04391866096448,
+    "spectral_flatness": 0.00014311965787783265,
+    "zero_crossing_rate": 0.007545779895231214
+  },
+  "rhythm": {
+    "onset_count": 275,
+    "onset_density": 5.73233637002405,
+    "drum_activity": "High",
+    "estimated_bars": 24,
+    "seconds_per_bar": 1.9627085377821394
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.5693683624267578,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 16.0,
+      "end": 47.97345833333333,
+      "avg_energy": 0.550601065158844,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 65,
+    "master": 65,
+    "arrangement": 56,
+    "release": 62,
+    "energy": 9.95801081670528,
+    "bass_strength": 6.709762140161399,
+    "darkness": 6.673619106142902,
+    "brightness": 3.326380893857098,
+    "drum_bounce": 10,
+    "vocal_space": 2.501659990091089
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 16616 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Drum movement is very active; the beat could become overcrowded."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C Minor. Confidence: 45.6%.",
+    "Beat energy: 10.0/10. Darkness: 6.7/10.",
+    "Vocal space estimate: 2.5/10. Higher means easier space for vocals.",
+    "Beat leans dark, so brighter vocals/adlibs may cut through well."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.73 hits/sec.",
+    "Estimated length: 24 bars at 122 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -5.08 dB. Dynamic range: 5.09 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "Nino Paid - Natural Causes.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Nino Paid/Nino Paid - Natural Causes.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 123.062875,
+    "bpm": 140.62,
+    "key": "C# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 48.65744158585449
+  },
+  "loudness": {
+    "peak_db": -0.13213782192589668,
+    "rms_db": -11.584608484475714,
+    "dynamic_range_db": 11.452470662549818,
+    "clipping_detected": true,
+    "clipping_samples": 2,
+    "clipping_percent": 3.385803124351407e-05,
+    "headroom_db": 0.13213782192589668
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 17.14198335331303,
+      "Bass / 808": 14.88744304876453,
+      "Mud": 14.151836352884764,
+      "Low Mids": 14.24952380618647,
+      "Mids / Melody": 13.891956428038563,
+      "Harsh Zone": 12.96231996161483,
+      "Highs": 13.705583168326577,
+      "Air": 11.971673840588998,
+      "Vocal Range": 14.961685151434938
+    },
+    "brightness_centroid_hz": 2357.895207902361,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5245.7707683307335,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 32.02942640207756,
+    "mid_total_percent": 42.2933165871098,
+    "top_total_percent": 25.677257008915575
+  },
+  "fingerprint": {
+    "mfcc_1": -211.42910766601562,
+    "mfcc_2": 140.162841796875,
+    "mfcc_3": 22.366540908813477,
+    "mfcc_4": 40.381439208984375,
+    "mfcc_5": -22.331541061401367,
+    "mfcc_6": 28.324817657470703,
+    "mfcc_7": -1.7779914140701294,
+    "mfcc_8": 10.568868637084961,
+    "mfcc_9": 9.493538856506348,
+    "mfcc_10": 6.421827793121338,
+    "mfcc_11": 2.552834987640381,
+    "mfcc_12": 3.6455161571502686,
+    "mfcc_13": 8.443485260009766,
+    "chroma_1": 0.13880662620067596,
+    "chroma_2": 0.5869693160057068,
+    "chroma_3": 0.2328273206949234,
+    "chroma_4": 0.4823690950870514,
+    "chroma_5": 0.3763619661331177,
+    "chroma_6": 0.204102024435997,
+    "chroma_7": 0.1859554648399353,
+    "chroma_8": 0.11835966259241104,
+    "chroma_9": 0.19534771144390106,
+    "chroma_10": 0.10400065779685974,
+    "chroma_11": 0.1445939838886261,
+    "chroma_12": 0.18280479311943054,
+    "spectral_contrast": 20.009754087845987,
+    "spectral_flatness": 0.00025471395929344,
+    "zero_crossing_rate": 0.02534441221398856
+  },
+  "rhythm": {
+    "onset_count": 757,
+    "onset_density": 6.151327116321636,
+    "drum_activity": "High",
+    "estimated_bars": 72,
+    "seconds_per_bar": 1.7067273503057887
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.23250871896743774,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.28635329008102417,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.25438225269317627,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.29916802048683167,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.28307729959487915,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.2790386974811554,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 96.0,
+      "end": 123.062875,
+      "avg_energy": 0.2251468002796173,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 89,
+    "master": 89,
+    "arrangement": 75,
+    "release": 85,
+    "energy": 6.707695757762143,
+    "bass_strength": 6.405885280415513,
+    "darkness": 5.284209584195278,
+    "brightness": 4.715790415804722,
+    "drum_bounce": 10,
+    "vocal_space": 2.3036192008194565
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 2 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor. Confidence: 48.7%.",
+    "Beat energy: 6.7/10. Darkness: 5.3/10.",
+    "Vocal space estimate: 2.3/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 6.15 hits/sec.",
+    "Estimated length: 72 bars at 141 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.13 dB. RMS: -11.58 dB. Dynamic range: 11.45 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

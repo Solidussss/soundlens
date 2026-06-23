@@ -1,0 +1,194 @@
+{
+  "basic": {
+    "file_name": "Cheromani - ROLLING STONE.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Cheromani/Cheromani - ROLLING STONE.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 153.13560416666667,
+    "bpm": 162.26,
+    "key": "C# Minor / Try A# Minor",
+    "key_note": "C#",
+    "key_mode": "Minor",
+    "key_confidence": 69.5887513270254
+  },
+  "loudness": {
+    "peak_db": 0.00019051863738935032,
+    "rms_db": -5.237964406697554,
+    "dynamic_range_db": 5.238154925334943,
+    "clipping_detected": true,
+    "clipping_samples": 60978,
+    "clipping_percent": 0.8295752035675353,
+    "headroom_db": -0.00019051863738935032
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.659346036906676,
+      "Bass / 808": 13.501206344447327,
+      "Mud": 13.73246877568463,
+      "Low Mids": 13.796882488566492,
+      "Mids / Melody": 14.874147825523632,
+      "Harsh Zone": 14.66357751486163,
+      "Highs": 14.582012356699314,
+      "Air": 12.853936170462207,
+      "Vocal Range": 15.009903332948793
+    },
+    "brightness_centroid_hz": 4376.374447616002,
+    "brightness_label": "High",
+    "spectral_rolloff_hz": 9113.036106080657,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.160552381354,
+    "mid_total_percent": 42.403499089774755,
+    "top_total_percent": 27.43594852716152
+  },
+  "fingerprint": {
+    "mfcc_1": -19.501401901245117,
+    "mfcc_2": 87.10987854003906,
+    "mfcc_3": -37.21348571777344,
+    "mfcc_4": 48.626853942871094,
+    "mfcc_5": -17.301551818847656,
+    "mfcc_6": 24.786630630493164,
+    "mfcc_7": -4.258312702178955,
+    "mfcc_8": 22.51053237915039,
+    "mfcc_9": 2.0974233150482178,
+    "mfcc_10": 14.43500804901123,
+    "mfcc_11": -1.879213809967041,
+    "mfcc_12": 22.235977172851562,
+    "mfcc_13": 0.1676950752735138,
+    "chroma_1": 0.39485231041908264,
+    "chroma_2": 0.98467618227005,
+    "chroma_3": 0.4455590844154358,
+    "chroma_4": 0.3079497516155243,
+    "chroma_5": 0.22226540744304657,
+    "chroma_6": 0.17942345142364502,
+    "chroma_7": 0.2357979416847229,
+    "chroma_8": 0.14288954436779022,
+    "chroma_9": 0.1681799739599228,
+    "chroma_10": 0.11736959964036942,
+    "chroma_11": 0.12039011716842651,
+    "chroma_12": 0.1934625208377838,
+    "spectral_contrast": 16.629106497427728,
+    "spectral_flatness": 0.005299716722220182,
+    "zero_crossing_rate": 0.055281994410392145
+  },
+  "rhythm": {
+    "onset_count": 778,
+    "onset_density": 5.080464495724038,
+    "drum_activity": "High",
+    "estimated_bars": 104,
+    "seconds_per_bar": 1.4791076050782694
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.547664999961853,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.5375353693962097,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.538560152053833,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.5510997772216797,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.551287055015564,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.5237594842910767,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.550453245639801,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 112.0,
+      "end": 128.0,
+      "avg_energy": 0.5517915487289429,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Outro",
+      "start": 128.0,
+      "end": 153.13560416666667,
+      "avg_energy": 0.5623936653137207,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 65,
+    "master": 65,
+    "arrangement": 75,
+    "release": 68,
+    "energy": 9.881017796651223,
+    "bass_strength": 6.0321104762708,
+    "darkness": 1.2472511047679955,
+    "brightness": 8.752748895232005,
+    "drum_bounce": 10,
+    "vocal_space": 2.5360292770737924
+  },
+  "top_problems": [
+    "Clipping detected: 60978 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is extremely loud for the selected style and may be crushed.",
+    "Dynamic range is tight, which can make the beat feel flattened.",
+    "Intro may be long for short-form listener retention."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: C# Minor / Try A# Minor. Confidence: 69.6%.",
+    "Beat energy: 9.9/10. Darkness: 1.2/10.",
+    "Vocal space estimate: 2.5/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.08 hits/sec.",
+    "Estimated length: 104 bars at 162 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Peak: 0.00 dB. RMS: -5.24 dB. Dynamic range: 5.24 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Back off limiting/clipping only if the punch or clarity disappears.",
+    "Reduce over-compression or clipping on the master and let transients breathe.",
+    "Fix the technical problems first before worrying about tiny creative details."
+  ]
+}

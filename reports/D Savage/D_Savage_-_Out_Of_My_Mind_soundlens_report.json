@@ -1,0 +1,180 @@
+{
+  "basic": {
+    "file_name": "D Savage - Out Of My Mind.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/D Savage/D Savage - Out Of My Mind.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 131.88935416666666,
+    "bpm": 122.28,
+    "key": "G# Major",
+    "key_note": "G#",
+    "key_mode": "Major",
+    "key_confidence": 46.234360057919105
+  },
+  "loudness": {
+    "peak_db": -2.951005401651399e-05,
+    "rms_db": -12.142904577242323,
+    "dynamic_range_db": 12.142875067188307,
+    "clipping_detected": true,
+    "clipping_samples": 773,
+    "clipping_percent": 0.012210361305064898,
+    "headroom_db": 2.951005401651399e-05
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 16.367975905778614,
+      "Bass / 808": 14.799773821228989,
+      "Mud": 14.298273381512306,
+      "Low Mids": 14.603137046264743,
+      "Mids / Melody": 14.246388080662658,
+      "Harsh Zone": 13.40885183844051,
+      "Highs": 13.584870842178068,
+      "Air": 12.099580920539294,
+      "Vocal Range": 15.246823881465128
+    },
+    "brightness_centroid_hz": 2566.458792628464,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5259.685857258391,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 31.167749727007603,
+    "mid_total_percent": 43.147798508439706,
+    "top_total_percent": 25.684451762717362
+  },
+  "fingerprint": {
+    "mfcc_1": -211.7115478515625,
+    "mfcc_2": 126.17838287353516,
+    "mfcc_3": -5.546564102172852,
+    "mfcc_4": 33.74701690673828,
+    "mfcc_5": -5.171162128448486,
+    "mfcc_6": 10.944720268249512,
+    "mfcc_7": -12.493090629577637,
+    "mfcc_8": -1.2730610370635986,
+    "mfcc_9": -2.7609658241271973,
+    "mfcc_10": -6.958975791931152,
+    "mfcc_11": -4.948057174682617,
+    "mfcc_12": -1.1823451519012451,
+    "mfcc_13": -1.4409475326538086,
+    "chroma_1": 0.2579724192619324,
+    "chroma_2": 0.43687915802001953,
+    "chroma_3": 0.3481188118457794,
+    "chroma_4": 0.5806268453598022,
+    "chroma_5": 0.43219417333602905,
+    "chroma_6": 0.2647291421890259,
+    "chroma_7": 0.29028719663619995,
+    "chroma_8": 0.25837016105651855,
+    "chroma_9": 0.5550522804260254,
+    "chroma_10": 0.2665681540966034,
+    "chroma_11": 0.268080472946167,
+    "chroma_12": 0.25337493419647217,
+    "spectral_contrast": 20.025528531107945,
+    "spectral_flatness": 0.0007234932272695005,
+    "zero_crossing_rate": 0.04767911411999596
+  },
+  "rhythm": {
+    "onset_count": 317,
+    "onset_density": 2.403529852753784,
+    "drum_activity": "Medium",
+    "estimated_bars": 67,
+    "seconds_per_bar": 1.9627085377821394
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.12173908948898315,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.08451870828866959,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.2519591450691223,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.3279801905155182,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.3169308304786682,
+      "energy_label": "High"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.30335426330566406,
+      "energy_label": "High"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.32091736793518066,
+      "energy_label": "High"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 131.88935416666666,
+      "avg_energy": 0.10908740758895874,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 85,
+    "release": 86,
+    "energy": 6.4285477113788385,
+    "bass_strength": 6.233549945401521,
+    "darkness": 4.867082414743072,
+    "brightness": 5.132917585256928,
+    "drum_bounce": 6.00882463188446,
+    "vocal_space": 2.1945282122144008
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 773 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: G# Major. Confidence: 46.2%.",
+    "Beat energy: 6.4/10. Darkness: 4.9/10.",
+    "Vocal space estimate: 2.2/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is medium at 2.40 hits/sec.",
+    "Estimated length: 67 bars at 122 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: -0.00 dB. RMS: -12.14 dB. Dynamic range: 12.14 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "This is close. Only make small changes unless you hear a clear problem."
+  ]
+}

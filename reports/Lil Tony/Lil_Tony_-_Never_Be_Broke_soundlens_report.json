@@ -1,0 +1,187 @@
+{
+  "basic": {
+    "file_name": "Lil Tony - Never Be Broke.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Lil Tony/Lil Tony - Never Be Broke.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 132.51629166666666,
+    "bpm": 144.23,
+    "key": "E Minor",
+    "key_note": "E",
+    "key_mode": "Minor",
+    "key_confidence": 47.381368155303534
+  },
+  "loudness": {
+    "peak_db": 0.0001366768373938768,
+    "rms_db": -11.691957391093496,
+    "dynamic_range_db": 11.69209406793089,
+    "clipping_detected": true,
+    "clipping_samples": 54,
+    "clipping_percent": 0.0008489522200257766,
+    "headroom_db": -0.0001366768373938768
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 15.814295859976252,
+      "Bass / 808": 14.678636148131337,
+      "Mud": 14.827375665531859,
+      "Low Mids": 15.156035766571469,
+      "Mids / Melody": 14.27548537171546,
+      "Harsh Zone": 13.547576415365183,
+      "Highs": 13.163255195368459,
+      "Air": 12.084915990906724,
+      "Vocal Range": 15.628439210866771
+    },
+    "brightness_centroid_hz": 2702.0050048510634,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 5646.87361658886,
+    "dominant_band": "Sub",
+    "low_end_total_percent": 30.492932008107587,
+    "mid_total_percent": 44.258896803818786,
+    "top_total_percent": 25.248171186275183
+  },
+  "fingerprint": {
+    "mfcc_1": -143.6815185546875,
+    "mfcc_2": 136.21200561523438,
+    "mfcc_3": -25.036989212036133,
+    "mfcc_4": 37.610652923583984,
+    "mfcc_5": -16.377988815307617,
+    "mfcc_6": 8.59976577758789,
+    "mfcc_7": -11.904550552368164,
+    "mfcc_8": -8.842366218566895,
+    "mfcc_9": -11.437397956848145,
+    "mfcc_10": -9.907265663146973,
+    "mfcc_11": -11.726968765258789,
+    "mfcc_12": -10.650583267211914,
+    "mfcc_13": -2.95564603805542,
+    "chroma_1": 0.5095993280410767,
+    "chroma_2": 0.3489580750465393,
+    "chroma_3": 0.4505099654197693,
+    "chroma_4": 0.47357842326164246,
+    "chroma_5": 0.6690229773521423,
+    "chroma_6": 0.6751700043678284,
+    "chroma_7": 0.4662652313709259,
+    "chroma_8": 0.4217893183231354,
+    "chroma_9": 0.33679819107055664,
+    "chroma_10": 0.3899863660335541,
+    "chroma_11": 0.32727840542793274,
+    "chroma_12": 0.5017080307006836,
+    "spectral_contrast": 20.86784679796767,
+    "spectral_flatness": 0.0006757817463949323,
+    "zero_crossing_rate": 0.04633621638310931
+  },
+  "rhythm": {
+    "onset_count": 724,
+    "onset_density": 5.46347917598811,
+    "drum_activity": "High",
+    "estimated_bars": 80,
+    "seconds_per_bar": 1.6640088747139985
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "start": 0.0,
+      "end": 16.0,
+      "avg_energy": 0.1809723973274231,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 16.0,
+      "end": 32.0,
+      "avg_energy": 0.31208688020706177,
+      "energy_label": "High"
+    },
+    {
+      "name": "Verse",
+      "start": 32.0,
+      "end": 48.0,
+      "avg_energy": 0.28512483835220337,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Chorus / Hook",
+      "start": 48.0,
+      "end": 64.0,
+      "avg_energy": 0.28005075454711914,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Verse",
+      "start": 64.0,
+      "end": 80.0,
+      "avg_energy": 0.20194153487682343,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Hook / Drop",
+      "start": 80.0,
+      "end": 96.0,
+      "avg_energy": 0.308003693819046,
+      "energy_label": "High"
+    },
+    {
+      "name": "Bridge / Breakdown",
+      "start": 96.0,
+      "end": 112.0,
+      "avg_energy": 0.20378044247627258,
+      "energy_label": "Low"
+    },
+    {
+      "name": "Outro",
+      "start": 112.0,
+      "end": 132.51629166666666,
+      "avg_energy": 0.27066871523857117,
+      "energy_label": "Medium"
+    }
+  ],
+  "scores": {
+    "mix": 86,
+    "master": 86,
+    "arrangement": 75,
+    "release": 83,
+    "energy": 6.654021304453252,
+    "bass_strength": 6.098586401621517,
+    "darkness": 4.595989990297873,
+    "brightness": 5.404010009702127,
+    "drum_bounce": 10,
+    "vocal_space": 1.9039017671341902
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Clipping detected: 54 samples are near/over the limit.",
+    "Mud range is elevated around 250-500 Hz.",
+    "Intro may be long for short-form listener retention.",
+    "Drum movement is very active; the beat could become overcrowded.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.",
+    "Consider bringing drums, 808, or a strong tag/moment in earlier."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: E Minor. Confidence: 47.4%.",
+    "Beat energy: 6.7/10. Darkness: 4.6/10.",
+    "Vocal space estimate: 1.9/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Sub.",
+    "Drum activity is high at 5.46 hits/sec.",
+    "Estimated length: 80 bars at 144 BPM."
+  ],
+  "master_notes": [
+    "Clipping is the first thing to fix before judging the rest of the mix.",
+    "Loudness is in a usable range for the selected style.",
+    "Peak: 0.00 dB. RMS: -11.69 dB. Dynamic range: 11.69 dB."
+  ],
+  "next_steps": [
+    "Lower the master/output, then use a soft clipper or limiter with safer ceiling.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Mute extra percussion in some sections so the hook/drop feels bigger.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}

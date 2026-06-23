@@ -1,0 +1,156 @@
+{
+  "basic": {
+    "file_name": "Jaydes - i love you mom the house is on fire.wav",
+    "file_path": "/Users/jayden/SoundLens/tracks/Jaydes/Jaydes - i love you mom the house is on fire.wav",
+    "sample_rate": 48000,
+    "duration_seconds": 60.000375,
+    "bpm": 119.68,
+    "key": "F# Major",
+    "key_note": "F#",
+    "key_mode": "Major",
+    "key_confidence": 45.80931055123641
+  },
+  "loudness": {
+    "peak_db": -0.7248139310358082,
+    "rms_db": -18.914515706121048,
+    "dynamic_range_db": 18.18970177508524,
+    "clipping_detected": false,
+    "clipping_samples": 0,
+    "clipping_percent": 0.0,
+    "headroom_db": 0.7248139310358082
+  },
+  "frequency": {
+    "band_percentages": {
+      "Sub": 14.730841063019964,
+      "Bass / 808": 16.31526129742121,
+      "Mud": 15.646564796782414,
+      "Low Mids": 15.517455110381267,
+      "Mids / Melody": 14.629818817962537,
+      "Harsh Zone": 13.451992105609317,
+      "Highs": 12.648485787492753,
+      "Air": 10.511573124821108,
+      "Vocal Range": 16.29969656516908
+    },
+    "brightness_centroid_hz": 2062.191637572492,
+    "brightness_label": "Medium",
+    "spectral_rolloff_hz": 4403.842094738713,
+    "dominant_band": "Bass / 808",
+    "low_end_total_percent": 31.046102360441175,
+    "mid_total_percent": 45.79383872512622,
+    "top_total_percent": 23.16005891231386
+  },
+  "fingerprint": {
+    "mfcc_1": -217.02529907226562,
+    "mfcc_2": 163.4701385498047,
+    "mfcc_3": -19.1900691986084,
+    "mfcc_4": 43.54928207397461,
+    "mfcc_5": -2.0869877338409424,
+    "mfcc_6": 21.087249755859375,
+    "mfcc_7": -4.511501312255859,
+    "mfcc_8": -1.4101085662841797,
+    "mfcc_9": -1.2230781316757202,
+    "mfcc_10": -1.8458982706069946,
+    "mfcc_11": -1.3086341619491577,
+    "mfcc_12": -5.735621929168701,
+    "mfcc_13": 4.694330215454102,
+    "chroma_1": 0.41342100501060486,
+    "chroma_2": 0.5886074900627136,
+    "chroma_3": 0.40218278765678406,
+    "chroma_4": 0.4143075942993164,
+    "chroma_5": 0.37659773230552673,
+    "chroma_6": 0.4628516435623169,
+    "chroma_7": 0.6226392388343811,
+    "chroma_8": 0.4046573042869568,
+    "chroma_9": 0.5749812722206116,
+    "chroma_10": 0.4458792507648468,
+    "chroma_11": 0.424042671918869,
+    "chroma_12": 0.5047997832298279,
+    "spectral_contrast": 18.966021522910584,
+    "spectral_flatness": 0.00014327190001495183,
+    "zero_crossing_rate": 0.03629241954208141
+  },
+  "rhythm": {
+    "onset_count": 150,
+    "onset_density": 2.4999843750976556,
+    "drum_activity": "Medium",
+    "estimated_bars": 30,
+    "seconds_per_bar": 2.0053475935828877
+  },
+  "sections": [
+    {
+      "name": "Section 1",
+      "start": 0.0,
+      "end": 16.0427807486631,
+      "avg_energy": 0.10964704304933548,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 2",
+      "start": 16.0427807486631,
+      "end": 32.0855614973262,
+      "avg_energy": 0.12373970448970795,
+      "energy_label": "High"
+    },
+    {
+      "name": "Section 3",
+      "start": 32.0855614973262,
+      "end": 48.1283422459893,
+      "avg_energy": 0.12018273025751114,
+      "energy_label": "Medium"
+    },
+    {
+      "name": "Section 4",
+      "start": 48.1283422459893,
+      "end": 60.000375,
+      "avg_energy": 0.09184295684099197,
+      "energy_label": "Low"
+    }
+  ],
+  "scores": {
+    "mix": 78,
+    "master": 78,
+    "arrangement": 75,
+    "release": 77,
+    "energy": 3.042742146939476,
+    "bass_strength": 6.209220472088235,
+    "darkness": 5.875616724855016,
+    "brightness": 4.124383275144984,
+    "drum_bounce": 6.249960937744139,
+    "vocal_space": 1.524594779803996
+  },
+  "stem_balance": null,
+  "top_problems": [
+    "Mud range is elevated around 250-500 Hz.",
+    "Track is quiet for the selected style.",
+    "Dynamic range is wide, so some sections may feel uneven.",
+    "Hook/verse contrast looks low, but arrangement detection is still an estimate."
+  ],
+  "suggested_fixes": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy."
+  ],
+  "artist_notes": [
+    "Autotune/key starting point: F# Major. Confidence: 45.8%.",
+    "Beat energy: 3.0/10. Darkness: 5.9/10.",
+    "Vocal space estimate: 1.5/10. Higher means easier space for vocals."
+  ],
+  "producer_notes": [
+    "Low-end presence looks usable for the selected style.",
+    "Selected style preset: rage_trap.",
+    "Dominant frequency area: Bass / 808.",
+    "Drum activity is medium at 2.50 hits/sec.",
+    "Estimated length: 30 bars at 120 BPM."
+  ],
+  "master_notes": [
+    "No obvious clipping problem detected.",
+    "Peak: -0.72 dB. RMS: -18.91 dB. Dynamic range: 18.19 dB."
+  ],
+  "next_steps": [
+    "Add controlled loudness with gain staging, saturation, soft clipping, then limiting.",
+    "Use automation or compression to make sections feel more controlled.",
+    "Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.",
+    "Fix the top 1-2 issues, export again, then re-run SoundLens."
+  ]
+}
