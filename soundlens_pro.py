@@ -284,74 +284,65 @@ def detect_bpm(y: np.ndarray, sr: int) -> float:
 
 
 def detect_key(y: np.ndarray, sr: int) -> Tuple[str, str, str, float]:
-    def chroma_vector(audio: np.ndarray) -> np.ndarray:
+    """
+    Railway-safe key detection.
+    Avoids librosa.effects.harmonic()/HPSS because it can crash small containers.
+    """
+    def chroma_vector(audio: np.ndarray, sample_rate: int) -> np.ndarray:
         try:
-            chroma = librosa.feature.chroma_cqt(
-                y=audio,
-                sr=sr,
-                bins_per_octave=36
-            )
+            chroma = librosa.feature.chroma_cqt(y=audio, sr=sample_rate, bins_per_octave=12)
         except Exception:
-            chroma = librosa.feature.chroma_stft(y=audio, sr=sr)
+            chroma = librosa.feature.chroma_stft(y=audio, sr=sample_rate)
 
         chroma_mean = np.mean(chroma, axis=1)
-        chroma_mean = np.maximum(chroma_mean - np.median(chroma_mean) * 0.35, 0)
+        chroma_mean = np.maximum(chroma_mean - np.median(chroma_mean) * 0.25, 0)
         return chroma_mean / (np.linalg.norm(chroma_mean) + EPSILON)
 
     def key_candidates(chroma_norm: np.ndarray) -> List[Tuple[float, str, str]]:
         major_norm = MAJOR_PROFILE / np.linalg.norm(MAJOR_PROFILE)
         minor_norm = MINOR_PROFILE / np.linalg.norm(MINOR_PROFILE)
-
         results = []
 
         for i, note in enumerate(NOTES_SHARP):
-            major_score = float(np.dot(chroma_norm, np.roll(major_norm, i)))
-            minor_score = float(np.dot(chroma_norm, np.roll(minor_norm, i)))
-
-            results.append((major_score, note, "Major"))
-            results.append((minor_score, note, "Minor"))
+            results.append((float(np.dot(chroma_norm, np.roll(major_norm, i))), note, "Major"))
+            results.append((float(np.dot(chroma_norm, np.roll(minor_norm, i))), note, "Minor"))
 
         return sorted(results, key=lambda x: x[0], reverse=True)
 
     try:
-        harmonic = librosa.effects.harmonic(y)
+        max_seconds = 75
+
+        if len(y) > sr * max_seconds:
+            start = max(0, (len(y) // 2) - (sr * max_seconds // 2))
+            y_key = y[start:start + (sr * max_seconds)]
+        else:
+            y_key = y
+
+        target_sr = 22050
+
+        if sr > target_sr:
+            y_key = librosa.resample(y_key, orig_sr=sr, target_sr=target_sr)
+            key_sr = target_sr
+        else:
+            key_sr = sr
+
+        y_key = y_key.astype(np.float32)
+        y_key = y_key - float(np.mean(y_key))
+
+        chroma_norm = chroma_vector(y_key, key_sr)
+        ranked = key_candidates(chroma_norm)
+
+        best_score, best_note, best_mode = ranked[0]
+        second_score, _, _ = ranked[1]
+
+        gap = best_score - second_score
+        confidence = clamp(42 + (gap * 90), 35, 88)
+
+        return f"{best_note} {best_mode}", best_note, best_mode, confidence
+
     except Exception:
-        harmonic = y
+        return "Unknown", "Unknown", "Unknown", 0.0
 
-    harmonic_chroma = chroma_vector(harmonic)
-
-    try:
-        bass_y = librosa.effects.preemphasis(y)
-        bass_chroma = chroma_vector(bass_y)
-    except Exception:
-        bass_chroma = chroma_vector(y)
-
-    harmonic_candidates = key_candidates(harmonic_chroma)
-
-    root_weights = {}
-    for i, note in enumerate(NOTES_SHARP):
-        root_weights[note] = float(
-            harmonic_chroma[i] * 0.75 + bass_chroma[i] * 0.25
-        )
-
-    results = []
-
-    for score, note, mode in harmonic_candidates:
-        root_bonus = root_weights.get(note, 0.0) * 0.12
-        final_score = score + root_bonus
-        results.append((final_score, note, mode))
-
-    ranked = sorted(results, key=lambda x: x[0], reverse=True)
-
-    best_score, best_note, best_mode = ranked[0]
-    second_score, second_note, second_mode = ranked[1]
-
-    gap = best_score - second_score
-    confidence = clamp(45 + (gap * 100), 35, 90)
-
-    display_key = f"{best_note} {best_mode}"
-
-    return display_key, best_note, best_mode, confidence
 
 def analyze_loudness(y: np.ndarray) -> LoudnessInfo:
     peak = float(np.max(np.abs(y)))
