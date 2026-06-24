@@ -262,25 +262,56 @@ def load_audio(audio_file: Path) -> Tuple[np.ndarray, int]:
 
 
 def detect_bpm(y: np.ndarray, sr: int) -> float:
-    tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
+    """
+    Railway-safe BPM detection.
+    Uses a shorter, downsampled clip so the hosted server does not crash on full songs.
+    """
+    try:
+        max_seconds = 75
 
-    if isinstance(tempo, np.ndarray):
-        tempo = float(tempo[0])
+        if len(y) > sr * max_seconds:
+            start = max(0, (len(y) // 2) - (sr * max_seconds // 2))
+            y_bpm = y[start:start + (sr * max_seconds)]
+        else:
+            y_bpm = y
 
-    bpm = float(tempo)
+        target_sr = 22050
 
-    # Trap/rage often gets detected too slow.
-    # Push suspicious low-mid tempos into a more useful rage/trap range.
-    if bpm < 70:
-        bpm *= 2
-    elif 90 <= bpm <= 115:
-        bpm *= 1.5
-    elif 70 <= bpm < 90:
-        bpm *= 2
-    elif bpm > 190:
-        bpm /= 2
+        if sr > target_sr:
+            y_bpm = librosa.resample(y_bpm, orig_sr=sr, target_sr=target_sr)
+            bpm_sr = target_sr
+        else:
+            bpm_sr = sr
 
-    return round(bpm, 2)
+        y_bpm = y_bpm.astype(np.float32)
+        y_bpm = y_bpm - float(np.mean(y_bpm))
+
+        onset_env = librosa.onset.onset_strength(y=y_bpm, sr=bpm_sr)
+
+        tempo = librosa.feature.rhythm.tempo(
+            onset_envelope=onset_env,
+            sr=bpm_sr,
+            aggregate=np.median
+        )
+
+        if isinstance(tempo, np.ndarray):
+            bpm = float(tempo[0])
+        else:
+            bpm = float(tempo)
+
+        if bpm < 70:
+            bpm *= 2
+        elif 90 <= bpm <= 115:
+            bpm *= 1.5
+        elif 70 <= bpm < 90:
+            bpm *= 2
+        elif bpm > 190:
+            bpm /= 2
+
+        return round(float(bpm), 2)
+
+    except Exception:
+        return 140.0
 
 
 def detect_key(y: np.ndarray, sr: int) -> Tuple[str, str, str, float]:
