@@ -7,11 +7,12 @@ import os
 import shutil
 import traceback
 import uuid
+import stripe
 
 from fastapi import FastAPI, UploadFile, File, Header, HTTPException, Request
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from soundlens_pro import analyze_audio, render_report
@@ -48,6 +49,16 @@ PRO_PRICE_CAD = os.getenv("SOUNDLENS_PRO_PRICE_CAD", "7.99")
 
 USE_DEMUCS_BY_DEFAULT = os.getenv("SOUNDLENS_USE_DEMUCS", "0") == "1"
 COMPARE_USE_STEMS = os.getenv("SOUNDLENS_COMPARE_USE_STEMS", "0") == "1"
+
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "")
+STRIPE_PRO_PRICE_ID = os.getenv("STRIPE_PRO_PRICE_ID", "price_1TlO4U2UFBtBMGztgrQDYTvB")
+STRIPE_STUDIO_PRICE_ID = os.getenv("STRIPE_STUDIO_PRICE_ID", "price_1TlO7o2UFBtBMGzt9SmiPpMq")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+SOUNDLENS_PUBLIC_URL = os.getenv("SOUNDLENS_PUBLIC_URL", "https://www.soundlensapp.com").rstrip("/")
+
+if STRIPE_SECRET_KEY:
+    stripe.api_key = STRIPE_SECRET_KEY
+
 
 
 class AuthPayload(BaseModel):
@@ -103,10 +114,10 @@ def public_user(user: dict) -> dict:
         "email": user.get("email"),
         "display_name": user.get("display_name") or user.get("email"),
         "plan": plan,
-        "is_pro": plan == "pro",
-        "daily_limit": None if plan == "pro" else FREE_DAILY_UPLOAD_LIMIT,
+        "is_pro": plan in {"pro", "studio"},
+        "daily_limit": None if plan in {"pro", "studio"} else FREE_DAILY_UPLOAD_LIMIT,
         "uploads_today": int(usage.get("count", 0) or 0),
-        "uploads_remaining": None if plan == "pro" else max(0, FREE_DAILY_UPLOAD_LIMIT - int(usage.get("count", 0) or 0)),
+        "uploads_remaining": None if plan in {"pro", "studio"} else max(0, FREE_DAILY_UPLOAD_LIMIT - int(usage.get("count", 0) or 0)),
         "created_at": user.get("created_at"),
     }
 
@@ -142,7 +153,7 @@ def check_and_increment_upload(user: dict) -> None:
         usage["date"] = today
         usage["count"] = 0
 
-    if plan != "pro" and int(usage.get("count", 0) or 0) >= FREE_DAILY_UPLOAD_LIMIT:
+    if plan not in {"pro", "studio"} and int(usage.get("count", 0) or 0) >= FREE_DAILY_UPLOAD_LIMIT:
         raise HTTPException(
             status_code=429,
             detail=f"Free limit reached. You get {FREE_DAILY_UPLOAD_LIMIT} uploads per day. Upgrade to Pro for unlimited uploads.",
@@ -340,6 +351,111 @@ def delete_report(report_id: str, authorization: str | None = Header(default=Non
         path.unlink()
 
     return {"ok": True}
+
+
+
+def find_user_by_email(db: dict, email: str) -> dict | None:
+    clean_email = normalize_email(email)
+    return next((u for u in db.get("users", {}).values() if normalize_email(u.get("email")) == clean_email), None)
+
+
+def set_user_plan_by_email(email: str, plan: str, stripe_customer_id: str | None = None, stripe_subscription_id: str | None = None) -> bool:
+    db = load_users_db()
+    user = find_user_by_email(db, email)
+    if not user:
+        return False
+    user["plan"] = plan
+    if plan in {"pro", "studio"}:
+        user["upgraded_at"] = now_iso()
+    user["stripe_customer_id"] = stripe_customer_id or user.get("stripe_customer_id")
+    user["stripe_subscription_id"] = stripe_subscription_id or user.get("stripe_subscription_id")
+    save_users_db(db)
+    return True
+
+
+@app.post("/stripe/create-checkout-session")
+def create_checkout_session(payload: dict, authorization: str | None = Header(default=None)):
+    if not STRIPE_SECRET_KEY:
+        raise HTTPException(status_code=500, detail="Stripe is not configured yet.")
+
+    db, user = get_current_user(authorization)
+    requested_plan = str(payload.get("plan", "pro")).lower().strip()
+
+    if requested_plan == "studio":
+        price_id = STRIPE_STUDIO_PRICE_ID
+        plan_name = "studio"
+    else:
+        price_id = STRIPE_PRO_PRICE_ID
+        plan_name = "pro"
+
+    try:
+        session = stripe.checkout.Session.create(
+            mode="subscription",
+            payment_method_types=["card"],
+            line_items=[{"price": price_id, "quantity": 1}],
+            customer_email=user.get("email"),
+            client_reference_id=user.get("id"),
+            success_url=f"{SOUNDLENS_PUBLIC_URL}/?checkout=success&plan={plan_name}",
+            cancel_url=f"{SOUNDLENS_PUBLIC_URL}/?checkout=cancelled",
+            metadata={"user_id": user.get("id"), "email": user.get("email"), "plan": plan_name},
+            subscription_data={"metadata": {"user_id": user.get("id"), "email": user.get("email"), "plan": plan_name}},
+        )
+        return {"checkout_url": session.url}
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Stripe checkout failed: {error}")
+
+
+@app.post("/stripe/webhook")
+async def stripe_webhook(request: Request):
+    if not STRIPE_SECRET_KEY:
+        raise HTTPException(status_code=500, detail="Stripe is not configured yet.")
+
+    payload = await request.body()
+    signature = request.headers.get("stripe-signature")
+
+    if STRIPE_WEBHOOK_SECRET:
+        try:
+            event = stripe.Webhook.construct_event(payload, signature, STRIPE_WEBHOOK_SECRET)
+        except Exception as error:
+            raise HTTPException(status_code=400, detail=f"Webhook verification failed: {error}")
+    else:
+        try:
+            event = json.loads(payload.decode("utf-8"))
+        except Exception as error:
+            raise HTTPException(status_code=400, detail=f"Webhook parse failed: {error}")
+
+    event_type = event.get("type")
+    obj = event.get("data", {}).get("object", {})
+
+    if event_type == "checkout.session.completed":
+        email = obj.get("customer_email") or obj.get("metadata", {}).get("email")
+        plan = obj.get("metadata", {}).get("plan", "pro")
+        if email:
+            set_user_plan_by_email(email, plan, obj.get("customer"), obj.get("subscription"))
+
+    elif event_type in {"customer.subscription.deleted", "customer.subscription.paused"}:
+        customer_id = obj.get("customer")
+        db = load_users_db()
+        changed = False
+        for user in db.get("users", {}).values():
+            if user.get("stripe_customer_id") == customer_id:
+                user["plan"] = "free"
+                user["downgraded_at"] = now_iso()
+                changed = True
+        if changed:
+            save_users_db(db)
+
+    return {"received": True}
+
+
+@app.get("/stripe/success")
+def stripe_success():
+    return RedirectResponse(url="/?checkout=success")
+
+
+@app.get("/stripe/cancel")
+def stripe_cancel():
+    return RedirectResponse(url="/?checkout=cancelled")
 
 
 @app.get("/")

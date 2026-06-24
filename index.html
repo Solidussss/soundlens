@@ -1516,7 +1516,7 @@
             </div>
             <div class="hero-score-wrap">
                 <div id="dashboardPlan" class="hero-status">Free</div>
-                <button onclick="upgradeDemo()" style="margin-top:14px">Demo Upgrade to Pro</button>
+                <button onclick="startStripeCheckout('pro')" style="margin-top:14px">Upgrade to Pro</button>
             </div>
         </div>
     </div>
@@ -2740,6 +2740,43 @@ async function runProfileComparison(file, status){
         }
     }
 }
+
+
+async function startStripeCheckout(plan){
+    const token = localStorage.getItem("soundlens_token") || localStorage.getItem("token");
+    if(!token){
+        alert("Please log in or create an account before upgrading.");
+        if(typeof showPage === "function"){ showPage("authPage"); }
+        return;
+    }
+    try{
+        const response = await fetch("/stripe/create-checkout-session", {
+            method:"POST",
+            headers:{"Content-Type":"application/json","Authorization":"Bearer " + token},
+            body:JSON.stringify({plan:plan})
+        });
+        const data = await response.json();
+        if(!response.ok){ throw new Error(data.detail || "Stripe checkout failed."); }
+        window.location.href = data.checkout_url;
+    }catch(error){
+        alert(error.message || "Could not start checkout.");
+    }
+}
+
+function handleCheckoutStatus(){
+    const params = new URLSearchParams(window.location.search);
+    if(params.get("checkout") === "success"){
+        alert("Payment successful. Your SoundLens plan will update shortly.");
+        window.history.replaceState({}, document.title, "/");
+        if(typeof loadCurrentUser === "function"){ loadCurrentUser(); }
+    }
+    if(params.get("checkout") === "cancelled"){
+        alert("Checkout cancelled.");
+        window.history.replaceState({}, document.title, "/");
+    }
+}
+window.addEventListener("load", handleCheckoutStatus);
+
 </script>
 
 </body>
