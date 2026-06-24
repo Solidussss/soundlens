@@ -2743,7 +2743,7 @@ async function runProfileComparison(file, status){
 
 
 async function startStripeCheckout(plan){
-    const token = localStorage.getItem("soundlens_token") || localStorage.getItem("token");
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
     if(!token){
         alert("Please log in or create an account before upgrading.");
         if(typeof showPage === "function"){ showPage("authPage"); }
