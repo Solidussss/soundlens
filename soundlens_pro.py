@@ -436,25 +436,110 @@ def analyze_frequency(y: np.ndarray, sr: int) -> FrequencyInfo:
     )
 
 def analyze_audio_fingerprint(y: np.ndarray, sr: int) -> Dict[str, float]:
-    mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
-    chroma = librosa.feature.chroma_cqt(y=y, sr=sr)
-    contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
-    flatness = librosa.feature.spectral_flatness(y=y)
-    zcr = librosa.feature.zero_crossing_rate(y)
+    """
+    Lightweight audio embedding / sonic fingerprint.
 
-    fingerprint = {}
+    This is not Shazam-style exact-song matching and not a huge neural model.
+    It gives SoundLens a stronger "how does this sound?" vector using timbre,
+    harmony, brightness, texture, and motion features.
+    """
+    try:
+        max_seconds = 90
+        if len(y) > sr * max_seconds:
+            start = max(0, (len(y) // 2) - (sr * max_seconds // 2))
+            y_fp = y[start:start + (sr * max_seconds)]
+        else:
+            y_fp = y
 
-    for i in range(13):
-        fingerprint[f"mfcc_{i+1}"] = float(np.mean(mfcc[i]))
+        target_sr = 22050
+        if sr > target_sr:
+            y_fp = librosa.resample(y_fp, orig_sr=sr, target_sr=target_sr)
+            fp_sr = target_sr
+        else:
+            fp_sr = sr
 
-    for i in range(12):
-        fingerprint[f"chroma_{i+1}"] = float(np.mean(chroma[i]))
+        y_fp = y_fp.astype(np.float32)
+        y_fp = y_fp - float(np.mean(y_fp))
 
-    fingerprint["spectral_contrast"] = float(np.mean(contrast))
-    fingerprint["spectral_flatness"] = float(np.mean(flatness))
-    fingerprint["zero_crossing_rate"] = float(np.mean(zcr))
+        mfcc = librosa.feature.mfcc(y=y_fp, sr=fp_sr, n_mfcc=20)
+        chroma = librosa.feature.chroma_cqt(y=y_fp, sr=fp_sr)
+        contrast = librosa.feature.spectral_contrast(y=y_fp, sr=fp_sr)
+        flatness = librosa.feature.spectral_flatness(y=y_fp)
+        zcr = librosa.feature.zero_crossing_rate(y_fp)
+        centroid = librosa.feature.spectral_centroid(y=y_fp, sr=fp_sr)
+        rolloff = librosa.feature.spectral_rolloff(y=y_fp, sr=fp_sr, roll_percent=0.85)
+        rms = librosa.feature.rms(y=y_fp)
+        onset_env = librosa.onset.onset_strength(y=y_fp, sr=fp_sr)
 
-    return fingerprint
+        fingerprint = {}
+
+        # Backward compatible fields already used by your current profiles.
+        for i in range(13):
+            fingerprint[f"mfcc_{i+1}"] = float(np.mean(mfcc[i]))
+
+        for i in range(12):
+            fingerprint[f"chroma_{i+1}"] = float(np.mean(chroma[i]))
+
+        fingerprint["spectral_contrast"] = float(np.mean(contrast))
+        fingerprint["spectral_flatness"] = float(np.mean(flatness))
+        fingerprint["zero_crossing_rate"] = float(np.mean(zcr))
+
+        # Stronger embedding fields. These make Artist Match less dependent on
+        # only loudness/bass and more dependent on texture and motion.
+        for i in range(20):
+            fingerprint[f"embed_mfcc_{i+1}_mean"] = float(np.mean(mfcc[i]))
+            fingerprint[f"embed_mfcc_{i+1}_std"] = float(np.std(mfcc[i]))
+
+        for i in range(12):
+            fingerprint[f"embed_chroma_{i+1}_mean"] = float(np.mean(chroma[i]))
+            fingerprint[f"embed_chroma_{i+1}_std"] = float(np.std(chroma[i]))
+
+        for i in range(contrast.shape[0]):
+            fingerprint[f"embed_contrast_{i+1}_mean"] = float(np.mean(contrast[i]))
+            fingerprint[f"embed_contrast_{i+1}_std"] = float(np.std(contrast[i]))
+
+        chroma_energy = np.mean(chroma, axis=1)
+        chroma_energy = chroma_energy / (np.sum(chroma_energy) + EPSILON)
+        chroma_entropy = -float(np.sum(chroma_energy * np.log(chroma_energy + EPSILON)))
+
+        fingerprint["embed_chroma_entropy"] = chroma_entropy
+        fingerprint["embed_centroid_mean"] = float(np.mean(centroid))
+        fingerprint["embed_centroid_std"] = float(np.std(centroid))
+        fingerprint["embed_rolloff_mean"] = float(np.mean(rolloff))
+        fingerprint["embed_rolloff_std"] = float(np.std(rolloff))
+        fingerprint["embed_flatness_mean"] = float(np.mean(flatness))
+        fingerprint["embed_flatness_std"] = float(np.std(flatness))
+        fingerprint["embed_zcr_mean"] = float(np.mean(zcr))
+        fingerprint["embed_zcr_std"] = float(np.std(zcr))
+        fingerprint["embed_rms_mean"] = float(np.mean(rms))
+        fingerprint["embed_rms_std"] = float(np.std(rms))
+        fingerprint["embed_onset_mean"] = float(np.mean(onset_env))
+        fingerprint["embed_onset_std"] = float(np.std(onset_env))
+
+        return fingerprint
+
+    except Exception:
+        # Keep the app alive. If embedding fails, return the old basic fields.
+        try:
+            mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
+            chroma = librosa.feature.chroma_cqt(y=y, sr=sr)
+            contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
+            flatness = librosa.feature.spectral_flatness(y=y)
+            zcr = librosa.feature.zero_crossing_rate(y)
+
+            fingerprint = {}
+            for i in range(13):
+                fingerprint[f"mfcc_{i+1}"] = float(np.mean(mfcc[i]))
+            for i in range(12):
+                fingerprint[f"chroma_{i+1}"] = float(np.mean(chroma[i]))
+
+            fingerprint["spectral_contrast"] = float(np.mean(contrast))
+            fingerprint["spectral_flatness"] = float(np.mean(flatness))
+            fingerprint["zero_crossing_rate"] = float(np.mean(zcr))
+            return fingerprint
+        except Exception:
+            return {}
+
 
 def analyze_rhythm(y: np.ndarray, sr: int, duration: float, bpm: float) -> RhythmInfo:
     onset_times = librosa.onset.onset_detect(y=y, sr=sr, units="time")
