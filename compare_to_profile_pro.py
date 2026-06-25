@@ -165,11 +165,16 @@ def summary_avg_stdev(profile: Dict[str, Any], field: str) -> Tuple[Optional[flo
 
 
 def score_against_profile(value: float, avg: float, stdev: Optional[float]) -> float:
-    if stdev is None or stdev <= 0:
-        stdev = max(abs(avg) * 0.12, 1.0)
+    """
+    Accuracy stabilizer:
+    Artist profiles can have tiny stdev values when only a few songs are similar.
+    Tiny stdev makes matching jumpy/flaky, so use a safer tolerance floor.
+    """
+    tolerance = stdev if stdev is not None and stdev > 0 else 0.0
+    tolerance = max(tolerance * 1.25, abs(avg) * 0.18, 1.0)
 
-    z = abs(value - avg) / stdev
-    score = 100 - (z * 14)
+    z = abs(value - avg) / tolerance
+    score = 100 - (z * 16)
 
     return max(0.0, min(100.0, score))
 
@@ -315,24 +320,24 @@ def style_fingerprint_score(report_dict: Dict[str, Any], profile: Dict[str, Any]
 
 
 def fingerprint_score(report_dict: Dict[str, Any], profile: Dict[str, Any]) -> Optional[float]:
-    # First try the stronger MFCC/chroma fingerprint.
+    # MFCC/chroma helps with sonic texture, but it can be too broad for underground artists.
+    # Weight the SoundLens style fingerprint higher because it is more explainable:
+    # low-end shape, brightness, vocal-space band, section energy, and BPM style.
     mfcc_score = cosine_similarity(
         report_mfcc_vector(report_dict),
         profile_mfcc_vector(profile),
     )
 
-    # Old profiles may not have MFCC/chroma yet.
-    # Fall back to the existing profile["fingerprint"] ratios from build_artist_profile.
     style_score = style_fingerprint_score(report_dict, profile)
 
     if mfcc_score is not None and style_score is not None:
-        return round((mfcc_score * 0.65) + (style_score * 0.35), 2)
-
-    if mfcc_score is not None:
-        return round(mfcc_score, 2)
+        return round((mfcc_score * 0.35) + (style_score * 0.65), 2)
 
     if style_score is not None:
         return round(style_score, 2)
+
+    if mfcc_score is not None:
+        return round(mfcc_score, 2)
 
     return None
 
@@ -415,11 +420,12 @@ def core_metric_score(field_scores: List[Dict[str, Any]]) -> Optional[float]:
 
 
 def label_for_score(score: float) -> str:
-    if score >= 85:
+    # Stricter labels reduce "confidently wrong" matches.
+    if score >= 88:
         return "Strong Match"
-    if score >= 72:
+    if score >= 76:
         return "Good Match"
-    if score >= 58:
+    if score >= 62:
         return "Possible Match"
 
     return "Weak Match"
@@ -638,14 +644,18 @@ def compare_audio_to_profiles(
 
         weighted_components = []
 
+        # More stable Artist Match:
+        # - core metrics + frequency shape matter most for current V1 profiles
+        # - fingerprint still matters, but no longer dominates the match
+        # - stems are useful when present, but should not overpower non-stem profiles
         if metric_score is not None:
-            weighted_components.append((metric_score, 0.22))
+            weighted_components.append((metric_score, 0.34))
         if freq_score is not None:
-            weighted_components.append((freq_score, 0.26))
+            weighted_components.append((freq_score, 0.30))
         if fp_score is not None:
-            weighted_components.append((fp_score, 0.34))
+            weighted_components.append((fp_score, 0.26))
         if stem_score is not None:
-            weighted_components.append((stem_score, 0.18))
+            weighted_components.append((stem_score, 0.10))
 
         if weighted_components:
             match_score = sum(score * weight for score, weight in weighted_components) / sum(
@@ -656,13 +666,20 @@ def compare_audio_to_profiles(
 
         match_score = round(float(match_score or 0), 2)
 
+        # Low-track profiles are less reliable. Keep them in results, but avoid over-ranking them.
+        profile_track_count = int(profile.get("track_count", 0) or 0)
+        if profile_track_count < 3:
+            match_score = max(0.0, round(match_score - 8, 2))
+        elif profile_track_count < 6:
+            match_score = max(0.0, round(match_score - 4, 2))
+
         ranked.append({
             "profile_name": profile.get("profile_name", profile_file.stem.replace("_profile", "")),
             "match_score": match_score,
             "match_label": label_for_score(match_score),
             "confidence": "Pending",
             "confidence_percent": 0,
-            "track_count": int(profile.get("track_count", 0) or 0),
+            "track_count": profile_track_count,
             "compared_fields": len(field_scores),
             "score_components": {
                 "overall_metrics": round(metric_score, 2) if metric_score is not None else None,
