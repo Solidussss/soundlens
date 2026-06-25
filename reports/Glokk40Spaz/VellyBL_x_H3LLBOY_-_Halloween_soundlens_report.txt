@@ -1,23 +1,24 @@
 
 === SoundLens Pro Report ===
 File: VellyBL x H3LLBOY - Halloween.wav
-BPM: 141
+BPM: 140
 Key: C Major
-Key Confidence: 48.2%
+Key Confidence: 42.4%
 Duration: 1:50 (110.46 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 84/100 - Good, but needs small fixes
+Release Score: 83/100 - Good, but needs small fixes
 Mix Score: 86/100 - Excellent
 Master Score: 86/100 - Excellent
-Arrangement Score: 81/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 700 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -26,14 +27,12 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Low
-Section 2: 0:13 - 0:27 | Energy: Medium
-Section 3: 0:27 - 0:40 | Energy: High
-Section 4: 0:40 - 0:54 | Energy: Low
-Section 5: 0:54 - 1:08 | Energy: High
-Section 6: 1:08 - 1:21 | Energy: Medium
-Section 7: 1:21 - 1:35 | Energy: High
-Section 8: 1:35 - 1:50 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: High
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: High
+Outro: 1:20 - 1:50 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -64,7 +63,7 @@ Spectral Rolloff: 4883 Hz
 Onsets Detected: 741
 Onset Density: 6.71 hits/sec
 Drum Activity: High
-Estimated Bars: 65
+Estimated Bars: 64
 Seconds Per Bar: 1.71
 
 === Beat Profile ===
@@ -76,7 +75,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.0/10
 
 === Artist Notes ===
-- Autotune/key starting point: C Major. Confidence: 48.2%.
+- Autotune/key starting point: C Major. Confidence: 42.4%.
 - Beat energy: 8.1/10. Darkness: 5.4/10.
 - Vocal space estimate: 2.0/10. Higher means easier space for vocals.
 
@@ -85,7 +84,7 @@ Vocal Space: 2.0/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 6.71 hits/sec.
-- Estimated length: 65 bars at 141 BPM.
+- Estimated length: 64 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -97,6 +96,7 @@ Vocal Space: 2.0/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

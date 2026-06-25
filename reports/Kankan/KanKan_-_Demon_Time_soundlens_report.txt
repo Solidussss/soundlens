@@ -1,23 +1,24 @@
 
 === SoundLens Pro Report ===
 File: KanKan - Demon Time.wav
-BPM: 145
-Key: E Major
-Key Confidence: 45.8%
+BPM: 140
+Key: A Minor
+Key Confidence: 43.5%
 Duration: 2:00 (120.04 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 84/100 - Good, but needs small fixes
+Release Score: 82/100 - Good, but needs small fixes
 Mix Score: 86/100 - Excellent
 Master Score: 84/100 - Good
-Arrangement Score: 81/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Mud range is elevated around 250-500 Hz.
 2. Track is quiet for the selected style.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
@@ -26,15 +27,13 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Low
-Section 2: 0:13 - 0:26 | Energy: High
-Section 3: 0:26 - 0:39 | Energy: High
-Section 4: 0:39 - 0:52 | Energy: Medium
-Section 5: 0:52 - 1:05 | Energy: Medium
-Section 6: 1:05 - 1:19 | Energy: Low
-Section 7: 1:19 - 1:32 | Energy: High
-Section 8: 1:32 - 1:45 | Energy: Medium
-Section 9: 1:45 - 2:00 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: High
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: Low
+Hook / Drop: 1:20 - 1:36 | Energy: High
+Outro: 1:36 - 2:00 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: -5.85 dB
@@ -65,8 +64,8 @@ Spectral Rolloff: 5641 Hz
 Onsets Detected: 695
 Onset Density: 5.79 hits/sec
 Drum Activity: High
-Estimated Bars: 73
-Seconds Per Bar: 1.65
+Estimated Bars: 70
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 3.6/10
@@ -77,7 +76,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.6/10
 
 === Artist Notes ===
-- Autotune/key starting point: E Major. Confidence: 45.8%.
+- Autotune/key starting point: A Minor. Confidence: 43.5%.
 - Beat energy: 3.6/10. Darkness: 4.9/10.
 - Vocal space estimate: 2.6/10. Higher means easier space for vocals.
 
@@ -86,7 +85,7 @@ Vocal Space: 2.6/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 5.79 hits/sec.
-- Estimated length: 73 bars at 145 BPM.
+- Estimated length: 70 bars at 140 BPM.
 
 === Master Notes ===
 - No obvious clipping problem detected.
@@ -97,6 +96,7 @@ Vocal Space: 2.6/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

@@ -1,23 +1,24 @@
 
 === SoundLens Pro Report ===
 File: Duwap Kaine - G-Star.wav
-BPM: 137
+BPM: 140
 Key: D# Minor
-Key Confidence: 45.0%
+Key Confidence: 42.9%
 Duration: 2:20 (140.93 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 84/100 - Good, but needs small fixes
+Release Score: 83/100 - Good, but needs small fixes
 Mix Score: 86/100 - Excellent
 Master Score: 86/100 - Excellent
-Arrangement Score: 81/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 4075 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -26,16 +27,14 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Low
-Section 2: 0:13 - 0:27 | Energy: High
-Section 3: 0:27 - 0:41 | Energy: Low
-Section 4: 0:41 - 0:55 | Energy: Low
-Section 5: 0:55 - 1:09 | Energy: Medium
-Section 6: 1:09 - 1:23 | Energy: Medium
-Section 7: 1:23 - 1:37 | Energy: Medium
-Section 8: 1:37 - 1:51 | Energy: Medium
-Section 9: 1:51 - 2:05 | Energy: High
-Section 10: 2:05 - 2:20 | Energy: High
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: Medium
+Verse: 1:20 - 1:36 | Energy: Medium
+Verse: 1:36 - 1:52 | Energy: Medium
+Outro: 1:52 - 2:20 | Energy: High
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -66,8 +65,8 @@ Spectral Rolloff: 4653 Hz
 Onsets Detected: 683
 Onset Density: 4.85 hits/sec
 Drum Activity: High
-Estimated Bars: 81
-Seconds Per Bar: 1.75
+Estimated Bars: 82
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 7.7/10
@@ -78,7 +77,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.4/10
 
 === Artist Notes ===
-- Autotune/key starting point: D# Minor. Confidence: 45.0%.
+- Autotune/key starting point: D# Minor. Confidence: 42.9%.
 - Beat energy: 7.7/10. Darkness: 5.8/10.
 - Vocal space estimate: 2.4/10. Higher means easier space for vocals.
 
@@ -87,7 +86,7 @@ Vocal Space: 2.4/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 4.85 hits/sec.
-- Estimated length: 81 bars at 137 BPM.
+- Estimated length: 82 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -99,6 +98,7 @@ Vocal Space: 2.4/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

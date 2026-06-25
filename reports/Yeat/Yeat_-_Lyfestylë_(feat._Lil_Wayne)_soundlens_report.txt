@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Yeat - Lyfestylë (feat. Lil Wayne).wav
-BPM: 153
+BPM: 140
 Key: A# Major
-Key Confidence: 45.4%
+Key Confidence: 42.7%
 Duration: 3:56 (236.91 sec)
 Sample Rate: 48000 Hz
 
@@ -16,7 +16,8 @@ Arrangement Score: 81/100 - Good
 === Top Problems ===
 1. Clipping detected: 724 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -25,25 +26,20 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:12 | Energy: Low
-Section 2: 0:12 - 0:25 | Energy: Low
-Section 3: 0:25 - 0:37 | Energy: Low
-Section 4: 0:37 - 0:50 | Energy: High
-Section 5: 0:50 - 1:02 | Energy: Medium
-Section 6: 1:02 - 1:15 | Energy: Medium
-Section 7: 1:15 - 1:27 | Energy: Medium
-Section 8: 1:27 - 1:40 | Energy: Low
-Section 9: 1:40 - 1:52 | Energy: Medium
-Section 10: 1:52 - 2:05 | Energy: High
-Section 11: 2:05 - 2:17 | Energy: High
-Section 12: 2:17 - 2:30 | Energy: Low
-Section 13: 2:30 - 2:42 | Energy: Medium
-Section 14: 2:42 - 2:55 | Energy: High
-Section 15: 2:55 - 3:07 | Energy: High
-Section 16: 3:07 - 3:20 | Energy: High
-Section 17: 3:20 - 3:32 | Energy: Medium
-Section 18: 3:32 - 3:45 | Energy: Medium
-Section 19: 3:45 - 3:56 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Low
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: Medium
+Verse: 1:20 - 1:36 | Energy: Medium
+Verse: 1:36 - 1:52 | Energy: Medium
+Hook / Drop: 1:52 - 2:08 | Energy: High
+Verse: 2:08 - 2:24 | Energy: Medium
+Verse: 2:24 - 2:40 | Energy: Medium
+Hook / Drop: 2:40 - 2:56 | Energy: High
+Hook / Drop: 2:56 - 3:12 | Energy: High
+Verse: 3:12 - 3:28 | Energy: Medium
+Outro: 3:28 - 3:56 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -74,8 +70,8 @@ Spectral Rolloff: 6375 Hz
 Onsets Detected: 1068
 Onset Density: 4.51 hits/sec
 Drum Activity: High
-Estimated Bars: 151
-Seconds Per Bar: 1.56
+Estimated Bars: 138
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 6.1/10
@@ -86,7 +82,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.1/10
 
 === Artist Notes ===
-- Autotune/key starting point: A# Major. Confidence: 45.4%.
+- Autotune/key starting point: A# Major. Confidence: 42.7%.
 - Beat energy: 6.1/10. Darkness: 4.3/10.
 - Vocal space estimate: 2.1/10. Higher means easier space for vocals.
 
@@ -95,7 +91,7 @@ Vocal Space: 2.1/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 4.51 hits/sec.
-- Estimated length: 151 bars at 153 BPM.
+- Estimated length: 138 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -106,6 +102,7 @@ Vocal Space: 2.1/10
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

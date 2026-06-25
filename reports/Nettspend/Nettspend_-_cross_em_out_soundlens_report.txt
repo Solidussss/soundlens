@@ -1,24 +1,24 @@
 
 === SoundLens Pro Report ===
 File: Nettspend - cross em out.wav
-BPM: 162
+BPM: 140
 Key: F Minor
-Key Confidence: 46.0%
+Key Confidence: 42.9%
 Duration: 2:22 (142.80 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 63/100 - Needs work before release
+Release Score: 61/100 - Needs work before release
 Mix Score: 53/100 - Needs Work
 Master Score: 53/100 - Needs Work
-Arrangement Score: 85/100 - Excellent
+Arrangement Score: 79/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 179480 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
 3. Track is extremely loud for the selected style and may be crushed.
 4. Dynamic range is tight, which can make the beat feel flattened.
-5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+5. Intro may be long for short-form listener retention.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -27,18 +27,14 @@ Arrangement Score: 85/100 - Excellent
 4. Fix the technical problems first before worrying about tiny creative details.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:12 | Energy: Low
-Section 2: 0:12 - 0:24 | Energy: High
-Section 3: 0:24 - 0:36 | Energy: High
-Section 4: 0:36 - 0:48 | Energy: Medium
-Section 5: 0:48 - 1:00 | Energy: Low
-Section 6: 1:00 - 1:12 | Energy: Medium
-Section 7: 1:12 - 1:24 | Energy: Medium
-Section 8: 1:24 - 1:36 | Energy: High
-Section 9: 1:36 - 1:48 | Energy: Medium
-Section 10: 1:48 - 2:00 | Energy: High
-Section 11: 2:00 - 2:12 | Energy: Low
-Section 12: 2:12 - 2:22 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: High
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: Medium
+Verse: 1:20 - 1:36 | Energy: Medium
+Verse: 1:36 - 1:52 | Energy: Medium
+Outro: 1:52 - 2:22 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -69,8 +65,8 @@ Spectral Rolloff: 10428 Hz
 Onsets Detected: 321
 Onset Density: 2.25 hits/sec
 Drum Activity: Medium
-Estimated Bars: 97
-Seconds Per Bar: 1.48
+Estimated Bars: 83
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 10.0/10
@@ -81,7 +77,7 @@ Drum Bounce: 5.6/10
 Vocal Space: 2.4/10
 
 === Artist Notes ===
-- Autotune/key starting point: F Minor. Confidence: 46.0%.
+- Autotune/key starting point: F Minor. Confidence: 42.9%.
 - Beat energy: 10.0/10. Darkness: 0.3/10.
 - Vocal space estimate: 2.4/10. Higher means easier space for vocals.
 
@@ -90,7 +86,7 @@ Vocal Space: 2.4/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is medium at 2.25 hits/sec.
-- Estimated length: 97 bars at 162 BPM.
+- Estimated length: 83 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -102,6 +98,7 @@ Vocal Space: 2.4/10
 - Reduce over-compression or clipping on the master and let transients breathe.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

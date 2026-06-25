@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Hardrock - Prada.wav
-BPM: 125
+BPM: 140
 Key: F# Minor
-Key Confidence: 45.7%
+Key Confidence: 42.1%
 Duration: 2:17 (137.22 sec)
 Sample Rate: 48000 Hz
 
@@ -18,7 +18,7 @@ Arrangement Score: 81/100 - Good
 2. Mud range is elevated around 250-500 Hz.
 3. Track is extremely loud for the selected style and may be crushed.
 4. Dynamic range is tight, which can make the beat feel flattened.
-5. Drum movement is very active; the beat could become overcrowded.
+5. Intro may be long for short-form listener retention.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -27,15 +27,14 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:15 | Energy: Low
-Section 2: 0:15 - 0:30 | Energy: Low
-Section 3: 0:30 - 0:46 | Energy: Medium
-Section 4: 0:46 - 1:01 | Energy: High
-Section 5: 1:01 - 1:16 | Energy: High
-Section 6: 1:16 - 1:32 | Energy: Low
-Section 7: 1:32 - 1:47 | Energy: Medium
-Section 8: 1:47 - 2:02 | Energy: Medium
-Section 9: 2:02 - 2:17 | Energy: High
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: High
+Verse: 1:20 - 1:36 | Energy: Medium
+Verse: 1:36 - 1:52 | Energy: Medium
+Outro: 1:52 - 2:17 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -66,8 +65,8 @@ Spectral Rolloff: 4659 Hz
 Onsets Detected: 977
 Onset Density: 7.12 hits/sec
 Drum Activity: High
-Estimated Bars: 71
-Seconds Per Bar: 1.92
+Estimated Bars: 80
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 9.6/10
@@ -78,7 +77,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.3/10
 
 === Artist Notes ===
-- Autotune/key starting point: F# Minor. Confidence: 45.7%.
+- Autotune/key starting point: F# Minor. Confidence: 42.1%.
 - Beat energy: 9.6/10. Darkness: 5.9/10.
 - Vocal space estimate: 2.3/10. Higher means easier space for vocals.
 
@@ -87,7 +86,7 @@ Vocal Space: 2.3/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 7.12 hits/sec.
-- Estimated length: 71 bars at 125 BPM.
+- Estimated length: 80 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -99,7 +98,7 @@ Vocal Space: 2.3/10
 - Reduce over-compression or clipping on the master and let transients breathe.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
-- Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

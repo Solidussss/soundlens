@@ -1,23 +1,24 @@
 
 === SoundLens Pro Report ===
 File: Bktharula - Tweakin' Together.wav
-BPM: 144
-Key: G# Major
-Key Confidence: 47.5%
+BPM: 140
+Key: C Minor
+Key Confidence: 42.5%
 Duration: 2:06 (126.68 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 84/100 - Good, but needs small fixes
+Release Score: 83/100 - Good, but needs small fixes
 Mix Score: 86/100 - Excellent
 Master Score: 86/100 - Excellent
-Arrangement Score: 81/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 3 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -26,16 +27,13 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Low
-Section 2: 0:13 - 0:26 | Energy: Medium
-Section 3: 0:26 - 0:39 | Energy: High
-Section 4: 0:39 - 0:53 | Energy: High
-Section 5: 0:53 - 1:06 | Energy: Medium
-Section 6: 1:06 - 1:19 | Energy: Low
-Section 7: 1:19 - 1:33 | Energy: High
-Section 8: 1:33 - 1:46 | Energy: Medium
-Section 9: 1:46 - 1:59 | Energy: Medium
-Section 10: 1:59 - 2:06 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: High
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: Low
+Hook / Drop: 1:20 - 1:36 | Energy: High
+Outro: 1:36 - 2:06 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: -0.06 dB
@@ -66,8 +64,8 @@ Spectral Rolloff: 5313 Hz
 Onsets Detected: 708
 Onset Density: 5.59 hits/sec
 Drum Activity: High
-Estimated Bars: 76
-Seconds Per Bar: 1.66
+Estimated Bars: 74
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 8.0/10
@@ -78,7 +76,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.3/10
 
 === Artist Notes ===
-- Autotune/key starting point: G# Major. Confidence: 47.5%.
+- Autotune/key starting point: C Minor. Confidence: 42.5%.
 - Beat energy: 8.0/10. Darkness: 5.1/10.
 - Vocal space estimate: 2.3/10. Higher means easier space for vocals.
 
@@ -87,7 +85,7 @@ Vocal Space: 2.3/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 5.59 hits/sec.
-- Estimated length: 76 bars at 144 BPM.
+- Estimated length: 74 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -99,6 +97,7 @@ Vocal Space: 2.3/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

@@ -1,23 +1,24 @@
 
 === SoundLens Pro Report ===
 File: Hardrock - madmax.wav
-BPM: 131
+BPM: 140
 Key: C Major
-Key Confidence: 46.7%
+Key Confidence: 42.2%
 Duration: 2:50 (171.00 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 84/100 - Good, but needs small fixes
+Release Score: 83/100 - Good, but needs small fixes
 Mix Score: 86/100 - Excellent
 Master Score: 86/100 - Excellent
-Arrangement Score: 81/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 4364 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -26,18 +27,16 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:14 | Energy: Low
-Section 2: 0:14 - 0:29 | Energy: High
-Section 3: 0:29 - 0:44 | Energy: High
-Section 4: 0:44 - 0:58 | Energy: Medium
-Section 5: 0:58 - 1:13 | Energy: Medium
-Section 6: 1:13 - 1:28 | Energy: Medium
-Section 7: 1:28 - 1:42 | Energy: High
-Section 8: 1:42 - 1:57 | Energy: High
-Section 9: 1:57 - 2:12 | Energy: Medium
-Section 10: 2:12 - 2:26 | Energy: Low
-Section 11: 2:26 - 2:41 | Energy: Low
-Section 12: 2:41 - 2:50 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: High
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: Medium
+Hook / Drop: 1:20 - 1:36 | Energy: High
+Hook / Drop: 1:36 - 1:52 | Energy: High
+Hook / Drop: 1:52 - 2:08 | Energy: High
+Bridge / Breakdown: 2:08 - 2:24 | Energy: Low
+Outro: 2:24 - 2:50 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -68,8 +67,8 @@ Spectral Rolloff: 6549 Hz
 Onsets Detected: 981
 Onset Density: 5.74 hits/sec
 Drum Activity: High
-Estimated Bars: 93
-Seconds Per Bar: 1.83
+Estimated Bars: 100
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 9.0/10
@@ -80,7 +79,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.2/10
 
 === Artist Notes ===
-- Autotune/key starting point: C Major. Confidence: 46.7%.
+- Autotune/key starting point: C Major. Confidence: 42.2%.
 - Beat energy: 9.0/10. Darkness: 4.4/10.
 - Vocal space estimate: 2.2/10. Higher means easier space for vocals.
 
@@ -89,7 +88,7 @@ Vocal Space: 2.2/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 5.74 hits/sec.
-- Estimated length: 93 bars at 131 BPM.
+- Estimated length: 100 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -101,6 +100,7 @@ Vocal Space: 2.2/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

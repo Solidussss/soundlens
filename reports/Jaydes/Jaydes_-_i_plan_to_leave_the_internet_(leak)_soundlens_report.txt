@@ -1,22 +1,23 @@
 
 === SoundLens Pro Report ===
 File: Jaydes - i plan to leave the internet (leak).wav
-BPM: 120
+BPM: 140
 Key: F# Minor
-Key Confidence: 45.5%
+Key Confidence: 42.2%
 Duration: 1:06 (66.20 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 82/100 - Good, but needs small fixes
+Release Score: 84/100 - Good, but needs small fixes
 Mix Score: 89/100 - Excellent
 Master Score: 89/100 - Excellent
-Arrangement Score: 66/100 - Needs Work
+Arrangement Score: 71/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 1 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -25,10 +26,10 @@ Arrangement Score: 66/100 - Needs Work
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:16 | Energy: Low
-Section 2: 0:16 - 0:32 | Energy: Medium
-Section 3: 0:32 - 0:48 | Energy: High
-Section 4: 0:48 - 1:06 | Energy: Medium
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Outro: 0:48 - 1:06 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: -0.15 dB
@@ -59,8 +60,8 @@ Spectral Rolloff: 5323 Hz
 Onsets Detected: 217
 Onset Density: 3.28 hits/sec
 Drum Activity: High
-Estimated Bars: 33
-Seconds Per Bar: 2.01
+Estimated Bars: 39
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 6.3/10
@@ -71,7 +72,7 @@ Drum Bounce: 8.2/10
 Vocal Space: 1.8/10
 
 === Artist Notes ===
-- Autotune/key starting point: F# Minor. Confidence: 45.5%.
+- Autotune/key starting point: F# Minor. Confidence: 42.2%.
 - Beat energy: 6.3/10. Darkness: 5.4/10.
 - Vocal space estimate: 1.8/10. Higher means easier space for vocals.
 
@@ -80,7 +81,7 @@ Vocal Space: 1.8/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Bass / 808.
 - Drum activity is high at 3.28 hits/sec.
-- Estimated length: 33 bars at 120 BPM.
+- Estimated length: 39 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -91,6 +92,7 @@ Vocal Space: 1.8/10
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

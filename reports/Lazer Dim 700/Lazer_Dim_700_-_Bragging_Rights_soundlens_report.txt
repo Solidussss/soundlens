@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Lazer Dim 700 - Bragging Rights.wav
-BPM: 152
+BPM: 140
 Key: F# Minor
-Key Confidence: 45.7%
+Key Confidence: 43.2%
 Duration: 1:03 (63.27 sec)
 Sample Rate: 48000 Hz
 
@@ -11,14 +11,14 @@ Sample Rate: 48000 Hz
 Release Score: 58/100 - Needs work before release
 Mix Score: 53/100 - Needs Work
 Master Score: 53/100 - Needs Work
-Arrangement Score: 70/100 - Good
+Arrangement Score: 69/100 - Needs Work
 
 === Top Problems ===
 1. Clipping detected: 331561 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
 3. Track is extremely loud for the selected style and may be crushed.
 4. Dynamic range is tight, which can make the beat feel flattened.
-5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+5. Intro may be long for short-form listener retention.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -27,11 +27,9 @@ Arrangement Score: 70/100 - Good
 4. Fix the technical problems first before worrying about tiny creative details.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:12 | Energy: Low
-Section 2: 0:12 - 0:25 | Energy: High
-Section 3: 0:25 - 0:37 | Energy: Medium
-Section 4: 0:37 - 0:50 | Energy: High
-Section 5: 0:50 - 1:03 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Outro: 0:32 - 1:03 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -62,8 +60,8 @@ Spectral Rolloff: 5510 Hz
 Onsets Detected: 182
 Onset Density: 2.88 hits/sec
 Drum Activity: Medium
-Estimated Bars: 40
-Seconds Per Bar: 1.58
+Estimated Bars: 37
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 10.0/10
@@ -74,7 +72,7 @@ Drum Bounce: 7.2/10
 Vocal Space: 2.0/10
 
 === Artist Notes ===
-- Autotune/key starting point: F# Minor. Confidence: 45.7%.
+- Autotune/key starting point: F# Minor. Confidence: 43.2%.
 - Beat energy: 10.0/10. Darkness: 4.7/10.
 - Vocal space estimate: 2.0/10. Higher means easier space for vocals.
 
@@ -83,7 +81,7 @@ Vocal Space: 2.0/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is medium at 2.88 hits/sec.
-- Estimated length: 40 bars at 152 BPM.
+- Estimated length: 37 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -95,6 +93,7 @@ Vocal Space: 2.0/10
 - Reduce over-compression or clipping on the master and let transients breathe.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

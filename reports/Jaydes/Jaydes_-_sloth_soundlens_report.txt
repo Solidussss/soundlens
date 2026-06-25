@@ -1,24 +1,24 @@
 
 === SoundLens Pro Report ===
 File: Jaydes - sloth.wav
-BPM: 148
-Key: G Major
-Key Confidence: 49.0%
+BPM: 140
+Key: G Minor
+Key Confidence: 42.1%
 Duration: 2:01 (121.73 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 79/100 - Good, but needs small fixes
+Release Score: 77/100 - Good, but needs small fixes
 Mix Score: 78/100 - Good
 Master Score: 78/100 - Good
-Arrangement Score: 81/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Mud range is elevated around 250-500 Hz.
 2. Track is quiet for the selected style.
 3. Dynamic range is wide, so some sections may feel uneven.
-4. Drum movement is very active; the beat could become overcrowded.
-5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+4. Intro may be long for short-form listener retention.
+5. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
@@ -27,15 +27,13 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:12 | Energy: Low
-Section 2: 0:12 - 0:25 | Energy: Medium
-Section 3: 0:25 - 0:38 | Energy: Medium
-Section 4: 0:38 - 0:51 | Energy: Low
-Section 5: 0:51 - 1:04 | Energy: High
-Section 6: 1:04 - 1:17 | Energy: High
-Section 7: 1:17 - 1:30 | Energy: High
-Section 8: 1:30 - 1:43 | Energy: Low
-Section 9: 1:43 - 2:01 | Energy: Medium
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: High
+Verse: 1:20 - 1:36 | Energy: Medium
+Outro: 1:36 - 2:01 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: -2.28 dB
@@ -66,8 +64,8 @@ Spectral Rolloff: 2762 Hz
 Onsets Detected: 543
 Onset Density: 4.46 hits/sec
 Drum Activity: High
-Estimated Bars: 75
-Seconds Per Bar: 1.62
+Estimated Bars: 71
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 2.6/10
@@ -78,7 +76,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 1.2/10
 
 === Artist Notes ===
-- Autotune/key starting point: G Major. Confidence: 49.0%.
+- Autotune/key starting point: G Minor. Confidence: 42.1%.
 - Beat energy: 2.6/10. Darkness: 7.0/10.
 - Vocal space estimate: 1.2/10. Higher means easier space for vocals.
 - Beat leans dark, so brighter vocals/adlibs may cut through well.
@@ -88,7 +86,7 @@ Vocal Space: 1.2/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Bass / 808.
 - Drum activity is high at 4.46 hits/sec.
-- Estimated length: 75 bars at 148 BPM.
+- Estimated length: 71 bars at 140 BPM.
 
 === Master Notes ===
 - No obvious clipping problem detected.
@@ -100,6 +98,7 @@ Vocal Space: 1.2/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

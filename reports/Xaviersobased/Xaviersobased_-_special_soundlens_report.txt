@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Xaviersobased - special.wav
-BPM: 120
+BPM: 140
 Key: F# Minor
-Key Confidence: 48.3%
+Key Confidence: 42.6%
 Duration: 1:51 (111.78 sec)
 Sample Rate: 48000 Hz
 
@@ -16,7 +16,8 @@ Arrangement Score: 79/100 - Good
 === Top Problems ===
 1. Clipping detected: 194 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -61,8 +62,8 @@ Spectral Rolloff: 7689 Hz
 Onsets Detected: 283
 Onset Density: 2.53 hits/sec
 Drum Activity: Medium
-Estimated Bars: 56
-Seconds Per Bar: 2.01
+Estimated Bars: 65
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 6.7/10
@@ -73,7 +74,7 @@ Drum Bounce: 6.3/10
 Vocal Space: 2.4/10
 
 === Artist Notes ===
-- Autotune/key starting point: F# Minor. Confidence: 48.3%.
+- Autotune/key starting point: F# Minor. Confidence: 42.6%.
 - Beat energy: 6.7/10. Darkness: 3.1/10.
 - Vocal space estimate: 2.4/10. Higher means easier space for vocals.
 
@@ -82,7 +83,7 @@ Vocal Space: 2.4/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is medium at 2.53 hits/sec.
-- Estimated length: 56 bars at 120 BPM.
+- Estimated length: 65 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -93,6 +94,7 @@ Vocal Space: 2.4/10
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

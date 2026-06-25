@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Jaydes - Lately.wav
-BPM: 141
+BPM: 140
 Key: C# Minor
-Key Confidence: 46.9%
+Key Confidence: 42.7%
 Duration: 1:26 (86.77 sec)
 Sample Rate: 48000 Hz
 
@@ -16,7 +16,8 @@ Arrangement Score: 71/100 - Good
 === Top Problems ===
 1. Clipping detected: 616 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -25,12 +26,11 @@ Arrangement Score: 71/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Medium
-Section 2: 0:13 - 0:27 | Energy: Low
-Section 3: 0:27 - 0:40 | Energy: High
-Section 4: 0:40 - 0:54 | Energy: High
-Section 5: 0:54 - 1:08 | Energy: Medium
-Section 6: 1:08 - 1:26 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Outro: 1:04 - 1:26 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: -0.00 dB
@@ -73,7 +73,7 @@ Drum Bounce: 9.8/10
 Vocal Space: 1.8/10
 
 === Artist Notes ===
-- Autotune/key starting point: C# Minor. Confidence: 46.9%.
+- Autotune/key starting point: C# Minor. Confidence: 42.7%.
 - Beat energy: 7.3/10. Darkness: 5.8/10.
 - Vocal space estimate: 1.8/10. Higher means easier space for vocals.
 
@@ -82,7 +82,7 @@ Vocal Space: 1.8/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 3.93 hits/sec.
-- Estimated length: 51 bars at 141 BPM.
+- Estimated length: 51 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -93,6 +93,7 @@ Vocal Space: 1.8/10
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

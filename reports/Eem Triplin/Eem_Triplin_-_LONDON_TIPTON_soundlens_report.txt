@@ -1,23 +1,24 @@
 
 === SoundLens Pro Report ===
 File: Eem Triplin - LONDON TIPTON.wav
-BPM: 132
-Key: C Major
-Key Confidence: 47.0%
+BPM: 140
+Key: C Minor
+Key Confidence: 42.2%
 Duration: 2:10 (130.08 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 84/100 - Good, but needs small fixes
+Release Score: 83/100 - Good, but needs small fixes
 Mix Score: 86/100 - Excellent
 Master Score: 86/100 - Excellent
-Arrangement Score: 81/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 921 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -26,15 +27,14 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:14 | Energy: Medium
-Section 2: 0:14 - 0:29 | Energy: High
-Section 3: 0:29 - 0:43 | Energy: Medium
-Section 4: 0:43 - 0:58 | Energy: High
-Section 5: 0:58 - 1:12 | Energy: Low
-Section 6: 1:12 - 1:27 | Energy: Low
-Section 7: 1:27 - 1:41 | Energy: Medium
-Section 8: 1:41 - 1:56 | Energy: High
-Section 9: 1:56 - 2:10 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: Medium
+Verse: 1:20 - 1:36 | Energy: Medium
+Verse: 1:36 - 1:52 | Energy: Medium
+Outro: 1:52 - 2:10 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -65,8 +65,8 @@ Spectral Rolloff: 7355 Hz
 Onsets Detected: 477
 Onset Density: 3.67 hits/sec
 Drum Activity: High
-Estimated Bars: 72
-Seconds Per Bar: 1.81
+Estimated Bars: 76
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 7.8/10
@@ -77,7 +77,7 @@ Drum Bounce: 9.2/10
 Vocal Space: 2.3/10
 
 === Artist Notes ===
-- Autotune/key starting point: C Major. Confidence: 47.0%.
+- Autotune/key starting point: C Minor. Confidence: 42.2%.
 - Beat energy: 7.8/10. Darkness: 3.3/10.
 - Vocal space estimate: 2.3/10. Higher means easier space for vocals.
 
@@ -86,7 +86,7 @@ Vocal Space: 2.3/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 3.67 hits/sec.
-- Estimated length: 72 bars at 132 BPM.
+- Estimated length: 76 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -98,6 +98,7 @@ Vocal Space: 2.3/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Nettspend - F＊CK CANCER.wav
-BPM: 122
-Key: C Minor
-Key Confidence: 46.4%
+BPM: 140
+Key: F Minor
+Key Confidence: 42.2%
 Duration: 2:06 (126.63 sec)
 Sample Rate: 48000 Hz
 
@@ -16,7 +16,8 @@ Arrangement Score: 81/100 - Good
 === Top Problems ===
 1. Clipping detected: 33283 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -25,14 +26,13 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:15 | Energy: Low
-Section 2: 0:15 - 0:31 | Energy: Low
-Section 3: 0:31 - 0:47 | Energy: Medium
-Section 4: 0:47 - 1:02 | Energy: High
-Section 5: 1:02 - 1:18 | Energy: Low
-Section 6: 1:18 - 1:34 | Energy: High
-Section 7: 1:34 - 1:49 | Energy: Medium
-Section 8: 1:49 - 2:06 | Energy: High
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: Medium
+Verse: 1:20 - 1:36 | Energy: Medium
+Outro: 1:36 - 2:06 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -63,8 +63,8 @@ Spectral Rolloff: 8522 Hz
 Onsets Detected: 816
 Onset Density: 6.44 hits/sec
 Drum Activity: High
-Estimated Bars: 65
-Seconds Per Bar: 1.96
+Estimated Bars: 74
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 8.4/10
@@ -75,7 +75,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.6/10
 
 === Artist Notes ===
-- Autotune/key starting point: C Minor. Confidence: 46.4%.
+- Autotune/key starting point: F Minor. Confidence: 42.2%.
 - Beat energy: 8.4/10. Darkness: 2.1/10.
 - Vocal space estimate: 2.6/10. Higher means easier space for vocals.
 
@@ -84,7 +84,7 @@ Vocal Space: 2.6/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 6.44 hits/sec.
-- Estimated length: 65 bars at 122 BPM.
+- Estimated length: 74 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -95,6 +95,7 @@ Vocal Space: 2.6/10
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

@@ -1,24 +1,24 @@
 
 === SoundLens Pro Report ===
 File: Hardrock - Blood Sweat Tears.wav
-BPM: 144
+BPM: 140
 Key: E Minor
-Key Confidence: 48.3%
+Key Confidence: 44.3%
 Duration: 2:24 (144.68 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 73/100 - Good, but needs small fixes
+Release Score: 72/100 - Good, but needs small fixes
 Mix Score: 70/100 - Good
 Master Score: 70/100 - Good
-Arrangement Score: 81/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 1107 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
 3. Track is extremely loud for the selected style and may be crushed.
 4. Dynamic range is tight, which can make the beat feel flattened.
-5. Drum movement is very active; the beat could become overcrowded.
+5. Intro may be long for short-form listener retention.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -27,17 +27,15 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: High
-Section 2: 0:13 - 0:26 | Energy: Medium
-Section 3: 0:26 - 0:39 | Energy: Low
-Section 4: 0:39 - 0:53 | Energy: High
-Section 5: 0:53 - 1:06 | Energy: High
-Section 6: 1:06 - 1:19 | Energy: Low
-Section 7: 1:19 - 1:33 | Energy: Medium
-Section 8: 1:33 - 1:46 | Energy: Medium
-Section 9: 1:46 - 1:59 | Energy: Low
-Section 10: 1:59 - 2:13 | Energy: High
-Section 11: 2:13 - 2:24 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: Medium
+Verse: 1:20 - 1:36 | Energy: Medium
+Verse: 1:36 - 1:52 | Energy: Medium
+Verse: 1:52 - 2:08 | Energy: Medium
+Outro: 2:08 - 2:24 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -68,8 +66,8 @@ Spectral Rolloff: 4503 Hz
 Onsets Detected: 956
 Onset Density: 6.61 hits/sec
 Drum Activity: High
-Estimated Bars: 87
-Seconds Per Bar: 1.66
+Estimated Bars: 84
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 9.7/10
@@ -80,7 +78,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.3/10
 
 === Artist Notes ===
-- Autotune/key starting point: E Minor. Confidence: 48.3%.
+- Autotune/key starting point: E Minor. Confidence: 44.3%.
 - Beat energy: 9.7/10. Darkness: 6.0/10.
 - Vocal space estimate: 2.3/10. Higher means easier space for vocals.
 
@@ -89,7 +87,7 @@ Vocal Space: 2.3/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 6.61 hits/sec.
-- Estimated length: 87 bars at 144 BPM.
+- Estimated length: 84 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -102,6 +100,7 @@ Vocal Space: 2.3/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

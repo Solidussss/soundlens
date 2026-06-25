@@ -1,22 +1,23 @@
 
 === SoundLens Pro Report ===
 File: Kankan - Outta State.wav
-BPM: 134
-Key: E Minor
-Key Confidence: 47.2%
+BPM: 140
+Key: C Major
+Key Confidence: 42.1%
 Duration: 1:26 (86.17 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 87/100 - Close to release-ready
+Release Score: 85/100 - Close to release-ready
 Mix Score: 94/100 - Excellent
 Master Score: 94/100 - Excellent
-Arrangement Score: 71/100 - Good
+Arrangement Score: 65/100 - Needs Work
 
 === Top Problems ===
 1. Mud range is elevated around 250-500 Hz.
-2. Drum movement is very active; the beat could become overcrowded.
-3. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+2. Intro may be long for short-form listener retention.
+3. Drum movement is very active; the beat could become overcrowded.
+4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
@@ -25,12 +26,11 @@ Arrangement Score: 71/100 - Good
 4. This is close. Only make small changes unless you hear a clear problem.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:14 | Energy: Low
-Section 2: 0:14 - 0:28 | Energy: High
-Section 3: 0:28 - 0:43 | Energy: High
-Section 4: 0:43 - 0:57 | Energy: Medium
-Section 5: 0:57 - 1:11 | Energy: Medium
-Section 6: 1:11 - 1:26 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Outro: 1:04 - 1:26 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: -1.58 dB
@@ -61,8 +61,8 @@ Spectral Rolloff: 4812 Hz
 Onsets Detected: 353
 Onset Density: 4.10 hits/sec
 Drum Activity: High
-Estimated Bars: 48
-Seconds Per Bar: 1.79
+Estimated Bars: 50
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 6.2/10
@@ -73,7 +73,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.2/10
 
 === Artist Notes ===
-- Autotune/key starting point: E Minor. Confidence: 47.2%.
+- Autotune/key starting point: C Major. Confidence: 42.1%.
 - Beat energy: 6.2/10. Darkness: 5.5/10.
 - Vocal space estimate: 2.2/10. Higher means easier space for vocals.
 
@@ -82,7 +82,7 @@ Vocal Space: 2.2/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 4.10 hits/sec.
-- Estimated length: 48 bars at 134 BPM.
+- Estimated length: 50 bars at 140 BPM.
 
 === Master Notes ===
 - No obvious clipping problem detected.
@@ -93,6 +93,7 @@ Vocal Space: 2.2/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

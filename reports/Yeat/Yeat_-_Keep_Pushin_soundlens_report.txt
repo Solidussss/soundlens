@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Yeat - Keep Pushin.wav
-BPM: 138
+BPM: 140
 Key: D# Minor
-Key Confidence: 49.9%
+Key Confidence: 43.1%
 Duration: 2:46 (166.97 sec)
 Sample Rate: 48000 Hz
 
@@ -16,7 +16,8 @@ Arrangement Score: 81/100 - Good
 === Top Problems ===
 1. Clipping detected: 256 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -25,18 +26,16 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Low
-Section 2: 0:13 - 0:27 | Energy: Low
-Section 3: 0:27 - 0:41 | Energy: Low
-Section 4: 0:41 - 0:55 | Energy: Low
-Section 5: 0:55 - 1:09 | Energy: Medium
-Section 6: 1:09 - 1:23 | Energy: High
-Section 7: 1:23 - 1:37 | Energy: Medium
-Section 8: 1:37 - 1:51 | Energy: High
-Section 9: 1:51 - 2:04 | Energy: Medium
-Section 10: 2:04 - 2:18 | Energy: Medium
-Section 11: 2:18 - 2:32 | Energy: High
-Section 12: 2:32 - 2:46 | Energy: High
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Low
+Verse: 0:32 - 0:48 | Energy: Low
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: High
+Hook / Drop: 1:20 - 1:36 | Energy: High
+Hook / Drop: 1:36 - 1:52 | Energy: High
+Verse: 1:52 - 2:08 | Energy: Medium
+Hook / Drop: 2:08 - 2:24 | Energy: High
+Outro: 2:24 - 2:46 | Energy: High
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -67,8 +66,8 @@ Spectral Rolloff: 4642 Hz
 Onsets Detected: 617
 Onset Density: 3.70 hits/sec
 Drum Activity: High
-Estimated Bars: 96
-Seconds Per Bar: 1.74
+Estimated Bars: 97
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 7.0/10
@@ -79,7 +78,7 @@ Drum Bounce: 9.2/10
 Vocal Space: 2.1/10
 
 === Artist Notes ===
-- Autotune/key starting point: D# Minor. Confidence: 49.9%.
+- Autotune/key starting point: D# Minor. Confidence: 43.1%.
 - Beat energy: 7.0/10. Darkness: 5.8/10.
 - Vocal space estimate: 2.1/10. Higher means easier space for vocals.
 
@@ -88,7 +87,7 @@ Vocal Space: 2.1/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 3.70 hits/sec.
-- Estimated length: 96 bars at 138 BPM.
+- Estimated length: 97 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -99,6 +98,7 @@ Vocal Space: 2.1/10
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

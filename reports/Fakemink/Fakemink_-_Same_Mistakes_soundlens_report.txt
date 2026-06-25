@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Fakemink - Same Mistakes.wav
-BPM: 136
-Key: F# Major
-Key Confidence: 45.3%
+BPM: 140
+Key: B Minor
+Key Confidence: 42.4%
 Duration: 1:14 (74.32 sec)
 Sample Rate: 48000 Hz
 
@@ -17,7 +17,8 @@ Arrangement Score: 71/100 - Good
 1. Mud range is elevated around 250-500 Hz.
 2. Track is quiet for the selected style.
 3. Dynamic range is wide, so some sections may feel uneven.
-4. Drum movement is very active; the beat could become overcrowded.
+4. Intro may be long for short-form listener retention.
+5. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
@@ -26,11 +27,10 @@ Arrangement Score: 71/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:14 | Energy: Low
-Section 2: 0:14 - 0:28 | Energy: Low
-Section 3: 0:28 - 0:42 | Energy: Medium
-Section 4: 0:42 - 0:56 | Energy: High
-Section 5: 0:56 - 1:14 | Energy: High
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Outro: 0:48 - 1:14 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: -4.02 dB
@@ -61,8 +61,8 @@ Spectral Rolloff: 6514 Hz
 Onsets Detected: 385
 Onset Density: 5.18 hits/sec
 Drum Activity: High
-Estimated Bars: 42
-Seconds Per Bar: 1.76
+Estimated Bars: 43
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 2.2/10
@@ -73,7 +73,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.1/10
 
 === Artist Notes ===
-- Autotune/key starting point: F# Major. Confidence: 45.3%.
+- Autotune/key starting point: B Minor. Confidence: 42.4%.
 - Beat energy: 2.2/10. Darkness: 4.0/10.
 - Vocal space estimate: 2.1/10. Higher means easier space for vocals.
 
@@ -82,7 +82,7 @@ Vocal Space: 2.1/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 5.18 hits/sec.
-- Estimated length: 42 bars at 136 BPM.
+- Estimated length: 43 bars at 140 BPM.
 
 === Master Notes ===
 - No obvious clipping problem detected.
@@ -93,6 +93,7 @@ Vocal Space: 2.1/10
 - Use automation or compression to make sections feel more controlled.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Fakemink - Easter Pink.wav
-BPM: 117
+BPM: 140
 Key: D Minor
-Key Confidence: 46.2%
+Key Confidence: 42.8%
 Duration: 1:27 (87.14 sec)
 Sample Rate: 48000 Hz
 
@@ -16,18 +16,20 @@ Arrangement Score: 75/100 - Good
 === Top Problems ===
 1. Clipping detected: 373 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
+3. Intro may be long for short-form listener retention.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 2. Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
-3. Fix the top 1-2 issues, export again, then re-run SoundLens.
+3. Consider bringing drums, 808, or a strong tag/moment in earlier.
+4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:16 | Energy: Medium
-Section 2: 0:16 - 0:32 | Energy: High
-Section 3: 0:32 - 0:49 | Energy: High
-Section 4: 0:49 - 1:05 | Energy: Low
-Section 5: 1:05 - 1:27 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Outro: 1:04 - 1:27 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -58,8 +60,8 @@ Spectral Rolloff: 8153 Hz
 Onsets Detected: 248
 Onset Density: 2.85 hits/sec
 Drum Activity: Medium
-Estimated Bars: 43
-Seconds Per Bar: 2.05
+Estimated Bars: 51
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 7.5/10
@@ -70,7 +72,7 @@ Drum Bounce: 7.1/10
 Vocal Space: 2.3/10
 
 === Artist Notes ===
-- Autotune/key starting point: D Minor. Confidence: 46.2%.
+- Autotune/key starting point: D Minor. Confidence: 42.8%.
 - Beat energy: 7.5/10. Darkness: 2.9/10.
 - Vocal space estimate: 2.3/10. Higher means easier space for vocals.
 
@@ -79,7 +81,7 @@ Vocal Space: 2.3/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is medium at 2.85 hits/sec.
-- Estimated length: 43 bars at 117 BPM.
+- Estimated length: 51 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -89,6 +91,7 @@ Vocal Space: 2.3/10
 === Suggested Mix Moves ===
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Fakemink - Die Today.wav
-BPM: 151
+BPM: 140
 Key: C Major
-Key Confidence: 46.5%
+Key Confidence: 42.7%
 Duration: 1:05 (65.29 sec)
 Sample Rate: 48000 Hz
 
@@ -11,23 +11,25 @@ Sample Rate: 48000 Hz
 Release Score: 81/100 - Good, but needs small fixes
 Mix Score: 86/100 - Excellent
 Master Score: 86/100 - Excellent
-Arrangement Score: 70/100 - Good
+Arrangement Score: 69/100 - Needs Work
 
 === Top Problems ===
 1. Clipping detected: 442 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
+3. Intro may be long for short-form listener retention.
+4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 2. Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
-3. Fix the top 1-2 issues, export again, then re-run SoundLens.
+3. Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:12 | Energy: Medium
-Section 2: 0:12 - 0:25 | Energy: Low
-Section 3: 0:25 - 0:38 | Energy: Low
-Section 4: 0:38 - 0:50 | Energy: High
-Section 5: 0:50 - 1:05 | Energy: High
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Outro: 0:48 - 1:05 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -58,8 +60,8 @@ Spectral Rolloff: 5328 Hz
 Onsets Detected: 146
 Onset Density: 2.24 hits/sec
 Drum Activity: Medium
-Estimated Bars: 41
-Seconds Per Bar: 1.59
+Estimated Bars: 38
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 8.3/10
@@ -70,7 +72,7 @@ Drum Bounce: 5.6/10
 Vocal Space: 2.3/10
 
 === Artist Notes ===
-- Autotune/key starting point: C Major. Confidence: 46.5%.
+- Autotune/key starting point: C Major. Confidence: 42.7%.
 - Beat energy: 8.3/10. Darkness: 5.4/10.
 - Vocal space estimate: 2.3/10. Higher means easier space for vocals.
 
@@ -79,7 +81,7 @@ Vocal Space: 2.3/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is medium at 2.24 hits/sec.
-- Estimated length: 41 bars at 151 BPM.
+- Estimated length: 38 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -89,6 +91,8 @@ Vocal Space: 2.3/10
 === Suggested Mix Moves ===
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
+- Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

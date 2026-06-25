@@ -1,23 +1,24 @@
 
 === SoundLens Pro Report ===
 File: Yeat - Rav3 p4rty (feat. Kranky Kranky).wav
-BPM: 141
+BPM: 140
 Key: F Minor
-Key Confidence: 52.1%
+Key Confidence: 45.3%
 Duration: 3:18 (198.93 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 84/100 - Good, but needs small fixes
+Release Score: 83/100 - Good, but needs small fixes
 Mix Score: 86/100 - Excellent
 Master Score: 86/100 - Excellent
-Arrangement Score: 81/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 112 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -26,21 +27,18 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Low
-Section 2: 0:13 - 0:27 | Energy: Medium
-Section 3: 0:27 - 0:40 | Energy: High
-Section 4: 0:40 - 0:54 | Energy: High
-Section 5: 0:54 - 1:08 | Energy: Medium
-Section 6: 1:08 - 1:21 | Energy: Medium
-Section 7: 1:21 - 1:35 | Energy: High
-Section 8: 1:35 - 1:49 | Energy: Low
-Section 9: 1:49 - 2:02 | Energy: Medium
-Section 10: 2:02 - 2:16 | Energy: High
-Section 11: 2:16 - 2:30 | Energy: High
-Section 12: 2:30 - 2:43 | Energy: Low
-Section 13: 2:43 - 2:57 | Energy: Medium
-Section 14: 2:57 - 3:11 | Energy: Low
-Section 15: 3:11 - 3:18 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: Medium
+Verse: 1:20 - 1:36 | Energy: Medium
+Verse: 1:36 - 1:52 | Energy: Medium
+Verse: 1:52 - 2:08 | Energy: Medium
+Verse: 2:08 - 2:24 | Energy: Medium
+Verse: 2:24 - 2:40 | Energy: Medium
+Verse: 2:40 - 2:56 | Energy: Medium
+Outro: 2:56 - 3:18 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: -0.00 dB
@@ -71,7 +69,7 @@ Spectral Rolloff: 7621 Hz
 Onsets Detected: 1262
 Onset Density: 6.34 hits/sec
 Drum Activity: High
-Estimated Bars: 117
+Estimated Bars: 116
 Seconds Per Bar: 1.71
 
 === Beat Profile ===
@@ -83,7 +81,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.5/10
 
 === Artist Notes ===
-- Autotune/key starting point: F Minor. Confidence: 52.1%.
+- Autotune/key starting point: F Minor. Confidence: 45.3%.
 - Beat energy: 8.8/10. Darkness: 4.0/10.
 - Vocal space estimate: 2.5/10. Higher means easier space for vocals.
 
@@ -92,7 +90,7 @@ Vocal Space: 2.5/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 6.34 hits/sec.
-- Estimated length: 117 bars at 141 BPM.
+- Estimated length: 116 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -104,6 +102,7 @@ Vocal Space: 2.5/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

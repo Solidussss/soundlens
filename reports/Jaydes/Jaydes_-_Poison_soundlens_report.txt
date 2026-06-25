@@ -1,39 +1,37 @@
 
 === SoundLens Pro Report ===
 File: Jaydes - Poison.wav
-BPM: 156
+BPM: 140
 Key: D Minor
-Key Confidence: 46.9%
+Key Confidence: 44.0%
 Duration: 1:34 (94.36 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 70/100 - Good, but needs small fixes
+Release Score: 68/100 - Needs work before release
 Mix Score: 69/100 - Needs Work
 Master Score: 69/100 - Needs Work
-Arrangement Score: 71/100 - Good
+Arrangement Score: 65/100 - Needs Work
 
 === Top Problems ===
 1. Clipping detected: 51485 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 2. Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 3. Mute extra percussion in some sections so the hook/drop feels bigger.
-4. Fix the top 1-2 issues, export again, then re-run SoundLens.
+4. Fix the technical problems first before worrying about tiny creative details.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:12 | Energy: Medium
-Section 2: 0:12 - 0:24 | Energy: High
-Section 3: 0:24 - 0:36 | Energy: Medium
-Section 4: 0:36 - 0:49 | Energy: High
-Section 5: 0:49 - 1:01 | Energy: Low
-Section 6: 1:01 - 1:13 | Energy: High
-Section 7: 1:13 - 1:26 | Energy: Low
-Section 8: 1:26 - 1:34 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Outro: 1:04 - 1:34 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -64,8 +62,8 @@ Spectral Rolloff: 2857 Hz
 Onsets Detected: 384
 Onset Density: 4.07 hits/sec
 Drum Activity: High
-Estimated Bars: 61
-Seconds Per Bar: 1.54
+Estimated Bars: 55
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 7.4/10
@@ -76,7 +74,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 1.6/10
 
 === Artist Notes ===
-- Autotune/key starting point: D Minor. Confidence: 46.9%.
+- Autotune/key starting point: D Minor. Confidence: 44.0%.
 - Beat energy: 7.4/10. Darkness: 7.1/10.
 - Vocal space estimate: 1.6/10. Higher means easier space for vocals.
 - Beat leans dark, so brighter vocals/adlibs may cut through well.
@@ -86,7 +84,7 @@ Vocal Space: 1.6/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 4.07 hits/sec.
-- Estimated length: 61 bars at 156 BPM.
+- Estimated length: 55 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -98,6 +96,7 @@ Vocal Space: 1.6/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

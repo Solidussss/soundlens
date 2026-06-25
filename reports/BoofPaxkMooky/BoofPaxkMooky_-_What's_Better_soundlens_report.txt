@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: BoofPaxkMooky - What's Better.wav
-BPM: 120
+BPM: 140
 Key: F Minor
-Key Confidence: 50.6%
+Key Confidence: 43.9%
 Duration: 2:26 (146.52 sec)
 Sample Rate: 48000 Hz
 
@@ -16,8 +16,9 @@ Arrangement Score: 75/100 - Good
 === Top Problems ===
 1. Mud range is elevated around 250-500 Hz.
 2. Track is quiet for the selected style.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
@@ -65,8 +66,8 @@ Spectral Rolloff: 4416 Hz
 Onsets Detected: 897
 Onset Density: 6.12 hits/sec
 Drum Activity: High
-Estimated Bars: 73
-Seconds Per Bar: 2.01
+Estimated Bars: 85
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 4.1/10
@@ -77,7 +78,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.0/10
 
 === Artist Notes ===
-- Autotune/key starting point: F Minor. Confidence: 50.6%.
+- Autotune/key starting point: F Minor. Confidence: 43.9%.
 - Beat energy: 4.1/10. Darkness: 5.8/10.
 - Vocal space estimate: 2.0/10. Higher means easier space for vocals.
 
@@ -86,7 +87,7 @@ Vocal Space: 2.0/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 6.12 hits/sec.
-- Estimated length: 73 bars at 120 BPM.
+- Estimated length: 85 bars at 140 BPM.
 
 === Master Notes ===
 - No obvious clipping problem detected.
@@ -97,6 +98,7 @@ Vocal Space: 2.0/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

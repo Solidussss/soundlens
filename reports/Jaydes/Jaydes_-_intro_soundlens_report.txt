@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Jaydes - intro.wav
-BPM: 150
+BPM: 140
 Key: B Minor
-Key Confidence: 47.9%
+Key Confidence: 43.2%
 Duration: 1:41 (101.30 sec)
 Sample Rate: 48000 Hz
 
@@ -17,6 +17,7 @@ Arrangement Score: 85/100 - Excellent
 1. Mud range is elevated around 250-500 Hz.
 2. Track is quiet for the selected style.
 3. Dynamic range is wide, so some sections may feel uneven.
+4. Intro may be long for short-form listener retention.
 
 === Best Next Fixes ===
 1. Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
@@ -25,14 +26,12 @@ Arrangement Score: 85/100 - Excellent
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:12 | Energy: Low
-Section 2: 0:12 - 0:25 | Energy: Low
-Section 3: 0:25 - 0:38 | Energy: High
-Section 4: 0:38 - 0:51 | Energy: High
-Section 5: 0:51 - 1:04 | Energy: High
-Section 6: 1:04 - 1:16 | Energy: Medium
-Section 7: 1:16 - 1:29 | Energy: Medium
-Section 8: 1:29 - 1:41 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: Medium
+Outro: 1:20 - 1:41 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: -0.40 dB
@@ -63,8 +62,8 @@ Spectral Rolloff: 4215 Hz
 Onsets Detected: 246
 Onset Density: 2.43 hits/sec
 Drum Activity: Medium
-Estimated Bars: 63
-Seconds Per Bar: 1.60
+Estimated Bars: 59
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 3.9/10
@@ -75,7 +74,7 @@ Drum Bounce: 6.1/10
 Vocal Space: 1.3/10
 
 === Artist Notes ===
-- Autotune/key starting point: B Minor. Confidence: 47.9%.
+- Autotune/key starting point: B Minor. Confidence: 43.2%.
 - Beat energy: 3.9/10. Darkness: 5.8/10.
 - Vocal space estimate: 1.3/10. Higher means easier space for vocals.
 
@@ -84,7 +83,7 @@ Vocal Space: 1.3/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Mud.
 - Drum activity is medium at 2.43 hits/sec.
-- Estimated length: 63 bars at 150 BPM.
+- Estimated length: 59 bars at 140 BPM.
 
 === Master Notes ===
 - No obvious clipping problem detected.
@@ -94,6 +93,7 @@ Vocal Space: 1.3/10
 - Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
 - Use automation or compression to make sections feel more controlled.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

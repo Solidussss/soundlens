@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Kankan - Russian Shit.wav
-BPM: 159
+BPM: 140
 Key: D Minor
-Key Confidence: 45.3%
+Key Confidence: 42.3%
 Duration: 2:30 (150.23 sec)
 Sample Rate: 48000 Hz
 
@@ -16,7 +16,8 @@ Arrangement Score: 81/100 - Good
 === Top Problems ===
 1. Mud range is elevated around 250-500 Hz.
 2. Track is quiet for the selected style.
-3. Drum movement is very active; the beat could become overcrowded.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
@@ -25,18 +26,15 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:12 | Energy: Low
-Section 2: 0:12 - 0:24 | Energy: Low
-Section 3: 0:24 - 0:36 | Energy: High
-Section 4: 0:36 - 0:48 | Energy: High
-Section 5: 0:48 - 1:00 | Energy: Medium
-Section 6: 1:00 - 1:12 | Energy: High
-Section 7: 1:12 - 1:24 | Energy: Medium
-Section 8: 1:24 - 1:36 | Energy: High
-Section 9: 1:36 - 1:48 | Energy: Medium
-Section 10: 1:48 - 2:00 | Energy: Medium
-Section 11: 2:00 - 2:12 | Energy: Low
-Section 12: 2:12 - 2:30 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: High
+Hook / Drop: 1:20 - 1:36 | Energy: High
+Hook / Drop: 1:36 - 1:52 | Energy: High
+Bridge / Breakdown: 1:52 - 2:08 | Energy: Low
+Outro: 2:08 - 2:30 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: -0.96 dB
@@ -67,8 +65,8 @@ Spectral Rolloff: 6132 Hz
 Onsets Detected: 985
 Onset Density: 6.56 hits/sec
 Drum Activity: High
-Estimated Bars: 100
-Seconds Per Bar: 1.51
+Estimated Bars: 88
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 4.6/10
@@ -79,7 +77,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.4/10
 
 === Artist Notes ===
-- Autotune/key starting point: D Minor. Confidence: 45.3%.
+- Autotune/key starting point: D Minor. Confidence: 42.3%.
 - Beat energy: 4.6/10. Darkness: 4.3/10.
 - Vocal space estimate: 2.4/10. Higher means easier space for vocals.
 
@@ -88,7 +86,7 @@ Vocal Space: 2.4/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 6.56 hits/sec.
-- Estimated length: 100 bars at 159 BPM.
+- Estimated length: 88 bars at 140 BPM.
 
 === Master Notes ===
 - No obvious clipping problem detected.
@@ -98,6 +96,7 @@ Vocal Space: 2.4/10
 - Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Kankan - Under Me.wav
-BPM: 144
+BPM: 140
 Key: G Minor
-Key Confidence: 48.5%
+Key Confidence: 42.8%
 Duration: 2:14 (134.87 sec)
 Sample Rate: 48000 Hz
 
@@ -16,7 +16,8 @@ Arrangement Score: 81/100 - Good
 === Top Problems ===
 1. Mud range is elevated around 250-500 Hz.
 2. Track is quiet for the selected style.
-3. Drum movement is very active; the beat could become overcrowded.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
@@ -25,16 +26,14 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Low
-Section 2: 0:13 - 0:26 | Energy: Low
-Section 3: 0:26 - 0:39 | Energy: High
-Section 4: 0:39 - 0:53 | Energy: Medium
-Section 5: 0:53 - 1:06 | Energy: High
-Section 6: 1:06 - 1:19 | Energy: Medium
-Section 7: 1:19 - 1:33 | Energy: Low
-Section 8: 1:33 - 1:46 | Energy: High
-Section 9: 1:46 - 1:59 | Energy: Medium
-Section 10: 1:59 - 2:14 | Energy: Medium
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: Medium
+Bridge / Breakdown: 1:20 - 1:36 | Energy: Low
+Hook / Drop: 1:36 - 1:52 | Energy: High
+Outro: 1:52 - 2:14 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: -4.13 dB
@@ -65,8 +64,8 @@ Spectral Rolloff: 4378 Hz
 Onsets Detected: 694
 Onset Density: 5.15 hits/sec
 Drum Activity: High
-Estimated Bars: 81
-Seconds Per Bar: 1.66
+Estimated Bars: 79
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 4.0/10
@@ -77,7 +76,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.3/10
 
 === Artist Notes ===
-- Autotune/key starting point: G Minor. Confidence: 48.5%.
+- Autotune/key starting point: G Minor. Confidence: 42.8%.
 - Beat energy: 4.0/10. Darkness: 5.9/10.
 - Vocal space estimate: 2.3/10. Higher means easier space for vocals.
 
@@ -86,7 +85,7 @@ Vocal Space: 2.3/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 5.15 hits/sec.
-- Estimated length: 81 bars at 144 BPM.
+- Estimated length: 79 bars at 140 BPM.
 
 === Master Notes ===
 - No obvious clipping problem detected.
@@ -96,6 +95,7 @@ Vocal Space: 2.3/10
 - Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

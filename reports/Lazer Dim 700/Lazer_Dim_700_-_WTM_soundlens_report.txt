@@ -1,41 +1,41 @@
 
 === SoundLens Pro Report ===
 File: Lazer Dim 700 - WTM.wav
-BPM: 131
+BPM: 140
 Key: D Minor
-Key Confidence: 46.7%
+Key Confidence: 43.3%
 Duration: 2:40 (160.79 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 86/100 - Close to release-ready
+Release Score: 84/100 - Good, but needs small fixes
 Mix Score: 86/100 - Excellent
 Master Score: 86/100 - Excellent
-Arrangement Score: 85/100 - Excellent
+Arrangement Score: 79/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 672 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 2. Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 3. Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
-4. This is close. Only make small changes unless you hear a clear problem.
+4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:14 | Energy: Low
-Section 2: 0:14 - 0:29 | Energy: High
-Section 3: 0:29 - 0:44 | Energy: High
-Section 4: 0:44 - 0:58 | Energy: Medium
-Section 5: 0:58 - 1:13 | Energy: High
-Section 6: 1:13 - 1:28 | Energy: Medium
-Section 7: 1:28 - 1:42 | Energy: High
-Section 8: 1:42 - 1:57 | Energy: Medium
-Section 9: 1:57 - 2:12 | Energy: Low
-Section 10: 2:12 - 2:26 | Energy: Low
-Section 11: 2:26 - 2:40 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: High
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: Medium
+Hook / Drop: 1:20 - 1:36 | Energy: High
+Verse: 1:36 - 1:52 | Energy: Medium
+Verse: 1:52 - 2:08 | Energy: Medium
+Verse: 2:08 - 2:24 | Energy: Medium
+Outro: 2:24 - 2:40 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: -0.00 dB
@@ -66,8 +66,8 @@ Spectral Rolloff: 6367 Hz
 Onsets Detected: 474
 Onset Density: 2.95 hits/sec
 Drum Activity: Medium
-Estimated Bars: 88
-Seconds Per Bar: 1.83
+Estimated Bars: 94
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 7.2/10
@@ -78,7 +78,7 @@ Drum Bounce: 7.4/10
 Vocal Space: 1.9/10
 
 === Artist Notes ===
-- Autotune/key starting point: D Minor. Confidence: 46.7%.
+- Autotune/key starting point: D Minor. Confidence: 43.3%.
 - Beat energy: 7.2/10. Darkness: 4.5/10.
 - Vocal space estimate: 1.9/10. Higher means easier space for vocals.
 
@@ -87,7 +87,7 @@ Vocal Space: 1.9/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is medium at 2.95 hits/sec.
-- Estimated length: 88 bars at 131 BPM.
+- Estimated length: 94 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -98,6 +98,7 @@ Vocal Space: 1.9/10
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

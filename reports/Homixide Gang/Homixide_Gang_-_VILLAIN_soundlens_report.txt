@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Homixide Gang - VILLAIN.wav
-BPM: 137
-Key: C# Major
-Key Confidence: 46.4%
+BPM: 140
+Key: C# Minor
+Key Confidence: 42.6%
 Duration: 3:04 (184.40 sec)
 Sample Rate: 48000 Hz
 
@@ -16,7 +16,8 @@ Arrangement Score: 81/100 - Good
 === Top Problems ===
 1. Clipping detected: 18576 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -25,19 +26,17 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Low
-Section 2: 0:13 - 0:27 | Energy: Medium
-Section 3: 0:27 - 0:41 | Energy: High
-Section 4: 0:41 - 0:55 | Energy: High
-Section 5: 0:55 - 1:09 | Energy: Medium
-Section 6: 1:09 - 1:23 | Energy: Medium
-Section 7: 1:23 - 1:37 | Energy: High
-Section 8: 1:37 - 1:51 | Energy: Low
-Section 9: 1:51 - 2:05 | Energy: Low
-Section 10: 2:05 - 2:19 | Energy: Medium
-Section 11: 2:19 - 2:33 | Energy: High
-Section 12: 2:33 - 2:47 | Energy: Medium
-Section 13: 2:47 - 3:04 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: Low
+Hook / Drop: 1:20 - 1:36 | Energy: High
+Verse: 1:36 - 1:52 | Energy: Medium
+Verse: 1:52 - 2:08 | Energy: Medium
+Hook / Drop: 2:08 - 2:24 | Energy: High
+Hook / Drop: 2:24 - 2:40 | Energy: High
+Outro: 2:40 - 3:04 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -68,8 +67,8 @@ Spectral Rolloff: 6612 Hz
 Onsets Detected: 969
 Onset Density: 5.25 hits/sec
 Drum Activity: High
-Estimated Bars: 105
-Seconds Per Bar: 1.75
+Estimated Bars: 108
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 8.2/10
@@ -80,7 +79,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.4/10
 
 === Artist Notes ===
-- Autotune/key starting point: C# Major. Confidence: 46.4%.
+- Autotune/key starting point: C# Minor. Confidence: 42.6%.
 - Beat energy: 8.2/10. Darkness: 3.7/10.
 - Vocal space estimate: 2.4/10. Higher means easier space for vocals.
 
@@ -89,7 +88,7 @@ Vocal Space: 2.4/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 5.25 hits/sec.
-- Estimated length: 105 bars at 137 BPM.
+- Estimated length: 108 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -100,6 +99,7 @@ Vocal Space: 2.4/10
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

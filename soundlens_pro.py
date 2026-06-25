@@ -437,32 +437,106 @@ def analyze_frequency(y: np.ndarray, sr: int) -> FrequencyInfo:
 
 def analyze_audio_fingerprint(y: np.ndarray, sr: int) -> Dict[str, float]:
     """
-    Lightweight audio embedding / sonic fingerprint.
+    Stronger SoundLens sonic fingerprint.
 
-    This is not Shazam-style exact-song matching and not a huge neural model.
-    It gives SoundLens a stronger "how does this sound?" vector using timbre,
-    harmony, brightness, texture, and motion features.
+    This keeps the same output keys your current profile/compare system already
+    expects, but fills them with more stable values.
+
+    Important:
+    - It does NOT change loudness, scores, Stripe, accounts, website, or report shape.
+    - It normalizes a copy of the audio only for fingerprinting so Artist Match
+      is less fooled by volume/mastering level.
+    - It uses multiple windows across the song instead of only one middle chunk.
+    - It always tries to return non-zero embed_* values.
     """
-    try:
-        max_seconds = 90
-        if len(y) > sr * max_seconds:
-            start = max(0, (len(y) // 2) - (sr * max_seconds // 2))
-            y_fp = y[start:start + (sr * max_seconds)]
-        else:
-            y_fp = y
+    def finite_float(value: float) -> float:
+        try:
+            number = float(value)
+            if math.isnan(number) or math.isinf(number):
+                return 0.0
+            return number
+        except Exception:
+            return 0.0
 
+    def summarize_feature(name: str, array: np.ndarray, fingerprint: Dict[str, float], limit: Optional[int] = None) -> None:
+        array = np.asarray(array, dtype=np.float32)
+        array = np.nan_to_num(array, nan=0.0, posinf=0.0, neginf=0.0)
+
+        if array.ndim == 1:
+            array = array.reshape(1, -1)
+
+        rows = array.shape[0] if limit is None else min(limit, array.shape[0])
+
+        for i in range(rows):
+            row = array[i]
+            fingerprint[f"{name}_{i+1}_mean"] = finite_float(np.mean(row))
+            fingerprint[f"{name}_{i+1}_std"] = finite_float(np.std(row))
+
+    try:
+        # Use three sections instead of one: early, middle, late.
+        # This gives the fingerprint a better sense of the full song while
+        # still staying Railway/laptop safe.
         target_sr = 22050
+        max_total_seconds = 120
+        window_seconds = 40
+
         if sr > target_sr:
-            y_fp = librosa.resample(y_fp, orig_sr=sr, target_sr=target_sr)
+            y_work = librosa.resample(y.astype(np.float32), orig_sr=sr, target_sr=target_sr)
             fp_sr = target_sr
         else:
+            y_work = y.astype(np.float32)
             fp_sr = sr
 
-        y_fp = y_fp.astype(np.float32)
-        y_fp = y_fp - float(np.mean(y_fp))
+        y_work = y_work - float(np.mean(y_work))
+        duration_seconds = len(y_work) / max(fp_sr, 1)
 
-        mfcc = librosa.feature.mfcc(y=y_fp, sr=fp_sr, n_mfcc=20)
-        chroma = librosa.feature.chroma_cqt(y=y_fp, sr=fp_sr)
+        max_samples = int(max_total_seconds * fp_sr)
+        window_samples = int(window_seconds * fp_sr)
+
+        chunks: List[np.ndarray] = []
+
+        if len(y_work) <= max_samples:
+            chunks.append(y_work)
+        else:
+            starts = [
+                int(len(y_work) * 0.12),
+                int(len(y_work) * 0.50) - window_samples // 2,
+                int(len(y_work) * 0.82) - window_samples,
+            ]
+
+            for start in starts:
+                start = max(0, min(start, max(0, len(y_work) - window_samples)))
+                chunk = y_work[start:start + window_samples]
+                if len(chunk) > fp_sr * 5:
+                    chunks.append(chunk)
+
+        if not chunks:
+            chunks = [y_work[:max_samples]]
+
+        y_fp = np.concatenate(chunks)
+
+        # Normalize fingerprint audio so comparison is about sonic character,
+        # not just who was mastered louder.
+        peak = float(np.max(np.abs(y_fp))) + EPSILON
+        y_fp = (y_fp / peak) * 0.95
+        y_fp = y_fp.astype(np.float32)
+
+        # Add light pre-emphasis for timbre/brightness features without affecting
+        # normal loudness/frequency analysis elsewhere in the report.
+        try:
+            y_timbre = librosa.effects.preemphasis(y_fp)
+        except Exception:
+            y_timbre = y_fp
+
+        fingerprint: Dict[str, float] = {}
+
+        # Core timbre/harmony features.
+        mfcc = librosa.feature.mfcc(y=y_timbre, sr=fp_sr, n_mfcc=20)
+        try:
+            chroma = librosa.feature.chroma_cqt(y=y_fp, sr=fp_sr)
+        except Exception:
+            chroma = librosa.feature.chroma_stft(y=y_fp, sr=fp_sr)
+
         contrast = librosa.feature.spectral_contrast(y=y_fp, sr=fp_sr)
         flatness = librosa.feature.spectral_flatness(y=y_fp)
         zcr = librosa.feature.zero_crossing_rate(y_fp)
@@ -471,75 +545,135 @@ def analyze_audio_fingerprint(y: np.ndarray, sr: int) -> Dict[str, float]:
         rms = librosa.feature.rms(y=y_fp)
         onset_env = librosa.onset.onset_strength(y=y_fp, sr=fp_sr)
 
-        fingerprint = {}
+        # Delta motion helps distinguish static loops from bouncy/moving songs.
+        mfcc_delta = librosa.feature.delta(mfcc)
+        chroma_delta = librosa.feature.delta(chroma)
 
-        # Backward compatible fields already used by your current profiles.
+        # Backward-compatible fields already used by older profiles.
         for i in range(13):
-            fingerprint[f"mfcc_{i+1}"] = float(np.mean(mfcc[i]))
+            fingerprint[f"mfcc_{i+1}"] = finite_float(np.mean(mfcc[i]))
 
         for i in range(12):
-            fingerprint[f"chroma_{i+1}"] = float(np.mean(chroma[i]))
+            fingerprint[f"chroma_{i+1}"] = finite_float(np.mean(chroma[i]))
 
-        fingerprint["spectral_contrast"] = float(np.mean(contrast))
-        fingerprint["spectral_flatness"] = float(np.mean(flatness))
-        fingerprint["zero_crossing_rate"] = float(np.mean(zcr))
+        fingerprint["spectral_contrast"] = finite_float(np.mean(contrast))
+        fingerprint["spectral_flatness"] = finite_float(np.mean(flatness))
+        fingerprint["zero_crossing_rate"] = finite_float(np.mean(zcr))
 
-        # Stronger embedding fields. These make Artist Match less dependent on
-        # only loudness/bass and more dependent on texture and motion.
-        for i in range(20):
-            fingerprint[f"embed_mfcc_{i+1}_mean"] = float(np.mean(mfcc[i]))
-            fingerprint[f"embed_mfcc_{i+1}_std"] = float(np.std(mfcc[i]))
-
-        for i in range(12):
-            fingerprint[f"embed_chroma_{i+1}_mean"] = float(np.mean(chroma[i]))
-            fingerprint[f"embed_chroma_{i+1}_std"] = float(np.std(chroma[i]))
-
-        for i in range(contrast.shape[0]):
-            fingerprint[f"embed_contrast_{i+1}_mean"] = float(np.mean(contrast[i]))
-            fingerprint[f"embed_contrast_{i+1}_std"] = float(np.std(contrast[i]))
+        # Existing embedding keys your builder/compare code expects.
+        summarize_feature("embed_mfcc", mfcc, fingerprint, limit=20)
+        summarize_feature("embed_chroma", chroma, fingerprint, limit=12)
+        summarize_feature("embed_contrast", contrast, fingerprint, limit=7)
 
         chroma_energy = np.mean(chroma, axis=1)
         chroma_energy = chroma_energy / (np.sum(chroma_energy) + EPSILON)
         chroma_entropy = -float(np.sum(chroma_energy * np.log(chroma_energy + EPSILON)))
 
-        fingerprint["embed_chroma_entropy"] = chroma_entropy
-        fingerprint["embed_centroid_mean"] = float(np.mean(centroid))
-        fingerprint["embed_centroid_std"] = float(np.std(centroid))
-        fingerprint["embed_rolloff_mean"] = float(np.mean(rolloff))
-        fingerprint["embed_rolloff_std"] = float(np.std(rolloff))
-        fingerprint["embed_flatness_mean"] = float(np.mean(flatness))
-        fingerprint["embed_flatness_std"] = float(np.std(flatness))
-        fingerprint["embed_zcr_mean"] = float(np.mean(zcr))
-        fingerprint["embed_zcr_std"] = float(np.std(zcr))
-        fingerprint["embed_rms_mean"] = float(np.mean(rms))
-        fingerprint["embed_rms_std"] = float(np.std(rms))
-        fingerprint["embed_onset_mean"] = float(np.mean(onset_env))
-        fingerprint["embed_onset_std"] = float(np.std(onset_env))
+        fingerprint["embed_chroma_entropy"] = finite_float(chroma_entropy)
+        fingerprint["embed_centroid_mean"] = finite_float(np.mean(centroid))
+        fingerprint["embed_centroid_std"] = finite_float(np.std(centroid))
+        fingerprint["embed_rolloff_mean"] = finite_float(np.mean(rolloff))
+        fingerprint["embed_rolloff_std"] = finite_float(np.std(rolloff))
+        fingerprint["embed_flatness_mean"] = finite_float(np.mean(flatness))
+        fingerprint["embed_flatness_std"] = finite_float(np.std(flatness))
+        fingerprint["embed_zcr_mean"] = finite_float(np.mean(zcr))
+        fingerprint["embed_zcr_std"] = finite_float(np.std(zcr))
+        fingerprint["embed_rms_mean"] = finite_float(np.mean(rms))
+        fingerprint["embed_rms_std"] = finite_float(np.std(rms))
+        fingerprint["embed_onset_mean"] = finite_float(np.mean(onset_env))
+        fingerprint["embed_onset_std"] = finite_float(np.std(onset_env))
+
+        # Extra future-proof fields. These do not break anything if older compare
+        # code ignores them, but they make reports more useful later.
+        fingerprint["fingerprint_version"] = 2.0
+        fingerprint["fingerprint_duration_seconds"] = finite_float(duration_seconds)
+        fingerprint["embed_mfcc_delta_mean"] = finite_float(np.mean(mfcc_delta))
+        fingerprint["embed_mfcc_delta_std"] = finite_float(np.std(mfcc_delta))
+        fingerprint["embed_chroma_delta_mean"] = finite_float(np.mean(chroma_delta))
+        fingerprint["embed_chroma_delta_std"] = finite_float(np.std(chroma_delta))
+        fingerprint["embed_onset_peak"] = finite_float(np.max(onset_env)) if onset_env.size else 0.0
+        fingerprint["embed_onset_p95"] = finite_float(np.percentile(onset_env, 95)) if onset_env.size else 0.0
+        fingerprint["embed_rms_p10"] = finite_float(np.percentile(rms, 10)) if rms.size else 0.0
+        fingerprint["embed_rms_p50"] = finite_float(np.percentile(rms, 50)) if rms.size else 0.0
+        fingerprint["embed_rms_p90"] = finite_float(np.percentile(rms, 90)) if rms.size else 0.0
+
+        # Health check: compare scripts can ignore this, but you can grep it.
+        non_zero_embed_values = [
+            value for key, value in fingerprint.items()
+            if key.startswith("embed_") and isinstance(value, (int, float)) and abs(float(value)) > 1e-9
+        ]
+        fingerprint["embedding_nonzero_count"] = float(len(non_zero_embed_values))
 
         return fingerprint
 
-    except Exception:
-        # Keep the app alive. If embedding fails, return the old basic fields.
+    except Exception as error:
+        # Keep SoundLens alive, but still return the strongest old fingerprint
+        # possible instead of crashing the whole product.
         try:
-            mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
-            chroma = librosa.feature.chroma_cqt(y=y, sr=sr)
-            contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
-            flatness = librosa.feature.spectral_flatness(y=y)
-            zcr = librosa.feature.zero_crossing_rate(y)
+            y_safe = y.astype(np.float32)
+            y_safe = y_safe - float(np.mean(y_safe))
+            peak = float(np.max(np.abs(y_safe))) + EPSILON
+            y_safe = (y_safe / peak) * 0.95
 
-            fingerprint = {}
+            if sr > 22050:
+                y_safe = librosa.resample(y_safe, orig_sr=sr, target_sr=22050)
+                safe_sr = 22050
+            else:
+                safe_sr = sr
+
+            mfcc = librosa.feature.mfcc(y=y_safe, sr=safe_sr, n_mfcc=20)
+            chroma = librosa.feature.chroma_stft(y=y_safe, sr=safe_sr)
+            contrast = librosa.feature.spectral_contrast(y=y_safe, sr=safe_sr)
+            flatness = librosa.feature.spectral_flatness(y=y_safe)
+            zcr = librosa.feature.zero_crossing_rate(y_safe)
+            centroid = librosa.feature.spectral_centroid(y=y_safe, sr=safe_sr)
+            rolloff = librosa.feature.spectral_rolloff(y=y_safe, sr=safe_sr)
+            rms = librosa.feature.rms(y=y_safe)
+            onset_env = librosa.onset.onset_strength(y=y_safe, sr=safe_sr)
+
+            fingerprint: Dict[str, float] = {}
+
             for i in range(13):
-                fingerprint[f"mfcc_{i+1}"] = float(np.mean(mfcc[i]))
+                fingerprint[f"mfcc_{i+1}"] = finite_float(np.mean(mfcc[i]))
+
             for i in range(12):
-                fingerprint[f"chroma_{i+1}"] = float(np.mean(chroma[i]))
+                fingerprint[f"chroma_{i+1}"] = finite_float(np.mean(chroma[i]))
 
-            fingerprint["spectral_contrast"] = float(np.mean(contrast))
-            fingerprint["spectral_flatness"] = float(np.mean(flatness))
-            fingerprint["zero_crossing_rate"] = float(np.mean(zcr))
+            fingerprint["spectral_contrast"] = finite_float(np.mean(contrast))
+            fingerprint["spectral_flatness"] = finite_float(np.mean(flatness))
+            fingerprint["zero_crossing_rate"] = finite_float(np.mean(zcr))
+
+            summarize_feature("embed_mfcc", mfcc, fingerprint, limit=20)
+            summarize_feature("embed_chroma", chroma, fingerprint, limit=12)
+            summarize_feature("embed_contrast", contrast, fingerprint, limit=7)
+
+            fingerprint["embed_chroma_entropy"] = 0.0
+            fingerprint["embed_centroid_mean"] = finite_float(np.mean(centroid))
+            fingerprint["embed_centroid_std"] = finite_float(np.std(centroid))
+            fingerprint["embed_rolloff_mean"] = finite_float(np.mean(rolloff))
+            fingerprint["embed_rolloff_std"] = finite_float(np.std(rolloff))
+            fingerprint["embed_flatness_mean"] = finite_float(np.mean(flatness))
+            fingerprint["embed_flatness_std"] = finite_float(np.std(flatness))
+            fingerprint["embed_zcr_mean"] = finite_float(np.mean(zcr))
+            fingerprint["embed_zcr_std"] = finite_float(np.std(zcr))
+            fingerprint["embed_rms_mean"] = finite_float(np.mean(rms))
+            fingerprint["embed_rms_std"] = finite_float(np.std(rms))
+            fingerprint["embed_onset_mean"] = finite_float(np.mean(onset_env))
+            fingerprint["embed_onset_std"] = finite_float(np.std(onset_env))
+            fingerprint["fingerprint_version"] = 2.0
+            fingerprint["embedding_nonzero_count"] = float(
+                len([v for k, v in fingerprint.items() if k.startswith("embed_") and isinstance(v, (int, float)) and abs(float(v)) > 1e-9])
+            )
+            fingerprint["fingerprint_fallback_used"] = 1.0
+
             return fingerprint
-        except Exception:
-            return {}
 
+        except Exception:
+            return {
+                "fingerprint_version": 2.0,
+                "embedding_nonzero_count": 0.0,
+                "fingerprint_failed": 1.0,
+            }
 
 def analyze_rhythm(y: np.ndarray, sr: int, duration: float, bpm: float) -> RhythmInfo:
     onset_times = librosa.onset.onset_detect(y=y, sr=sr, units="time")

@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Glokk40Spaz - Decoy.wav
-BPM: 137
-Key: F# Major
-Key Confidence: 45.5%
+BPM: 140
+Key: F# Minor
+Key Confidence: 43.0%
 Duration: 2:43 (163.92 sec)
 Sample Rate: 48000 Hz
 
@@ -18,7 +18,7 @@ Arrangement Score: 81/100 - Good
 2. Mud range is elevated around 250-500 Hz.
 3. Track is extremely loud for the selected style and may be crushed.
 4. Dynamic range is tight, which can make the beat feel flattened.
-5. Drum movement is very active; the beat could become overcrowded.
+5. Intro may be long for short-form listener retention.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -27,18 +27,16 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Low
-Section 2: 0:13 - 0:27 | Energy: High
-Section 3: 0:27 - 0:41 | Energy: High
-Section 4: 0:41 - 0:55 | Energy: Medium
-Section 5: 0:55 - 1:09 | Energy: Medium
-Section 6: 1:09 - 1:23 | Energy: Low
-Section 7: 1:23 - 1:37 | Energy: Low
-Section 8: 1:37 - 1:51 | Energy: High
-Section 9: 1:51 - 2:05 | Energy: High
-Section 10: 2:05 - 2:19 | Energy: Medium
-Section 11: 2:19 - 2:33 | Energy: Medium
-Section 12: 2:33 - 2:43 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: Medium
+Bridge / Breakdown: 1:20 - 1:36 | Energy: Low
+Hook / Drop: 1:36 - 1:52 | Energy: High
+Verse: 1:52 - 2:08 | Energy: Medium
+Verse: 2:08 - 2:24 | Energy: Medium
+Outro: 2:24 - 2:43 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: -0.00 dB
@@ -69,8 +67,8 @@ Spectral Rolloff: 5409 Hz
 Onsets Detected: 728
 Onset Density: 4.44 hits/sec
 Drum Activity: High
-Estimated Bars: 94
-Seconds Per Bar: 1.75
+Estimated Bars: 96
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 9.5/10
@@ -81,7 +79,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.5/10
 
 === Artist Notes ===
-- Autotune/key starting point: F# Major. Confidence: 45.5%.
+- Autotune/key starting point: F# Minor. Confidence: 43.0%.
 - Beat energy: 9.5/10. Darkness: 5.1/10.
 - Vocal space estimate: 2.5/10. Higher means easier space for vocals.
 
@@ -90,7 +88,7 @@ Vocal Space: 2.5/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 4.44 hits/sec.
-- Estimated length: 94 bars at 137 BPM.
+- Estimated length: 96 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -102,6 +100,7 @@ Vocal Space: 2.5/10
 - Reduce over-compression or clipping on the master and let transients breathe.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

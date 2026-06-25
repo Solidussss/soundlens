@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: 1oneam - hunnid hunnid.wav
-BPM: 151
+BPM: 140
 Key: D# Minor
-Key Confidence: 45.4%
+Key Confidence: 42.1%
 Duration: 1:55 (115.90 sec)
 Sample Rate: 48000 Hz
 
@@ -16,7 +16,8 @@ Arrangement Score: 81/100 - Good
 === Top Problems ===
 1. Clipping detected: 37111 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -25,15 +26,13 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:12 | Energy: Low
-Section 2: 0:12 - 0:25 | Energy: Medium
-Section 3: 0:25 - 0:38 | Energy: High
-Section 4: 0:38 - 0:50 | Energy: Medium
-Section 5: 0:50 - 1:03 | Energy: High
-Section 6: 1:03 - 1:16 | Energy: Low
-Section 7: 1:16 - 1:29 | Energy: Medium
-Section 8: 1:29 - 1:41 | Energy: High
-Section 9: 1:41 - 1:55 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Low
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: Low
+Verse: 1:20 - 1:36 | Energy: Medium
+Outro: 1:36 - 1:55 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -64,8 +63,8 @@ Spectral Rolloff: 5834 Hz
 Onsets Detected: 611
 Onset Density: 5.27 hits/sec
 Drum Activity: High
-Estimated Bars: 73
-Seconds Per Bar: 1.59
+Estimated Bars: 68
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 9.5/10
@@ -76,7 +75,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.3/10
 
 === Artist Notes ===
-- Autotune/key starting point: D# Minor. Confidence: 45.4%.
+- Autotune/key starting point: D# Minor. Confidence: 42.1%.
 - Beat energy: 9.5/10. Darkness: 4.7/10.
 - Vocal space estimate: 2.3/10. Higher means easier space for vocals.
 
@@ -85,7 +84,7 @@ Vocal Space: 2.3/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 5.27 hits/sec.
-- Estimated length: 73 bars at 151 BPM.
+- Estimated length: 68 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -96,6 +95,7 @@ Vocal Space: 2.3/10
 - Lower the master/output, then use a soft clipper or limiter with safer ceiling.
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

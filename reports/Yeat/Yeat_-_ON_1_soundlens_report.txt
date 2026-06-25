@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Yeat - ON 1.wav
-BPM: 145
+BPM: 140
 Key: D Major
-Key Confidence: 47.5%
+Key Confidence: 42.0%
 Duration: 3:04 (184.17 sec)
 Sample Rate: 48000 Hz
 
@@ -11,14 +11,14 @@ Sample Rate: 48000 Hz
 Release Score: 60/100 - Needs work before release
 Mix Score: 53/100 - Needs Work
 Master Score: 53/100 - Needs Work
-Arrangement Score: 76/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 166782 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
 3. Track is extremely loud for the selected style and may be crushed.
 4. Dynamic range is tight, which can make the beat feel flattened.
-5. Drum movement is very active; the beat could become overcrowded.
+5. Intro may be long for short-form listener retention.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -27,20 +27,17 @@ Arrangement Score: 76/100 - Good
 4. Fix the technical problems first before worrying about tiny creative details.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Low
-Section 2: 0:13 - 0:26 | Energy: Low
-Section 3: 0:26 - 0:39 | Energy: High
-Section 4: 0:39 - 0:52 | Energy: Medium
-Section 5: 0:52 - 1:05 | Energy: High
-Section 6: 1:05 - 1:19 | Energy: High
-Section 7: 1:19 - 1:32 | Energy: Medium
-Section 8: 1:32 - 1:45 | Energy: Low
-Section 9: 1:45 - 1:58 | Energy: Medium
-Section 10: 1:58 - 2:11 | Energy: Medium
-Section 11: 2:11 - 2:25 | Energy: Medium
-Section 12: 2:25 - 2:38 | Energy: High
-Section 13: 2:38 - 2:51 | Energy: Low
-Section 14: 2:51 - 3:04 | Energy: Medium
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: Medium
+Verse: 1:20 - 1:36 | Energy: Medium
+Verse: 1:36 - 1:52 | Energy: Medium
+Verse: 1:52 - 2:08 | Energy: Medium
+Verse: 2:08 - 2:24 | Energy: Medium
+Verse: 2:24 - 2:40 | Energy: Medium
+Outro: 2:40 - 3:04 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -71,8 +68,8 @@ Spectral Rolloff: 7751 Hz
 Onsets Detected: 758
 Onset Density: 4.12 hits/sec
 Drum Activity: High
-Estimated Bars: 112
-Seconds Per Bar: 1.65
+Estimated Bars: 107
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 10.0/10
@@ -83,7 +80,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.5/10
 
 === Artist Notes ===
-- Autotune/key starting point: D Major. Confidence: 47.5%.
+- Autotune/key starting point: D Major. Confidence: 42.0%.
 - Beat energy: 10.0/10. Darkness: 3.2/10.
 - Vocal space estimate: 2.5/10. Higher means easier space for vocals.
 
@@ -92,7 +89,7 @@ Vocal Space: 2.5/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 4.12 hits/sec.
-- Estimated length: 112 bars at 145 BPM.
+- Estimated length: 107 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -105,6 +102,7 @@ Vocal Space: 2.5/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: D Savage - Don't U Change.wav
-BPM: 120
+BPM: 140
 Key: F# Minor
-Key Confidence: 46.9%
+Key Confidence: 42.9%
 Duration: 4:10 (250.85 sec)
 Sample Rate: 48000 Hz
 
@@ -16,8 +16,9 @@ Arrangement Score: 70/100 - Good
 === Top Problems ===
 1. Clipping detected: 2710 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -71,8 +72,8 @@ Spectral Rolloff: 5705 Hz
 Onsets Detected: 1243
 Onset Density: 4.96 hits/sec
 Drum Activity: High
-Estimated Bars: 125
-Seconds Per Bar: 2.01
+Estimated Bars: 146
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 7.0/10
@@ -83,7 +84,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 1.8/10
 
 === Artist Notes ===
-- Autotune/key starting point: F# Minor. Confidence: 46.9%.
+- Autotune/key starting point: F# Minor. Confidence: 42.9%.
 - Beat energy: 7.0/10. Darkness: 4.7/10.
 - Vocal space estimate: 1.8/10. Higher means easier space for vocals.
 
@@ -92,7 +93,7 @@ Vocal Space: 1.8/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 4.96 hits/sec.
-- Estimated length: 125 bars at 120 BPM.
+- Estimated length: 146 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -104,6 +105,7 @@ Vocal Space: 1.8/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

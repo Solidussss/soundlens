@@ -1,24 +1,24 @@
 
 === SoundLens Pro Report ===
 File: Kankan - Broad Day.wav
-BPM: 143
-Key: D# Minor
-Key Confidence: 46.4%
+BPM: 140
+Key: C# Minor
+Key Confidence: 42.8%
 Duration: 2:09 (129.14 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 79/100 - Good, but needs small fixes
+Release Score: 77/100 - Good, but needs small fixes
 Mix Score: 78/100 - Good
 Master Score: 78/100 - Good
-Arrangement Score: 81/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Mud range is elevated around 250-500 Hz.
 2. Track is quiet for the selected style.
 3. Dynamic range is wide, so some sections may feel uneven.
-4. Drum movement is very active; the beat could become overcrowded.
-5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+4. Intro may be long for short-form listener retention.
+5. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Add controlled loudness with gain staging, saturation, soft clipping, then limiting.
@@ -27,16 +27,14 @@ Arrangement Score: 81/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:13 | Energy: Medium
-Section 2: 0:13 - 0:26 | Energy: High
-Section 3: 0:26 - 0:40 | Energy: High
-Section 4: 0:40 - 0:53 | Energy: High
-Section 5: 0:53 - 1:07 | Energy: Medium
-Section 6: 1:07 - 1:20 | Energy: Medium
-Section 7: 1:20 - 1:33 | Energy: Medium
-Section 8: 1:33 - 1:47 | Energy: Low
-Section 9: 1:47 - 2:00 | Energy: Low
-Section 10: 2:00 - 2:09 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: High
+Verse: 0:32 - 0:48 | Energy: High
+Chorus / Hook: 0:48 - 1:04 | Energy: High
+Verse: 1:04 - 1:20 | Energy: High
+Verse: 1:20 - 1:36 | Energy: Medium
+Bridge / Breakdown: 1:36 - 1:52 | Energy: Low
+Outro: 1:52 - 2:09 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: -0.67 dB
@@ -67,8 +65,8 @@ Spectral Rolloff: 5556 Hz
 Onsets Detected: 388
 Onset Density: 3.00 hits/sec
 Drum Activity: High
-Estimated Bars: 77
-Seconds Per Bar: 1.68
+Estimated Bars: 75
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 3.7/10
@@ -79,7 +77,7 @@ Drum Bounce: 7.5/10
 Vocal Space: 2.1/10
 
 === Artist Notes ===
-- Autotune/key starting point: D# Minor. Confidence: 46.4%.
+- Autotune/key starting point: C# Minor. Confidence: 42.8%.
 - Beat energy: 3.7/10. Darkness: 4.9/10.
 - Vocal space estimate: 2.1/10. Higher means easier space for vocals.
 
@@ -88,7 +86,7 @@ Vocal Space: 2.1/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 3.00 hits/sec.
-- Estimated length: 77 bars at 143 BPM.
+- Estimated length: 75 bars at 140 BPM.
 
 === Master Notes ===
 - No obvious clipping problem detected.
@@ -100,6 +98,7 @@ Vocal Space: 2.1/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

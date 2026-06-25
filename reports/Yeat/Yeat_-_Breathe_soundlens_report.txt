@@ -1,9 +1,9 @@
 
 === SoundLens Pro Report ===
 File: Yeat - Breathe.wav
-BPM: 117
+BPM: 140
 Key: D# Minor
-Key Confidence: 46.4%
+Key Confidence: 42.6%
 Duration: 2:50 (170.25 sec)
 Sample Rate: 48000 Hz
 
@@ -11,13 +11,14 @@ Sample Rate: 48000 Hz
 Release Score: 83/100 - Good, but needs small fixes
 Mix Score: 86/100 - Excellent
 Master Score: 86/100 - Excellent
-Arrangement Score: 76/100 - Good
+Arrangement Score: 75/100 - Good
 
 === Top Problems ===
 1. Clipping detected: 136 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
-3. Drum movement is very active; the beat could become overcrowded.
-4. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+3. Intro may be long for short-form listener retention.
+4. Drum movement is very active; the beat could become overcrowded.
+5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -26,17 +27,16 @@ Arrangement Score: 76/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:16 | Energy: Low
-Section 2: 0:16 - 0:32 | Energy: Low
-Section 3: 0:32 - 0:49 | Energy: High
-Section 4: 0:49 - 1:05 | Energy: High
-Section 5: 1:05 - 1:21 | Energy: Medium
-Section 6: 1:21 - 1:38 | Energy: High
-Section 7: 1:38 - 1:54 | Energy: Medium
-Section 8: 1:54 - 2:11 | Energy: Medium
-Section 9: 2:11 - 2:27 | Energy: High
-Section 10: 2:27 - 2:43 | Energy: Low
-Section 11: 2:43 - 2:50 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Verse: 1:04 - 1:20 | Energy: Medium
+Verse: 1:20 - 1:36 | Energy: Medium
+Verse: 1:36 - 1:52 | Energy: Medium
+Verse: 1:52 - 2:08 | Energy: Medium
+Verse: 2:08 - 2:24 | Energy: Medium
+Outro: 2:24 - 2:50 | Energy: Medium
 
 === Mix / Loudness Analysis ===
 Peak Level: 0.00 dB
@@ -67,8 +67,8 @@ Spectral Rolloff: 4349 Hz
 Onsets Detected: 1167
 Onset Density: 6.85 hits/sec
 Drum Activity: High
-Estimated Bars: 83
-Seconds Per Bar: 2.05
+Estimated Bars: 99
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 8.7/10
@@ -79,7 +79,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 2.3/10
 
 === Artist Notes ===
-- Autotune/key starting point: D# Minor. Confidence: 46.4%.
+- Autotune/key starting point: D# Minor. Confidence: 42.6%.
 - Beat energy: 8.7/10. Darkness: 6.2/10.
 - Vocal space estimate: 2.3/10. Higher means easier space for vocals.
 
@@ -88,7 +88,7 @@ Vocal Space: 2.3/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Sub.
 - Drum activity is high at 6.85 hits/sec.
-- Estimated length: 83 bars at 117 BPM.
+- Estimated length: 99 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -100,6 +100,7 @@ Vocal Space: 2.3/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.

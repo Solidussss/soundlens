@@ -1,24 +1,24 @@
 
 === SoundLens Pro Report ===
 File: Jaydes - damage.wav
-BPM: 148
+BPM: 140
 Key: C Major
-Key Confidence: 48.3%
+Key Confidence: 42.1%
 Duration: 1:32 (92.50 sec)
 Sample Rate: 48000 Hz
 
 === Quick Verdict ===
-Release Score: 75/100 - Good, but needs small fixes
+Release Score: 73/100 - Good, but needs small fixes
 Mix Score: 78/100 - Good
 Master Score: 76/100 - Good
-Arrangement Score: 71/100 - Good
+Arrangement Score: 65/100 - Needs Work
 
 === Top Problems ===
 1. Clipping detected: 140 samples are near/over the limit.
 2. Mud range is elevated around 250-500 Hz.
 3. Track is quiet for the selected style.
-4. Drum movement is very active; the beat could become overcrowded.
-5. Hook/verse contrast looks low, but arrangement detection is still an estimate.
+4. Intro may be long for short-form listener retention.
+5. Drum movement is very active; the beat could become overcrowded.
 
 === Best Next Fixes ===
 1. Lower the master/output, then use a soft clipper or limiter with safer ceiling.
@@ -27,13 +27,11 @@ Arrangement Score: 71/100 - Good
 4. Fix the top 1-2 issues, export again, then re-run SoundLens.
 
 === Arrangement Estimate ===
-Section 1: 0:00 - 0:12 | Energy: Medium
-Section 2: 0:12 - 0:25 | Energy: High
-Section 3: 0:25 - 0:38 | Energy: Medium
-Section 4: 0:38 - 0:51 | Energy: Medium
-Section 5: 0:51 - 1:04 | Energy: High
-Section 6: 1:04 - 1:17 | Energy: Low
-Section 7: 1:17 - 1:32 | Energy: Low
+Intro: 0:00 - 0:16 | Energy: Medium
+Chorus / Hook: 0:16 - 0:32 | Energy: Medium
+Verse: 0:32 - 0:48 | Energy: Medium
+Chorus / Hook: 0:48 - 1:04 | Energy: Medium
+Outro: 1:04 - 1:32 | Energy: Low
 
 === Mix / Loudness Analysis ===
 Peak Level: -0.00 dB
@@ -64,8 +62,8 @@ Spectral Rolloff: 4065 Hz
 Onsets Detected: 431
 Onset Density: 4.66 hits/sec
 Drum Activity: High
-Estimated Bars: 57
-Seconds Per Bar: 1.62
+Estimated Bars: 54
+Seconds Per Bar: 1.71
 
 === Beat Profile ===
 Energy: 4.7/10
@@ -76,7 +74,7 @@ Drum Bounce: 10.0/10
 Vocal Space: 1.7/10
 
 === Artist Notes ===
-- Autotune/key starting point: C Major. Confidence: 48.3%.
+- Autotune/key starting point: C Major. Confidence: 42.1%.
 - Beat energy: 4.7/10. Darkness: 5.9/10.
 - Vocal space estimate: 1.7/10. Higher means easier space for vocals.
 
@@ -85,7 +83,7 @@ Vocal Space: 1.7/10
 - Selected style preset: rage_trap.
 - Dominant frequency area: Bass / 808.
 - Drum activity is high at 4.66 hits/sec.
-- Estimated length: 57 bars at 148 BPM.
+- Estimated length: 54 bars at 140 BPM.
 
 === Master Notes ===
 - Clipping is the first thing to fix before judging the rest of the mix.
@@ -97,6 +95,7 @@ Vocal Space: 1.7/10
 - Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.
 - Mute extra percussion in some sections so the hook/drop feels bigger.
 - Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.
+- Consider bringing drums, 808, or a strong tag/moment in earlier.
 
 === Suggested Master Chain ===
 - 1. Gain staging: make sure tracks and master are not clipping.
