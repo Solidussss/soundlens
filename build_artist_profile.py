@@ -334,6 +334,82 @@ def build_fingerprint(report: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+
+
+# Track-level prototypes keep each song's sonic fingerprint inside the artist profile.
+# This is stronger than only comparing to an artist average, because artist averages
+# can wash out the exact sound of individual songs.
+def report_embedding_vector(report: Dict[str, Any]) -> List[float]:
+    fp = report.get("fingerprint", {}) or {}
+    vector: List[float] = []
+
+    # New embedding-style fields if reports were rebuilt with Audio Embedding V1.5.
+    for i in range(1, 21):
+        vector.append(float(fp.get(f"embed_mfcc_{i}_mean", 0) or 0))
+        vector.append(float(fp.get(f"embed_mfcc_{i}_std", 0) or 0))
+
+    for i in range(1, 13):
+        vector.append(float(fp.get(f"embed_chroma_{i}_mean", 0) or 0))
+        vector.append(float(fp.get(f"embed_chroma_{i}_std", 0) or 0))
+
+    for i in range(1, 8):
+        vector.append(float(fp.get(f"embed_contrast_{i}_mean", 0) or 0))
+        vector.append(float(fp.get(f"embed_contrast_{i}_std", 0) or 0))
+
+    for key in [
+        "embed_chroma_entropy",
+        "embed_centroid_mean", "embed_centroid_std",
+        "embed_rolloff_mean", "embed_rolloff_std",
+        "embed_flatness_mean", "embed_flatness_std",
+        "embed_zcr_mean", "embed_zcr_std",
+        "embed_rms_mean", "embed_rms_std",
+        "embed_onset_mean", "embed_onset_std",
+    ]:
+        vector.append(float(fp.get(key, 0) or 0))
+
+    # Fallback fields for older reports.
+    if not any(abs(v) > 1e-9 for v in vector):
+        for i in range(1, 14):
+            vector.append(float(fp.get(f"mfcc_{i}", 0) or 0))
+        for i in range(1, 13):
+            vector.append(float(fp.get(f"chroma_{i}", 0) or 0))
+        for key in ["spectral_contrast", "spectral_flatness", "zero_crossing_rate"]:
+            vector.append(float(fp.get(key, 0) or 0))
+
+    return [round(float(v), 6) for v in vector]
+
+
+def build_track_prototype(report: Dict[str, Any]) -> Dict[str, Any]:
+    basic = report.get("basic", {}) or {}
+    loudness = report.get("loudness", {}) or {}
+    frequency = report.get("frequency", {}) or {}
+    rhythm = report.get("rhythm", {}) or {}
+    scores = report.get("scores", {}) or {}
+
+    return {
+        "title": basic.get("file_name") or basic.get("file_path") or "Unknown track",
+        "embedding_vector": report_embedding_vector(report),
+        "style_fingerprint": build_fingerprint(report),
+        "summary": {
+            "bpm": basic.get("bpm"),
+            "key": basic.get("key"),
+            "rms_db": loudness.get("rms_db"),
+            "dynamic_range_db": loudness.get("dynamic_range_db"),
+            "low_end_total_percent": frequency.get("low_end_total_percent"),
+            "mid_total_percent": frequency.get("mid_total_percent"),
+            "top_total_percent": frequency.get("top_total_percent"),
+            "onset_density": rhythm.get("onset_density"),
+            "energy": scores.get("energy"),
+            "bass_strength": scores.get("bass_strength"),
+            "darkness": scores.get("darkness"),
+            "brightness": scores.get("brightness"),
+            "drum_bounce": scores.get("drum_bounce"),
+            "vocal_space": scores.get("vocal_space"),
+        },
+    }
+
+
+
 def build_profile(category: str, reports: List[Dict[str, Any]]) -> Dict[str, Any]:
     numeric_summary = {}
 
@@ -391,6 +467,7 @@ def build_profile(category: str, reports: List[Dict[str, Any]]) -> Dict[str, Any
         "averages": numeric_summary,
         "frequency_bands": band_summary,
         "fingerprint": fingerprint_summary,
+        "track_prototypes": [build_track_prototype(report) for report in reports],
         "most_common": {
             "keys": key_counter.most_common(5),
             "key_modes": key_mode_counter.most_common(3),

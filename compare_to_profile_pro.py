@@ -83,131 +83,6 @@ EQ_BAND_CENTERS = {
     "Air": 12500,
 }
 
-EMBEDDING_FIELDS = [
-    "embed_mfcc_1_mean",
-    "embed_mfcc_1_std",
-    "embed_mfcc_2_mean",
-    "embed_mfcc_2_std",
-    "embed_mfcc_3_mean",
-    "embed_mfcc_3_std",
-    "embed_mfcc_4_mean",
-    "embed_mfcc_4_std",
-    "embed_mfcc_5_mean",
-    "embed_mfcc_5_std",
-    "embed_mfcc_6_mean",
-    "embed_mfcc_6_std",
-    "embed_mfcc_7_mean",
-    "embed_mfcc_7_std",
-    "embed_mfcc_8_mean",
-    "embed_mfcc_8_std",
-    "embed_mfcc_9_mean",
-    "embed_mfcc_9_std",
-    "embed_mfcc_10_mean",
-    "embed_mfcc_10_std",
-    "embed_mfcc_11_mean",
-    "embed_mfcc_11_std",
-    "embed_mfcc_12_mean",
-    "embed_mfcc_12_std",
-    "embed_mfcc_13_mean",
-    "embed_mfcc_13_std",
-    "embed_mfcc_14_mean",
-    "embed_mfcc_14_std",
-    "embed_mfcc_15_mean",
-    "embed_mfcc_15_std",
-    "embed_mfcc_16_mean",
-    "embed_mfcc_16_std",
-    "embed_mfcc_17_mean",
-    "embed_mfcc_17_std",
-    "embed_mfcc_18_mean",
-    "embed_mfcc_18_std",
-    "embed_mfcc_19_mean",
-    "embed_mfcc_19_std",
-    "embed_mfcc_20_mean",
-    "embed_mfcc_20_std",
-    "embed_chroma_1_mean",
-    "embed_chroma_1_std",
-    "embed_chroma_2_mean",
-    "embed_chroma_2_std",
-    "embed_chroma_3_mean",
-    "embed_chroma_3_std",
-    "embed_chroma_4_mean",
-    "embed_chroma_4_std",
-    "embed_chroma_5_mean",
-    "embed_chroma_5_std",
-    "embed_chroma_6_mean",
-    "embed_chroma_6_std",
-    "embed_chroma_7_mean",
-    "embed_chroma_7_std",
-    "embed_chroma_8_mean",
-    "embed_chroma_8_std",
-    "embed_chroma_9_mean",
-    "embed_chroma_9_std",
-    "embed_chroma_10_mean",
-    "embed_chroma_10_std",
-    "embed_chroma_11_mean",
-    "embed_chroma_11_std",
-    "embed_chroma_12_mean",
-    "embed_chroma_12_std",
-    "embed_contrast_1_mean",
-    "embed_contrast_1_std",
-    "embed_contrast_2_mean",
-    "embed_contrast_2_std",
-    "embed_contrast_3_mean",
-    "embed_contrast_3_std",
-    "embed_contrast_4_mean",
-    "embed_contrast_4_std",
-    "embed_contrast_5_mean",
-    "embed_contrast_5_std",
-    "embed_contrast_6_mean",
-    "embed_contrast_6_std",
-    "embed_contrast_7_mean",
-    "embed_contrast_7_std",
-    "embed_chroma_entropy",
-    "embed_centroid_mean",
-    "embed_centroid_std",
-    "embed_rolloff_mean",
-    "embed_rolloff_std",
-    "embed_flatness_mean",
-    "embed_flatness_std",
-    "embed_zcr_mean",
-    "embed_zcr_std",
-    "embed_rms_mean",
-    "embed_rms_std",
-    "embed_onset_mean",
-    "embed_onset_std",
-]
-
-LEGACY_EMBEDDING_FIELDS = [
-    "mfcc_1",
-    "mfcc_2",
-    "mfcc_3",
-    "mfcc_4",
-    "mfcc_5",
-    "mfcc_6",
-    "mfcc_7",
-    "mfcc_8",
-    "mfcc_9",
-    "mfcc_10",
-    "mfcc_11",
-    "mfcc_12",
-    "mfcc_13",
-    "chroma_1",
-    "chroma_2",
-    "chroma_3",
-    "chroma_4",
-    "chroma_5",
-    "chroma_6",
-    "chroma_7",
-    "chroma_8",
-    "chroma_9",
-    "chroma_10",
-    "chroma_11",
-    "chroma_12",
-    "spectral_contrast",
-    "spectral_flatness",
-    "zero_crossing_rate",
-]
-
 STYLE_FINGERPRINT_FIELDS = [
     "bpm_style",
     "sub_to_bass_ratio",
@@ -317,18 +192,24 @@ def cosine_similarity(a: List[float], b: List[float]) -> Optional[float]:
 
 def report_mfcc_vector(report_dict: Dict[str, Any]) -> List[float]:
     fp = report_dict.get("fingerprint", {}) or {}
+    vector = []
 
-    fields = EMBEDDING_FIELDS if any(key in fp for key in EMBEDDING_FIELDS) else LEGACY_EMBEDDING_FIELDS
-    return [float(fp.get(key, 0) or 0) for key in fields]
+    for i in range(1, 14):
+        vector.append(float(fp.get(f"mfcc_{i}", 0) or 0))
+
+    for i in range(1, 13):
+        vector.append(float(fp.get(f"chroma_{i}", 0) or 0))
+
+    for key in ["spectral_contrast", "spectral_flatness", "zero_crossing_rate"]:
+        vector.append(float(fp.get(key, 0) or 0))
+
+    return vector
 
 
 def profile_mfcc_vector(profile: Dict[str, Any]) -> List[float]:
     averages = profile.get("averages", {}) or {}
     fingerprint = profile.get("fingerprint", {}) or {}
     audio_features = profile.get("audio_features", {}) or {}
-
-    use_new_embedding = any(key in averages or key in fingerprint or key in audio_features for key in EMBEDDING_FIELDS)
-    fields = EMBEDDING_FIELDS if use_new_embedding else LEGACY_EMBEDDING_FIELDS
 
     def avg_from_any(key: str) -> float:
         for group in (averages, audio_features, fingerprint):
@@ -347,7 +228,18 @@ def profile_mfcc_vector(profile: Dict[str, Any]) -> List[float]:
 
         return 0.0
 
-    return [avg_from_any(key) for key in fields]
+    vector = []
+
+    for i in range(1, 14):
+        vector.append(avg_from_any(f"mfcc_{i}"))
+
+    for i in range(1, 13):
+        vector.append(avg_from_any(f"chroma_{i}"))
+
+    for key in ["spectral_contrast", "spectral_flatness", "zero_crossing_rate"]:
+        vector.append(avg_from_any(key))
+
+    return vector
 
 
 def report_style_fingerprint(report_dict: Dict[str, Any]) -> Dict[str, float]:
@@ -423,26 +315,149 @@ def style_fingerprint_score(report_dict: Dict[str, Any], profile: Dict[str, Any]
 
 
 def fingerprint_score(report_dict: Dict[str, Any], profile: Dict[str, Any]) -> Optional[float]:
-    # Audio embedding similarity is the closest V1.5 layer to "this feels like this artist."
-    # It compares a vector of timbre, harmony, spectral texture, movement, and energy features.
-    embedding_score = cosine_similarity(
+    # First try the stronger MFCC/chroma fingerprint.
+    mfcc_score = cosine_similarity(
         report_mfcc_vector(report_dict),
         profile_mfcc_vector(profile),
     )
 
-    # Style ratios still help keep the match grounded in SoundLens-specific profile traits.
+    # Old profiles may not have MFCC/chroma yet.
+    # Fall back to the existing profile["fingerprint"] ratios from build_artist_profile.
     style_score = style_fingerprint_score(report_dict, profile)
 
-    if embedding_score is not None and style_score is not None:
-        return round((embedding_score * 0.78) + (style_score * 0.22), 2)
+    if mfcc_score is not None and style_score is not None:
+        return round((mfcc_score * 0.65) + (style_score * 0.35), 2)
 
-    if embedding_score is not None:
-        return round(embedding_score, 2)
+    if mfcc_score is not None:
+        return round(mfcc_score, 2)
 
     if style_score is not None:
         return round(style_score, 2)
 
     return None
+
+
+
+
+def audio_embedding_vector_from_report(report_dict: Dict[str, Any]) -> List[float]:
+    fp = report_dict.get("fingerprint", {}) or {}
+    vector: List[float] = []
+
+    for i in range(1, 21):
+        vector.append(float(fp.get(f"embed_mfcc_{i}_mean", 0) or 0))
+        vector.append(float(fp.get(f"embed_mfcc_{i}_std", 0) or 0))
+
+    for i in range(1, 13):
+        vector.append(float(fp.get(f"embed_chroma_{i}_mean", 0) or 0))
+        vector.append(float(fp.get(f"embed_chroma_{i}_std", 0) or 0))
+
+    for i in range(1, 8):
+        vector.append(float(fp.get(f"embed_contrast_{i}_mean", 0) or 0))
+        vector.append(float(fp.get(f"embed_contrast_{i}_std", 0) or 0))
+
+    for key in [
+        "embed_chroma_entropy",
+        "embed_centroid_mean", "embed_centroid_std",
+        "embed_rolloff_mean", "embed_rolloff_std",
+        "embed_flatness_mean", "embed_flatness_std",
+        "embed_zcr_mean", "embed_zcr_std",
+        "embed_rms_mean", "embed_rms_std",
+        "embed_onset_mean", "embed_onset_std",
+    ]:
+        vector.append(float(fp.get(key, 0) or 0))
+
+    if not any(abs(v) > 1e-9 for v in vector):
+        return report_mfcc_vector(report_dict)
+
+    return vector
+
+
+def track_style_similarity(report_dict: Dict[str, Any], prototype: Dict[str, Any]) -> Optional[float]:
+    song_fp = report_style_fingerprint(report_dict)
+    proto_fp = prototype.get("style_fingerprint", {}) or {}
+
+    fields = [
+        "bpm_style",
+        "sub_to_bass_ratio",
+        "low_end_focus",
+        "mud_to_mid_ratio",
+        "harsh_to_air_ratio",
+        "top_brightness_balance",
+        "vocal_space_band",
+        "bass_vs_vocal_ratio",
+        "section_count",
+        "high_section_count",
+        "low_section_count",
+    ]
+
+    scores = []
+
+    for field in fields:
+        value = to_float(song_fp.get(field))
+        target = to_float(proto_fp.get(field))
+
+        if value is None or target is None:
+            continue
+
+        # Per-track prototypes do not have stdev, so use a stable tolerance.
+        tolerance = max(abs(target) * 0.18, 1.0)
+        scores.append(score_against_profile(value, target, tolerance))
+
+    if not scores:
+        return None
+
+    return round(sum(scores) / len(scores), 2)
+
+
+def profile_prototype_score(report_dict: Dict[str, Any], profile: Dict[str, Any]) -> Tuple[Optional[float], List[Dict[str, Any]]]:
+    prototypes = profile.get("track_prototypes") or []
+
+    if not isinstance(prototypes, list) or not prototypes:
+        return None, []
+
+    song_vector = audio_embedding_vector_from_report(report_dict)
+    nearest = []
+
+    for proto in prototypes:
+        if not isinstance(proto, dict):
+            continue
+
+        proto_vector = proto.get("embedding_vector") or []
+        embed_score = cosine_similarity(song_vector, proto_vector) if proto_vector else None
+        style_score = track_style_similarity(report_dict, proto)
+
+        parts = []
+        if embed_score is not None:
+            parts.append((embed_score, 0.72))
+        if style_score is not None:
+            parts.append((style_score, 0.28))
+
+        if not parts:
+            continue
+
+        score = sum(s * w for s, w in parts) / sum(w for _, w in parts)
+
+        nearest.append({
+            "title": proto.get("title", "Unknown track"),
+            "score": round(float(score), 2),
+            "embedding": round(float(embed_score), 2) if embed_score is not None else None,
+            "style": round(float(style_score), 2) if style_score is not None else None,
+        })
+
+    nearest.sort(key=lambda item: item["score"], reverse=True)
+
+    if not nearest:
+        return None, []
+
+    best = nearest[0]["score"]
+    top3 = nearest[:3]
+    top3_avg = sum(item["score"] for item in top3) / len(top3)
+
+    # Strongly reward having one or more very close tracks inside the artist profile.
+    final = (best * 0.70) + (top3_avg * 0.30)
+
+    return round(float(final), 2), nearest[:5]
+
 
 
 def frequency_shape_score(report_dict: Dict[str, Any], profile: Dict[str, Any]) -> Optional[float]:
@@ -741,19 +756,25 @@ def compare_audio_to_profiles(
         metric_score = round(weighted_sum / total_weight, 2) if total_weight else None
         freq_score = frequency_shape_score(report_dict, profile)
         fp_score = fingerprint_score(report_dict, profile)
+        proto_score, nearest_tracks = profile_prototype_score(report_dict, profile)
         stem_score = stem_component_score(field_scores)
         core_score = core_metric_score(field_scores)
 
         weighted_components = []
 
-        if metric_score is not None:
-            weighted_components.append((metric_score, 0.16))
-        if freq_score is not None:
-            weighted_components.append((freq_score, 0.20))
+        # Track-level prototype score is the strongest Artist Match signal.
+        # It compares the upload to each song inside an artist profile instead
+        # of only comparing against the artist average.
+        if proto_score is not None:
+            weighted_components.append((proto_score, 0.50))
         if fp_score is not None:
-            weighted_components.append((fp_score, 0.49))
+            weighted_components.append((fp_score, 0.20))
+        if freq_score is not None:
+            weighted_components.append((freq_score, 0.14))
+        if metric_score is not None:
+            weighted_components.append((metric_score, 0.08))
         if stem_score is not None:
-            weighted_components.append((stem_score, 0.15))
+            weighted_components.append((stem_score, 0.08))
 
         if weighted_components:
             match_score = sum(score * weight for score, weight in weighted_components) / sum(
@@ -773,6 +794,7 @@ def compare_audio_to_profiles(
             "track_count": int(profile.get("track_count", 0) or 0),
             "compared_fields": len(field_scores),
             "score_components": {
+                "prototype": round(proto_score, 2) if proto_score is not None else None,
                 "overall_metrics": round(metric_score, 2) if metric_score is not None else None,
                 "frequency": round(freq_score, 2) if freq_score is not None else None,
                 "fingerprint": round(fp_score, 2) if fp_score is not None else None,
@@ -780,6 +802,7 @@ def compare_audio_to_profiles(
                 "core": round(core_score, 2) if core_score is not None else None,
             },
             "field_scores": sorted(field_scores, key=lambda item: item["score"])[:8],
+            "nearest_tracks": nearest_tracks,
         })
 
     ranked.sort(key=lambda item: float(item.get("match_score") or 0), reverse=True)
