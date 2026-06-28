@@ -151,6 +151,36 @@
             color:var(--muted);
         }
 
+        .audio-file-input{
+            display:none;
+        }
+
+        .audio-upload-btn{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            padding:11px 20px;
+            background:var(--purple);
+            color:white;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;
+            font-weight:700;
+            text-align:center;
+        }
+
+        .audio-upload-btn:hover{ background:#4f46e5; }
+
+        .selected-audio-name{
+            color:var(--muted);
+            font-size:13px;
+            max-width:260px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+
+
         .upload-controls{
             display:flex;
             justify-content:center;
@@ -1389,7 +1419,7 @@
             .info-card{ min-height:96px; }
             .info-card div{ font-size:21px; }
             .upload-controls,.wave-tools{ flex-direction:column; align-items:stretch; gap:10px; }
-            .upload-controls button,.wave-tools button,.wave-tools input,input[type="file"]{ width:100%; }
+            .upload-controls button,.wave-tools button,.wave-tools input,input[type="file"],.selected-audio-name{ width:100%; max-width:100%; }
             input,button{ font-size:16px; }
             #waveform{ padding:10px; overflow:hidden; }
             #timeline{ overflow:hidden; }
@@ -1570,7 +1600,13 @@
 
     <div id="analyzeSection" class="card">
         <div class="upload-controls">
-            <input type="file" id="audioFile" accept="audio/*">
+            <input
+                type="file"
+                id="audioFile"
+                class="audio-file-input"
+                accept=".wav,.mp3,.m4a,.aac,.flac,.ogg,audio/wav,audio/x-wav,audio/mpeg,audio/mp3,audio/mp4,audio/aac,audio/flac,audio/ogg,audio/*">
+            <button type="button" class="audio-upload-btn" onclick="openAudioPicker()">Choose Audio File</button>
+            <span id="selectedAudioName" class="selected-audio-name">No audio selected</span>
             <button onclick="analyze()">Analyze</button>
             <button onclick="playPause()">Play / Pause</button>
         </div>
@@ -1809,9 +1845,47 @@ function showPage(pageId){
     }
 }
 
+
+function openAudioPicker(){
+    const input = document.getElementById("audioFile");
+    if(input){
+        input.value = "";
+        input.click();
+    }
+}
+
+function isAllowedAudioFile(file){
+    if(!file){ return false; }
+
+    const name = String(file.name || "").toLowerCase();
+    const type = String(file.type || "").toLowerCase();
+
+    const allowedExt = [".wav", ".mp3", ".m4a", ".aac", ".flac", ".ogg"];
+    const hasAllowedExt = allowedExt.some(ext => name.endsWith(ext));
+
+    // iOS can leave file.type blank for WAV/MP3 files from Files.
+    // Extension checking keeps those files selectable/valid.
+    return hasAllowedExt || type.startsWith("audio/");
+}
+
+
 document.getElementById("audioFile").addEventListener("change", function(){
     const file = this.files[0];
-    if(!file){ return; }
+    const selectedName = document.getElementById("selectedAudioName");
+
+    if(!file){
+        if(selectedName){ selectedName.innerText = "No audio selected"; }
+        return;
+    }
+
+    if(!isAllowedAudioFile(file)){
+        alert("Please choose a WAV, MP3, M4A, AAC, FLAC, or OGG audio file from the Files app.");
+        this.value = "";
+        if(selectedName){ selectedName.innerText = "No audio selected"; }
+        return;
+    }
+
+    if(selectedName){ selectedName.innerText = file.name; }
 
     const audioUrl = URL.createObjectURL(file);
     if(wavesurfer){ wavesurfer.destroy(); }
