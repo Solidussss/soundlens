@@ -19,6 +19,7 @@ from fastapi.staticfiles import StaticFiles
 
 from soundlens_pro import analyze_audio, render_report
 from compare_to_profile_pro import compare_audio_to_profiles
+from ai_feedback import generate_soundlens_ai_feedback
 
 app = FastAPI()
 
@@ -911,7 +912,7 @@ def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str
             }
             report_dict["artist_comparison"] = artist_comparison
 
-        ai_feedback = generate_ai_feedback(report_dict)
+        ai_feedback = generate_soundlens_ai_feedback(report_dict)
 
         report_dict["top_problems"] = ai_feedback.get(
             "top_problems",
@@ -927,6 +928,10 @@ def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str
             "suggested_direction",
             [],
         )
+
+        report_dict["ai_review"] = ai_feedback.get("ai_review", {})
+        report_dict["ai_enabled"] = bool(ai_feedback.get("ai_enabled", False))
+        report_dict["ai_model"] = ai_feedback.get("model")
 
         text_report = render_report(report)
         saved_report = save_report_for_user(

@@ -1502,6 +1502,61 @@
 
         #nav-adminPage{ display:none; }
 
+    
+        .ai-review-card{
+            background:linear-gradient(135deg,rgba(99,102,241,0.14),rgba(15,17,23,0.78));
+            border:1px solid #343b58;
+        }
+
+        .ai-review-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+            gap:14px;
+            margin-top:16px;
+        }
+
+        .ai-review-tile{
+            background:rgba(15,17,23,0.55);
+            border:1px solid #303750;
+            border-radius:16px;
+            padding:16px;
+        }
+
+        .ai-review-tile span{
+            display:block;
+            color:var(--muted);
+            font-size:12px;
+            font-weight:900;
+            text-transform:uppercase;
+            letter-spacing:0.8px;
+            margin-bottom:8px;
+        }
+
+        .ai-review-tile p{
+            margin:0;
+            color:white;
+            line-height:1.45;
+        }
+
+        .ai-review-list{
+            margin:0;
+            padding-left:18px;
+            color:white;
+            line-height:1.55;
+        }
+
+        .ai-model-pill{
+            display:inline-flex;
+            align-items:center;
+            padding:6px 10px;
+            border-radius:999px;
+            background:rgba(99,102,241,0.16);
+            color:white;
+            font-size:12px;
+            font-weight:800;
+            margin-left:8px;
+        }
+
     </style>
 </head>
 
@@ -1782,6 +1837,19 @@
                 <div class="summary-tile">
                     <span>Recommended Fix</span>
                     <strong id="overviewMainFix">Waiting for analysis...</strong>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card ai-review-card" id="aiReviewCard">
+            <div class="eyebrow">SoundLens AI <span id="aiModelPill" class="ai-model-pill">Ready</span></div>
+            <h2 style="margin-top:0">Personalized Review</h2>
+            <p class="muted">After analysis, SoundLens AI explains the report in plain English using this track's actual metrics.</p>
+            <div id="aiReviewContent" class="ai-review-grid">
+                <div class="ai-review-tile">
+                    <span>Waiting</span>
+                    <p>Upload a track to generate a specific AI review.</p>
                 </div>
             </div>
         </div>
@@ -2127,6 +2195,69 @@ function setScore(scoreId, labelId, score){
     document.getElementById(labelId).innerText = label.text;
     document.getElementById(labelId).className = "score-label pill " + label.className;
 }
+
+
+function escapeHtml(value){
+    return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function renderAIReview(report){
+    const card = document.getElementById("aiReviewCard");
+    const box = document.getElementById("aiReviewContent");
+    const pill = document.getElementById("aiModelPill");
+
+    if(!card || !box){ return; }
+
+    const review = report.ai_review || {};
+    const strengths = Array.isArray(review.biggest_strengths) ? review.biggest_strengths : [];
+    const weaknesses = Array.isArray(review.biggest_weaknesses) ? review.biggest_weaknesses : [];
+
+    if(pill){
+        pill.innerText = report.ai_enabled ? "AI Generated" : "Standard";
+    }
+
+    const listHTML = items => {
+        if(!items.length){ return "<p>Not enough detail returned for this section.</p>"; }
+        return `<ul class="ai-review-list">${items.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+    };
+
+    box.innerHTML = `
+        <div class="ai-review-tile">
+            <span>🎯 First Impression</span>
+            <p>${escapeHtml(review.first_impression || "SoundLens generated the core metrics. AI review was not available for this run.")}</p>
+        </div>
+        <div class="ai-review-tile">
+            <span>🔥 Biggest Strengths</span>
+            ${listHTML(strengths)}
+        </div>
+        <div class="ai-review-tile">
+            <span>⚠ Biggest Weaknesses</span>
+            ${listHTML(weaknesses)}
+        </div>
+        <div class="ai-review-tile">
+            <span>🎛 Mix Advice</span>
+            <p>${escapeHtml(review.mix_advice || "Use the fixes page to decide what to adjust first.")}</p>
+        </div>
+        <div class="ai-review-tile">
+            <span>🎵 Artist Direction</span>
+            <p>${escapeHtml(review.artist_direction || "Artist direction will appear after profile matching.")}</p>
+        </div>
+        <div class="ai-review-tile">
+            <span>🚀 Priority Fix</span>
+            <p>${escapeHtml(review.priority_fix || "Fix the highest impact issue first.")}</p>
+        </div>
+        <div class="ai-review-tile">
+            <span>⭐ Release Verdict</span>
+            <p>${escapeHtml(review.release_verdict || "Use the release score and fixes before deciding whether to upload.")}</p>
+        </div>
+    `;
+}
+
 
 function mainIssueFromReport(report){
     const problems = report.top_problems || [];
@@ -2822,6 +2953,7 @@ async function analyze(){
     // results wrapper stays visible for Arrangement/Advanced placeholders
 
     updateOverview(report);
+    renderAIReview(report);
     setScore("mixScore", "mixLabel", report.scores.mix);
     setScore("masterScore", "masterLabel", report.scores.master);
     setScore("arrangementScore", "arrangementLabel", report.scores.arrangement);
