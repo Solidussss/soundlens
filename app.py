@@ -49,13 +49,10 @@ SAVED_REPORTS_DIR.mkdir(exist_ok=True)
 ADMIN_EVENTS_PATH = Path("soundlens_admin_events.json")
 FEEDBACK_PATH = Path("soundlens_feedback.json")
 
-SOUNDLENS_NOTIFY_EMAIL = os.getenv("SOUNDLENS_NOTIFY_EMAIL", "soundlensmail@gmail.com")
+SOUNDLENS_NOTIFY_EMAIL = os.getenv("SOUNDLENS_NOTIFY_EMAIL", "soudlensmail@gmail.com")
 SOUNDLENS_ADMIN_EMAILS = {
     email.strip().lower()
-    for email in os.getenv(
-        "SOUNDLENS_ADMIN_EMAILS",
-        "soundlensmail@gmail.com,jaydenflynn9@gmail.com"
-    ).split(",")
+    for email in os.getenv("SOUNDLENS_ADMIN_EMAILS", "jaydenflynn9@gmail.com").split(",")
     if email.strip()
 }
 
@@ -102,6 +99,10 @@ class EventPayload(BaseModel):
     event: str
     page: str | None = None
     details: dict | None = None
+
+
+class ResendVerificationPayload(BaseModel):
+    email: str
 
 
 
@@ -176,6 +177,57 @@ def send_notification_email(subject: str, body: str) -> bool:
         return False
 
 
+
+def send_notification_email_to(to_email: str | None, subject: str, body: str) -> bool:
+    if not to_email:
+        return False
+    if not SMTP_HOST or not SMTP_USERNAME or not SMTP_PASSWORD:
+        return False
+
+    try:
+        msg = EmailMessage()
+        msg["Subject"] = subject
+        msg["From"] = SMTP_FROM_EMAIL
+        msg["To"] = to_email
+        msg.set_content(body)
+
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=12) as server:
+            server.starttls()
+            server.login(SMTP_USERNAME, SMTP_PASSWORD)
+            server.send_message(msg)
+
+        return True
+    except Exception as error:
+        track_event("email_failed", None, {"to": to_email, "subject": subject, "error": str(error)})
+        return False
+
+
+def build_verification_link(token: str) -> str:
+    return f"{SOUNDLENS_PUBLIC_URL}/auth/verify-email?token={token}"
+
+
+def send_signup_verification_email(user: dict) -> bool:
+    token = user.get("email_verification_token")
+    if not token:
+        return False
+
+    verify_link = build_verification_link(token)
+    subject = "Confirm your SoundLens email"
+    body = f"""Welcome to SoundLens.
+
+Confirm your email to finish setting up your account:
+
+{verify_link}
+
+If you did not create a SoundLens account, you can ignore this email.
+
+SoundLens
+soundlensapp.com
+@soundlensapp_
+"""
+    return send_notification_email_to(user.get("email"), subject, body)
+
+
 def is_admin_user(user: dict) -> bool:
     return normalize_email(user.get("email")) in SOUNDLENS_ADMIN_EMAILS
 
@@ -232,6 +284,7 @@ def public_user(user: dict) -> dict:
         "uploads_today": int(usage.get("count", 0) or 0),
         "uploads_remaining": None if plan in {"pro", "studio"} else max(0, FREE_DAILY_UPLOAD_LIMIT - int(usage.get("count", 0) or 0)),
         "created_at": user.get("created_at"),
+        "email_verified": bool(user.get("email_verified")),
     }
 
 
@@ -365,6 +418,9 @@ def signup(payload: AuthPayload):
         "plan": "free",
         "usage": {"date": utc_today(), "count": 0},
         "created_at": now_iso(),
+        "email_verified": False,
+        "email_verification_token": str(uuid.uuid4()),
+        "email_verified_at": None,
     }
 
     db["users"][user_id] = user
@@ -570,6 +626,56 @@ def stripe_success():
 def stripe_cancel():
     return RedirectResponse(url="/?checkout=cancelled")
 
+
+
+
+@app.get("/auth/verify-email")
+async def verify_email(token: str):
+    db = load_users_db()
+    token = str(token or "").strip()
+
+    if not token:
+        raise HTTPException(status_code=400, detail="Missing verification token.")
+
+    for user in db.get("users", {}).values():
+        if user.get("email_verification_token") == token:
+            user["email_verified"] = True
+            user["email_verified_at"] = now_iso()
+            user["email_verification_token"] = None
+            save_users_db(db)
+            track_event("email_verified", user, {"source": "verification_link"})
+            return RedirectResponse(url=f"{SOUNDLENS_PUBLIC_URL}/?verified=1", status_code=303)
+
+    raise HTTPException(status_code=400, detail="Invalid or expired verification link.")
+
+
+@app.post("/auth/resend-verification")
+async def resend_verification(payload: ResendVerificationPayload):
+    db = load_users_db()
+    email = normalize_email(payload.email)
+    user = None
+
+    for candidate in db.get("users", {}).values():
+        if normalize_email(candidate.get("email")) == email:
+            user = candidate
+            break
+
+    if not user:
+        raise HTTPException(status_code=404, detail="Account not found.")
+
+    if user.get("email_verified"):
+        return {"ok": True, "message": "Email is already verified."}
+
+    user["email_verification_token"] = str(uuid.uuid4())
+    save_users_db(db)
+
+    sent = send_signup_verification_email(user)
+    track_event("verification_resent", user, {"sent": sent})
+
+    if not sent:
+        return {"ok": False, "message": "Verification link was created, but SMTP is not configured yet."}
+
+    return {"ok": True, "message": "Verification email sent."}
 
 
 @app.post("/feedback")

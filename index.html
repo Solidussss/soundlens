@@ -1467,6 +1467,41 @@
         .feedback-form textarea,.feedback-form select,.feedback-form input{ width:100%; margin:8px 0 12px 0; padding:12px; border-radius:10px; border:1px solid #303750; background:#0f1117; color:white; }
         .admin-table{ width:100%; overflow-x:auto; }
 
+    
+        .artist-scroll-box{
+            max-height:220px;
+            overflow-y:auto;
+            border:1px solid #303750;
+            background:rgba(15,17,23,0.55);
+            border-radius:18px;
+            padding:14px;
+            margin-top:14px;
+        }
+
+        .artist-pill-list{
+            display:flex;
+            flex-wrap:wrap;
+            gap:10px;
+        }
+
+        .artist-name-pill{
+            display:inline-flex;
+            align-items:center;
+            padding:8px 12px;
+            border-radius:999px;
+            background:#252b3f;
+            color:white;
+            font-size:13px;
+            font-weight:800;
+            white-space:nowrap;
+        }
+
+        .artist-scroll-box::-webkit-scrollbar{ width:8px; }
+        .artist-scroll-box::-webkit-scrollbar-thumb{ background:#3b425c; border-radius:999px; }
+        .artist-scroll-box::-webkit-scrollbar-track{ background:#10131e; border-radius:999px; }
+
+        #nav-adminPage{ display:none; }
+
     </style>
 </head>
 
@@ -1707,6 +1742,18 @@
 </div>
 
 
+
+    <div class="card" id="comparableArtistsCard">
+        <div class="eyebrow">Comparable Artists</div>
+        <h2 style="margin-top:0">Artists SoundLens compares against</h2>
+        <p class="muted">SoundLens checks your audio against these artist profiles.</p>
+        <div class="artist-scroll-box">
+            <div class="artist-pill-list">
+                <span class="artist-name-pill">Cheromani</span><span class="artist-name-pill">Yeat</span><span class="artist-name-pill">Osamason</span><span class="artist-name-pill">Nettspend</span><span class="artist-name-pill">Ken Carson</span><span class="artist-name-pill">Glokk40Spaz</span><span class="artist-name-pill">Destroy Lonely</span><span class="artist-name-pill">Bktherula</span><span class="artist-name-pill">Jane Remover</span><span class="artist-name-pill">Fakemink</span><span class="artist-name-pill">Eskdekid</span><span class="artist-name-pill">Autumn</span><span class="artist-name-pill">Kankan</span><span class="artist-name-pill">Jaydes</span><span class="artist-name-pill">Eem Triplin</span><span class="artist-name-pill">Hardrock</span><span class="artist-name-pill">1oneam</span><span class="artist-name-pill">Lazer Dim 700</span><span class="artist-name-pill">Homixide Gang</span><span class="artist-name-pill">Duwap Kaine</span><span class="artist-name-pill">Fimiguerrero</span><span class="artist-name-pill">Molly Santana</span><span class="artist-name-pill">Sosocamo</span><span class="artist-name-pill">Summrs</span><span class="artist-name-pill">SoFaygo</span><span class="artist-name-pill">Rich Amiri</span><span class="artist-name-pill">Tana</span><span class="artist-name-pill">Prettifun</span><span class="artist-name-pill">Ohsxnta</span><span class="artist-name-pill">Xaviersobased</span><span class="artist-name-pill">Midwxst</span><span class="artist-name-pill">Protect</span><span class="artist-name-pill">Nine Vicious</span><span class="artist-name-pill">UntilJapan</span><span class="artist-name-pill">Feng</span><span class="artist-name-pill">Nino Paid</span><span class="artist-name-pill">Slayr</span><span class="artist-name-pill">Yung Fazo</span><span class="artist-name-pill">Rekover Jet</span><span class="artist-name-pill">Dom Corleo</span><span class="artist-name-pill">Tezzus</span><span class="artist-name-pill">Diamond</span><span class="artist-name-pill">Leo</span><span class="artist-name-pill">Southsidesilhouette</span><span class="artist-name-pill">Izaya Tiji</span><span class="artist-name-pill">Lil Tony</span><span class="artist-name-pill">Iayze (Jace!)</span><span class="artist-name-pill">Thouxanbanfauni</span><span class="artist-name-pill">Unotheactivist</span><span class="artist-name-pill">Bones</span><span class="artist-name-pill">Cochise</span><span class="artist-name-pill">2Slimey</span>
+            </div>
+        </div>
+    </div>
+
 <div id="results" style="display:block">
 
     <div id="overviewPage" class="page">
@@ -1905,6 +1952,7 @@ let timeline = null;
 let latestReport = null;
 let latestEqData = null;
 let currentUser = null;
+        updateAdminVisibility(null);
 let savedReports = [];
 const API_BASE = window.location.origin;
 const AUTH_TOKEN_KEY = "soundlens_auth_token";
@@ -2352,6 +2400,50 @@ async function apiJSON(url, options={}){
 }
 
 
+
+function isJaydenAdmin(user){
+    return String(user?.email || "").trim().toLowerCase() === "jaydenflynn9@gmail.com";
+}
+
+function updateAdminVisibility(user){
+    const adminNav = document.getElementById("nav-adminPage");
+    if(adminNav){
+        adminNav.style.display = isJaydenAdmin(user) ? "inline-flex" : "none";
+    }
+}
+
+function handleVerifiedStatus(){
+    const params = new URLSearchParams(window.location.search);
+    if(params.get("verified") === "1"){
+        alert("Email verified. You're good to go.");
+        window.history.replaceState({}, document.title, "/");
+    }
+}
+window.addEventListener("load", handleVerifiedStatus);
+
+async function resendVerification(){
+    const emailInput = document.getElementById("loginEmail") || document.getElementById("signupEmail") || document.querySelector("input[type='email']");
+    const email = emailInput ? emailInput.value : "";
+    if(!email){
+        alert("Enter your email first.");
+        return;
+    }
+
+    try{
+        const response = await fetch(API_BASE + "/auth/resend-verification", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({email:email})
+        });
+        const data = await response.json().catch(() => ({}));
+        if(!response.ok){ throw new Error(data.detail || data.message || "Could not resend verification email."); }
+        alert(data.message || "Verification email sent.");
+    }catch(error){
+        alert(error.message);
+    }
+}
+
+
 async function submitFeedback(){
     const status = document.getElementById("feedbackStatus");
     if(status){ status.innerText = "Sending feedback..."; }
@@ -2429,6 +2521,7 @@ async function signup(){
 
         localStorage.setItem(AUTH_TOKEN_KEY, data.token);
         currentUser = data.user;
+        updateAdminVisibility(data.user);
         updateAccountUI();
         message.innerText = "Account created.";
         showPage("dashboardPage");
