@@ -1455,6 +1455,18 @@
             .eq-band{ height:150px; background:rgba(15,17,23,0.35); border:1px solid #303750; border-radius:14px; padding:10px 4px; }
         }
 
+    
+        .landing-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-top:18px; }
+        .landing-card{ background:var(--card2); border:1px solid #252b3f; border-radius:18px; padding:18px; }
+        .landing-card h3{ margin:0 0 8px 0; }
+        .landing-card p{ margin:0; color:var(--muted); line-height:1.45; }
+        .pricing-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:16px; }
+        .pricing-card{ background:rgba(15,17,23,0.55); border:1px solid #303750; border-radius:20px; padding:22px; }
+        .pricing-card.featured{ border-color:#6366f1; box-shadow:0 0 0 1px rgba(99,102,241,0.35); }
+        .pricing-card ul{ padding-left:20px; color:var(--muted); line-height:1.7; }
+        .feedback-form textarea,.feedback-form select,.feedback-form input{ width:100%; margin:8px 0 12px 0; padding:12px; border-radius:10px; border:1px solid #303750; background:#0f1117; color:white; }
+        .admin-table{ width:100%; overflow-x:auto; }
+
     </style>
 </head>
 
@@ -1469,6 +1481,9 @@
         <a id="nav-arrangementPage" onclick="showPage('arrangementPage')">Arrangement</a>
         <a id="nav-advancedPage" onclick="showPage('advancedPage')">Advanced</a>
         <a id="nav-dashboardPage" onclick="showPage('dashboardPage'); loadDashboard();">Dashboard</a>
+        <a id="nav-learnPage" onclick="showPage('learnPage')">About</a>
+        <a id="nav-feedbackPage" onclick="showPage('feedbackPage')">Feedback</a>
+        <a id="nav-adminPage" onclick="showPage('adminPage'); loadAdminDashboard();">Admin</a>
         <a id="nav-authPage" onclick="showPage('authPage')">Login</a>
     </div>
 </div>
@@ -1596,7 +1611,7 @@
         <img src="/static/soundlens_logo.png" class="logo">
     </div>
 
-    <p class="muted tagline">Upload a song. Get the answer first, details second.</p>
+    <p class="muted tagline">Upload a song. Get the answer first, details second. <span>@soundlensapp_</span></p>
 
     <div id="analyzeSection" class="card">
         <div class="upload-controls">
@@ -1624,6 +1639,73 @@
         <div id="sectionMarkers" class="marker-list"></div>
     </div>
 </div>
+
+
+<div id="learnPage" class="page">
+    <div class="hero-card">
+        <div class="hero-top">
+            <div>
+                <div class="eyebrow">About SoundLens</div>
+                <h1 class="hero-title">Understand your sound before you release it.</h1>
+                <p class="muted auth-subtext">SoundLens analyzes your beat or song and gives artist match, mix issues, arrangement feedback, and clear next steps.</p>
+            </div>
+            <div class="hero-score-wrap">
+                <div class="hero-status">@soundlensapp_</div>
+                <button onclick="showPage('analyzePage')" style="margin-top:14px">Analyze a Track</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card"><h2>Who needs this?</h2><div class="landing-grid">
+        <div class="landing-card"><h3>Artists</h3><p>Check whether your track is loud enough, clear enough, and close to the sound you are aiming for.</p></div>
+        <div class="landing-card"><h3>Producers</h3><p>Get fast feedback on low end, bounce, brightness, arrangement, and artist-style direction.</p></div>
+        <div class="landing-card"><h3>Engineers</h3><p>Use SoundLens as a second opinion before sending a rough mix, master, or revision.</p></div>
+    </div></div>
+
+    <div class="card"><h2>How does it work?</h2><div class="landing-grid">
+        <div class="landing-card"><h3>1. Upload audio</h3><p>Choose a WAV, MP3, M4A, AAC, FLAC, or OGG file.</p></div>
+        <div class="landing-card"><h3>2. SoundLens analyzes</h3><p>It reads loudness, frequency balance, rhythm, arrangement, and sonic fingerprints.</p></div>
+        <div class="landing-card"><h3>3. Get fixes</h3><p>See the biggest problems first, then artist match and advanced EQ guidance.</p></div>
+    </div></div>
+
+    <div class="card"><h2>Free vs Pro</h2><div class="pricing-grid">
+        <div class="pricing-card"><h3>Free</h3><p class="muted">For testing SoundLens.</p><ul><li>3 uploads per day</li><li>Artist Match</li><li>Mix, master, and arrangement scores</li><li>Basic saved reports</li></ul></div>
+        <div class="pricing-card featured"><h3>SoundLens Pro</h3><p class="muted">For artists and producers using it seriously.</p><ul><li>Unlimited uploads</li><li>Saved report history</li><li>Advanced artist matching</li><li>Suggested EQ guide</li><li>More accurate updates over time</li></ul><button onclick="startStripeCheckout('pro')">Upgrade to Pro</button></div>
+    </div></div>
+
+    <div class="card"><h2>Future features</h2><div class="landing-grid">
+        <div class="landing-card"><h3>Reference Track Mode</h3><p>Compare your upload directly against a specific reference track.</p></div>
+        <div class="landing-card"><h3>Better Stem Intelligence</h3><p>Deeper vocal, 808, drum, and melody balance feedback.</p></div>
+        <div class="landing-card"><h3>Artist Profile Expansion</h3><p>More artists, genres, and underground scenes added over time.</p></div>
+    </div></div>
+</div>
+
+<div id="feedbackPage" class="page">
+    <div class="hero-card"><div class="eyebrow">Feedback</div><h1 class="hero-title">Help improve SoundLens.</h1><p class="muted auth-subtext">Tell us what felt accurate, what felt wrong, and what you want added next.</p></div>
+    <div class="card feedback-form">
+        <h2>Quick Questionnaire</h2>
+        <label class="muted">How useful was SoundLens?</label>
+        <select id="feedbackRating"><option value="5">5 - Very useful</option><option value="4">4 - Useful</option><option value="3">3 - Okay</option><option value="2">2 - Needs work</option><option value="1">1 - Not useful yet</option></select>
+        <label class="muted">How accurate did the artist match feel?</label>
+        <select id="feedbackAccuracy"><option value="Very accurate">Very accurate</option><option value="Mostly accurate">Mostly accurate</option><option value="Mixed">Mixed</option><option value="Not accurate">Not accurate</option></select>
+        <label class="muted">Your email (optional)</label><input id="feedbackEmail" type="email" placeholder="you@example.com">
+        <label class="muted">Feedback</label><textarea id="feedbackMessage" rows="6" placeholder="What should we fix or add?"></textarea>
+        <button onclick="submitFeedback()">Send Feedback</button><p id="feedbackStatus" class="muted"></p>
+    </div>
+</div>
+
+<div id="adminPage" class="page">
+    <div class="hero-card"><div class="eyebrow">Admin</div><h1 class="hero-title">SoundLens Tracking</h1><p class="muted auth-subtext">Private overview of users, uploads, feedback, and site events.</p></div>
+    <div class="grid dashboard-section">
+        <div class="dashboard-stat"><span>Total Users</span><strong id="adminTotalUsers">-</strong></div>
+        <div class="dashboard-stat"><span>Pro Users</span><strong id="adminProUsers">-</strong></div>
+        <div class="dashboard-stat"><span>Uploads Today</span><strong id="adminUploadsToday">-</strong></div>
+        <div class="dashboard-stat"><span>Feedback</span><strong id="adminFeedbackCount">-</strong></div>
+    </div>
+    <div class="card"><h2>Latest Feedback</h2><div id="adminFeedbackList" class="admin-table"><p class="muted">Loading...</p></div></div>
+    <div class="card"><h2>Latest Events</h2><div id="adminEventsList" class="admin-table"><p class="muted">Loading...</p></div></div>
+</div>
+
 
 <div id="results" style="display:block">
 
@@ -1842,6 +1924,9 @@ function showPage(pageId){
     window.scrollTo({ top:0, behavior:"smooth" });
     if(pageId === "advancedPage" && latestEqData){
         setTimeout(() => drawSuggestedEQ(latestEqData), 80);
+    }
+    if(typeof trackClientEvent === "function"){
+        trackClientEvent("page_view", {page:pageId});
     }
 }
 
@@ -2265,6 +2350,68 @@ async function apiJSON(url, options={}){
 
     return data;
 }
+
+
+async function submitFeedback(){
+    const status = document.getElementById("feedbackStatus");
+    if(status){ status.innerText = "Sending feedback..."; }
+    try{
+        const payload = {
+            rating:Number(document.getElementById("feedbackRating").value || 0),
+            accuracy:document.getElementById("feedbackAccuracy").value,
+            email:document.getElementById("feedbackEmail").value,
+            message:document.getElementById("feedbackMessage").value,
+            page:"feedback"
+        };
+        const response = await fetch(API_BASE + "/feedback", {
+            method:"POST",
+            headers:Object.assign({"Content-Type":"application/json"}, authHeaders()),
+            body:JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => ({}));
+        if(!response.ok){ throw new Error(data.detail || "Could not send feedback."); }
+        document.getElementById("feedbackMessage").value = "";
+        if(status){ status.innerText = "Feedback sent. Thank you."; }
+    }catch(error){
+        if(status){ status.innerText = error.message; }
+    }
+}
+
+async function trackClientEvent(event, details={}){
+    try{
+        await fetch(API_BASE + "/track-event", {
+            method:"POST",
+            headers:Object.assign({"Content-Type":"application/json"}, authHeaders()),
+            body:JSON.stringify({event:event, page:getActivePageId(), details:details})
+        });
+    }catch(error){}
+}
+
+function getActivePageId(){
+    const active = document.querySelector(".page.active");
+    return active ? active.id : "unknown";
+}
+
+async function loadAdminDashboard(){
+    const total = document.getElementById("adminTotalUsers");
+    if(!total){ return; }
+    try{
+        const data = await apiJSON("/admin/stats");
+        const stats = data.stats || {};
+        document.getElementById("adminTotalUsers").innerText = stats.total_users ?? "-";
+        document.getElementById("adminProUsers").innerText = stats.pro_users ?? "-";
+        document.getElementById("adminUploadsToday").innerText = stats.uploads_today ?? "-";
+        document.getElementById("adminFeedbackCount").innerText = stats.feedback_count ?? "-";
+        const feedback = data.latest_feedback || [];
+        document.getElementById("adminFeedbackList").innerHTML = feedback.length ? feedback.map(item => `<div class="report-row"><div><strong>${item.email || "Anonymous"}</strong><div class="muted">${item.message || ""}</div></div><div>${item.accuracy || "-"} / ${item.rating || "-"}</div><div class="muted">${String(item.created_at || "").slice(0,10)}</div></div>`).join("") : `<p class="muted">No feedback yet.</p>`;
+        const events = data.latest_events || [];
+        document.getElementById("adminEventsList").innerHTML = events.length ? events.map(item => `<div class="report-row"><div><strong>${item.event || "event"}</strong><div class="muted">${item.user?.email || "Guest"}</div></div><div class="muted">${JSON.stringify(item.details || {})}</div><div class="muted">${String(item.created_at || "").slice(0,10)}</div></div>`).join("") : `<p class="muted">No events yet.</p>`;
+    }catch(error){
+        document.getElementById("adminFeedbackList").innerHTML = `<p class="muted">${error.message}</p>`;
+        document.getElementById("adminEventsList").innerHTML = `<p class="muted">Admin access requires the owner account.</p>`;
+    }
+}
+
 
 async function signup(){
     const message = document.getElementById("signupMessage");

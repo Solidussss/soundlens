@@ -7,6 +7,8 @@ import os
 import shutil
 import traceback
 import uuid
+import smtplib
+from email.message import EmailMessage
 import stripe
 
 from fastapi import FastAPI, UploadFile, File, Header, HTTPException, Request
@@ -44,6 +46,26 @@ USERS_DB_PATH = Path("soundlens_users.json")
 SAVED_REPORTS_DIR = Path("saved_reports")
 SAVED_REPORTS_DIR.mkdir(exist_ok=True)
 
+ADMIN_EVENTS_PATH = Path("soundlens_admin_events.json")
+FEEDBACK_PATH = Path("soundlens_feedback.json")
+
+SOUNDLENS_NOTIFY_EMAIL = os.getenv("SOUNDLENS_NOTIFY_EMAIL", "soundlensmail@gmail.com")
+SOUNDLENS_ADMIN_EMAILS = {
+    email.strip().lower()
+    for email in os.getenv(
+        "SOUNDLENS_ADMIN_EMAILS",
+        "soundlensmail@gmail.com,jaydenflynn9@gmail.com"
+    ).split(",")
+    if email.strip()
+}
+
+SMTP_HOST = os.getenv("SMTP_HOST", "")
+SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+SMTP_USERNAME = os.getenv("SMTP_USERNAME", "")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL", SMTP_USERNAME or SOUNDLENS_NOTIFY_EMAIL)
+
+
 FREE_DAILY_UPLOAD_LIMIT = int(os.getenv("SOUNDLENS_FREE_DAILY_UPLOAD_LIMIT", "3"))
 PRO_PRICE_CAD = os.getenv("SOUNDLENS_PRO_PRICE_CAD", "7.99")
 
@@ -67,12 +89,103 @@ class AuthPayload(BaseModel):
     display_name: str | None = None
 
 
+class FeedbackPayload(BaseModel):
+    rating: int | None = None
+    accuracy: str | None = None
+    message: str
+    email: str | None = None
+    report_id: str | None = None
+    page: str | None = None
+
+
+class EventPayload(BaseModel):
+    event: str
+    page: str | None = None
+    details: dict | None = None
+
+
+
 def utc_today() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def read_json_file(path: Path, fallback):
+    if not path.exists():
+        return fallback
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return fallback
+
+
+def write_json_file(path: Path, data) -> None:
+    path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+
+def append_json_list(path: Path, item: dict) -> None:
+    data = read_json_file(path, [])
+    if not isinstance(data, list):
+        data = []
+    data.append(item)
+    write_json_file(path, data)
+
+
+def track_event(event_type: str, user: dict | None = None, details: dict | None = None) -> None:
+    details = details or {}
+    safe_user = None
+    if user:
+        safe_user = {
+            "id": user.get("id"),
+            "email": user.get("email"),
+            "display_name": user.get("display_name"),
+            "plan": user.get("plan", "free"),
+        }
+
+    append_json_list(ADMIN_EVENTS_PATH, {
+        "id": str(uuid.uuid4()),
+        "created_at": now_iso(),
+        "event": event_type,
+        "user": safe_user,
+        "details": details,
+    })
+
+
+def send_notification_email(subject: str, body: str) -> bool:
+    if not SMTP_HOST or not SMTP_USERNAME or not SMTP_PASSWORD or not SOUNDLENS_NOTIFY_EMAIL:
+        return False
+
+    try:
+        msg = EmailMessage()
+        msg["Subject"] = subject
+        msg["From"] = SMTP_FROM_EMAIL
+        msg["To"] = SOUNDLENS_NOTIFY_EMAIL
+        msg.set_content(body)
+
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=12) as server:
+            server.starttls()
+            server.login(SMTP_USERNAME, SMTP_PASSWORD)
+            server.send_message(msg)
+
+        return True
+    except Exception as error:
+        track_event("email_failed", None, {"subject": subject, "error": str(error)})
+        return False
+
+
+def is_admin_user(user: dict) -> bool:
+    return normalize_email(user.get("email")) in SOUNDLENS_ADMIN_EMAILS
+
+
+def get_admin_user(authorization: str | None) -> tuple[dict, dict]:
+    db, user = get_current_user(authorization)
+    if not is_admin_user(user):
+        raise HTTPException(status_code=403, detail="Admin access only.")
+    return db, user
+
 
 
 def load_users_db() -> dict:
@@ -456,6 +569,110 @@ def stripe_success():
 @app.get("/stripe/cancel")
 def stripe_cancel():
     return RedirectResponse(url="/?checkout=cancelled")
+
+
+
+@app.post("/feedback")
+async def submit_feedback(payload: FeedbackPayload, authorization: str | None = Header(default=None)):
+    user = None
+    try:
+        _, user = get_current_user(authorization)
+    except Exception:
+        user = None
+
+    message = str(payload.message or "").strip()
+    if len(message) < 2:
+        raise HTTPException(status_code=400, detail="Please enter feedback before submitting.")
+
+    item = {
+        "id": str(uuid.uuid4()),
+        "created_at": now_iso(),
+        "rating": payload.rating,
+        "accuracy": payload.accuracy,
+        "message": message,
+        "email": normalize_email(payload.email) if payload.email else (user.get("email") if user else None),
+        "report_id": payload.report_id,
+        "page": payload.page,
+        "user": {
+            "id": user.get("id"),
+            "email": user.get("email"),
+            "display_name": user.get("display_name"),
+            "plan": user.get("plan", "free"),
+        } if user else None,
+    }
+
+    append_json_list(FEEDBACK_PATH, item)
+    track_event("feedback_submitted", user, {"rating": payload.rating, "accuracy": payload.accuracy, "page": payload.page})
+
+    send_notification_email(
+        "New SoundLens feedback",
+        f"New feedback\n\nRating: {payload.rating}\nAccuracy: {payload.accuracy}\nEmail: {item.get('email')}\nPage: {payload.page}\nReport ID: {payload.report_id}\n\nMessage:\n{message}"
+    )
+
+    return {"ok": True, "message": "Feedback sent. Thank you."}
+
+
+@app.post("/track-event")
+async def track_client_event(payload: EventPayload, authorization: str | None = Header(default=None)):
+    user = None
+    try:
+        _, user = get_current_user(authorization)
+    except Exception:
+        user = None
+
+    event_name = str(payload.event or "").strip()[:80]
+    if not event_name:
+        raise HTTPException(status_code=400, detail="Missing event.")
+
+    track_event(event_name, user, {"page": payload.page, "details": payload.details or {}})
+    return {"ok": True}
+
+
+@app.get("/admin/stats")
+async def admin_stats(authorization: str | None = Header(default=None)):
+    db, admin = get_admin_user(authorization)
+
+    users = list((db.get("users") or {}).values())
+    events = read_json_file(ADMIN_EVENTS_PATH, [])
+    feedback = read_json_file(FEEDBACK_PATH, [])
+    if not isinstance(events, list):
+        events = []
+    if not isinstance(feedback, list):
+        feedback = []
+
+    today = utc_today()
+    pro_users = [u for u in users if u.get("plan") in {"pro", "studio"}]
+    uploads_today = 0
+    for u in users:
+        usage = u.get("usage", {}) or {}
+        if usage.get("date") == today:
+            uploads_today += int(usage.get("count", 0) or 0)
+
+    event_counts = {}
+    for event in events:
+        name = event.get("event", "unknown")
+        event_counts[name] = event_counts.get(name, 0) + 1
+
+    latest_users = sorted(users, key=lambda u: u.get("created_at", ""), reverse=True)[:10]
+    latest_feedback = sorted(feedback, key=lambda f: f.get("created_at", ""), reverse=True)[:10]
+    latest_events = sorted(events, key=lambda e: e.get("created_at", ""), reverse=True)[:25]
+
+    return {
+        "ok": True,
+        "admin": public_user(admin),
+        "stats": {
+            "total_users": len(users),
+            "pro_users": len(pro_users),
+            "free_users": max(0, len(users) - len(pro_users)),
+            "uploads_today": uploads_today,
+            "feedback_count": len(feedback),
+            "events_tracked": len(events),
+            "event_counts": event_counts,
+        },
+        "latest_users": [public_user(u) for u in latest_users],
+        "latest_feedback": latest_feedback,
+        "latest_events": latest_events,
+    }
 
 
 @app.get("/")
