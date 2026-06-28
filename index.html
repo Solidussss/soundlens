@@ -2020,7 +2020,6 @@ let timeline = null;
 let latestReport = null;
 let latestEqData = null;
 let currentUser = null;
-        updateAdminVisibility(null);
 let savedReports = [];
 const API_BASE = window.location.origin;
 const AUTH_TOKEN_KEY = "soundlens_auth_token";
@@ -2943,6 +2942,7 @@ async function analyze(){
 
     if(data.user){
         currentUser = data.user;
+        updateAdminVisibility(data.user);
         updateAccountUI();
     }
 
