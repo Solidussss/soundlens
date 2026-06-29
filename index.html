@@ -1557,6 +1557,15 @@
             margin-left:8px;
         }
 
+    
+        .ai-fix-grid-v2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:16px;}
+        .ai-fix-card-v2{background:linear-gradient(135deg,rgba(99,102,241,0.16),rgba(15,17,23,0.78));border:1px solid #343b58;border-radius:20px;padding:20px;}
+        .ai-fix-card-v2 h3{margin:0 0 10px 0;font-size:20px;}
+        .ai-fix-card-v2 p{color:var(--muted);line-height:1.5;margin:8px 0 0 0;}
+        .ai-fix-label{display:inline-flex;padding:5px 9px;border-radius:999px;background:rgba(99,102,241,0.18);color:white;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0.7px;margin-top:12px;}
+        .admin-debug-box{background:rgba(15,17,23,0.55);border:1px solid #303750;border-radius:16px;padding:14px;white-space:pre-wrap;overflow:auto;max-height:340px;color:var(--muted);font-size:12px;}
+        #fixesPage .fix-card,#fixesPage details{display:none;}
+
     </style>
 </head>
 
@@ -1656,6 +1665,14 @@
                 <button onclick="startStripeCheckout('pro')" style="margin-top:14px">Upgrade to Pro</button>
             </div>
         </div>
+    </div>
+
+    
+    <div class="card">
+        <h2>Email / AI Debug</h2>
+        <p class="muted">If feedback emails or AI are not working, click this and send the output/logs.</p>
+        <button onclick="loadAdminDebug()">Load Debug</button>
+        <div id="adminDebugBox" class="admin-debug-box">Click Load Debug.</div>
     </div>
 
     <div class="grid dashboard-section">
@@ -1795,20 +1812,6 @@
     <div class="card"><h2>Latest Feedback</h2><div id="adminFeedbackList" class="admin-table"><p class="muted">Loading...</p></div></div>
     <div class="card"><h2>Latest Events</h2><div id="adminEventsList" class="admin-table"><p class="muted">Loading...</p></div></div>
 </div>
-
-
-
-    <div class="card" id="comparableArtistsCard">
-        <div class="eyebrow">Comparable Artists</div>
-        <h2 style="margin-top:0">Artists SoundLens compares against</h2>
-        <p class="muted">SoundLens checks your audio against these artist profiles.</p>
-        <div class="artist-scroll-box">
-            <div class="artist-pill-list">
-                <span class="artist-name-pill">Cheromani</span><span class="artist-name-pill">Yeat</span><span class="artist-name-pill">Osamason</span><span class="artist-name-pill">Nettspend</span><span class="artist-name-pill">Ken Carson</span><span class="artist-name-pill">Glokk40Spaz</span><span class="artist-name-pill">Destroy Lonely</span><span class="artist-name-pill">Bktherula</span><span class="artist-name-pill">Jane Remover</span><span class="artist-name-pill">Fakemink</span><span class="artist-name-pill">Eskdekid</span><span class="artist-name-pill">Autumn</span><span class="artist-name-pill">Kankan</span><span class="artist-name-pill">Jaydes</span><span class="artist-name-pill">Eem Triplin</span><span class="artist-name-pill">Hardrock</span><span class="artist-name-pill">1oneam</span><span class="artist-name-pill">Lazer Dim 700</span><span class="artist-name-pill">Homixide Gang</span><span class="artist-name-pill">Duwap Kaine</span><span class="artist-name-pill">Fimiguerrero</span><span class="artist-name-pill">Molly Santana</span><span class="artist-name-pill">Sosocamo</span><span class="artist-name-pill">Summrs</span><span class="artist-name-pill">SoFaygo</span><span class="artist-name-pill">Rich Amiri</span><span class="artist-name-pill">Tana</span><span class="artist-name-pill">Prettifun</span><span class="artist-name-pill">Ohsxnta</span><span class="artist-name-pill">Xaviersobased</span><span class="artist-name-pill">Midwxst</span><span class="artist-name-pill">Protect</span><span class="artist-name-pill">Nine Vicious</span><span class="artist-name-pill">UntilJapan</span><span class="artist-name-pill">Feng</span><span class="artist-name-pill">Nino Paid</span><span class="artist-name-pill">Slayr</span><span class="artist-name-pill">Yung Fazo</span><span class="artist-name-pill">Rekover Jet</span><span class="artist-name-pill">Dom Corleo</span><span class="artist-name-pill">Tezzus</span><span class="artist-name-pill">Diamond</span><span class="artist-name-pill">Leo</span><span class="artist-name-pill">Southsidesilhouette</span><span class="artist-name-pill">Izaya Tiji</span><span class="artist-name-pill">Lil Tony</span><span class="artist-name-pill">Iayze (Jace!)</span><span class="artist-name-pill">Thouxanbanfauni</span><span class="artist-name-pill">Unotheactivist</span><span class="artist-name-pill">Bones</span><span class="artist-name-pill">Cochise</span><span class="artist-name-pill">2Slimey</span>
-            </div>
-        </div>
-    </div>
-
 <div id="results" style="display:block">
 
     <div id="overviewPage" class="page">
@@ -1905,6 +1908,16 @@
     </div>
 
     <div id="fixesPage" class="page">
+
+<div class="card ai-review-card" id="aiFixesPageCard">
+    <div class="eyebrow">AI Fixes</div>
+    <h1 style="margin-top:0">SoundLens AI Fixes</h1>
+    <p class="muted">AI explains what is happening, why it matters, what to change, and how to check it after.</p>
+    <div id="aiFixesPageContent" class="ai-fix-grid-v2">
+        <div class="ai-fix-card-v2"><h3>Upload a track first</h3><p>Your AI fixes will appear here after analysis.</p></div>
+    </div>
+</div>
+
 <div class="card">
             <div class="eyebrow">Fixes</div>
             <h2 style="margin-top:0">Highest Impact Fixes</h2><p class="muted">Fix these first to gain the most score improvement.</p>
@@ -2203,6 +2216,31 @@ function escapeHtml(value){
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+}
+
+
+function renderAIFixesPage(report){
+    const box = document.getElementById("aiFixesPageContent");
+    if(!box){ return; }
+    const fixes = Array.isArray(report.ai_fixes) ? report.ai_fixes : [];
+    if(!fixes.length){
+        const review = report.ai_review || {};
+        box.innerHTML = `<div class="ai-fix-card-v2"><h3>${escapeHtml(review.priority_fix || "Priority Fix")}</h3><span class="ai-fix-label">Why it matters</span><p>${escapeHtml(review.mix_advice || "AI fixes were not returned for this run.")}</p><span class="ai-fix-label">How to check</span><p>${escapeHtml(review.release_verdict || "Re-upload after making the main change.")}</p></div>`;
+        return;
+    }
+    box.innerHTML = fixes.map((fix,index)=>`<div class="ai-fix-card-v2"><h3>${index+1}. ${escapeHtml(fix.title || "AI Fix")}</h3><span class="ai-fix-label">Why it matters</span><p>${escapeHtml(fix.why_it_matters || "")}</p><span class="ai-fix-label">What to do</span><p>${escapeHtml(fix.what_to_do || "")}</p><span class="ai-fix-label">How to check</span><p>${escapeHtml(fix.how_to_check || "")}</p></div>`).join("");
+}
+
+async function loadAdminDebug(){
+    const target = document.getElementById("adminDebugBox");
+    if(!target){ return; }
+    target.innerText = "Loading debug info...";
+    try{
+        const data = await apiJSON("/admin/debug");
+        target.innerText = JSON.stringify(data,null,2);
+    }catch(error){
+        target.innerText = error.message;
+    }
 }
 
 function renderAIReview(report){
@@ -2676,6 +2714,7 @@ async function login(){
 
         localStorage.setItem(AUTH_TOKEN_KEY, data.token);
         currentUser = data.user;
+        updateAdminVisibility(data.user);
         updateAccountUI();
         message.innerText = "Logged in.";
         showPage("dashboardPage");
@@ -2707,6 +2746,7 @@ async function loadMe(){
     try{
         const data = await apiJSON("/auth/me");
         currentUser = data.user;
+        updateAdminVisibility(data.user);
     }catch(error){
         localStorage.removeItem(AUTH_TOKEN_KEY);
         currentUser = null;
@@ -2721,6 +2761,7 @@ async function loadDashboard(){
     try{
         const data = await apiJSON("/reports");
         currentUser = data.user;
+        updateAdminVisibility(data.user);
         savedReports = data.reports || [];
         updateAccountUI();
 
@@ -2878,6 +2919,7 @@ async function upgradeDemo(){
     try{
         const data = await apiJSON("/billing/upgrade-demo", {method:"POST"});
         currentUser = data.user;
+        updateAdminVisibility(data.user);
         updateAccountUI();
         await loadDashboard();
         alert("Demo Pro enabled locally. Replace this with Stripe before public launch.");
@@ -2954,6 +2996,7 @@ async function analyze(){
 
     updateOverview(report);
     renderAIReview(report);
+    renderAIFixesPage(report);
     setScore("mixScore", "mixLabel", report.scores.mix);
     setScore("masterScore", "masterLabel", report.scores.master);
     setScore("arrangementScore", "arrangementLabel", report.scores.arrangement);

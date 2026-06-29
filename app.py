@@ -782,6 +782,33 @@ async def admin_stats(authorization: str | None = Header(default=None)):
     }
 
 
+
+@app.get("/admin/debug")
+async def admin_debug(authorization: str | None = Header(default=None)):
+    db, admin = get_admin_user(authorization)
+    events = read_json_file(ADMIN_EVENTS_PATH, [])
+    feedback = read_json_file(FEEDBACK_PATH, [])
+    return {
+        "ok": True,
+        "admin": public_user(admin),
+        "email_config": {
+            "smtp_host_set": bool(SMTP_HOST),
+            "smtp_port": SMTP_PORT,
+            "smtp_username_set": bool(SMTP_USERNAME),
+            "smtp_password_set": bool(SMTP_PASSWORD),
+            "smtp_from_email": SMTP_FROM_EMAIL,
+            "notify_email": SOUNDLENS_NOTIFY_EMAIL,
+        },
+        "openai_config": {
+            "openai_key_set": bool(os.getenv("OPENAI_API_KEY", "").strip()),
+            "openai_model": os.getenv("OPENAI_MODEL", "gpt-5-nano"),
+            "openai_audio_model": os.getenv("OPENAI_AUDIO_MODEL", ""),
+        },
+        "feedback_count": len(feedback) if isinstance(feedback, list) else 0,
+        "latest_email_errors": [e for e in (events if isinstance(events, list) else []) if e.get("event") == "email_failed"][-10:],
+        "latest_events": (events if isinstance(events, list) else [])[-20:],
+    }
+
 @app.get("/")
 def home():
     return FileResponse("index.html")
@@ -912,7 +939,7 @@ def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str
             }
             report_dict["artist_comparison"] = artist_comparison
 
-        ai_feedback = generate_soundlens_ai_feedback(report_dict)
+        ai_feedback = generate_soundlens_ai_feedback(report_dict, audio_path=str(upload_path))
 
         report_dict["top_problems"] = ai_feedback.get(
             "top_problems",
@@ -930,6 +957,7 @@ def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str
         )
 
         report_dict["ai_review"] = ai_feedback.get("ai_review", {})
+        report_dict["ai_fixes"] = ai_feedback.get("ai_fixes", [])
         report_dict["ai_enabled"] = bool(ai_feedback.get("ai_enabled", False))
         report_dict["ai_model"] = ai_feedback.get("model")
 
