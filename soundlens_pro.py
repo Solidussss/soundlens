@@ -834,26 +834,19 @@ def section_energy(y: np.ndarray, sr: int, start: float, end: float) -> float:
 
 
 def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: RhythmInfo) -> List[ArrangementSection]:
-    """Estimate sections from real waveform energy changes.
+    """Sensitive arrangement detection from waveform energy dips/peaks.
 
-    Old version cut the song into fixed 8-bar/16-second chunks. That looked
-    wrong because it ignored obvious waveform dips and peaks.
-
-    This version:
-    - builds an RMS energy curve
-    - smooths it
-    - finds real change points where the song drops or comes back in
-    - snaps section boundaries to those energy-change moments
-    - keeps sections readable, not over-fragmented
+    This version intentionally catches smaller dips. It is designed for the
+    colored waveform UI: section boundaries should appear where the waveform
+    visibly changes, not only at huge drops.
     """
     if duration <= 0:
         return []
 
-    # Use a smaller analysis copy for Railway safety.
     y_arr, arr_sr = memory_safe_audio(y, sr, target_sr=22050, max_seconds=180)
 
-    hop_length = 1024
-    frame_length = 4096
+    hop_length = 512
+    frame_length = 2048
 
     try:
         rms = librosa.feature.rms(
@@ -876,8 +869,6 @@ def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: Rhythm
         ]
 
     times = librosa.frames_to_time(np.arange(len(rms)), sr=arr_sr, hop_length=hop_length)
-
-    # Normalize and smooth RMS so tiny drum hits do not create fake sections.
     rms = np.asarray(rms, dtype=np.float32)
     rms = np.nan_to_num(rms, nan=0.0, posinf=0.0, neginf=0.0)
 
@@ -886,7 +877,8 @@ def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: Rhythm
     else:
         energy = rms
 
-    smooth_seconds = 2.5
+    # Less smoothing than before so smaller waveform dips survive.
+    smooth_seconds = 1.15
     smooth_frames = max(3, int(round(smooth_seconds / max(hop_length / arr_sr, EPSILON))))
     if smooth_frames % 2 == 0:
         smooth_frames += 1
@@ -894,40 +886,59 @@ def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: Rhythm
     kernel = np.ones(smooth_frames, dtype=np.float32) / smooth_frames
     smooth = np.convolve(energy, kernel, mode="same")
 
-    # Energy derivative shows where sections start changing.
+    # Use both slopes and valley points.
     derivative = np.abs(np.diff(smooth, prepend=smooth[0]))
 
-    # Adaptive threshold: strong enough to ignore minor bounce, sensitive enough
-    # to catch hook/verse drops.
-    threshold = max(
-        float(np.percentile(derivative, 88)),
-        float(np.mean(derivative) + np.std(derivative) * 0.65),
-        0.015,
+    # More sensitive threshold than previous version.
+    change_threshold = max(
+        float(np.percentile(derivative, 78)),
+        float(np.mean(derivative) + np.std(derivative) * 0.35),
+        0.006,
     )
 
-    min_section_seconds = max(7.5, min(14.0, rhythm.seconds_per_bar * 3.5))
-    max_section_seconds = max(24.0, rhythm.seconds_per_bar * 10.5)
+    # Catch visible valley dips even if the slope is not massive.
+    valley_threshold = float(np.percentile(smooth, 38))
+
+    # Let short rap sections exist. This should create more colored blocks.
+    min_section_seconds = max(3.8, min(7.0, rhythm.seconds_per_bar * 1.75))
+    max_section_seconds = max(14.0, rhythm.seconds_per_bar * 5.0)
 
     candidate_times: List[float] = []
+    last_added = -999.0
 
-    # First pass: find major energy-change peaks.
-    last_added = 0.0
-    for idx in range(2, len(derivative) - 2):
+    for idx in range(3, len(smooth) - 3):
         time = float(times[idx])
 
-        if time < 4.0 or time > duration - 4.0:
+        if time < 2.0 or time > duration - 2.0:
             continue
 
         if time - last_added < min_section_seconds:
             continue
 
-        is_local_peak = derivative[idx] >= derivative[idx - 1] and derivative[idx] >= derivative[idx + 1]
+        is_change_peak = (
+            derivative[idx] >= change_threshold
+            and derivative[idx] >= derivative[idx - 1]
+            and derivative[idx] >= derivative[idx + 1]
+        )
 
-        if derivative[idx] >= threshold and is_local_peak:
-            # Snap the boundary to the closest local energy valley within +/- 2 sec.
-            search_radius = max(2, int(round(2.0 / max(hop_length / arr_sr, EPSILON))))
+        is_energy_valley = (
+            smooth[idx] <= smooth[idx - 1]
+            and smooth[idx] <= smooth[idx + 1]
+            and smooth[idx] <= valley_threshold
+        )
+
+        # Also detect when energy starts a clear new plateau.
+        before = float(np.mean(smooth[max(0, idx - 12):idx]))
+        after = float(np.mean(smooth[idx:min(len(smooth), idx + 12)]))
+        plateau_shift = abs(after - before) >= 0.055
+
+        if is_change_peak or is_energy_valley or plateau_shift:
+            # Snap to nearby dip if possible.
+            search_radius = max(2, int(round(1.4 / max(hop_length / arr_sr, EPSILON))))
             left = max(0, idx - search_radius)
             right = min(len(smooth), idx + search_radius + 1)
+
+            # Prefer valley for boundary. If no real valley, use the change point.
             valley_idx = left + int(np.argmin(smooth[left:right]))
             boundary = float(times[valley_idx])
 
@@ -935,53 +946,63 @@ def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: Rhythm
                 candidate_times.append(boundary)
                 last_added = boundary
 
-    # Second pass: force a boundary when a section gets too long, but still snap
-    # it to the nearest energy change/drop.
+    # Build boundaries, preserving small visible changes.
     boundaries = [0.0]
     for boundary in candidate_times:
-        if boundary - boundaries[-1] >= min_section_seconds:
-            boundaries.append(boundary)
+        if boundary - boundaries[-1] >= min_section_seconds and boundary < duration - 2.0:
+            boundaries.append(float(boundary))
 
-    while duration - boundaries[-1] > max_section_seconds:
-        target = boundaries[-1] + max_section_seconds
-        idx = int(np.argmin(np.abs(times - target)))
-        search_radius = max(4, int(round(4.0 / max(hop_length / arr_sr, EPSILON))))
-        left = max(0, idx - search_radius)
-        right = min(len(smooth), idx + search_radius + 1)
+    # If a segment is too long, force split near the strongest dip/change inside it.
+    changed = True
+    while changed:
+        changed = False
+        rebuilt = [boundaries[0]]
 
-        # Look for the best combination of low energy and high change.
-        local_scores = []
-        for j in range(left, right):
-            change = derivative[j] if j < len(derivative) else 0.0
-            low_energy = 1.0 - smooth[j]
-            local_scores.append((low_energy * 0.65) + (change * 8.0))
+        for start, end in zip(boundaries[:-1], boundaries[1:] + [duration]):
+            if end - start > max_section_seconds:
+                mid_time = start + (end - start) / 2
+                left_time = start + min_section_seconds
+                right_time = end - min_section_seconds
 
-        best_local = left + int(np.argmax(local_scores))
-        forced_boundary = float(times[best_local])
+                mask = (times >= left_time) & (times <= right_time)
+                indices = np.where(mask)[0]
 
-        if forced_boundary <= boundaries[-1] + min_section_seconds:
-            forced_boundary = boundaries[-1] + max_section_seconds
+                if indices.size:
+                    best_idx = indices[0]
+                    best_score = -999.0
 
-        if forced_boundary >= duration - min_section_seconds:
-            break
+                    for idx in indices:
+                        low_energy = 1.0 - float(smooth[idx])
+                        change = float(derivative[idx]) if idx < len(derivative) else 0.0
+                        center_penalty = abs(float(times[idx]) - mid_time) / max(end - start, EPSILON)
+                        score = (low_energy * 0.65) + (change * 10.0) - (center_penalty * 0.15)
 
-        boundaries.append(float(forced_boundary))
+                        if score > best_score:
+                            best_score = score
+                            best_idx = idx
 
-    boundaries.append(duration)
-    boundaries = sorted(set(round(b, 2) for b in boundaries if 0 <= b <= duration))
+                    split = float(times[best_idx])
+                    rebuilt.append(split)
+                    rebuilt.append(end)
+                    changed = True
+                else:
+                    rebuilt.append(end)
+            else:
+                rebuilt.append(end)
 
-    # Remove tiny final/duplicate sections.
+        boundaries = sorted(set(round(b, 2) for b in rebuilt if 0 <= b <= duration))
+
+    if boundaries[-1] < duration:
+        boundaries.append(duration)
+
+    # Clean only ultra tiny pieces; keep short real sections.
     cleaned = [boundaries[0]]
     for boundary in boundaries[1:]:
-        if boundary - cleaned[-1] >= min_section_seconds or abs(boundary - duration) < 0.1:
+        if boundary - cleaned[-1] >= 2.8 or abs(boundary - duration) < 0.1:
             cleaned.append(boundary)
 
     if cleaned[-1] < duration:
         cleaned.append(duration)
-
-    if len(cleaned) >= 3 and cleaned[-1] - cleaned[-2] < 5.0:
-        cleaned[-2] = cleaned[-1]
-        cleaned = cleaned[:-1]
 
     boundaries = cleaned
 
@@ -999,9 +1020,9 @@ def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: Rhythm
         rel_avg = energy_value / avg_energy
         rel_max = energy_value / max_energy
 
-        if rel_avg >= 1.12 or rel_max >= 0.88:
+        if rel_avg >= 1.08 or rel_max >= 0.84:
             energy_label = "High"
-        elif rel_avg <= 0.78 or rel_max <= 0.48:
+        elif rel_avg <= 0.86 or rel_max <= 0.55:
             energy_label = "Low"
         else:
             energy_label = "Medium"
@@ -1012,7 +1033,7 @@ def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: Rhythm
 
         if is_first:
             name = "Intro"
-        elif is_last and (duration - start <= max(28.0, rhythm.seconds_per_bar * 8) or energy_label == "Low"):
+        elif is_last and energy_label == "Low":
             name = "Outro"
         elif energy_label == "High" and prev_label != "High":
             name = "Chorus / Hook"
@@ -1021,9 +1042,9 @@ def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: Rhythm
         elif energy_label == "Low":
             name = "Bridge / Breakdown"
         else:
-            # Alternate verse/hook when energy is medium but still a real boundary.
-            medium_count = sum(1 for section in sections if section.name == "Verse")
-            name = "Verse" if medium_count % 2 == 0 else "Chorus / Hook"
+            # Medium sections are still real waveform sections.
+            medium_sections = sum(1 for section in sections if section.name in {"Verse", "Chorus / Hook"})
+            name = "Verse" if medium_sections % 2 == 0 else "Chorus / Hook"
 
         sections.append(
             ArrangementSection(
