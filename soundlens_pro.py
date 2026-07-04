@@ -834,11 +834,15 @@ def section_energy(y: np.ndarray, sr: int, start: float, end: float) -> float:
 
 
 def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: RhythmInfo) -> List[ArrangementSection]:
-    """Sensitive arrangement detection from waveform energy dips/peaks.
+    """Musical arrangement detection.
 
-    This version intentionally catches smaller dips. It is designed for the
-    colored waveform UI: section boundaries should appear where the waveform
-    visibly changes, not only at huge drops.
+    Goal:
+    - not fixed 16-second chunks
+    - not every tiny waveform dip
+    - normal song sections: intro, hook/chorus, verse, hook, verse/bridge, outro
+    - boundaries snap near real low-energy transition points
+
+    This is an estimate, but it should behave more like song structure.
     """
     if duration <= 0:
         return []
@@ -877,134 +881,133 @@ def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: Rhythm
     else:
         energy = rms
 
-    # Less smoothing than before so smaller waveform dips survive.
-    smooth_seconds = 1.15
-    smooth_frames = max(3, int(round(smooth_seconds / max(hop_length / arr_sr, EPSILON))))
+    # Smooth enough to ignore drum flickers, but still catch actual section changes.
+    smooth_seconds = 2.0
+    smooth_frames = max(5, int(round(smooth_seconds / max(hop_length / arr_sr, EPSILON))))
     if smooth_frames % 2 == 0:
         smooth_frames += 1
 
     kernel = np.ones(smooth_frames, dtype=np.float32) / smooth_frames
     smooth = np.convolve(energy, kernel, mode="same")
-
-    # Use both slopes and valley points.
     derivative = np.abs(np.diff(smooth, prepend=smooth[0]))
 
-    # More sensitive threshold than previous version.
+    # Musical section length constraints.
+    # Most rap sections are around 8/16 bars. At 140 BPM:
+    # 8 bars ~13.7 sec, 16 bars ~27.4 sec.
+    bar_seconds = max(float(rhythm.seconds_per_bar), 1.5)
+    min_section_seconds = max(8.0, min(12.0, bar_seconds * 4.0))
+    preferred_section_seconds = max(14.0, min(28.0, bar_seconds * 8.0))
+    max_section_seconds = max(24.0, min(46.0, bar_seconds * 16.0))
+
+    # For very short songs, keep it slightly tighter.
+    if duration < 120:
+        max_section_seconds = min(max_section_seconds, 34.0)
+
+    # Candidate transition points: low valleys with meaningful before/after change.
+    candidates: List[Tuple[float, float]] = []
+
+    valley_threshold = float(np.percentile(smooth, 42))
     change_threshold = max(
-        float(np.percentile(derivative, 78)),
-        float(np.mean(derivative) + np.std(derivative) * 0.35),
-        0.006,
+        float(np.percentile(derivative, 82)),
+        float(np.mean(derivative) + np.std(derivative) * 0.45),
+        0.008,
     )
 
-    # Catch visible valley dips even if the slope is not massive.
-    valley_threshold = float(np.percentile(smooth, 38))
+    look_seconds = 5.0
+    look_frames = max(4, int(round(look_seconds / max(hop_length / arr_sr, EPSILON))))
 
-    # Let short rap sections exist. This should create more colored blocks.
-    min_section_seconds = max(3.8, min(7.0, rhythm.seconds_per_bar * 1.75))
-    max_section_seconds = max(14.0, rhythm.seconds_per_bar * 5.0)
-
-    candidate_times: List[float] = []
-    last_added = -999.0
-
-    for idx in range(3, len(smooth) - 3):
+    for idx in range(look_frames, len(smooth) - look_frames):
         time = float(times[idx])
 
-        if time < 2.0 or time > duration - 2.0:
+        if time < 4.0 or time > duration - 4.0:
             continue
 
-        if time - last_added < min_section_seconds:
-            continue
+        left_avg = float(np.mean(smooth[idx - look_frames:idx]))
+        right_avg = float(np.mean(smooth[idx:idx + look_frames]))
+        shift = abs(right_avg - left_avg)
 
-        is_change_peak = (
-            derivative[idx] >= change_threshold
-            and derivative[idx] >= derivative[idx - 1]
-            and derivative[idx] >= derivative[idx + 1]
-        )
+        is_valley = smooth[idx] <= smooth[idx - 1] and smooth[idx] <= smooth[idx + 1]
+        is_low_enough = smooth[idx] <= valley_threshold
+        is_change = derivative[idx] >= change_threshold
+        meaningful_shift = shift >= 0.055
 
-        is_energy_valley = (
-            smooth[idx] <= smooth[idx - 1]
-            and smooth[idx] <= smooth[idx + 1]
-            and smooth[idx] <= valley_threshold
-        )
+        # Score favors actual valleys and larger structural changes.
+        if (is_valley and meaningful_shift) or (is_low_enough and is_change and meaningful_shift):
+            valley_strength = 1.0 - float(smooth[idx])
+            score = (shift * 3.0) + (valley_strength * 1.2) + (float(derivative[idx]) * 10.0)
+            candidates.append((time, score))
 
-        # Also detect when energy starts a clear new plateau.
-        before = float(np.mean(smooth[max(0, idx - 12):idx]))
-        after = float(np.mean(smooth[idx:min(len(smooth), idx + 12)]))
-        plateau_shift = abs(after - before) >= 0.055
+    candidates.sort(key=lambda item: item[0])
 
-        if is_change_peak or is_energy_valley or plateau_shift:
-            # Snap to nearby dip if possible.
-            search_radius = max(2, int(round(1.4 / max(hop_length / arr_sr, EPSILON))))
-            left = max(0, idx - search_radius)
-            right = min(len(smooth), idx + search_radius + 1)
+    boundaries = [0.0]
 
-            # Prefer valley for boundary. If no real valley, use the change point.
+    # Intro boundary: prefer first meaningful dip/change around 8-18 sec.
+    intro_candidates = [(t, s) for t, s in candidates if 7.0 <= t <= min(22.0, duration * 0.25)]
+    if intro_candidates:
+        intro_boundary = max(intro_candidates, key=lambda item: item[1])[0]
+        boundaries.append(round(float(intro_boundary), 2))
+
+    # Main boundaries: choose strongest transition after each musical section window.
+    while duration - boundaries[-1] > max_section_seconds:
+        last = boundaries[-1]
+        target = last + preferred_section_seconds
+        search_start = last + min_section_seconds
+        search_end = min(last + max_section_seconds, duration - min_section_seconds)
+
+        available = [(t, s) for t, s in candidates if search_start <= t <= search_end]
+
+        if available:
+            # Prefer strong candidates close to preferred section length.
+            def candidate_score(item):
+                t, s = item
+                distance_penalty = abs(t - target) / max(preferred_section_seconds, 1.0)
+                return s - (distance_penalty * 0.55)
+
+            boundary = max(available, key=candidate_score)[0]
+        else:
+            # Fallback: snap near preferred length to the lowest local energy point.
+            target_time = min(target, duration - min_section_seconds)
+            idx = int(np.argmin(np.abs(times - target_time)))
+            radius = max(4, int(round(4.0 / max(hop_length / arr_sr, EPSILON))))
+            left = max(0, idx - radius)
+            right = min(len(smooth), idx + radius + 1)
             valley_idx = left + int(np.argmin(smooth[left:right]))
             boundary = float(times[valley_idx])
 
-            if boundary - last_added >= min_section_seconds:
-                candidate_times.append(boundary)
-                last_added = boundary
+        if boundary <= boundaries[-1] + min_section_seconds:
+            boundary = boundaries[-1] + preferred_section_seconds
 
-    # Build boundaries, preserving small visible changes.
-    boundaries = [0.0]
-    for boundary in candidate_times:
-        if boundary - boundaries[-1] >= min_section_seconds and boundary < duration - 2.0:
-            boundaries.append(float(boundary))
+        if boundary >= duration - min_section_seconds:
+            break
 
-    # If a segment is too long, force split near the strongest dip/change inside it.
-    changed = True
-    while changed:
-        changed = False
-        rebuilt = [boundaries[0]]
+        boundaries.append(round(float(boundary), 2))
 
-        for start, end in zip(boundaries[:-1], boundaries[1:] + [duration]):
-            if end - start > max_section_seconds:
-                mid_time = start + (end - start) / 2
-                left_time = start + min_section_seconds
-                right_time = end - min_section_seconds
+    boundaries.append(duration)
 
-                mask = (times >= left_time) & (times <= right_time)
-                indices = np.where(mask)[0]
-
-                if indices.size:
-                    best_idx = indices[0]
-                    best_score = -999.0
-
-                    for idx in indices:
-                        low_energy = 1.0 - float(smooth[idx])
-                        change = float(derivative[idx]) if idx < len(derivative) else 0.0
-                        center_penalty = abs(float(times[idx]) - mid_time) / max(end - start, EPSILON)
-                        score = (low_energy * 0.65) + (change * 10.0) - (center_penalty * 0.15)
-
-                        if score > best_score:
-                            best_score = score
-                            best_idx = idx
-
-                    split = float(times[best_idx])
-                    rebuilt.append(split)
-                    rebuilt.append(end)
-                    changed = True
-                else:
-                    rebuilt.append(end)
-            else:
-                rebuilt.append(end)
-
-        boundaries = sorted(set(round(b, 2) for b in rebuilt if 0 <= b <= duration))
-
-    if boundaries[-1] < duration:
-        boundaries.append(duration)
-
-    # Clean only ultra tiny pieces; keep short real sections.
+    # Clean boundaries: no duplicate / tiny fragments.
     cleaned = [boundaries[0]]
     for boundary in boundaries[1:]:
-        if boundary - cleaned[-1] >= 2.8 or abs(boundary - duration) < 0.1:
+        if boundary - cleaned[-1] >= min_section_seconds or abs(boundary - duration) < 0.1:
             cleaned.append(boundary)
 
     if cleaned[-1] < duration:
         cleaned.append(duration)
 
+    # If final outro is too tiny, merge it.
+    if len(cleaned) >= 3 and cleaned[-1] - cleaned[-2] < 7.0:
+        cleaned.pop(-2)
+
     boundaries = cleaned
+
+    # Keep total sections reasonable: usually 4-8, rarely more.
+    max_sections = 8 if duration >= 130 else 7
+    while len(boundaries) - 1 > max_sections:
+        # Merge the shortest non-intro section.
+        lengths = [(boundaries[i + 1] - boundaries[i], i) for i in range(1, len(boundaries) - 1)]
+        if not lengths:
+            break
+        _, remove_index = min(lengths, key=lambda item: item[0])
+        boundaries.pop(remove_index)
 
     raw_energies = []
     for start, end in zip(boundaries[:-1], boundaries[1:]):
@@ -1015,36 +1018,50 @@ def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: Rhythm
 
     sections: List[ArrangementSection] = []
 
+    # Name sections in a normal song-structure pattern, but energy still affects
+    # hook/bridge/outro decisions.
+    pattern_names = [
+        "Intro",
+        "Chorus / Hook",
+        "Verse",
+        "Chorus / Hook",
+        "Verse",
+        "Bridge / Breakdown",
+        "Chorus / Hook",
+        "Outro",
+    ]
+
     for idx, (start, end) in enumerate(zip(boundaries[:-1], boundaries[1:])):
         energy_value = raw_energies[idx]
         rel_avg = energy_value / avg_energy
         rel_max = energy_value / max_energy
+        length = end - start
 
-        if rel_avg >= 1.08 or rel_max >= 0.84:
+        if rel_avg >= 1.10 or rel_max >= 0.86:
             energy_label = "High"
-        elif rel_avg <= 0.86 or rel_max <= 0.55:
+        elif rel_avg <= 0.82 or rel_max <= 0.52:
             energy_label = "Low"
         else:
             energy_label = "Medium"
 
         is_first = idx == 0
         is_last = idx == len(boundaries) - 2
-        prev_label = sections[-1].energy_label if sections else None
 
         if is_first:
             name = "Intro"
-        elif is_last and energy_label == "Low":
+        elif is_last and (energy_label == "Low" or length <= 24):
             name = "Outro"
-        elif energy_label == "High" and prev_label != "High":
-            name = "Chorus / Hook"
-        elif energy_label == "High":
-            name = "Hook / Drop"
-        elif energy_label == "Low":
-            name = "Bridge / Breakdown"
+        elif idx < len(pattern_names):
+            name = pattern_names[idx]
         else:
-            # Medium sections are still real waveform sections.
-            medium_sections = sum(1 for section in sections if section.name in {"Verse", "Chorus / Hook"})
-            name = "Verse" if medium_sections % 2 == 0 else "Chorus / Hook"
+            name = "Verse"
+
+        # Energy-based corrections.
+        if not is_first and not is_last:
+            if energy_label == "High" and name not in {"Chorus / Hook", "Hook / Drop"}:
+                name = "Chorus / Hook"
+            elif energy_label == "Low" and length >= 10:
+                name = "Bridge / Breakdown"
 
         sections.append(
             ArrangementSection(
