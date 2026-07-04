@@ -834,64 +834,203 @@ def section_energy(y: np.ndarray, sr: int, start: float, end: float) -> float:
 
 
 def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: RhythmInfo) -> List[ArrangementSection]:
-    seconds_per_bar = rhythm.seconds_per_bar
-    section_length = max(seconds_per_bar * 8, 16.0)
+    """Estimate sections from real waveform energy changes.
 
+    Old version cut the song into fixed 8-bar/16-second chunks. That looked
+    wrong because it ignored obvious waveform dips and peaks.
+
+    This version:
+    - builds an RMS energy curve
+    - smooths it
+    - finds real change points where the song drops or comes back in
+    - snaps section boundaries to those energy-change moments
+    - keeps sections readable, not over-fragmented
+    """
+    if duration <= 0:
+        return []
+
+    # Use a smaller analysis copy for Railway safety.
+    y_arr, arr_sr = memory_safe_audio(y, sr, target_sr=22050, max_seconds=180)
+
+    hop_length = 1024
+    frame_length = 4096
+
+    try:
+        rms = librosa.feature.rms(
+            y=y_arr,
+            frame_length=frame_length,
+            hop_length=hop_length,
+        )[0]
+    except Exception:
+        rms = np.array([], dtype=np.float32)
+
+    if rms.size < 8:
+        return [
+            ArrangementSection(
+                name="Full Track",
+                start=0.0,
+                end=duration,
+                avg_energy=section_energy(y, sr, 0.0, duration),
+                energy_label="Medium",
+            )
+        ]
+
+    times = librosa.frames_to_time(np.arange(len(rms)), sr=arr_sr, hop_length=hop_length)
+
+    # Normalize and smooth RMS so tiny drum hits do not create fake sections.
+    rms = np.asarray(rms, dtype=np.float32)
+    rms = np.nan_to_num(rms, nan=0.0, posinf=0.0, neginf=0.0)
+
+    if float(np.max(rms)) > EPSILON:
+        energy = rms / (float(np.max(rms)) + EPSILON)
+    else:
+        energy = rms
+
+    smooth_seconds = 2.5
+    smooth_frames = max(3, int(round(smooth_seconds / max(hop_length / arr_sr, EPSILON))))
+    if smooth_frames % 2 == 0:
+        smooth_frames += 1
+
+    kernel = np.ones(smooth_frames, dtype=np.float32) / smooth_frames
+    smooth = np.convolve(energy, kernel, mode="same")
+
+    # Energy derivative shows where sections start changing.
+    derivative = np.abs(np.diff(smooth, prepend=smooth[0]))
+
+    # Adaptive threshold: strong enough to ignore minor bounce, sensitive enough
+    # to catch hook/verse drops.
+    threshold = max(
+        float(np.percentile(derivative, 88)),
+        float(np.mean(derivative) + np.std(derivative) * 0.65),
+        0.015,
+    )
+
+    min_section_seconds = max(7.5, min(14.0, rhythm.seconds_per_bar * 3.5))
+    max_section_seconds = max(24.0, rhythm.seconds_per_bar * 10.5)
+
+    candidate_times: List[float] = []
+
+    # First pass: find major energy-change peaks.
+    last_added = 0.0
+    for idx in range(2, len(derivative) - 2):
+        time = float(times[idx])
+
+        if time < 4.0 or time > duration - 4.0:
+            continue
+
+        if time - last_added < min_section_seconds:
+            continue
+
+        is_local_peak = derivative[idx] >= derivative[idx - 1] and derivative[idx] >= derivative[idx + 1]
+
+        if derivative[idx] >= threshold and is_local_peak:
+            # Snap the boundary to the closest local energy valley within +/- 2 sec.
+            search_radius = max(2, int(round(2.0 / max(hop_length / arr_sr, EPSILON))))
+            left = max(0, idx - search_radius)
+            right = min(len(smooth), idx + search_radius + 1)
+            valley_idx = left + int(np.argmin(smooth[left:right]))
+            boundary = float(times[valley_idx])
+
+            if boundary - last_added >= min_section_seconds:
+                candidate_times.append(boundary)
+                last_added = boundary
+
+    # Second pass: force a boundary when a section gets too long, but still snap
+    # it to the nearest energy change/drop.
     boundaries = [0.0]
-    current = section_length
+    for boundary in candidate_times:
+        if boundary - boundaries[-1] >= min_section_seconds:
+            boundaries.append(boundary)
 
-    while current < duration - section_length:
-        boundaries.append(current)
-        current += section_length
+    while duration - boundaries[-1] > max_section_seconds:
+        target = boundaries[-1] + max_section_seconds
+        idx = int(np.argmin(np.abs(times - target)))
+        search_radius = max(4, int(round(4.0 / max(hop_length / arr_sr, EPSILON))))
+        left = max(0, idx - search_radius)
+        right = min(len(smooth), idx + search_radius + 1)
+
+        # Look for the best combination of low energy and high change.
+        local_scores = []
+        for j in range(left, right):
+            change = derivative[j] if j < len(derivative) else 0.0
+            low_energy = 1.0 - smooth[j]
+            local_scores.append((low_energy * 0.65) + (change * 8.0))
+
+        best_local = left + int(np.argmax(local_scores))
+        forced_boundary = float(times[best_local])
+
+        if forced_boundary <= boundaries[-1] + min_section_seconds:
+            forced_boundary = boundaries[-1] + max_section_seconds
+
+        if forced_boundary >= duration - min_section_seconds:
+            break
+
+        boundaries.append(float(forced_boundary))
 
     boundaries.append(duration)
+    boundaries = sorted(set(round(b, 2) for b in boundaries if 0 <= b <= duration))
+
+    # Remove tiny final/duplicate sections.
+    cleaned = [boundaries[0]]
+    for boundary in boundaries[1:]:
+        if boundary - cleaned[-1] >= min_section_seconds or abs(boundary - duration) < 0.1:
+            cleaned.append(boundary)
+
+    if cleaned[-1] < duration:
+        cleaned.append(duration)
+
+    if len(cleaned) >= 3 and cleaned[-1] - cleaned[-2] < 5.0:
+        cleaned[-2] = cleaned[-1]
+        cleaned = cleaned[:-1]
+
+    boundaries = cleaned
+
+    raw_energies = []
+    for start, end in zip(boundaries[:-1], boundaries[1:]):
+        raw_energies.append(section_energy(y, sr, start, end))
+
+    avg_energy = float(np.mean(raw_energies)) + EPSILON
+    max_energy = float(np.max(raw_energies)) + EPSILON
 
     sections: List[ArrangementSection] = []
-    energies = []
-
-    for start, end in zip(boundaries[:-1], boundaries[1:]):
-        energies.append(section_energy(y, sr, start, end))
-
-    avg_energy = float(np.mean(energies)) + EPSILON
 
     for idx, (start, end) in enumerate(zip(boundaries[:-1], boundaries[1:])):
-        energy = energies[idx]
-        ratio = energy / avg_energy
+        energy_value = raw_energies[idx]
+        rel_avg = energy_value / avg_energy
+        rel_max = energy_value / max_energy
 
-        if ratio >= 1.15:
+        if rel_avg >= 1.12 or rel_max >= 0.88:
             energy_label = "High"
-        elif ratio <= 0.85:
+        elif rel_avg <= 0.78 or rel_max <= 0.48:
             energy_label = "Low"
         else:
             energy_label = "Medium"
 
-        last_idx = len(boundaries) - 2
+        is_first = idx == 0
+        is_last = idx == len(boundaries) - 2
+        prev_label = sections[-1].energy_label if sections else None
 
-        if idx == 0:
+        if is_first:
             name = "Intro"
-        elif idx == last_idx:
+        elif is_last and (duration - start <= max(28.0, rhythm.seconds_per_bar * 8) or energy_label == "Low"):
             name = "Outro"
-        elif idx == 1:
+        elif energy_label == "High" and prev_label != "High":
             name = "Chorus / Hook"
-        elif idx == 2:
-            name = "Verse"
-        elif idx == 3:
-            name = "Chorus / Hook"
-        elif idx == 4:
-            name = "Verse"
         elif energy_label == "High":
             name = "Hook / Drop"
         elif energy_label == "Low":
             name = "Bridge / Breakdown"
         else:
-            name = "Verse"
+            # Alternate verse/hook when energy is medium but still a real boundary.
+            medium_count = sum(1 for section in sections if section.name == "Verse")
+            name = "Verse" if medium_count % 2 == 0 else "Chorus / Hook"
 
         sections.append(
             ArrangementSection(
                 name=name,
-                start=start,
-                end=end,
-                avg_energy=energy,
+                start=float(start),
+                end=float(end),
+                avg_energy=float(energy_value),
                 energy_label=energy_label,
             )
         )
