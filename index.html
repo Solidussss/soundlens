@@ -3001,8 +3001,12 @@ async function analyze(){
     setScore("masterScore", "masterLabel", report.scores.master);
     setScore("arrangementScore", "arrangementLabel", report.scores.arrangement);
 
-    document.getElementById("key").innerText = report.basic.key;
-    document.getElementById("bpm").innerText = Math.round(report.basic.bpm);
+    const bpmValue = Number(report.basic.bpm || 0);
+    const keyConfidence = Number(report.basic.key_confidence || 0);
+    document.getElementById("key").innerText = report.basic.key && report.basic.key !== "Uncertain"
+        ? `${report.basic.key}${keyConfidence ? ` (${Math.round(keyConfidence)}% confidence)` : ""}`
+        : "Uncertain";
+    document.getElementById("bpm").innerText = bpmValue > 0 ? Math.round(bpmValue) : "Uncertain";
     document.getElementById("duration").innerText = Math.round(report.basic.duration_seconds) + " sec";
     document.getElementById("sampleRate").innerText = report.basic.sample_rate + " Hz";
 
