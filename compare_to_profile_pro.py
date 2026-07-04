@@ -793,6 +793,290 @@ def style_suggestions_from_components(best: Dict[str, Any]) -> List[str]:
     return suggestions
 
 
+
+
+def vector_weights(length: int) -> List[float]:
+    """Weights matching audio_embedding_vector_from_report order."""
+    weights: List[float] = []
+    # 20 MFCC means/stds = 40 values. Timbre matters most for artist/style.
+    weights.extend([1.75] * min(40, max(length - len(weights), 0)))
+    # 12 chroma means/stds = 24 values. Useful, but keys transpose and can be noisy.
+    weights.extend([0.85] * min(24, max(length - len(weights), 0)))
+    # 7 spectral contrast means/stds = 14 values.
+    weights.extend([1.15] * min(14, max(length - len(weights), 0)))
+    # Extra scalar texture/rhythm/loudness-shape values.
+    weights.extend([1.00] * max(length - len(weights), 0))
+    return weights[:length]
+
+
+def load_track_library(profile_files: List[Path]) -> Tuple[List[Dict[str, Any]], Dict[str, Dict[str, Any]]]:
+    library: List[Dict[str, Any]] = []
+    profiles_by_name: Dict[str, Dict[str, Any]] = {}
+
+    for profile_file in profile_files:
+        try:
+            profile = json.loads(profile_file.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+
+        artist = profile.get("profile_name", profile_file.stem.replace("_profile", ""))
+        profiles_by_name[artist] = profile
+        prototypes = profile.get("track_prototypes") or []
+
+        if not isinstance(prototypes, list):
+            continue
+
+        for proto in prototypes:
+            if not isinstance(proto, dict):
+                continue
+            vector = proto.get("embedding_vector") or []
+            if not isinstance(vector, list) or not vector:
+                continue
+            clean_vector = []
+            for value in vector:
+                number = to_float(value)
+                clean_vector.append(float(number or 0.0))
+            if not any(abs(v) > 1e-9 for v in clean_vector):
+                continue
+
+            library.append({
+                "artist": artist,
+                "title": proto.get("title", "Unknown track"),
+                "vector": clean_vector,
+                "style_fingerprint": proto.get("style_fingerprint", {}) or {},
+                "profile_track_count": int(profile.get("track_count", 0) or 0),
+            })
+
+    return library, profiles_by_name
+
+
+def library_stats(library: List[Dict[str, Any]], dims: int) -> Tuple[List[float], List[float]]:
+    if not library or dims <= 0:
+        return [], []
+
+    means: List[float] = []
+    stdevs: List[float] = []
+
+    for index in range(dims):
+        values = []
+        for item in library:
+            vector = item.get("vector") or []
+            if index < len(vector):
+                values.append(float(vector[index]))
+        if not values:
+            means.append(0.0)
+            stdevs.append(1.0)
+            continue
+        mean = sum(values) / len(values)
+        variance = sum((value - mean) ** 2 for value in values) / max(len(values), 1)
+        stdev = math.sqrt(variance)
+        means.append(mean)
+        stdevs.append(stdev if stdev > 1e-9 else 1.0)
+
+    return means, stdevs
+
+
+def standardized_distance(
+    song_vector: List[float],
+    proto_vector: List[float],
+    means: List[float],
+    stdevs: List[float],
+    weights: List[float],
+) -> Optional[float]:
+    dims = min(len(song_vector), len(proto_vector), len(means), len(stdevs), len(weights))
+    if dims <= 0:
+        return None
+
+    weighted_sum = 0.0
+    total_weight = 0.0
+
+    for index in range(dims):
+        stdev = stdevs[index] if stdevs[index] > 1e-9 else 1.0
+        a = (float(song_vector[index]) - means[index]) / stdev
+        b = (float(proto_vector[index]) - means[index]) / stdev
+        diff = a - b
+        weight = max(0.0, float(weights[index]))
+        weighted_sum += (diff * diff) * weight
+        total_weight += weight
+
+    if total_weight <= 0:
+        return None
+
+    return math.sqrt(weighted_sum / total_weight)
+
+
+def distance_to_similarity(distance: float) -> float:
+    """Convert standardized distance to a public-ish similarity score.
+
+    This is intentionally conservative. A close track can score high, but broad
+    underground similarity should not automatically become 95%.
+    """
+    if not math.isfinite(distance):
+        return 0.0
+    score = 100.0 * math.exp(-((distance / 1.18) ** 2))
+    return max(0.0, min(100.0, score))
+
+
+def style_distance_bonus(report_dict: Dict[str, Any], proto: Dict[str, Any]) -> float:
+    """Small adjustment using style fingerprint, not enough to overpower audio embedding."""
+    style_score = track_style_similarity(report_dict, {
+        "style_fingerprint": proto.get("style_fingerprint", {}) or {}
+    })
+    if style_score is None:
+        return 0.0
+    # Convert 0-100 style score into roughly -6 to +6.
+    return max(-6.0, min(6.0, (float(style_score) - 65.0) / 6.0))
+
+
+def compare_against_track_library(
+    report_dict: Dict[str, Any],
+    profile_files: List[Path],
+    top_n: int,
+) -> Tuple[List[Dict[str, Any]], Dict[str, Dict[str, Any]], List[Dict[str, Any]]]:
+    """Artist match v2: nearest songs first, then artist voting.
+
+    Old system compared one upload to one averaged artist profile. That loses
+    too much detail because one artist can have many different sounds. This
+    searches every saved track prototype first, then rolls the closest tracks
+    up into artists.
+    """
+    library, profiles_by_name = load_track_library(profile_files)
+    if not library:
+        return [], profiles_by_name, []
+
+    song_vector = audio_embedding_vector_from_report(report_dict)
+    if not song_vector or not any(abs(v) > 1e-9 for v in song_vector):
+        return [], profiles_by_name, []
+
+    dims = min(len(song_vector), min(len(item["vector"]) for item in library))
+    song_vector = song_vector[:dims]
+    means, stdevs = library_stats(library, dims)
+    weights = vector_weights(dims)
+
+    nearest: List[Dict[str, Any]] = []
+
+    for item in library:
+        proto_vector = (item.get("vector") or [])[:dims]
+        distance = standardized_distance(song_vector, proto_vector, means, stdevs, weights)
+        if distance is None:
+            continue
+        similarity = distance_to_similarity(distance)
+        similarity = max(0.0, min(100.0, similarity + style_distance_bonus(report_dict, item)))
+        nearest.append({
+            "artist": item.get("artist"),
+            "title": item.get("title"),
+            "distance": round(float(distance), 4),
+            "score": round(float(similarity), 2),
+        })
+
+    nearest.sort(key=lambda item: (float(item.get("score") or 0), -float(item.get("distance") or 999)), reverse=True)
+
+    # Use enough neighbors for stability, but not so many that the whole scene blends together.
+    vote_pool = nearest[:35]
+    artist_votes: Dict[str, Dict[str, Any]] = {}
+
+    for rank, track in enumerate(vote_pool, start=1):
+        artist = str(track.get("artist") or "Unknown")
+        score = float(track.get("score") or 0.0)
+        # Steep rank decay: top tracks matter way more than the 30th closest track.
+        rank_weight = 1.0 / (rank ** 0.82)
+        vote = (score / 100.0) * rank_weight
+
+        bucket = artist_votes.setdefault(artist, {
+            "profile_name": artist,
+            "vote": 0.0,
+            "best_track_score": 0.0,
+            "nearest_tracks": [],
+            "top10_count": 0,
+            "top20_count": 0,
+        })
+        bucket["vote"] += vote
+        bucket["best_track_score"] = max(bucket["best_track_score"], score)
+        if rank <= 10:
+            bucket["top10_count"] += 1
+        if rank <= 20:
+            bucket["top20_count"] += 1
+        if len(bucket["nearest_tracks"]) < 5:
+            bucket["nearest_tracks"].append({
+                "title": track.get("title"),
+                "score": round(score, 2),
+                "rank": rank,
+                "distance": track.get("distance"),
+            })
+
+    if not artist_votes:
+        return [], profiles_by_name, nearest[:20]
+
+    total_vote = sum(bucket["vote"] for bucket in artist_votes.values()) or 1.0
+    ranked: List[Dict[str, Any]] = []
+
+    for artist, bucket in artist_votes.items():
+        profile = profiles_by_name.get(artist, {})
+        vote_share = bucket["vote"] / total_vote
+        best_track = float(bucket.get("best_track_score") or 0.0)
+        nearest_tracks = bucket.get("nearest_tracks") or []
+        avg_nearest = sum(float(t.get("score") or 0.0) for t in nearest_tracks[:3]) / max(len(nearest_tracks[:3]), 1)
+        top10_count = int(bucket.get("top10_count") or 0)
+        top20_count = int(bucket.get("top20_count") or 0)
+
+        # Public score is driven by artist vote concentration + close-song quality.
+        # This is not pretending exact identity; it says how strong the style lane is.
+        match_score = (
+            (vote_share * 100.0 * 0.62)
+            + (best_track * 0.20)
+            + (avg_nearest * 0.12)
+            + (min(top10_count, 5) * 1.2)
+            + (min(top20_count, 8) * 0.45)
+        )
+        match_score = max(0.0, min(96.0, match_score))
+
+        ranked.append({
+            "profile_name": artist,
+            "match_score": round(match_score, 2),
+            "match_label": "Pending",
+            "confidence": "Pending",
+            "confidence_percent": 0,
+            "track_count": int(profile.get("track_count", bucket.get("profile_track_count", 0)) or 0),
+            "compared_fields": dims,
+            "score_components": {
+                "library_vote_share": round(vote_share * 100.0, 2),
+                "best_track": round(best_track, 2),
+                "top3_track_avg": round(avg_nearest, 2),
+                "top10_count": top10_count,
+                "top20_count": top20_count,
+                "prototype": round(best_track, 2),
+                "fingerprint": round(avg_nearest, 2),
+                "frequency": None,
+                "overall_metrics": None,
+                "stem": None,
+                "core": None,
+            },
+            "field_scores": [],
+            "nearest_tracks": nearest_tracks,
+        })
+
+    ranked.sort(key=lambda item: float(item.get("match_score") or 0.0), reverse=True)
+
+    # Keep clear separation. If many artists are close, confidence stays low.
+    for index, item in enumerate(ranked):
+        best = float(item.get("match_score") or 0.0)
+        competitor = float(ranked[1]["match_score"] if index == 0 and len(ranked) > 1 else ranked[0]["match_score"])
+        item["confidence"] = confidence_from_gap(
+            best,
+            competitor,
+            int(item.get("compared_fields", 0) or 0),
+            int(item.get("track_count", 0) or 0),
+        )
+        item["confidence_percent"] = confidence_percent(
+            best,
+            competitor,
+            int(item.get("compared_fields", 0) or 0),
+            int(item.get("track_count", 0) or 0),
+        )
+        item["match_label"] = label_for_score(best, item.get("confidence"))
+
+    return ranked[:top_n], profiles_by_name, nearest[:20]
+
 def compare_audio_to_profiles(
     audio_file,
     profiles_folder="artist_profiles",
@@ -822,160 +1106,38 @@ def compare_audio_to_profiles(
             "eq_suggestions": None,
         }
 
-    ranked = []
-
-    for profile_file in profile_files:
-        try:
-            profile = json.loads(profile_file.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-
-        field_scores = []
-        total_weight = 0.0
-        weighted_sum = 0.0
-
-        compare_fields = profile.get("website_compare_fields") or list(COMPARE_FIELDS.keys())
-
-        for field in compare_fields:
-            if field not in COMPARE_FIELDS:
-                continue
-
-            value = to_float(get_nested(report_dict, COMPARE_FIELDS[field]))
-            avg, stdev = summary_avg_stdev(profile, field)
-
-            if field == "bpm" and value is not None:
-                value = normalize_bpm_for_style(value)
-
-            if value is None or avg is None:
-                continue
-
-            field_score = score_against_profile(value, avg, stdev)
-            weight = FIELD_WEIGHTS.get(field, 1.0)
-
-            weighted_sum += field_score * weight
-            total_weight += weight
-
-            field_scores.append({
-                "field": field,
-                "score": round(field_score, 2),
-                "value": round(value, 4),
-                "profile_avg": round(avg, 4),
-            })
-
-        metric_score = round(weighted_sum / total_weight, 2) if total_weight else None
-        freq_score = frequency_shape_score(report_dict, profile)
-        fp_score = fingerprint_score(report_dict, profile)
-        proto_score, nearest_tracks = profile_prototype_score(report_dict, profile)
-        stem_score = stem_component_score(field_scores)
-        core_score = core_metric_score(field_scores)
-
-        weighted_components = []
-
-        # Track-level prototype score is the strongest Artist Match signal.
-        # It compares the upload to each song inside an artist profile instead
-        # of only comparing against the artist average.
-        if proto_score is not None:
-            weighted_components.append((proto_score, 0.35))
-        if fp_score is not None:
-            weighted_components.append((fp_score, 0.25))
-        if freq_score is not None:
-            weighted_components.append((freq_score, 0.18))
-        if metric_score is not None:
-            weighted_components.append((metric_score, 0.12))
-        if stem_score is not None:
-            weighted_components.append((stem_score, 0.10))
-
-        if weighted_components:
-            match_score = sum(score * weight for score, weight in weighted_components) / sum(
-                weight for _, weight in weighted_components
-            )
-        else:
-            match_score = 0.0
-
-        match_score = round(float(match_score or 0), 2)
-
-        ranked.append({
-            "profile_name": profile.get("profile_name", profile_file.stem.replace("_profile", "")),
-            "match_score": match_score,
-            "match_label": "Pending",
-            "confidence": "Pending",
-            "confidence_percent": 0,
-            "track_count": int(profile.get("track_count", 0) or 0),
-            "compared_fields": len(field_scores),
-            "score_components": {
-                "prototype": round(proto_score, 2) if proto_score is not None else None,
-                "overall_metrics": round(metric_score, 2) if metric_score is not None else None,
-                "frequency": round(freq_score, 2) if freq_score is not None else None,
-                "fingerprint": round(fp_score, 2) if fp_score is not None else None,
-                "stem": round(stem_score, 2) if stem_score is not None else None,
-                "core": round(core_score, 2) if core_score is not None else None,
-            },
-            "field_scores": sorted(field_scores, key=lambda item: item["score"])[:8],
-            "nearest_tracks": nearest_tracks,
-        })
-
-    ranked.sort(key=lambda item: float(item.get("match_score") or 0), reverse=True)
-    ranked = calibrate_ranked_match_scores(ranked)
+    # v2 Artist Match: compare against every saved track prototype first, then
+    # vote those closest tracks back up to artists. This preserves much more
+    # information than comparing against one averaged artist profile.
+    ranked, profiles_by_name, global_nearest_tracks = compare_against_track_library(
+        report_dict,
+        profile_files,
+        top_n=top_n,
+    )
 
     if ranked:
-        best_score = float(ranked[0]["match_score"])
-        second_score = float(ranked[1]["match_score"]) if len(ranked) > 1 else 0.0
-
-        for index, item in enumerate(ranked):
-            comparison_score = second_score if index == 0 else best_score
-
-            item["confidence"] = confidence_from_gap(
-                float(item["match_score"]),
-                comparison_score,
-                int(item.get("compared_fields", 0) or 0),
-                int(item.get("track_count", 0) or 0),
-            )
-
-            item["confidence_percent"] = confidence_percent(
-                float(item["match_score"]),
-                comparison_score,
-                int(item.get("compared_fields", 0) or 0),
-                int(item.get("track_count", 0) or 0),
-            )
-
-            item["match_label"] = label_for_score(
-                float(item["match_score"]),
-                item.get("confidence"),
-            )
-
         verdict = (
-            f"Closest style: {ranked[0]['profile_name']} "
+            f"Closest style lane: {ranked[0]['profile_name']} "
             f"({ranked[0]['match_score']:.2f}%). "
             f"Confidence: {ranked[0]['confidence']}."
         )
+        best_profile_data = profiles_by_name.get(ranked[0]["profile_name"])
+        eq_data = eq_suggestions(report_dict, best_profile_data) if best_profile_data else None
+        style_suggestions = style_suggestions_from_components(ranked[0])
     else:
-        verdict = "No usable profiles found."
-
-    best_profile_data = None
-
-    if ranked:
-        best_name = ranked[0]["profile_name"]
-
-        for profile_file in profile_files:
-            try:
-                profile = json.loads(profile_file.read_text(encoding="utf-8"))
-            except Exception:
-                continue
-
-            profile_name = profile.get("profile_name", profile_file.stem.replace("_profile", ""))
-
-            if profile_name == best_name:
-                best_profile_data = profile
-                break
-
-    eq_data = eq_suggestions(report_dict, best_profile_data) if best_profile_data else None
-    style_suggestions = style_suggestions_from_components(ranked[0]) if ranked else []
+        verdict = "No usable track prototypes found. Rebuild profiles from fresh reports."
+        eq_data = None
+        style_suggestions = [
+            "Rebuild artist profiles so each profile includes track_prototypes with embedding_vector values.",
+        ]
 
     result = {
         "verdict": verdict,
         "ranked_profiles": ranked[:top_n],
         "style_suggestions": style_suggestions,
         "eq_suggestions": eq_data,
+        "nearest_tracks_global": global_nearest_tracks,
+        "matching_engine": "track_library_vote_v2",
     }
 
     if include_report:
