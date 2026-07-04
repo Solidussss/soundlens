@@ -262,13 +262,8 @@ def load_audio(audio_file: Path) -> Tuple[np.ndarray, int]:
     return y, sr
 
 
-
 def memory_safe_audio(y: np.ndarray, sr: int, target_sr: int = 22050, max_seconds: int = 120) -> Tuple[np.ndarray, int]:
-    """Downsample and trim analysis-only audio so Railway does not run out of RAM.
-
-    This does not change the original uploaded file. It only creates a smaller
-    copy for expensive calculations like STFT, rhythm, and fingerprints.
-    """
+    """Downsample and trim an analysis-only copy so Railway does not run out of RAM."""
     y_work = y.astype(np.float32)
 
     if sr != target_sr:
@@ -281,7 +276,6 @@ def memory_safe_audio(y: np.ndarray, sr: int, target_sr: int = 22050, max_second
         work_sr = sr
 
     max_samples = int(work_sr * max_seconds)
-
     if len(y_work) > max_samples:
         start = max(0, (len(y_work) // 2) - (max_samples // 2))
         y_work = y_work[start:start + max_samples]
@@ -521,12 +515,7 @@ def analyze_loudness(y: np.ndarray) -> LoudnessInfo:
 
 
 def analyze_frequency(y: np.ndarray, sr: int) -> FrequencyInfo:
-    """Memory-safe frequency analysis.
-
-    Railway was running out of memory because full 48k songs were being pushed
-    through STFT. This uses a smaller analysis copy while keeping the same output
-    shape the rest of SoundLens expects.
-    """
+    """Memory-safe frequency analysis for Railway."""
     y_freq, freq_sr = memory_safe_audio(y, sr, target_sr=22050, max_seconds=120)
 
     n_fft = 2048
@@ -538,14 +527,12 @@ def analyze_frequency(y: np.ndarray, sr: int) -> FrequencyInfo:
     band_raw: Dict[str, float] = {}
     for name, (low, high) in FREQUENCY_BANDS.items():
         mask = (freqs >= low) & (freqs <= high)
-
         if np.any(mask):
             energy = float(np.sum(stft[mask] ** 2))
             band_raw[name] = float(np.log10(energy + 1))
         else:
             band_raw[name] = 0.0
 
-    # Free the largest temporary array immediately.
     del stft
     gc.collect()
 
@@ -555,6 +542,7 @@ def analyze_frequency(y: np.ndarray, sr: int) -> FrequencyInfo:
 
     centroid = librosa.feature.spectral_centroid(y=y_freq, sr=freq_sr, n_fft=n_fft, hop_length=hop_length)[0]
     rolloff = librosa.feature.spectral_rolloff(y=y_freq, sr=freq_sr, n_fft=n_fft, hop_length=hop_length, roll_percent=0.85)[0]
+
     brightness_centroid = float(np.mean(centroid))
     spectral_rolloff = float(np.mean(rolloff))
     brightness = level_label(brightness_centroid, 1800, 3500)
@@ -575,7 +563,7 @@ def analyze_frequency(y: np.ndarray, sr: int) -> FrequencyInfo:
         top_total_percent=top_total,
     )
 
-def analyze_audio_fingerprintdef analyze_audio_fingerprint(y: np.ndarray, sr: int) -> Dict[str, float]:
+def analyze_audio_fingerprint(y: np.ndarray, sr: int) -> Dict[str, float]:
     """
     Stronger SoundLens sonic fingerprint.
 
@@ -817,17 +805,17 @@ def analyze_audio_fingerprintdef analyze_audio_fingerprint(y: np.ndarray, sr: in
 
 def analyze_rhythm(y: np.ndarray, sr: int, duration: float, bpm: float) -> RhythmInfo:
     y_rhythm, rhythm_sr = memory_safe_audio(y, sr, target_sr=22050, max_seconds=120)
+
     onset_times = librosa.onset.onset_detect(y=y_rhythm, sr=rhythm_sr, units="time")
     onset_count = len(onset_times)
 
-    # Scale density to the original duration so long songs are not overcounted
-    # from the trimmed analysis window.
     analyzed_duration = max(len(y_rhythm) / max(rhythm_sr, 1), 1)
     onset_density = onset_count / analyzed_duration
 
     drum_activity = level_label(onset_density, 1.5, 3.0)
     seconds_per_bar = (60 / max(bpm, 1)) * 4
     estimated_bars = int(round(duration / max(seconds_per_bar, EPSILON)))
+
     return RhythmInfo(
         onset_count=onset_count,
         onset_density=onset_density,
@@ -836,8 +824,7 @@ def analyze_rhythm(y: np.ndarray, sr: int, duration: float, bpm: float) -> Rhyth
         seconds_per_bar=seconds_per_bar,
     )
 
-
-def section_energydef section_energy(y: np.ndarray, sr: int, start: float, end: float) -> float:
+def section_energy(y: np.ndarray, sr: int, start: float, end: float) -> float:
     start_sample = int(start * sr)
     end_sample = int(end * sr)
     part = y[start_sample:end_sample]
