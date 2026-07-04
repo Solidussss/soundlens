@@ -22,6 +22,7 @@ Optional direct file run:
 from __future__ import annotations
 
 import argparse
+import gc
 import json
 import math
 import sys
@@ -261,6 +262,34 @@ def load_audio(audio_file: Path) -> Tuple[np.ndarray, int]:
     return y, sr
 
 
+
+def memory_safe_audio(y: np.ndarray, sr: int, target_sr: int = 22050, max_seconds: int = 120) -> Tuple[np.ndarray, int]:
+    """Downsample and trim analysis-only audio so Railway does not run out of RAM.
+
+    This does not change the original uploaded file. It only creates a smaller
+    copy for expensive calculations like STFT, rhythm, and fingerprints.
+    """
+    y_work = y.astype(np.float32)
+
+    if sr != target_sr:
+        try:
+            y_work = librosa.resample(y_work, orig_sr=sr, target_sr=target_sr)
+            work_sr = target_sr
+        except Exception:
+            work_sr = sr
+    else:
+        work_sr = sr
+
+    max_samples = int(work_sr * max_seconds)
+
+    if len(y_work) > max_samples:
+        start = max(0, (len(y_work) // 2) - (max_samples // 2))
+        y_work = y_work[start:start + max_samples]
+
+    y_work = y_work - float(np.mean(y_work))
+    return y_work.astype(np.float32), work_sr
+
+
 def detect_bpm(y: np.ndarray, sr: int) -> float:
     """
     More honest BPM detection.
@@ -492,26 +521,40 @@ def analyze_loudness(y: np.ndarray) -> LoudnessInfo:
 
 
 def analyze_frequency(y: np.ndarray, sr: int) -> FrequencyInfo:
-    stft = np.abs(librosa.stft(y, n_fft=4096, hop_length=1024))
-    freqs = librosa.fft_frequencies(sr=sr, n_fft=4096)
+    """Memory-safe frequency analysis.
+
+    Railway was running out of memory because full 48k songs were being pushed
+    through STFT. This uses a smaller analysis copy while keeping the same output
+    shape the rest of SoundLens expects.
+    """
+    y_freq, freq_sr = memory_safe_audio(y, sr, target_sr=22050, max_seconds=120)
+
+    n_fft = 2048
+    hop_length = 1024
+
+    stft = np.abs(librosa.stft(y_freq, n_fft=n_fft, hop_length=hop_length)).astype(np.float32)
+    freqs = librosa.fft_frequencies(sr=freq_sr, n_fft=n_fft)
 
     band_raw: Dict[str, float] = {}
     for name, (low, high) in FREQUENCY_BANDS.items():
         mask = (freqs >= low) & (freqs <= high)
 
         if np.any(mask):
-            energy = np.sum(stft[mask] ** 2)
+            energy = float(np.sum(stft[mask] ** 2))
             band_raw[name] = float(np.log10(energy + 1))
         else:
             band_raw[name] = 0.0
 
-    # Avoid double-counting vocal range and harsh zone in overall percent totals.
+    # Free the largest temporary array immediately.
+    del stft
+    gc.collect()
+
     primary_names = ["Sub", "Bass / 808", "Mud", "Low Mids", "Mids / Melody", "Highs", "Air"]
     total_primary = sum(band_raw[name] for name in primary_names) + EPSILON
     band_percentages = {name: (value / total_primary) * 100 for name, value in band_raw.items()}
 
-    centroid = librosa.feature.spectral_centroid(y=y, sr=sr)[0]
-    rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr, roll_percent=0.85)[0]
+    centroid = librosa.feature.spectral_centroid(y=y_freq, sr=freq_sr, n_fft=n_fft, hop_length=hop_length)[0]
+    rolloff = librosa.feature.spectral_rolloff(y=y_freq, sr=freq_sr, n_fft=n_fft, hop_length=hop_length, roll_percent=0.85)[0]
     brightness_centroid = float(np.mean(centroid))
     spectral_rolloff = float(np.mean(rolloff))
     brightness = level_label(brightness_centroid, 1800, 3500)
@@ -532,7 +575,7 @@ def analyze_frequency(y: np.ndarray, sr: int) -> FrequencyInfo:
         top_total_percent=top_total,
     )
 
-def analyze_audio_fingerprint(y: np.ndarray, sr: int) -> Dict[str, float]:
+def analyze_audio_fingerprintdef analyze_audio_fingerprint(y: np.ndarray, sr: int) -> Dict[str, float]:
     """
     Stronger SoundLens sonic fingerprint.
 
@@ -773,9 +816,15 @@ def analyze_audio_fingerprint(y: np.ndarray, sr: int) -> Dict[str, float]:
             }
 
 def analyze_rhythm(y: np.ndarray, sr: int, duration: float, bpm: float) -> RhythmInfo:
-    onset_times = librosa.onset.onset_detect(y=y, sr=sr, units="time")
+    y_rhythm, rhythm_sr = memory_safe_audio(y, sr, target_sr=22050, max_seconds=120)
+    onset_times = librosa.onset.onset_detect(y=y_rhythm, sr=rhythm_sr, units="time")
     onset_count = len(onset_times)
-    onset_density = onset_count / max(duration, 1)
+
+    # Scale density to the original duration so long songs are not overcounted
+    # from the trimmed analysis window.
+    analyzed_duration = max(len(y_rhythm) / max(rhythm_sr, 1), 1)
+    onset_density = onset_count / analyzed_duration
+
     drum_activity = level_label(onset_density, 1.5, 3.0)
     seconds_per_bar = (60 / max(bpm, 1)) * 4
     estimated_bars = int(round(duration / max(seconds_per_bar, EPSILON)))
@@ -788,7 +837,7 @@ def analyze_rhythm(y: np.ndarray, sr: int, duration: float, bpm: float) -> Rhyth
     )
 
 
-def section_energy(y: np.ndarray, sr: int, start: float, end: float) -> float:
+def section_energydef section_energy(y: np.ndarray, sr: int, start: float, end: float) -> float:
     start_sample = int(start * sr)
     end_sample = int(end * sr)
     part = y[start_sample:end_sample]
