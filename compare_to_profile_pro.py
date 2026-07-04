@@ -190,31 +190,6 @@ def cosine_similarity(a: List[float], b: List[float]) -> Optional[float]:
     return max(0.0, min(100.0, ((cosine + 1) / 2) * 100))
 
 
-def centered_cosine_similarity(a: List[float], b: List[float]) -> Optional[float]:
-    """
-    Cosine on centered/scaled vectors.
-    This reduces false artist matches caused by one huge MFCC/centroid number dominating the whole vector.
-    """
-    if not a or not b or len(a) != len(b):
-        return None
-    try:
-        av = [float(x) for x in a]
-        bv = [float(x) for x in b]
-    except Exception:
-        return None
-
-    if not any(abs(x) > 1e-9 for x in av) or not any(abs(x) > 1e-9 for x in bv):
-        return None
-
-    def zscore(values: List[float]) -> List[float]:
-        mean = sum(values) / len(values)
-        variance = sum((x - mean) ** 2 for x in values) / max(len(values), 1)
-        stdev = math.sqrt(variance) or 1.0
-        return [(x - mean) / stdev for x in values]
-
-    return cosine_similarity(zscore(av), zscore(bv))
-
-
 def report_mfcc_vector(report_dict: Dict[str, Any]) -> List[float]:
     fp = report_dict.get("fingerprint", {}) or {}
     vector = []
@@ -341,7 +316,7 @@ def style_fingerprint_score(report_dict: Dict[str, Any], profile: Dict[str, Any]
 
 def fingerprint_score(report_dict: Dict[str, Any], profile: Dict[str, Any]) -> Optional[float]:
     # First try the stronger MFCC/chroma fingerprint.
-    mfcc_score = centered_cosine_similarity(
+    mfcc_score = embedding_similarity(
         report_mfcc_vector(report_dict),
         profile_mfcc_vector(profile),
     )
@@ -362,6 +337,31 @@ def fingerprint_score(report_dict: Dict[str, Any], profile: Dict[str, Any]) -> O
     return None
 
 
+
+
+
+def centered_scaled_vector(values: List[float]) -> List[float]:
+    clean = [float(v) for v in values if v is not None and math.isfinite(float(v))]
+    if not clean:
+        return []
+    mean = sum(clean) / len(clean)
+    variance = sum((v - mean) ** 2 for v in clean) / max(len(clean), 1)
+    stdev = math.sqrt(variance)
+    if stdev <= 1e-9:
+        return [0.0 for _ in values]
+    return [float((float(v) - mean) / stdev) if v is not None and math.isfinite(float(v)) else 0.0 for v in values]
+
+
+def embedding_similarity(a: List[float], b: List[float]) -> Optional[float]:
+    """Shape-based embedding comparison.
+
+    Raw cosine on MFCC/chroma stats can be dominated by scale and can make
+    unrelated artists look close. Centering/scaling both vectors makes the
+    comparison care more about the fingerprint shape.
+    """
+    if not a or not b or len(a) != len(b):
+        return None
+    return cosine_similarity(centered_scaled_vector(a), centered_scaled_vector(b))
 
 
 def audio_embedding_vector_from_report(report_dict: Dict[str, Any]) -> List[float]:
@@ -448,7 +448,7 @@ def profile_prototype_score(report_dict: Dict[str, Any], profile: Dict[str, Any]
             continue
 
         proto_vector = proto.get("embedding_vector") or []
-        embed_score = centered_cosine_similarity(song_vector, proto_vector) if proto_vector else None
+        embed_score = embedding_similarity(song_vector, proto_vector) if proto_vector else None
         style_score = track_style_similarity(report_dict, proto)
 
         parts = []
@@ -475,12 +475,14 @@ def profile_prototype_score(report_dict: Dict[str, Any], profile: Dict[str, Any]
         return None, []
 
     best = nearest[0]["score"]
+    top3 = nearest[:3]
     top5 = nearest[:5]
+    top3_avg = sum(item["score"] for item in top3) / len(top3)
     top5_avg = sum(item["score"] for item in top5) / len(top5)
 
-    # Trust consensus more than one lucky nearest track.
-    # This makes Artist Match less jumpy and reduces false positives.
-    final = (best * 0.45) + (top5_avg * 0.55)
+    # Do not let one random nearest track decide the whole artist match.
+    # A real artist match should have several tracks in that artist profile close to the upload.
+    final = (best * 0.35) + (top3_avg * 0.40) + (top5_avg * 0.25)
 
     return round(float(final), 2), nearest[:5]
 
@@ -792,15 +794,15 @@ def compare_audio_to_profiles(
         # It compares the upload to each song inside an artist profile instead
         # of only comparing against the artist average.
         if proto_score is not None:
-            weighted_components.append((proto_score, 0.38))
+            weighted_components.append((proto_score, 0.35))
         if fp_score is not None:
-            weighted_components.append((fp_score, 0.28))
+            weighted_components.append((fp_score, 0.25))
         if freq_score is not None:
-            weighted_components.append((freq_score, 0.16))
+            weighted_components.append((freq_score, 0.18))
         if metric_score is not None:
-            weighted_components.append((metric_score, 0.10))
+            weighted_components.append((metric_score, 0.12))
         if stem_score is not None:
-            weighted_components.append((stem_score, 0.08))
+            weighted_components.append((stem_score, 0.10))
 
         if weighted_components:
             match_score = sum(score * weight for score, weight in weighted_components) / sum(

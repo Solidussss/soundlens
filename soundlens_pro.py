@@ -263,11 +263,20 @@ def load_audio(audio_file: Path) -> Tuple[np.ndarray, int]:
 
 def detect_bpm(y: np.ndarray, sr: int) -> float:
     """
-    Railway-safe BPM detection.
-    Uses a shorter, downsampled clip so the hosted server does not crash on full songs.
+    More honest BPM detection.
+
+    Old problem: when librosa failed, SoundLens returned 140.0, and the
+    90-115 BPM rule multiplied by 1.5, forcing too many songs toward 135-160.
+
+    This version:
+    - never fake-falls back to 140
+    - checks multiple tempo estimates
+    - keeps 90-115 BPM as valid instead of forcing it upward
+    - returns 0.0 when confidence is too weak, so the UI can say Uncertain
     """
     try:
-        max_seconds = 75
+        max_seconds = 90
+        target_sr = 22050
 
         if len(y) > sr * max_seconds:
             start = max(0, (len(y) // 2) - (sr * max_seconds // 2))
@@ -275,9 +284,7 @@ def detect_bpm(y: np.ndarray, sr: int) -> float:
         else:
             y_bpm = y
 
-        target_sr = 22050
-
-        if sr > target_sr:
+        if sr != target_sr:
             y_bpm = librosa.resample(y_bpm, orig_sr=sr, target_sr=target_sr)
             bpm_sr = target_sr
         else:
@@ -286,62 +293,136 @@ def detect_bpm(y: np.ndarray, sr: int) -> float:
         y_bpm = y_bpm.astype(np.float32)
         y_bpm = y_bpm - float(np.mean(y_bpm))
 
-        onset_env = librosa.onset.onset_strength(y=y_bpm, sr=bpm_sr)
+        # Percussive energy is usually better for rap/trap tempo than the full mix.
+        try:
+            y_percussive = librosa.effects.percussive(y_bpm)
+            if np.max(np.abs(y_percussive)) > 1e-5:
+                y_for_tempo = y_percussive
+            else:
+                y_for_tempo = y_bpm
+        except Exception:
+            y_for_tempo = y_bpm
 
-        tempo = librosa.feature.rhythm.tempo(
-            onset_envelope=onset_env,
-            sr=bpm_sr,
-            aggregate=np.median
+        onset_env = librosa.onset.onset_strength(y=y_for_tempo, sr=bpm_sr)
+        if onset_env.size < 8 or float(np.max(onset_env)) <= EPSILON:
+            return 0.0
+
+        candidates: List[float] = []
+
+        try:
+            tempo_frames = librosa.feature.rhythm.tempo(
+                onset_envelope=onset_env,
+                sr=bpm_sr,
+                aggregate=None,
+            )
+            tempo_frames = np.asarray(tempo_frames, dtype=float)
+            tempo_frames = tempo_frames[np.isfinite(tempo_frames)]
+            if tempo_frames.size:
+                candidates.extend([
+                    float(np.median(tempo_frames)),
+                    float(np.percentile(tempo_frames, 35)),
+                    float(np.percentile(tempo_frames, 65)),
+                ])
+        except Exception:
+            pass
+
+        try:
+            tempo_bt, _ = librosa.beat.beat_track(y=y_for_tempo, sr=bpm_sr, trim=False)
+            if isinstance(tempo_bt, np.ndarray):
+                tempo_bt = float(tempo_bt[0])
+            candidates.append(float(tempo_bt))
+        except Exception:
+            pass
+
+        cleaned: List[float] = []
+        for candidate in candidates:
+            if candidate is None or not np.isfinite(candidate) or candidate <= 0:
+                continue
+
+            # Add half/double alternatives, then choose the most plausible range.
+            for option in [candidate, candidate / 2, candidate * 2]:
+                if 55 <= option <= 190:
+                    while option < 55:
+                        option *= 2
+                    while option > 190:
+                        option /= 2
+                    cleaned.append(float(option))
+
+        if not cleaned:
+            return 0.0
+
+        # Prefer the tempo cluster supported by multiple estimates.
+        rounded = [round(x / 2) * 2 for x in cleaned]
+        clusters = {}
+        for original, bucket in zip(cleaned, rounded):
+            clusters.setdefault(bucket, []).append(original)
+
+        best_bucket, values = max(
+            clusters.items(),
+            key=lambda item: (len(item[1]), -abs(float(np.median(item[1])) - 120)),
         )
+        bpm = float(np.median(values))
 
-        if isinstance(tempo, np.ndarray):
-            bpm = float(tempo[0])
-        else:
-            bpm = float(tempo)
-
+        # If a tempo is still below common rap/trap working tempo, only double
+        # clear half-time values. Do NOT turn 95 into 142.5.
         if bpm < 70:
             bpm *= 2
-        elif 90 <= bpm <= 115:
-            bpm *= 1.5
-        elif 70 <= bpm < 90:
-            bpm *= 2
-        elif bpm > 190:
+        elif bpm > 180:
             bpm /= 2
+
+        if not np.isfinite(bpm) or bpm <= 0:
+            return 0.0
 
         return round(float(bpm), 2)
 
     except Exception:
-        return 140.0
+        return 0.0
 
 
 def detect_key(y: np.ndarray, sr: int) -> Tuple[str, str, str, float]:
     """
-    Railway-safe key detection.
-    Avoids librosa.effects.harmonic()/HPSS because it can crash small containers.
+    More honest key detection.
+
+    Old problem: SoundLens always forced a key even when the chroma evidence was weak.
+    Heavy 808s can dominate pitch detection, so confidence matters.
+
+    This version:
+    - tries harmonic audio first
+    - blends CQT and STFT chroma when possible
+    - returns Uncertain when the top key is not clearly separated
     """
     def chroma_vector(audio: np.ndarray, sample_rate: int) -> np.ndarray:
+        vectors = []
         try:
             chroma = librosa.feature.chroma_cqt(y=audio, sr=sample_rate, bins_per_octave=12)
+            vectors.append(np.mean(chroma, axis=1))
         except Exception:
+            pass
+        try:
             chroma = librosa.feature.chroma_stft(y=audio, sr=sample_rate)
+            vectors.append(np.mean(chroma, axis=1))
+        except Exception:
+            pass
 
-        chroma_mean = np.mean(chroma, axis=1)
-        chroma_mean = np.maximum(chroma_mean - np.median(chroma_mean) * 0.25, 0)
+        if not vectors:
+            return np.zeros(12, dtype=float)
+
+        chroma_mean = np.mean(np.vstack(vectors), axis=0)
+        chroma_mean = np.maximum(chroma_mean - np.median(chroma_mean) * 0.20, 0)
         return chroma_mean / (np.linalg.norm(chroma_mean) + EPSILON)
 
     def key_candidates(chroma_norm: np.ndarray) -> List[Tuple[float, str, str]]:
         major_norm = MAJOR_PROFILE / np.linalg.norm(MAJOR_PROFILE)
         minor_norm = MINOR_PROFILE / np.linalg.norm(MINOR_PROFILE)
         results = []
-
         for i, note in enumerate(NOTES_SHARP):
             results.append((float(np.dot(chroma_norm, np.roll(major_norm, i))), note, "Major"))
             results.append((float(np.dot(chroma_norm, np.roll(minor_norm, i))), note, "Minor"))
-
         return sorted(results, key=lambda x: x[0], reverse=True)
 
     try:
         max_seconds = 75
+        target_sr = 22050
 
         if len(y) > sr * max_seconds:
             start = max(0, (len(y) // 2) - (sr * max_seconds // 2))
@@ -349,9 +430,7 @@ def detect_key(y: np.ndarray, sr: int) -> Tuple[str, str, str, float]:
         else:
             y_key = y
 
-        target_sr = 22050
-
-        if sr > target_sr:
+        if sr != target_sr:
             y_key = librosa.resample(y_key, orig_sr=sr, target_sr=target_sr)
             key_sr = target_sr
         else:
@@ -360,19 +439,37 @@ def detect_key(y: np.ndarray, sr: int) -> Tuple[str, str, str, float]:
         y_key = y_key.astype(np.float32)
         y_key = y_key - float(np.mean(y_key))
 
-        chroma_norm = chroma_vector(y_key, key_sr)
-        ranked = key_candidates(chroma_norm)
+        # Harmonic-only audio reduces drum/808 interference when it works.
+        try:
+            y_harmonic = librosa.effects.harmonic(y_key)
+            if np.max(np.abs(y_harmonic)) > 1e-5:
+                y_for_key = y_harmonic
+            else:
+                y_for_key = y_key
+        except Exception:
+            y_for_key = y_key
 
+        chroma_norm = chroma_vector(y_for_key, key_sr)
+        if not np.any(chroma_norm > 0):
+            return "Uncertain", "Uncertain", "Uncertain", 0.0
+
+        ranked = key_candidates(chroma_norm)
         best_score, best_note, best_mode = ranked[0]
         second_score, _, _ = ranked[1]
+        third_score, _, _ = ranked[2]
 
         gap = best_score - second_score
-        confidence = clamp(42 + (gap * 90), 35, 88)
+        spread = best_score - third_score
+        confidence = clamp(30 + (gap * 150) + (spread * 55), 0, 92)
 
-        return f"{best_note} {best_mode}", best_note, best_mode, confidence
+        # Do not pretend a weak chroma guess is reliable.
+        if confidence < 45 or gap < 0.035:
+            return "Uncertain", "Uncertain", "Uncertain", round(float(confidence), 1)
+
+        return f"{best_note} {best_mode}", best_note, best_mode, round(float(confidence), 1)
 
     except Exception:
-        return "Unknown", "Unknown", "Unknown", 0.0
+        return "Uncertain", "Uncertain", "Uncertain", 0.0
 
 
 def analyze_loudness(y: np.ndarray) -> LoudnessInfo:
