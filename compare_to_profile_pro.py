@@ -582,40 +582,50 @@ def core_metric_score(field_scores: List[Dict[str, Any]]) -> Optional[float]:
 
 
 def label_for_score(score: float, confidence: str | None = None) -> str:
-    if score >= 88 and confidence == "High":
+    """Display label only.
+
+    Do not use old 90% style thresholds anymore. Artist Match V2 scores are
+    intentionally conservative, so a 55-70 result can still be the correct
+    closest style lane when there is a clear gap over the next artist.
+    """
+    score = float(score or 0)
+
+    if score >= 78 and confidence in {"High", "Medium"}:
         return "Strong Match"
-    if score >= 76 and confidence in {"High", "Medium"}:
+    if score >= 64 and confidence in {"High", "Medium"}:
         return "Good Match"
-    if score >= 60:
+    if score >= 48:
         return "Possible Match"
 
     return "Weak Match"
 
 
 def confidence_from_gap(best_score: float, second_score: float, compared_fields: int, track_count: int) -> str:
-    gap = best_score - second_score
+    """Display confidence based on separation.
+
+    V2 scores are conservative. The important signal is not just the absolute
+    percentage; it is whether the #1 artist clearly beats #2.
+    """
+    gap = float(best_score or 0) - float(second_score or 0)
 
     if track_count < 8 or compared_fields < 8:
         return "Low"
 
-    if gap >= 10 and best_score >= 82:
+    if gap >= 18:
         return "High"
 
-    if gap >= 5 and best_score >= 68:
+    if gap >= 8:
         return "Medium"
 
     return "Low"
 
 
 def confidence_percent(best_score: float, second_score: float, compared_fields: int, track_count: int) -> int:
-    gap = max(0.0, best_score - second_score)
-    field_bonus = min(15, compared_fields)
-    track_bonus = min(15, track_count / 3)
+    gap = max(0.0, float(best_score or 0) - float(second_score or 0))
+    field_bonus = min(12, compared_fields / 4)
+    track_bonus = min(10, track_count / 8)
 
-    raw = 35 + gap * 4 + field_bonus + track_bonus
-
-    if best_score < 60:
-        raw -= 15
+    raw = 35 + gap * 2.2 + field_bonus + track_bonus
 
     return int(max(20, min(96, round(raw))))
 
