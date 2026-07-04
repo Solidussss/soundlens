@@ -165,11 +165,21 @@ def summary_avg_stdev(profile: Dict[str, Any], field: str) -> Tuple[Optional[flo
 
 
 def score_against_profile(value: float, avg: float, stdev: Optional[float]) -> float:
+    """Score one metric against an artist profile.
+
+    Older versions were too forgiving: many underground profiles landed in the
+    95-99% range because broad artist averages/stdevs made almost everything
+    look close. This version is intentionally stricter so Artist Match has
+    real separation.
+    """
     if stdev is None or stdev <= 0:
-        stdev = max(abs(avg) * 0.12, 1.0)
+        stdev = max(abs(avg) * 0.08, 0.75)
+
+    # Prevent giant profile variance from making every artist look similar.
+    stdev = max(min(stdev, max(abs(avg) * 0.35, 2.0)), 0.35)
 
     z = abs(value - avg) / stdev
-    score = 100 - (z * 14)
+    score = 100 - (z * 26)
 
     return max(0.0, min(100.0, score))
 
@@ -187,7 +197,13 @@ def cosine_similarity(a: List[float], b: List[float]) -> Optional[float]:
 
     cosine = dot / (norm_a * norm_b)
 
-    return max(0.0, min(100.0, ((cosine + 1) / 2) * 100))
+    # Calibrated for artist matching.
+    # Raw cosine often sits high for many related underground artists, which
+    # made almost every profile look like a 95%+ match. A cosine below ~0.55 is
+    # weak, ~0.75 is possible, ~0.88 is strong, and ~0.96+ is exceptional.
+    score = ((cosine - 0.55) / 0.43) * 100
+
+    return max(0.0, min(100.0, score))
 
 
 def report_mfcc_vector(report_dict: Dict[str, Any]) -> List[float]:
@@ -565,12 +581,12 @@ def core_metric_score(field_scores: List[Dict[str, Any]]) -> Optional[float]:
     return round(sum(core_scores) / len(core_scores), 2)
 
 
-def label_for_score(score: float) -> str:
-    if score >= 85:
+def label_for_score(score: float, confidence: str | None = None) -> str:
+    if score >= 88 and confidence == "High":
         return "Strong Match"
-    if score >= 72:
+    if score >= 76 and confidence in {"High", "Medium"}:
         return "Good Match"
-    if score >= 58:
+    if score >= 60:
         return "Possible Match"
 
     return "Weak Match"
@@ -582,10 +598,10 @@ def confidence_from_gap(best_score: float, second_score: float, compared_fields:
     if track_count < 8 or compared_fields < 8:
         return "Low"
 
-    if gap >= 8 and best_score >= 78:
+    if gap >= 10 and best_score >= 82:
         return "High"
 
-    if gap >= 4 and best_score >= 70:
+    if gap >= 5 and best_score >= 68:
         return "Medium"
 
     return "Low"
@@ -602,6 +618,71 @@ def confidence_percent(best_score: float, second_score: float, compared_fields: 
         raw -= 15
 
     return int(max(20, min(96, round(raw))))
+
+
+
+def clamp_score(value: float, low: float = 0.0, high: float = 100.0) -> float:
+    return max(low, min(high, float(value)))
+
+
+def calibrate_ranked_match_scores(ranked: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Turn raw similarity into believable public Artist Match scores.
+
+    The raw component scores are useful for ranking, but they are not good
+    public percentages because they cluster too tightly. This calibration:
+    - keeps the same ranking,
+    - spreads artists apart,
+    - caps the winner when the gap is tiny,
+    - prevents Low-confidence matches from being labeled 95% Strong Matches.
+    """
+    if not ranked:
+        return ranked
+
+    raw_scores = [float(item.get("match_score") or 0.0) for item in ranked]
+    best_raw = raw_scores[0]
+    second_raw = raw_scores[1] if len(raw_scores) > 1 else 0.0
+    gap = max(0.0, best_raw - second_raw)
+
+    sorted_raw = sorted(raw_scores)
+    median_raw = sorted_raw[len(sorted_raw) // 2]
+
+    previous_public = None
+
+    for index, item in enumerate(ranked):
+        raw = float(item.get("match_score") or 0.0)
+
+        # Quality above the field median matters more than raw 90+ values.
+        public = 58 + ((raw - median_raw) * 2.15)
+
+        # Ranking penalty creates visible separation down the list.
+        public -= index * 3.5
+
+        # Distance from the best artist matters.
+        public -= max(0.0, best_raw - raw) * 1.6
+
+        # If the top two are basically tied, do not pretend the winner is a
+        # 95% confident match.
+        if index == 0:
+            if gap < 1.0:
+                public = min(public, 74)
+            elif gap < 2.5:
+                public = min(public, 80)
+            elif gap < 5.0:
+                public = min(public, 86)
+            else:
+                public = min(public, 94)
+        else:
+            # Keep every lower rank visibly below the previous one.
+            if previous_public is not None:
+                public = min(public, previous_public - 3.0)
+
+        public = clamp_score(public, 18, 96)
+
+        item["raw_match_score"] = round(raw, 2)
+        item["match_score"] = round(public, 2)
+        previous_public = public
+
+    return ranked
 
 
 def eq_gain_from_delta(delta: float) -> float:
@@ -816,7 +897,7 @@ def compare_audio_to_profiles(
         ranked.append({
             "profile_name": profile.get("profile_name", profile_file.stem.replace("_profile", "")),
             "match_score": match_score,
-            "match_label": label_for_score(match_score),
+            "match_label": "Pending",
             "confidence": "Pending",
             "confidence_percent": 0,
             "track_count": int(profile.get("track_count", 0) or 0),
@@ -834,6 +915,7 @@ def compare_audio_to_profiles(
         })
 
     ranked.sort(key=lambda item: float(item.get("match_score") or 0), reverse=True)
+    ranked = calibrate_ranked_match_scores(ranked)
 
     if ranked:
         best_score = float(ranked[0]["match_score"])
@@ -854,6 +936,11 @@ def compare_audio_to_profiles(
                 comparison_score,
                 int(item.get("compared_fields", 0) or 0),
                 int(item.get("track_count", 0) or 0),
+            )
+
+            item["match_label"] = label_for_score(
+                float(item["match_score"]),
+                item.get("confidence"),
             )
 
         verdict = (
