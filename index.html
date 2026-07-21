@@ -3275,7 +3275,7 @@ function renderReports(){
                 const artist = bestArtistFromReport(report);
                 const release = report.release_score ?? "-";
                 const mix = report.mix_score ?? "-";
-                const master = report.master_score ?? "-";
+                const energy = report.energy_score ?? "-";
                 const arrangement = report.arrangement_score ?? "-";
                 const date = report.created_at ? new Date(report.created_at).toLocaleString() : "";
 
