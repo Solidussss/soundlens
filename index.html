@@ -1908,6 +1908,43 @@
             .galaxy-detail span{grid-row:auto;margin-bottom:5px;}
         }
 
+
+        /* Admin page only */
+        #adminPage .admin-hero{background:linear-gradient(135deg,#1a1d29 0%,#202744 58%,#111827 100%);}
+        #adminPage .admin-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px;}
+        #adminPage .admin-toolbar input,#adminPage .admin-form input,#adminPage .admin-form select{
+            padding:12px 14px;border-radius:12px;border:1px solid #303750;background:#0f1117;color:white;min-width:0;
+        }
+        #adminPage .admin-toolbar input{flex:1;min-width:240px;}
+        #adminPage .admin-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:18px;}
+        #adminPage .admin-kpi{background:var(--card2);border:1px solid #252b3f;border-radius:18px;padding:18px;}
+        #adminPage .admin-kpi span{display:block;color:var(--muted);font-size:12px;font-weight:850;margin-bottom:8px;text-transform:uppercase;letter-spacing:.6px;}
+        #adminPage .admin-kpi strong{font-size:30px;}
+        #adminPage .admin-layout{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;align-items:start;}
+        #adminPage .admin-section-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
+        #adminPage .admin-section-head h2{margin:0;}
+        #adminPage .admin-user-list{display:grid;gap:10px;}
+        #adminPage .admin-user-row{display:grid;grid-template-columns:minmax(220px,1.4fr) .55fr .7fr .55fr .55fr auto;gap:12px;align-items:center;background:rgba(15,17,23,.48);border:1px solid #303750;border-radius:15px;padding:14px;}
+        #adminPage .admin-user-email{font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+        #adminPage .admin-user-sub{font-size:12px;color:var(--muted);margin-top:4px;}
+        #adminPage .admin-plan{display:inline-flex;padding:6px 9px;border-radius:999px;background:rgba(99,102,241,.16);font-size:11px;font-weight:900;text-transform:uppercase;}
+        #adminPage .admin-plan.lifetime{background:rgba(34,197,94,.14);color:#86efac;}
+        #adminPage .admin-plan.free{background:rgba(156,163,175,.12);color:#d1d5db;}
+        #adminPage .admin-form{display:grid;gap:10px;}
+        #adminPage .admin-form button{width:100%;}
+        #adminPage .admin-note{font-size:12px;color:var(--muted);line-height:1.45;}
+        #adminPage .admin-status{min-height:20px;margin:8px 0 0;color:var(--muted);}
+        #adminPage .admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+        #adminPage .admin-tab{background:#252b3f;padding:8px 12px;border-radius:999px;font-size:12px;}
+        #adminPage .admin-tab.active{background:var(--purple);}
+        #adminPage .admin-event-list{display:grid;gap:10px;}
+        #adminPage .admin-event{display:grid;grid-template-columns:1fr 1.1fr auto;gap:14px;align-items:center;background:rgba(15,17,23,.48);border:1px solid #303750;border-radius:14px;padding:13px;}
+        #adminPage .admin-event-title{font-weight:900;}
+        #adminPage .admin-event-meta{font-size:12px;color:var(--muted);margin-top:3px;}
+        #adminPage .admin-event-detail{color:var(--muted);font-size:12px;overflow-wrap:anywhere;}
+        #adminPage .admin-empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed #303750;border-radius:14px;}
+        @media(max-width:980px){#adminPage .admin-layout{grid-template-columns:1fr;}#adminPage .admin-user-row{grid-template-columns:1fr 1fr;}#adminPage .admin-user-row>div:first-child{grid-column:1/-1;}#adminPage .admin-event{grid-template-columns:1fr;}}
+
     </style>
 </head>
 
@@ -2140,15 +2177,75 @@
 </div>
 
 <div id="adminPage" class="page">
-    <div class="hero-card"><div class="eyebrow">Admin</div><h1 class="hero-title">SoundLens Tracking</h1><p class="muted auth-subtext">Private overview of users, uploads, feedback, and site events.</p></div>
-    <div class="grid dashboard-section">
-        <div class="dashboard-stat"><span>Total Users</span><strong id="adminTotalUsers">-</strong></div>
-        <div class="dashboard-stat"><span>Pro Users</span><strong id="adminProUsers">-</strong></div>
-        <div class="dashboard-stat"><span>Uploads Today</span><strong id="adminUploadsToday">-</strong></div>
-        <div class="dashboard-stat"><span>Feedback</span><strong id="adminFeedbackCount">-</strong></div>
+    <div class="hero-card admin-hero">
+        <div class="eyebrow">Owner Control Center</div>
+        <h1 class="hero-title">SoundLens Admin</h1>
+        <p class="muted auth-subtext">Users, plans, account activity, feedback, and security events in one private dashboard.</p>
+        <div class="admin-toolbar">
+            <input id="adminUserSearch" type="search" placeholder="Search users by email..." oninput="renderAdminUsers()">
+            <button onclick="loadAdminDashboard()">Refresh</button>
+        </div>
     </div>
-    <div class="card"><h2>Latest Feedback</h2><div id="adminFeedbackList" class="admin-table"><p class="muted">Loading...</p></div></div>
-    <div class="card"><h2>Latest Events</h2><div id="adminEventsList" class="admin-table"><p class="muted">Loading...</p></div></div>
+
+    <div class="admin-kpi-grid">
+        <div class="admin-kpi"><span>Total Users</span><strong id="adminTotalUsers">-</strong></div>
+        <div class="admin-kpi"><span>Free</span><strong id="adminFreeUsers">-</strong></div>
+        <div class="admin-kpi"><span>Pro</span><strong id="adminProUsers">-</strong></div>
+        <div class="admin-kpi"><span>Lifetime</span><strong id="adminLifetimeUsers">-</strong></div>
+        <div class="admin-kpi"><span>Active Today</span><strong id="adminActiveToday">-</strong></div>
+        <div class="admin-kpi"><span>Uploads Today</span><strong id="adminUploadsToday">-</strong></div>
+        <div class="admin-kpi"><span>Saved Reports</span><strong id="adminReportsSaved">-</strong></div>
+        <div class="admin-kpi"><span>Feedback</span><strong id="adminFeedbackCount">-</strong></div>
+    </div>
+
+    <div class="admin-layout">
+        <div>
+            <div class="card">
+                <div class="admin-section-head"><h2>All Users</h2><span id="adminUserCount" class="muted"></span></div>
+                <div id="adminUsersList" class="admin-user-list"><div class="admin-empty">Loading users...</div></div>
+            </div>
+
+            <div class="card">
+                <div class="admin-section-head"><h2>Activity & Security</h2><span class="muted">Newest first</span></div>
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-admin-filter="all" onclick="setAdminEventFilter('all',this)">All</button>
+                    <button class="admin-tab" data-admin-filter="auth" onclick="setAdminEventFilter('auth',this)">Auth</button>
+                    <button class="admin-tab" data-admin-filter="analysis" onclick="setAdminEventFilter('analysis',this)">Uploads</button>
+                    <button class="admin-tab" data-admin-filter="security" onclick="setAdminEventFilter('security',this)">Security</button>
+                </div>
+                <div id="adminEventsList" class="admin-event-list"><div class="admin-empty">Loading events...</div></div>
+            </div>
+        </div>
+
+        <div>
+            <div class="card">
+                <h2>Create Lifetime Account</h2>
+                <p class="admin-note">Creates a verified account with permanent unlimited access. The password is hashed; it is never shown or stored as plain text.</p>
+                <div class="admin-form">
+                    <input id="adminLifetimeEmail" type="email" placeholder="User email">
+                    <input id="adminLifetimePassword" type="password" placeholder="Temporary password (6+ characters)">
+                    <input id="adminLifetimeName" type="text" placeholder="Display name (optional)">
+                    <button onclick="createLifetimeAccount()">Create Lifetime Account</button>
+                </div>
+                <p id="adminLifetimeStatus" class="admin-status"></p>
+            </div>
+
+            <div class="card">
+                <h2>Grant Existing User Lifetime</h2>
+                <p class="admin-note">Enter an existing account email to permanently unlock unlimited access.</p>
+                <div class="admin-form">
+                    <input id="adminGrantEmail" type="email" placeholder="Existing user email">
+                    <button onclick="grantLifetimeAccess()">Grant Lifetime</button>
+                </div>
+                <p id="adminGrantStatus" class="admin-status"></p>
+            </div>
+
+            <div class="card">
+                <h2>Latest Feedback</h2>
+                <div id="adminFeedbackList"><div class="admin-empty">Loading feedback...</div></div>
+            </div>
+        </div>
+    </div>
 </div>
 <div id="results" style="display:block">
 
@@ -3074,26 +3171,118 @@ function getActivePageId(){
     return active ? active.id : "unknown";
 }
 
+let adminDashboardData = null;
+let adminEventFilter = "all";
+
+function adminEscape(value){
+    return String(value ?? "").replace(/[&<>'"]/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char]));
+}
+
+function adminDate(value){
+    if(!value){ return "Never"; }
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? String(value).slice(0,16) : date.toLocaleString();
+}
+
+function adminEventLabel(item){
+    const pageNames = {analyzePage:"Analyze",overviewPage:"Overview",artistPage:"Artist Match",fixesPage:"Galaxy",arrangementPage:"Arrangement",advancedPage:"Advanced",dashboardPage:"Dashboard",learnPage:"About",feedbackPage:"Feedback",adminPage:"Admin",authPage:"Account"};
+    const event = item.event || "event";
+    const page = item.details?.page || item.details?.details?.page;
+    const labels = {signup_success:"Account created",login_success:"Logged in",login_failed:"Failed login",logout:"Logged out",analysis_started:"Started analysis",analysis_completed:"Completed analysis",analysis_failed:"Analysis failed",report_deleted:"Deleted report",email_verified:"Verified email",lifetime_account_created:"Lifetime account created",lifetime_access_granted:"Lifetime access granted",admin_access_denied:"Blocked admin access",feedback_submitted:"Submitted feedback"};
+    if(event === "page_view" && page){ return `Viewed ${pageNames[page] || page}`; }
+    return labels[event] || event.replaceAll("_"," ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function renderAdminUsers(){
+    const box = document.getElementById("adminUsersList");
+    if(!box || !adminDashboardData){ return; }
+    const query = (document.getElementById("adminUserSearch")?.value || "").trim().toLowerCase();
+    const users = (adminDashboardData.users || []).filter(user => !query || String(user.email || "").toLowerCase().includes(query));
+    document.getElementById("adminUserCount").innerText = `${users.length} shown`;
+    box.innerHTML = users.length ? users.map(user => `
+        <div class="admin-user-row">
+            <div><div class="admin-user-email">${adminEscape(user.email)}</div><div class="admin-user-sub">Joined ${adminDate(user.created_at)}</div></div>
+            <div><span class="admin-plan ${adminEscape(user.plan)}">${adminEscape(user.plan)}</span></div>
+            <div><div class="admin-user-sub">Last active</div><strong>${adminEscape(adminDate(user.last_active))}</strong></div>
+            <div><div class="admin-user-sub">Uploads</div><strong>${user.total_uploads ?? 0}</strong></div>
+            <div><div class="admin-user-sub">Reports</div><strong>${user.reports_saved ?? 0}</strong></div>
+            <button class="small-btn" onclick="prefillLifetime('${adminEscape(user.email)}')">Lifetime</button>
+        </div>`).join("") : `<div class="admin-empty">No users match that search.</div>`;
+}
+
+function renderAdminEvents(){
+    const box = document.getElementById("adminEventsList");
+    if(!box || !adminDashboardData){ return; }
+    const security = new Set(["login_failed","admin_access_denied","analysis_failed","email_failed"]);
+    const auth = new Set(["signup_success","login_success","login_failed","logout","email_verified"]);
+    const analysis = new Set(["analysis_started","analysis_completed","analysis_failed","report_deleted"]);
+    const events = (adminDashboardData.latest_events || []).filter(item => adminEventFilter === "all" || (adminEventFilter === "security" ? security.has(item.event) : adminEventFilter === "auth" ? auth.has(item.event) : analysis.has(item.event)));
+    box.innerHTML = events.length ? events.map(item => {
+        const details = item.details || {};
+        const detailText = details.filename || details.email || details.reason || details.page || details.details?.page || "";
+        return `<div class="admin-event"><div><div class="admin-event-title">${adminEscape(adminEventLabel(item))}</div><div class="admin-event-meta">${adminEscape(item.user?.email || details.email || "Guest")}</div></div><div class="admin-event-detail">${adminEscape(detailText)}</div><div class="admin-event-meta">${adminEscape(adminDate(item.created_at))}</div></div>`;
+    }).join("") : `<div class="admin-empty">No events in this category.</div>`;
+}
+
+function setAdminEventFilter(filter, button){
+    adminEventFilter = filter;
+    document.querySelectorAll("#adminPage .admin-tab").forEach(item => item.classList.remove("active"));
+    button?.classList.add("active");
+    renderAdminEvents();
+}
+
+function prefillLifetime(email){
+    const input = document.getElementById("adminGrantEmail");
+    if(input){ input.value = email; input.focus(); }
+}
+
+async function createLifetimeAccount(){
+    const status = document.getElementById("adminLifetimeStatus");
+    status.innerText = "Creating account...";
+    try{
+        const data = await apiJSON("/admin/lifetime-account", {method:"POST",body:JSON.stringify({email:document.getElementById("adminLifetimeEmail").value,password:document.getElementById("adminLifetimePassword").value,display_name:document.getElementById("adminLifetimeName").value})});
+        status.innerText = data.message || "Lifetime account created.";
+        document.getElementById("adminLifetimePassword").value = "";
+        await loadAdminDashboard();
+    }catch(error){ status.innerText = error.message; }
+}
+
+async function grantLifetimeAccess(){
+    const status = document.getElementById("adminGrantStatus");
+    status.innerText = "Updating account...";
+    try{
+        const email = document.getElementById("adminGrantEmail").value;
+        const data = await apiJSON("/admin/grant-lifetime", {method:"POST",body:JSON.stringify({email})});
+        status.innerText = data.message || "Lifetime access granted.";
+        await loadAdminDashboard();
+    }catch(error){ status.innerText = error.message; }
+}
+
 async function loadAdminDashboard(){
     const total = document.getElementById("adminTotalUsers");
     if(!total){ return; }
     try{
         const data = await apiJSON("/admin/stats");
+        adminDashboardData = data;
         const stats = data.stats || {};
         document.getElementById("adminTotalUsers").innerText = stats.total_users ?? "-";
+        document.getElementById("adminFreeUsers").innerText = stats.free_users ?? "-";
         document.getElementById("adminProUsers").innerText = stats.pro_users ?? "-";
+        document.getElementById("adminLifetimeUsers").innerText = stats.lifetime_users ?? "-";
+        document.getElementById("adminActiveToday").innerText = stats.active_today ?? "-";
         document.getElementById("adminUploadsToday").innerText = stats.uploads_today ?? "-";
+        document.getElementById("adminReportsSaved").innerText = stats.reports_saved ?? "-";
         document.getElementById("adminFeedbackCount").innerText = stats.feedback_count ?? "-";
+        renderAdminUsers();
+        renderAdminEvents();
         const feedback = data.latest_feedback || [];
-        document.getElementById("adminFeedbackList").innerHTML = feedback.length ? feedback.map(item => `<div class="report-row"><div><strong>${item.email || "Anonymous"}</strong><div class="muted">${item.message || ""}</div></div><div>${item.accuracy || "-"} / ${item.rating || "-"}</div><div class="muted">${String(item.created_at || "").slice(0,10)}</div></div>`).join("") : `<p class="muted">No feedback yet.</p>`;
-        const events = data.latest_events || [];
-        document.getElementById("adminEventsList").innerHTML = events.length ? events.map(item => `<div class="report-row"><div><strong>${item.event || "event"}</strong><div class="muted">${item.user?.email || "Guest"}</div></div><div class="muted">${JSON.stringify(item.details || {})}</div><div class="muted">${String(item.created_at || "").slice(0,10)}</div></div>`).join("") : `<p class="muted">No events yet.</p>`;
+        document.getElementById("adminFeedbackList").innerHTML = feedback.length ? feedback.map(item => `<div class="admin-event"><div><div class="admin-event-title">${adminEscape(item.email || "Anonymous")}</div><div class="admin-event-meta">${adminEscape(item.accuracy || "No accuracy rating")} · ${adminEscape(item.rating || "-")}/5</div></div><div class="admin-event-detail">${adminEscape(item.message || "")}</div><div class="admin-event-meta">${adminEscape(adminDate(item.created_at))}</div></div>`).join("") : `<div class="admin-empty">No feedback yet.</div>`;
     }catch(error){
-        document.getElementById("adminFeedbackList").innerHTML = `<p class="muted">${error.message}</p>`;
-        document.getElementById("adminEventsList").innerHTML = `<p class="muted">Admin access requires the owner account.</p>`;
+        adminDashboardData = null;
+        document.getElementById("adminUsersList").innerHTML = `<div class="admin-empty">${adminEscape(error.message)}</div>`;
+        document.getElementById("adminEventsList").innerHTML = `<div class="admin-empty">Admin access requires the owner account.</div>`;
     }
 }
-
 
 async function signup(){
     const message = document.getElementById("signupMessage");

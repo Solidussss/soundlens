@@ -106,6 +106,16 @@ class ResendVerificationPayload(BaseModel):
     email: str
 
 
+class AdminLifetimeAccountPayload(BaseModel):
+    email: str
+    password: str
+    display_name: str | None = None
+
+
+class AdminEmailPayload(BaseModel):
+    email: str
+
+
 
 def utc_today() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -280,10 +290,10 @@ def public_user(user: dict) -> dict:
         "email": user.get("email"),
         "display_name": user.get("display_name") or user.get("email"),
         "plan": plan,
-        "is_pro": plan in {"pro", "studio"},
-        "daily_limit": None if plan in {"pro", "studio"} else FREE_DAILY_UPLOAD_LIMIT,
+        "is_pro": plan in {"pro", "studio", "lifetime"},
+        "daily_limit": None if plan in {"pro", "studio", "lifetime"} else FREE_DAILY_UPLOAD_LIMIT,
         "uploads_today": int(usage.get("count", 0) or 0),
-        "uploads_remaining": None if plan in {"pro", "studio"} else max(0, FREE_DAILY_UPLOAD_LIMIT - int(usage.get("count", 0) or 0)),
+        "uploads_remaining": None if plan in {"pro", "studio", "lifetime"} else max(0, FREE_DAILY_UPLOAD_LIMIT - int(usage.get("count", 0) or 0)),
         "created_at": user.get("created_at"),
         "email_verified": bool(user.get("email_verified")),
     }
@@ -320,7 +330,7 @@ def check_and_increment_upload(user: dict) -> None:
         usage["date"] = today
         usage["count"] = 0
 
-    if plan not in {"pro", "studio"} and int(usage.get("count", 0) or 0) >= FREE_DAILY_UPLOAD_LIMIT:
+    if plan not in {"pro", "studio", "lifetime"} and int(usage.get("count", 0) or 0) >= FREE_DAILY_UPLOAD_LIMIT:
         raise HTTPException(
             status_code=429,
             detail=f"Free limit reached. You get {FREE_DAILY_UPLOAD_LIMIT} uploads per day. Upgrade to Pro for unlimited uploads.",
@@ -427,6 +437,7 @@ def signup(payload: AuthPayload):
     db["users"][user_id] = user
     db["tokens"][token] = user_id
     save_users_db(db)
+    track_event("signup_success", user, {"email": email})
 
     return {"token": token, "user": public_user(user)}
 
@@ -438,15 +449,20 @@ def login(payload: AuthPayload):
 
     user = next((u for u in db["users"].values() if normalize_email(u.get("email")) == email), None)
     if not user:
+        track_event("login_failed", None, {"email": email, "reason": "unknown_email"})
         raise HTTPException(status_code=401, detail="Email or password is wrong.")
 
     expected = hash_password(payload.password, user.get("password_salt", ""))
     if expected != user.get("password_hash"):
+        track_event("login_failed", user, {"email": email, "reason": "wrong_password"})
         raise HTTPException(status_code=401, detail="Email or password is wrong.")
 
     token = str(uuid.uuid4())
     db["tokens"][token] = user["id"]
+    user["last_login_at"] = now_iso()
+    user["last_active_at"] = user["last_login_at"]
     save_users_db(db)
+    track_event("login_success", user, {})
 
     return {"token": token, "user": public_user(user)}
 
@@ -464,6 +480,10 @@ def logout(authorization: str | None = Header(default=None)):
     db = load_users_db()
     token = get_bearer_token(authorization)
     if token and token in db.get("tokens", {}):
+        user_id = db["tokens"].get(token)
+        user = db.get("users", {}).get(user_id)
+        if user:
+            track_event("logout", user, {})
         del db["tokens"][token]
         save_users_db(db)
     return {"ok": True}
@@ -519,6 +539,7 @@ def delete_report(report_id: str, authorization: str | None = Header(default=Non
 
     if path.exists():
         path.unlink()
+        track_event("report_deleted", user, {"report_id": report_id})
 
     return {"ok": True}
 
@@ -738,31 +759,49 @@ async def track_client_event(payload: EventPayload, authorization: str | None = 
 @app.get("/admin/stats")
 async def admin_stats(authorization: str | None = Header(default=None)):
     db, admin = get_admin_user(authorization)
-
     users = list((db.get("users") or {}).values())
     events = read_json_file(ADMIN_EVENTS_PATH, [])
     feedback = read_json_file(FEEDBACK_PATH, [])
-    if not isinstance(events, list):
-        events = []
-    if not isinstance(feedback, list):
-        feedback = []
+    if not isinstance(events, list): events = []
+    if not isinstance(feedback, list): feedback = []
 
     today = utc_today()
     pro_users = [u for u in users if u.get("plan") in {"pro", "studio"}]
+    lifetime_users = [u for u in users if u.get("plan") == "lifetime"]
     uploads_today = 0
-    for u in users:
-        usage = u.get("usage", {}) or {}
+    reports_saved = 0
+    active_today_ids = set()
+    last_active_by_id = {}
+
+    for event in events:
+        uid = (event.get("user") or {}).get("id")
+        created = str(event.get("created_at") or "")
+        if uid and created:
+            if created > last_active_by_id.get(uid, ""):
+                last_active_by_id[uid] = created
+            if created.startswith(today):
+                active_today_ids.add(uid)
+
+    user_rows = []
+    for user in users:
+        usage = user.get("usage", {}) or {}
         if usage.get("date") == today:
             uploads_today += int(usage.get("count", 0) or 0)
+        user_dir = SAVED_REPORTS_DIR / str(user.get("id"))
+        report_count = len(list(user_dir.glob("*.json"))) if user_dir.exists() else 0
+        reports_saved += report_count
+        row = public_user(user)
+        row.update({
+            "last_login_at": user.get("last_login_at"),
+            "last_active": last_active_by_id.get(user.get("id")) or user.get("last_active_at") or user.get("last_login_at"),
+            "total_uploads": int(user.get("total_uploads", 0) or 0),
+            "reports_saved": report_count,
+        })
+        user_rows.append(row)
 
-    event_counts = {}
-    for event in events:
-        name = event.get("event", "unknown")
-        event_counts[name] = event_counts.get(name, 0) + 1
-
-    latest_users = sorted(users, key=lambda u: u.get("created_at", ""), reverse=True)[:10]
-    latest_feedback = sorted(feedback, key=lambda f: f.get("created_at", ""), reverse=True)[:10]
-    latest_events = sorted(events, key=lambda e: e.get("created_at", ""), reverse=True)[:25]
+    user_rows.sort(key=lambda u: u.get("last_active") or u.get("created_at") or "", reverse=True)
+    latest_feedback = sorted(feedback, key=lambda f: f.get("created_at", ""), reverse=True)[:20]
+    latest_events = sorted(events, key=lambda e: e.get("created_at", ""), reverse=True)[:100]
 
     return {
         "ok": True,
@@ -770,16 +809,67 @@ async def admin_stats(authorization: str | None = Header(default=None)):
         "stats": {
             "total_users": len(users),
             "pro_users": len(pro_users),
-            "free_users": max(0, len(users) - len(pro_users)),
+            "lifetime_users": len(lifetime_users),
+            "free_users": len([u for u in users if u.get("plan", "free") == "free"]),
+            "active_today": len(active_today_ids),
             "uploads_today": uploads_today,
+            "reports_saved": reports_saved,
             "feedback_count": len(feedback),
             "events_tracked": len(events),
-            "event_counts": event_counts,
         },
-        "latest_users": [public_user(u) for u in latest_users],
+        "users": user_rows,
         "latest_feedback": latest_feedback,
         "latest_events": latest_events,
     }
+
+
+@app.post("/admin/lifetime-account")
+def create_lifetime_account(payload: AdminLifetimeAccountPayload, authorization: str | None = Header(default=None)):
+    db, admin = get_admin_user(authorization)
+    email = normalize_email(payload.email)
+    if not email or "@" not in email:
+        raise HTTPException(status_code=400, detail="Enter a valid email.")
+    if not payload.password or len(payload.password) < 6:
+        raise HTTPException(status_code=400, detail="Temporary password must be at least 6 characters.")
+    if find_user_by_email(db, email):
+        raise HTTPException(status_code=400, detail="That account already exists. Use Grant Existing User Lifetime instead.")
+
+    user_id = str(uuid.uuid4())
+    salt = str(uuid.uuid4())
+    user = {
+        "id": user_id,
+        "email": email,
+        "display_name": payload.display_name or email.split("@")[0],
+        "password_salt": salt,
+        "password_hash": hash_password(payload.password, salt),
+        "plan": "lifetime",
+        "usage": {"date": utc_today(), "count": 0},
+        "total_uploads": 0,
+        "created_at": now_iso(),
+        "email_verified": True,
+        "email_verification_token": None,
+        "email_verified_at": now_iso(),
+        "lifetime_granted_at": now_iso(),
+        "lifetime_granted_by": admin.get("email"),
+    }
+    db["users"][user_id] = user
+    save_users_db(db)
+    track_event("lifetime_account_created", user, {"admin_email": admin.get("email")})
+    return {"ok": True, "message": f"Lifetime account created for {email}.", "user": public_user(user)}
+
+
+@app.post("/admin/grant-lifetime")
+def grant_lifetime(payload: AdminEmailPayload, authorization: str | None = Header(default=None)):
+    db, admin = get_admin_user(authorization)
+    user = find_user_by_email(db, payload.email)
+    if not user:
+        raise HTTPException(status_code=404, detail="Account not found.")
+    user["plan"] = "lifetime"
+    user["lifetime_granted_at"] = now_iso()
+    user["lifetime_granted_by"] = admin.get("email")
+    save_users_db(db)
+    track_event("lifetime_access_granted", user, {"admin_email": admin.get("email")})
+    return {"ok": True, "message": f"Lifetime access granted to {user.get('email')}.", "user": public_user(user)}
 
 
 @app.get("/")
@@ -876,7 +966,10 @@ def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str
     try:
         db, user = get_current_user(authorization)
         check_and_increment_upload(user)
+        user["last_active_at"] = now_iso()
+        user["total_uploads"] = int(user.get("total_uploads", 0) or 0) + 1
         save_users_db(db)
+        track_event("analysis_started", user, {"filename": file.filename})
 
         file_path = save_upload(file)
 
@@ -934,6 +1027,7 @@ def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str
         report_dict["ai_model"] = ai_feedback.get("model")
 
         text_report = render_report(report)
+        track_event("analysis_completed", user, {"filename": file.filename, "release_score": report_dict.get("scores", {}).get("release")})
         saved_report = save_report_for_user(
             user=user,
             report_dict=report_dict,
@@ -957,6 +1051,10 @@ def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str
     except Exception as error:
         print("ANALYZE ERROR:")
         traceback.print_exc()
+        try:
+            track_event("analysis_failed", user if "user" in locals() else None, {"error": str(error), "filename": getattr(file, "filename", None)})
+        except Exception:
+            pass
 
         return {
             "error": str(error),
