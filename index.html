@@ -1792,16 +1792,16 @@
         }
 
         .analysis-progress{
-            width:min(720px,100%);
-            height:34px;
-            margin:10px auto 18px;
+            width:min(560px,100%);
+            height:24px;
+            margin:8px auto 18px;
             display:none;
             position:relative;
             overflow:hidden;
             border-radius:999px;
-            background:#0f1117;
-            border:1px solid #303750;
-            box-shadow:inset 0 1px 5px rgba(0,0,0,0.45);
+            background:#121522;
+            border:1px solid #2a3044;
+            box-shadow:inset 0 1px 4px rgba(0,0,0,0.4);
         }
         .analysis-progress.active{
             display:block;
@@ -1811,8 +1811,8 @@
             inset:0 auto 0 0;
             width:0%;
             border-radius:inherit;
-            background:linear-gradient(90deg,#6366f1,#22d3ee);
-            box-shadow:0 0 22px rgba(99,102,241,0.5);
+            background:linear-gradient(90deg,#4f46e5,#6366f1);
+            box-shadow:0 0 12px rgba(99,102,241,0.28);
             transition:width 0.3s linear;
         }
         .analysis-progress-content{
@@ -1822,22 +1822,22 @@
             display:grid;
             grid-template-columns:1fr auto;
             align-items:center;
-            gap:14px;
-            padding:0 14px;
+            gap:12px;
+            padding:0 11px;
             pointer-events:none;
-            font-size:13px;
+            font-size:11px;
             font-weight:800;
-            text-shadow:0 1px 3px rgba(0,0,0,0.7);
+            text-shadow:0 1px 2px rgba(0,0,0,0.75);
         }
         #status{
             margin:0;
-            color:white;
+            color:#f4f4f5;
             overflow:hidden;
             text-overflow:ellipsis;
             white-space:nowrap;
         }
         #analysisTimeRemaining{
-            color:white;
+            color:#d1d5db;
             font-variant-numeric:tabular-nums;
             white-space:nowrap;
         }
@@ -2003,7 +2003,7 @@
             <div id="analysisProgressFill" class="analysis-progress-fill"></div>
             <div class="analysis-progress-content">
                 <span id="status">Analyzing track</span>
-                <strong id="analysisTimeRemaining">0:00 / 0:00</strong>
+                <strong id="analysisTimeRemaining">0:00 elapsed</strong>
             </div>
         </div>
         <div id="waveform"></div>
@@ -3324,25 +3324,21 @@ function startAnalysisProgress(estimatedSeconds){
     const time = document.getElementById("analysisTimeRemaining");
 
     const startedAt = performance.now();
-    const estimate = Math.max(20, Number(estimatedSeconds) || 105);
 
     if(wrapper){ wrapper.classList.add("active"); }
     if(fill){ fill.style.width = "0%"; }
     if(status){ status.innerText = "Analyzing track"; }
-    if(time){ time.innerText = `0:00 / ${formatAnalysisTime(estimate)}`; }
+    if(time){ time.innerText = "0:00 elapsed"; }
 
     const timer = setInterval(() => {
         const elapsed = (performance.now() - startedAt) / 1000;
 
-        // The frontend cannot know exact backend progress without a progress API,
-        // so it advances against the learned estimate and waits at 95% if needed.
-        const ratio = Math.min(0.95, elapsed / estimate);
-        const percent = ratio * 100;
+        // Frontend-only progress: move steadily, then wait near completion
+        // until the server actually returns the finished report.
+        const percent = Math.min(94, 8 + (elapsed * 1.45));
 
         if(fill){ fill.style.width = `${percent.toFixed(1)}%`; }
-        if(time){
-            time.innerText = `${formatAnalysisTime(elapsed)} / ${formatAnalysisTime(estimate)}`;
-        }
+        if(time){ time.innerText = `${formatAnalysisTime(elapsed)} elapsed`; }
     }, 250);
 
     return {
@@ -3350,7 +3346,7 @@ function startAnalysisProgress(estimatedSeconds){
         setStage(percent){
             if(fill){
                 const current = parseFloat(fill.style.width) || 0;
-                fill.style.width = `${Math.max(current, Math.min(99, Number(percent) || 0))}%`;
+                fill.style.width = `${Math.max(current, Math.min(94, Number(percent) || 0))}%`;
             }
         },
         finish(){
@@ -3360,10 +3356,7 @@ function startAnalysisProgress(estimatedSeconds){
 
             if(fill){ fill.style.width = "100%"; }
             if(status){ status.innerText = "Analysis complete"; }
-            if(time){
-                const completed = formatAnalysisTime(elapsed);
-                time.innerText = `${completed} / ${completed}`;
-            }
+            if(time){ time.innerText = `${formatAnalysisTime(elapsed)} elapsed`; }
 
             saveAnalysisDuration(elapsed);
             return elapsed;
