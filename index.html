@@ -1842,6 +1842,72 @@
             white-space:nowrap;
         }
 
+        /* Galaxy — replaces the former Fixes page only */
+        .galaxy-card{
+            position:relative;
+            overflow:hidden;
+            min-height:680px;
+            padding:28px;
+            border-radius:28px;
+            border:1px solid #343b58;
+            background:
+                radial-gradient(circle at 50% 45%,rgba(99,102,241,0.16),transparent 28%),
+                radial-gradient(circle at 18% 20%,rgba(34,211,238,0.08),transparent 24%),
+                linear-gradient(145deg,#151827,#090b12 74%);
+            box-shadow:0 28px 70px rgba(0,0,0,0.28);
+        }
+        .galaxy-card:before,.galaxy-card:after{
+            content:"";position:absolute;inset:0;pointer-events:none;
+        }
+        .galaxy-card:before{
+            opacity:.42;
+            background-image:
+                radial-gradient(circle at 12% 30%,#fff 0 1px,transparent 1.5px),
+                radial-gradient(circle at 72% 16%,#fff 0 1px,transparent 1.5px),
+                radial-gradient(circle at 86% 63%,#fff 0 1px,transparent 1.5px),
+                radial-gradient(circle at 34% 76%,#fff 0 1px,transparent 1.5px),
+                radial-gradient(circle at 58% 88%,#fff 0 1px,transparent 1.5px);
+            background-size:190px 170px,230px 210px,260px 220px,210px 240px,280px 200px;
+        }
+        .galaxy-card:after{
+            background:radial-gradient(circle at 50% 52%,transparent 0 34%,rgba(99,102,241,.05) 34.5% 35%,transparent 35.5% 49%,rgba(99,102,241,.035) 49.5% 50%,transparent 50.5%);
+        }
+        .galaxy-header{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;}
+        .galaxy-title{font-size:38px;line-height:1.05;letter-spacing:-1.2px;margin:0 0 9px;}
+        .galaxy-copy{max-width:650px;color:var(--muted);line-height:1.5;margin:0;}
+        .galaxy-closest-pill{padding:9px 13px;border-radius:999px;background:rgba(99,102,241,.14);border:1px solid rgba(129,140,248,.28);font-size:12px;font-weight:900;color:#e5e7ff;}
+        .artist-galaxy{position:relative;z-index:2;height:470px;margin-top:12px;}
+        .galaxy-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted);gap:8px;}
+        .galaxy-empty strong{color:white;font-size:20px;}
+        .galaxy-empty span{max-width:420px;line-height:1.45;}
+        .galaxy-empty-star{font-size:50px;color:#8b8ffb;text-shadow:0 0 28px rgba(99,102,241,.9);animation:galaxyPulse 2.4s ease-in-out infinite;}
+        .galaxy-star{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;padding:0;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;z-index:4;}
+        .galaxy-star:hover{background:transparent;}
+        .galaxy-star-dot{width:var(--star-size,16px);height:var(--star-size,16px);border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 14%,hsl(var(--star-hue,252),92%,72%) 35%,hsl(var(--star-hue,252),76%,48%) 100%);box-shadow:0 0 calc(var(--star-size,16px)*1.1) hsla(var(--star-hue,252),95%,67%,.7),0 0 calc(var(--star-size,16px)*2.2) hsla(var(--star-hue,252),95%,57%,.25);transition:transform .2s ease,filter .2s ease;}
+        .galaxy-star:hover .galaxy-star-dot,.galaxy-star.active .galaxy-star-dot{transform:scale(1.25);filter:brightness(1.2);}
+        .galaxy-star-name{max-width:130px;color:#e5e7eb;font-size:12px;font-weight:850;text-align:center;text-shadow:0 2px 8px #000;}
+        .galaxy-star-score{display:none;font-size:11px;font-weight:900;color:#c7d2fe;}
+        .galaxy-star.active .galaxy-star-score{display:block;}
+        .galaxy-you{position:absolute;transform:translate(-50%,-50%);z-index:7;display:flex;flex-direction:column;align-items:center;gap:8px;transition:left .9s cubic-bezier(.2,.8,.2,1),top .9s cubic-bezier(.2,.8,.2,1);}
+        .galaxy-you-core{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fff 0 12%,#a5b4fc 23%,#6366f1 58%,#312e81 100%);box-shadow:0 0 22px rgba(129,140,248,.95),0 0 65px rgba(99,102,241,.52);font-size:17px;font-weight:950;animation:galaxyYouPulse 2.8s ease-in-out infinite;}
+        .galaxy-you-label{padding:5px 9px;border-radius:999px;background:rgba(15,17,23,.82);border:1px solid #4b5272;font-size:11px;font-weight:950;letter-spacing:.8px;}
+        .galaxy-line{position:absolute;height:1px;transform-origin:0 50%;z-index:1;background:linear-gradient(90deg,rgba(129,140,248,.5),rgba(129,140,248,.04));pointer-events:none;}
+        .galaxy-detail{position:relative;z-index:3;min-height:90px;display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-items:center;padding:16px 18px;border-radius:18px;background:rgba(15,17,23,.72);border:1px solid #303750;}
+        .galaxy-detail span{grid-row:1 / span 2;color:var(--muted);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;}
+        .galaxy-detail strong{font-size:19px;}
+        .galaxy-detail p{margin:4px 0 0;color:var(--muted);font-size:13px;}
+        @keyframes galaxyPulse{50%{transform:scale(1.15);opacity:.65;}}
+        @keyframes galaxyYouPulse{50%{transform:scale(1.08);box-shadow:0 0 30px rgba(129,140,248,1),0 0 80px rgba(99,102,241,.58);}}
+        @media(max-width:768px){
+            .galaxy-card{min-height:620px;padding:18px;border-radius:20px;}
+            .galaxy-title{font-size:30px;}
+            .artist-galaxy{height:410px;margin-top:6px;}
+            .galaxy-star-name{font-size:10px;max-width:86px;}
+            .galaxy-you-core{width:36px;height:36px;}
+            .galaxy-detail{grid-template-columns:1fr;}
+            .galaxy-detail span{grid-row:auto;margin-bottom:5px;}
+        }
+
     </style>
 </head>
 
@@ -1852,7 +1918,7 @@
         <a id="nav-analyzePage" class="active-nav" onclick="showPage('analyzePage')">Analyze</a>
         <a id="nav-overviewPage" onclick="showPage('overviewPage')">Overview</a>
         <a id="nav-artistPage" onclick="showPage('artistPage')">Artist Match</a>
-        <a id="nav-fixesPage" onclick="showPage('fixesPage')">Fixes</a>
+        <a id="nav-fixesPage" onclick="showPage('fixesPage')">Galaxy</a>
         <a id="nav-arrangementPage" onclick="showPage('arrangementPage')">Arrangement</a>
         <a id="nav-advancedPage" onclick="showPage('advancedPage')">Advanced</a>
         <a id="nav-dashboardPage" onclick="showPage('dashboardPage'); loadDashboard();">Dashboard</a>
@@ -2198,39 +2264,30 @@
     </div>
 
     <div id="fixesPage" class="page">
+        <div class="galaxy-card">
+            <div class="galaxy-header">
+                <div>
+                    <div class="eyebrow">SoundLens Galaxy</div>
+                    <h1 class="galaxy-title">Where your sound lives.</h1>
+                    <p class="galaxy-copy">Your position is pulled toward the artists in your current match results. Select a star to see the match.</p>
+                </div>
+                <div id="galaxyClosestPill" class="galaxy-closest-pill">Analyze a track</div>
+            </div>
 
-<div class="card ai-review-card" id="aiFixesPageCard">
-    <div class="eyebrow">AI Fixes</div>
-    <h1 style="margin-top:0">SoundLens AI Fixes</h1>
-    <p class="muted">AI explains what is happening, why it matters, what to change, and how to check it after.</p>
-    <div id="aiFixesPageContent" class="ai-fix-grid-v2">
-        <div class="ai-fix-card-v2"><h3>Upload a track first</h3><p>Your AI fixes will appear here after analysis.</p></div>
-    </div>
-</div>
-
-<div class="card">
-            <div class="eyebrow">Fixes</div>
-            <h2 style="margin-top:0">Highest Impact Fixes</h2><p class="muted">Fix these first to gain the most score improvement.</p>
-            <div id="fixCards">
-                <div class="placeholder-card">
-                    <div class="placeholder-title">Highest impact fixes will appear here.</div>
-                    <p class="placeholder-copy">After analysis, this page will show the biggest technical issues first with clear next steps.</p>
-                    <div class="placeholder-grid">
-                        <div class="placeholder-mini"><span>Mastering</span><strong>Clipping and headroom checks</strong></div>
-                        <div class="placeholder-mini"><span>Mix Balance</span><strong>Mud, harshness, and low-end control</strong></div>
-                        <div class="placeholder-mini"><span>Priority</span><strong>Critical, important, optional</strong></div>
-                    </div>
+            <div id="artistGalaxy" class="artist-galaxy" aria-label="Artist match galaxy">
+                <div class="galaxy-empty">
+                    <div class="galaxy-empty-star">✦</div>
+                    <strong>Your galaxy will appear here.</strong>
+                    <span>Analyze a track to map your sound between its closest artists.</span>
                 </div>
             </div>
-<details>
-            <summary>Show original problem list</summary>
-            <ol id="problems"></ol>
-        </details>
-        <details>
-            <summary>Show original next steps</summary>
-            <ol id="fixes"></ol>
-        </details>
-    </div>
+
+            <div id="galaxyDetail" class="galaxy-detail">
+                <span>Closest signal</span>
+                <strong>No track analyzed yet</strong>
+                <p>Your match percentages will power this map.</p>
+            </div>
+        </div>
     </div>
 
     <div id="arrangementPage" class="page">
@@ -3435,9 +3492,6 @@ async function analyze(){
     document.getElementById("duration").innerText = `${minutes}:${seconds}`;
     document.getElementById("estimatedBars").innerText = Number(report.rhythm?.estimated_bars || 0) > 0 ? Math.round(report.rhythm.estimated_bars) : "Uncertain";
 
-    document.getElementById("problems").innerHTML = (report.top_problems || []).map(item => `<li>${item}</li>`).join("");
-    document.getElementById("fixes").innerHTML = (report.next_steps || []).map(item => `<li>${item}</li>`).join("");
-    renderFixCards(report);
 
     const loudness = report.loudness || {};
     document.getElementById("loudnessTable").innerHTML = `
@@ -3546,6 +3600,89 @@ function fallbackEQFromReport(){
     };
 }
 
+
+function galaxyHash(value){
+    let hash = 2166136261;
+    const text = String(value || "Artist");
+    for(let i=0;i<text.length;i++){
+        hash ^= text.charCodeAt(i);
+        hash = Math.imul(hash,16777619);
+    }
+    return hash >>> 0;
+}
+
+function renderArtistGalaxy(profiles){
+    const box = document.getElementById("artistGalaxy");
+    const detail = document.getElementById("galaxyDetail");
+    const pill = document.getElementById("galaxyClosestPill");
+    if(!box){ return; }
+
+    const artists = (Array.isArray(profiles) ? profiles : []).slice(0,8).map((profile,index)=>({
+        name: profile.profile_name || `Artist ${index+1}`,
+        score: Math.max(0,Math.min(100,Number(profile.match_score ?? profile.similarity_score ?? 0))),
+        label: profile.match_label || "Artist match",
+        tracks: Number(profile.track_count || 0)
+    }));
+
+    if(!artists.length){
+        box.innerHTML = `<div class="galaxy-empty"><div class="galaxy-empty-star">✦</div><strong>Your galaxy will appear here.</strong><span>Analyze a track to map your sound between its closest artists.</span></div>`;
+        if(pill){ pill.innerText = "Analyze a track"; }
+        if(detail){ detail.innerHTML = `<span>Closest signal</span><strong>No track analyzed yet</strong><p>Your match percentages will power this map.</p>`; }
+        return;
+    }
+
+    const positions = artists.map((artist,index)=>{
+        const hash = galaxyHash(artist.name);
+        const angle = ((hash % 360) + index * 47) * Math.PI / 180;
+        const ring = 31 + ((hash >>> 9) % 15);
+        return {
+            ...artist,
+            x: 50 + Math.cos(angle) * ring,
+            y: 51 + Math.sin(angle) * ring * 0.78,
+            hue: 205 + (hash % 105)
+        };
+    });
+
+    const weights = positions.map(a=>Math.pow(a.score/100,3));
+    const totalWeight = weights.reduce((a,b)=>a+b,0) || 1;
+    const pull = 0.72;
+    const youX = 50 + ((positions.reduce((sum,a,i)=>sum + (a.x-50)*weights[i],0)/totalWeight) * pull);
+    const youY = 51 + ((positions.reduce((sum,a,i)=>sum + (a.y-51)*weights[i],0)/totalWeight) * pull);
+
+    const lineHTML = positions.slice(0,5).map((artist,index)=>{
+        const dx = artist.x-youX, dy = artist.y-youY;
+        const length = Math.sqrt(dx*dx+dy*dy);
+        const angle = Math.atan2(dy,dx)*180/Math.PI;
+        const opacity = Math.max(.08,artist.score/220);
+        return `<div class="galaxy-line" style="left:${youX}%;top:${youY}%;width:${length}%;transform:rotate(${angle}deg);opacity:${opacity}"></div>`;
+    }).join("");
+
+    const starsHTML = positions.map((artist,index)=>{
+        const size = 10 + Math.max(0,(artist.score-55))*.28;
+        return `<button class="galaxy-star${index===0?" active":""}" style="left:${artist.x}%;top:${artist.y}%;--star-size:${size}px;--star-hue:${artist.hue}" onclick="selectGalaxyArtist(this,${index})" aria-label="${escapeHtml(artist.name)} ${Math.round(artist.score)} percent match"><span class="galaxy-star-dot"></span><span class="galaxy-star-name">${escapeHtml(artist.name)}</span><span class="galaxy-star-score">${Math.round(artist.score)}%</span></button>`;
+    }).join("");
+
+    box.innerHTML = lineHTML + starsHTML + `<div class="galaxy-you" style="left:${youX}%;top:${youY}%"><div class="galaxy-you-core">★</div><div class="galaxy-you-label">YOU</div></div>`;
+    box._galaxyArtists = positions;
+
+    if(pill){ pill.innerText = `Closest: ${artists[0].name} · ${Math.round(artists[0].score)}%`; }
+    showGalaxyDetail(positions[0]);
+}
+
+function showGalaxyDetail(artist){
+    const detail = document.getElementById("galaxyDetail");
+    if(!detail || !artist){ return; }
+    detail.innerHTML = `<span>Selected star</span><strong>${escapeHtml(artist.name)} · ${Math.round(artist.score)}%</strong><p>${escapeHtml(artist.label)}${artist.tracks ? ` · Profile built from ${artist.tracks} tracks` : ""}</p>`;
+}
+
+function selectGalaxyArtist(button,index){
+    const box = document.getElementById("artistGalaxy");
+    if(!box){ return; }
+    box.querySelectorAll(".galaxy-star").forEach(node=>node.classList.remove("active"));
+    button.classList.add("active");
+    showGalaxyDetail((box._galaxyArtists || [])[index]);
+}
+
 async function runProfileComparison(file, status){
     const formData = new FormData();
     formData.append("file", file);
@@ -3591,6 +3728,7 @@ async function runProfileComparison(file, status){
 
         const profiles = comparison.ranked_profiles || [];
         latestProfiles = profiles;
+        renderArtistGalaxy(profiles);
 
         if(profiles.length){
             const best = profiles[0];
