@@ -2506,7 +2506,7 @@ function renderAIReview(report){
         100
     );
 
-    const hue = Math.round(228 + (brightness / 100) * 72);
+    const hue = Math.round((brightness / 100) * 360);
     const size = Math.round(148 + (mix / 100) * 34);
     const pulse = (5.6 - energyNorm * 2.6).toFixed(2);
 
