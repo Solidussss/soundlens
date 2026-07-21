@@ -1745,28 +1745,6 @@
             overflow:hidden;
             text-overflow:ellipsis;
         }
-        .sound-core-signal{
-            position:relative;
-            z-index:2;
-            display:flex;
-            justify-content:center;
-            flex-wrap:wrap;
-            gap:8px;
-            margin-top:12px;
-        }
-        .sound-core-chip{
-            display:inline-flex;
-            align-items:center;
-            min-height:30px;
-            padding:7px 11px;
-            border-radius:999px;
-            background:rgba(99,102,241,0.11);
-            border:1px solid rgba(129,140,248,0.18);
-            color:#dfe1ff;
-            font-size:12px;
-            font-weight:800;
-            max-width:100%;
-        }
         @keyframes coreBackdropSpin{ to{ transform:rotate(360deg); } }
         @keyframes coreRingSpin{ to{ transform:rotate(360deg); } }
         @keyframes coreStatusPulse{ 50%{ transform:scale(1.35); opacity:0.55; } }
@@ -1791,6 +1769,28 @@
             .sound-core-card:before,.sound-core-status:before,.sound-core-orbit,.sound-core-ring,.sound-core,.sound-core:before,.sound-core:after,.sound-core-particle{ animation:none !important; }
         }
 
+        /* SoundLens Core final polish */
+        .sound-core-card{
+            min-height:500px;
+            padding:24px;
+        }
+        .sound-core-stage{
+            min-height:300px;
+            margin:-2px 0 8px;
+        }
+        .sound-core-orbit{
+            width:290px;
+            height:290px;
+        }
+        .sound-core-metric strong{
+            color:hsl(var(--core-hue,252),90%,68%);
+        }
+        @media(max-width:768px){
+            .sound-core-card{ min-height:470px; }
+            .sound-core-stage{ min-height:270px; }
+            .sound-core-orbit{ width:250px; height:250px; }
+        }
+
     </style>
 </head>
 
@@ -1802,7 +1802,7 @@
         <a id="nav-overviewPage" onclick="showPage('overviewPage')">Overview</a>
         <a id="nav-artistPage" onclick="showPage('artistPage')">Artist Match</a>
         <a id="nav-fixesPage" onclick="showPage('fixesPage')">Fixes</a>
-        <a id="nav-arrangementPage" onclick="showPage('arrangementPage')">Identity</a>
+        <a id="nav-arrangementPage" onclick="showPage('arrangementPage')">Arrangement</a>
         <a id="nav-advancedPage" onclick="showPage('advancedPage')">Advanced</a>
         <a id="nav-dashboardPage" onclick="showPage('dashboardPage'); loadDashboard();">Dashboard</a>
         <a id="nav-learnPage" onclick="showPage('learnPage')">About</a>
@@ -2087,28 +2087,24 @@
                     <div class="sound-core-metric"><span>Identity</span><strong id="coreArrangement">—</strong></div>
                     <div class="sound-core-metric"><span>Character</span><strong id="coreCharacter">Waiting</strong></div>
                 </div>
-
-                <div class="sound-core-signal" id="soundCoreSignals">
-                    <span class="sound-core-chip">Upload a track to generate its core</span>
-                </div>
             </div>
         </div>
 
         <div class="grid">
             <div class="card score-card">
-                <h2>Atmosphere</h2>
+                <h2>Mix</h2>
                 <div id="mixScore" class="score">0</div>
-                <div id="atmosphereLabel" class="score-label"></div>
+                <div id="mixLabel" class="score-label"></div>
             </div>
             <div class="card score-card">
-                <h2>Intensity</h2>
+                <h2>Energy</h2>
                 <div id="energyScore" class="score">0.0</div>
-                <div id="intensityLabel" class="score-label">Waiting</div>
+                <div id="energyLabel" class="score-label">Waiting</div>
             </div>
             <div class="card score-card">
-                <h2>Identity</h2>
+                <h2>Arrangement</h2>
                 <div id="arrangementScore" class="score">0</div>
-                <div id="identityLabel" class="score-label"></div>
+                <div id="arrangementLabel" class="score-label"></div>
             </div>
         </div>
 
@@ -2481,78 +2477,123 @@ async function loadAdminDebug(){
 }
 
 function renderAIReview(report){
-    const orb = document.getElementById("soundCoreOrb");
     const orbit = document.getElementById("soundCoreOrbit");
     const pill = document.getElementById("aiModelPill");
-    const signals = document.getElementById("soundCoreSignals");
 
-    if(!orb || !orbit){ return; }
+    if(!orbit){ return; }
 
     const scores = report.scores || {};
     const frequency = report.frequency || {};
-    const review = report.ai_review || {};
+    const rhythm = report.rhythm || {};
 
     const clamp = (value,min,max) => Math.min(max,Math.max(min,Number(value) || 0));
     const mix = clamp(scores.mix,0,100);
     const arrangement = clamp(scores.arrangement,0,100);
     const energyRaw = clamp(scores.energy,0,10);
     const energyNorm = energyRaw / 10;
-    const brightness = clamp(
+
+    // SoundLens reports have changed field names over time, so this checks
+    // several possible brightness values before using darkness as a fallback.
+    const brightnessCandidate =
         frequency.brightness_score ??
         frequency.brightness ??
         frequency.spectral_brightness ??
-        50,
-        0,
-        100
-    );
+        frequency.spectral_centroid_normalized ??
+        frequency.brightness_percent;
 
-    const hue = Math.round((brightness / 100) * 360);
-    const size = Math.round(148 + (mix / 100) * 34);
-    const pulse = (5.6 - energyNorm * 2.6).toFixed(2);
+    const darknessCandidate =
+        scores.darkness ??
+        frequency.darkness_score ??
+        frequency.darkness;
+
+    let brightness;
+    if(brightnessCandidate !== undefined && brightnessCandidate !== null){
+        brightness = clamp(brightnessCandidate,0,100);
+    }else if(darknessCandidate !== undefined && darknessCandidate !== null){
+        const rawDarkness = Number(darknessCandidate) || 0;
+        const darkness100 = rawDarkness <= 10 ? rawDarkness * 10 : rawDarkness;
+        brightness = 100 - clamp(darkness100,0,100);
+    }else{
+        // A stable fallback that still varies between tracks.
+        const bpm = clamp(report.basic?.bpm ?? report.bpm ?? 120,60,220);
+        brightness = clamp(35 + energyRaw * 3 + (bpm - 100) * 0.18,0,100);
+    }
+
+    const dominantBand = String(frequency.dominant_band || "").toLowerCase();
+    const drumActivity = String(rhythm.drum_activity || "").toLowerCase();
+
+    const atmosphere =
+        brightness <= 28 ? "Dark" :
+        brightness <= 44 ? "Moody" :
+        brightness <= 60 ? "Balanced" :
+        brightness <= 76 ? "Bright" : "Airy";
+
+    const intensity =
+        energyRaw >= 8.5 ? "Explosive" :
+        energyRaw >= 7.0 ? "Driving" :
+        energyRaw >= 5.0 ? "Controlled" :
+        energyRaw >= 3.0 ? "Relaxed" : "Calm";
+
+    let identity;
+    if(arrangement >= 88 && mix >= 85){
+        identity = "Polished";
+    }else if(arrangement <= 58 && energyRaw >= 7.0){
+        identity = "Experimental";
+    }else if(
+        dominantBand.includes("sub") ||
+        dominantBand.includes("bass") ||
+        drumActivity.includes("high")
+    ){
+        identity = "Underground";
+    }else if(arrangement >= 76){
+        identity = "Cinematic";
+    }else{
+        identity = "Minimal";
+    }
+
+    const character =
+        energyRaw >= 8.5 ? "Charged" :
+        mix >= 88 && arrangement >= 82 ? "Focused" :
+        brightness <= 34 ? "Atmospheric" :
+        energyRaw <= 3.5 ? "Calm" : "Raw";
+
+    // Distinct presets make the color change obvious between different songs.
+    let hue;
+    if(intensity === "Explosive"){
+        hue = 8;          // red/orange
+    }else if(atmosphere === "Dark"){
+        hue = 252;        // deep violet
+    }else if(atmosphere === "Moody"){
+        hue = 220;        // blue
+    }else if(atmosphere === "Airy"){
+        hue = 178;        // cyan
+    }else if(atmosphere === "Bright"){
+        hue = 42;         // gold
+    }else if(identity === "Polished"){
+        hue = 145;        // emerald
+    }else if(identity === "Underground"){
+        hue = 286;        // purple/pink
+    }else{
+        hue = 205;        // balanced blue
+    }
+
+    const size = Math.round(154 + (mix / 100) * 34);
+    const pulse = (5.8 - energyNorm * 3.0).toFixed(2);
 
     orbit.style.setProperty("--core-hue", hue);
     orbit.style.setProperty("--core-size", `${size}px`);
     orbit.style.setProperty("--core-pulse", `${pulse}s`);
     orbit.style.setProperty("--core-energy", energyNorm.toFixed(2));
 
-    const character =
-        energyRaw >= 7.5 ? "Charged" :
-        energyRaw >= 5.0 ? "Focused" :
-        energyRaw >= 3.0 ? "Atmospheric" : "Calm";
-
-    document.getElementById("coreMix").innerText = Math.round(mix);
-    document.getElementById("coreEnergy").innerText = energyRaw.toFixed(1);
-    document.getElementById("coreArrangement").innerText = Math.round(arrangement);
+    document.getElementById("coreMix").innerText = atmosphere;
+    document.getElementById("coreEnergy").innerText = intensity;
+    document.getElementById("coreArrangement").innerText = identity;
     document.getElementById("coreCharacter").innerText = character;
 
     if(pill){
         pill.innerText = report.ai_enabled ? "Core Generated" : "Core Ready";
     }
-
-    const shortSignal = value => {
-        const clean = String(value || "").replace(/\s+/g," ").trim();
-        if(!clean){ return ""; }
-        const firstSentence = clean.split(/[.!?]/)[0].trim();
-        return firstSentence.length > 48 ? firstSentence.slice(0,45).trim() + "…" : firstSentence;
-    };
-
-    const strengths = Array.isArray(review.biggest_strengths) ? review.biggest_strengths : [];
-    const weaknesses = Array.isArray(review.biggest_weaknesses) ? review.biggest_weaknesses : [];
-
-    const signalItems = [
-        strengths.length ? shortSignal(strengths[0]) : "",
-        weaknesses.length ? shortSignal(weaknesses[0]) : "",
-        shortSignal(review.artist_direction),
-        shortSignal(review.priority_fix)
-    ].filter(Boolean).slice(0,4);
-
-    if(signals){
-        signals.innerHTML = signalItems.length
-            ? signalItems.map(item => `<span class="sound-core-chip">${escapeHtml(item)}</span>`).join("")
-            : `<span class="sound-core-chip">${escapeHtml(character)} sonic profile</span>`;
-    }
 }
-
 
 function mainIssueFromReport(report){
     const frequency = report.frequency || {};
@@ -3263,7 +3304,7 @@ async function analyze(){
     setScore("mixScore", "atmosphereLabel", report.scores.mix);
     const energy = Number(report.scores.energy || 0);
     document.getElementById("energyScore").innerText = energy.toFixed(1);
-    document.getElementById("intensityLabel").innerText = energy >= 7.5 ? "High" : energy >= 4.5 ? "Balanced" : "Low";
+    document.getElementById("energyLabel").innerText = energy >= 7.5 ? "High" : energy >= 4.5 ? "Balanced" : "Low";
     setScore("arrangementScore", "identityLabel", report.scores.arrangement);
 
     document.getElementById("key").innerText = report.basic.key || "Uncertain";
