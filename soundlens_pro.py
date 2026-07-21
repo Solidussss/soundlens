@@ -806,15 +806,33 @@ def analyze_audio_fingerprint(y: np.ndarray, sr: int) -> Dict[str, float]:
 def analyze_rhythm(y: np.ndarray, sr: int, duration: float, bpm: float) -> RhythmInfo:
     y_rhythm, rhythm_sr = memory_safe_audio(y, sr, target_sr=22050, max_seconds=120)
 
-    onset_times = librosa.onset.onset_detect(y=y_rhythm, sr=rhythm_sr, units="time")
+    onset_times = librosa.onset.onset_detect(
+        y=y_rhythm,
+        sr=rhythm_sr,
+        units="time",
+        backtrack=False,
+        pre_max=3,
+        post_max=3,
+        pre_avg=3,
+        post_avg=5,
+        delta=0.12,
+        wait=2,
+    )
     onset_count = len(onset_times)
 
     analyzed_duration = max(len(y_rhythm) / max(rhythm_sr, 1), 1)
     onset_density = onset_count / analyzed_duration
 
-    drum_activity = level_label(onset_density, 1.5, 3.0)
-    seconds_per_bar = (60 / max(bpm, 1)) * 4
-    estimated_bars = int(round(duration / max(seconds_per_bar, EPSILON)))
+    # The previous High threshold (3 hits/sec) classified almost every trap song
+    # as overcrowded. These wider bands keep the value descriptive instead.
+    drum_activity = level_label(onset_density, 2.0, 5.5)
+
+    if bpm > 0:
+        seconds_per_bar = (60 / bpm) * 4
+        estimated_bars = int(round(duration / max(seconds_per_bar, EPSILON)))
+    else:
+        seconds_per_bar = 0.0
+        estimated_bars = 0
 
     return RhythmInfo(
         onset_count=onset_count,
@@ -1082,129 +1100,127 @@ def calculate_scores(
     rhythm: RhythmInfo,
     sections: List[ArrangementSection],
 ) -> Scores:
-    """
-    Scores the track using the default style preset.
+    """Calculate conservative, style-aware technical scores.
 
-    Important SoundLens rule:
-    For rage/underground trap, heavy bass is not automatically a problem.
-    It only becomes a penalty when it is extreme enough to likely mask the rest
-    of the beat or vocal space.
+    Scores only move when evidence is meaningfully outside a usable range. This
+    avoids penalizing every underground track for tiny clipping, average low-mid
+    energy, or naturally active trap drums.
     """
     bands = frequency.band_percentages
     targets = REFERENCE_TARGETS["trap_rage"]
     style = STYLE_PRESETS[DEFAULT_STYLE]
 
+    primary_values = [
+        bands["Sub"], bands["Bass / 808"], bands["Mud"], bands["Low Mids"],
+        bands["Mids / Melody"], bands["Highs"], bands["Air"],
+    ]
+    primary_average = float(np.mean(primary_values))
+    mud_excess = bands["Mud"] - primary_average
+
+    # Small numbers of full-scale samples are common after limiting and should
+    # not be treated the same as audible sustained clipping.
+    meaningful_clipping = loudness.clipping_percent >= 0.01
+    heavy_clipping = loudness.clipping_percent >= 0.10
+
     mix_score = 100
-
-    # Commercial trap/rage tracks often have light clipping/limiting.
-    # Small clipping = small warning. Heavy clipping = bigger penalty.
-    if loudness.clipping_percent > 1.0:
-        mix_score -= 20
-    elif loudness.clipping_percent > 0.1:
-        mix_score -= 8
-    elif loudness.clipping_detected:
-        mix_score -= 3
-
-    if loudness.peak_db > -0.1:
-        mix_score -= 5
-    elif loudness.peak_db > -0.3:
-        mix_score -= 2
-
-    # Use the style preset instead of judging every genre by one loudness range.
-    if loudness.rms_db < style["rms_min"] or loudness.rms_db > style["rms_max"]:
-        mix_score -= 8
-
-    if loudness.dynamic_range_db < targets["dynamic_min"] or loudness.dynamic_range_db > targets["dynamic_max"]:
-        mix_score -= 8
-
-    # Rage/trap can be bass-heavy. Penalize lightly only when Bass/808 is extreme.
-    if bands["Bass / 808"] > style["bass_808_problem"]:
-        mix_score -= 3 if style["allow_heavy_bass"] else 10
-    elif bands["Bass / 808"] < 10:
-        mix_score -= 10
-
-    if bands["Highs"] < targets["high_min"] or bands["Highs"] > targets["high_max"]:
-        mix_score -= 8
-
-    if bands["Mud"] > targets["mud_max"]:
+    if heavy_clipping:
+        mix_score -= 15
+    elif meaningful_clipping:
         mix_score -= 6
 
-    if bands["Harsh Zone"] > targets["harsh_max"]:
+    if loudness.peak_db > 0.05:
         mix_score -= 8
+    elif loudness.peak_db > -0.05 and meaningful_clipping:
+        mix_score -= 3
+
+    if loudness.rms_db < style["rms_min"] - 2.0 or loudness.rms_db > style["rms_max"] + 1.0:
+        mix_score -= 8
+    elif loudness.rms_db < style["rms_min"] or loudness.rms_db > style["rms_max"]:
+        mix_score -= 3
+
+    if loudness.dynamic_range_db < targets["dynamic_min"] - 1.0:
+        mix_score -= 8
+    elif loudness.dynamic_range_db > targets["dynamic_max"] + 3.0:
+        mix_score -= 5
+
+    if bands["Bass / 808"] < 8:
+        mix_score -= 7
+    elif bands["Bass / 808"] > style["bass_808_problem"]:
+        mix_score -= 3 if style["allow_heavy_bass"] else 9
+
+    if bands["Highs"] < 6 or bands["Highs"] > 38:
+        mix_score -= 6
+
+    # Because the band percentages are log-normalized, a fixed 12% mud limit
+    # was below the natural baseline. Only penalize mud when it stands out.
+    if bands["Mud"] > 17.0 and mud_excess > 2.0:
+        mix_score -= 6
+
+    if bands["Harsh Zone"] > 20.0:
+        mix_score -= 7
 
     master_score = 100
-
-    if loudness.rms_db < style["rms_min"]:
+    if loudness.rms_db < style["rms_min"] - 2.0:
         master_score -= 10
-    elif loudness.rms_db > style["rms_max"]:
-        master_score -= 6
-
-    if loudness.peak_db > -0.1:
-        master_score -= 5
-    elif loudness.peak_db > -0.3:
-        master_score -= 2
-
-    if loudness.clipping_percent > 1.0:
-        master_score -= 20
-    elif loudness.clipping_percent > 0.1:
+    elif loudness.rms_db < style["rms_min"]:
+        master_score -= 4
+    elif loudness.rms_db > style["rms_max"] + 1.0:
         master_score -= 8
-    elif loudness.clipping_detected:
+    elif loudness.rms_db > style["rms_max"]:
         master_score -= 3
 
-    if loudness.dynamic_range_db < 6:
+    if heavy_clipping:
+        master_score -= 15
+    elif meaningful_clipping:
+        master_score -= 6
+
+    if loudness.dynamic_range_db < 5:
         master_score -= 10
-    elif loudness.dynamic_range_db > 16:
+    elif loudness.dynamic_range_db > 19:
         master_score -= 6
 
-    # Low end is expected for rage/trap. Only punish it when it is past the style problem threshold.
     if frequency.low_end_total_percent > style["low_end_problem"]:
-        master_score -= 5 if style["allow_heavy_bass"] else 12
-    elif frequency.low_end_total_percent < 15:
-        master_score -= 8
+        master_score -= 4 if style["allow_heavy_bass"] else 10
+    elif frequency.low_end_total_percent < 13:
+        master_score -= 7
 
-    if bands["Mud"] > 12:
+    if bands["Mud"] > 17.0 and mud_excess > 2.0:
+        master_score -= 5
+    if bands["Harsh Zone"] > 20.0:
+        master_score -= 7
+    if bands["Highs"] > 38 or bands["Highs"] < 6:
         master_score -= 6
 
-    if bands["Harsh Zone"] > 18:
-        master_score -= 8
-
-    if bands["Highs"] > 35:
-        master_score -= 8
-    elif bands["Highs"] < 8:
-        master_score -= 5
-
-    arrangement_score = 85
-
-    if duration < 60:
-        arrangement_score -= 25
-    elif duration < 100:
+    arrangement_score = 88
+    if duration < 45:
+        arrangement_score -= 22
+    elif duration < 70:
         arrangement_score -= 10
-    elif duration > 240:
+    elif duration > 300:
         arrangement_score -= 5
 
-    if rhythm.drum_activity == "High":
-        arrangement_score -= 4
-    elif rhythm.drum_activity == "Low":
+    if rhythm.onset_density > 7.5 or rhythm.onset_density < 0.7:
         arrangement_score -= 4
 
-    # Do not over-punish hook/verse estimates because the current arrangement model is still rough.
-    if len(sections) >= 3:
-        verse = sections[1].avg_energy if len(sections) > 1 else 0
-        hook = sections[2].avg_energy if len(sections) > 2 else 0
-        if hook <= verse * 1.03:
-            arrangement_score -= 6
+    hook_energies = [s.avg_energy for s in sections if "Hook" in s.name or "Chorus" in s.name]
+    verse_energies = [s.avg_energy for s in sections if s.name == "Verse"]
+    if hook_energies and verse_energies:
+        hook_energy = float(np.mean(hook_energies))
+        verse_energy = float(np.mean(verse_energies))
+        if hook_energy <= verse_energy * 1.01:
+            arrangement_score -= 4
 
     mix_score = int(clamp(mix_score, 0, 100))
     master_score = int(clamp(master_score, 0, 100))
     arrangement_score = int(clamp(arrangement_score, 0, 100))
     release_score = int(round((mix_score * 0.35) + (master_score * 0.35) + (arrangement_score * 0.30)))
 
-    energy_score = clamp(abs(loudness.rms_db + 25) / 2.0, 0, 10)
-    bass_strength = clamp(frequency.low_end_total_percent / 5.0, 0, 10)
+    energy_score = clamp((loudness.rms_db + 24.0) / 1.6, 0, 10)
+    bass_strength = clamp(frequency.low_end_total_percent / 4.5, 0, 10)
     brightness_score = clamp(frequency.brightness_centroid_hz / 500, 0, 10)
     darkness_score = clamp(10 - brightness_score, 0, 10)
-    drum_bounce = clamp(rhythm.onset_density * 2.5, 0, 10)
-    vocal_space = clamp(10 - ((bands["Mud"] / 2.5) + (bands["Low Mids"] / 7)), 0, 10)
+    drum_bounce = clamp((rhythm.onset_density - 0.5) * 1.35, 0, 10)
+    vocal_space = clamp(10 - max(0.0, mud_excess) * 1.5 - max(0.0, bands["Low Mids"] - 17.0) * 0.5, 0, 10)
 
     return Scores(
         mix=mix_score,
@@ -1227,126 +1243,200 @@ def build_feedback(
     sections: List[ArrangementSection],
     scores: Scores,
 ) -> Tuple[List[str], List[str], List[str], List[str], List[str], List[str]]:
+    """Build evidence-based feedback without forcing five generic problems."""
     bands = frequency.band_percentages
     style = STYLE_PRESETS[DEFAULT_STYLE]
-    problems: List[Tuple[int, str]] = []
-    fixes: List[str] = []
+    problems: List[Tuple[int, str, str]] = []
     artist_notes: List[str] = []
     producer_notes: List[str] = []
     master_notes: List[str] = []
-    next_steps: List[str] = []
 
-    if loudness.clipping_detected:
-        problems.append((95, f"Clipping detected: {loudness.clipping_samples} samples are near/over the limit."))
-        fixes.append("Lower the master/output, then use a soft clipper or limiter with safer ceiling.")
-        master_notes.append("Clipping is the first thing to fix before judging the rest of the mix.")
-    elif loudness.peak_db > -0.3:
-        problems.append((75, "Peak is extremely close to 0 dB, so the export has almost no headroom."))
-        fixes.append("Set limiter/output ceiling around -0.3 to -1.0 dB before exporting.")
+    primary_values = [
+        bands["Sub"], bands["Bass / 808"], bands["Mud"], bands["Low Mids"],
+        bands["Mids / Melody"], bands["Highs"], bands["Air"],
+    ]
+    primary_average = float(np.mean(primary_values))
+    mud_excess = bands["Mud"] - primary_average
+
+    def add_problem(priority: int, problem: str, fix: str) -> None:
+        problems.append((priority, problem, fix))
+
+    # Only sustained/meaningful clipping becomes a top problem. A few isolated
+    # samples are reported as a note rather than dominating every result.
+    if loudness.clipping_percent >= 0.10:
+        add_problem(
+            96,
+            f"Sustained clipping is present ({loudness.clipping_percent:.3f}% of samples).",
+            "Lower the level feeding the final clipper/limiter and use a safer output ceiling.",
+        )
+        master_notes.append("Clipping is strong enough to deserve attention before final export.")
+    elif loudness.clipping_percent >= 0.01:
+        add_problem(
+            78,
+            f"Some clipping is present ({loudness.clipping_percent:.3f}% of samples).",
+            "Check the loudest section and reduce the limiter or clipper only if distortion is audible.",
+        )
+    elif loudness.clipping_detected:
+        master_notes.append(
+            f"Only {loudness.clipping_samples} isolated near-full-scale samples were found; this is not automatically an audible clipping problem."
+        )
     else:
         master_notes.append("No obvious clipping problem detected.")
 
-    if loudness.rms_db < style["rms_min"]:
-        problems.append((55, "Track is quiet for the selected style."))
-        fixes.append("Add controlled loudness with gain staging, saturation, soft clipping, then limiting.")
-    elif loudness.rms_db > style["rms_max"]:
-        problems.append((65, "Track is extremely loud for the selected style and may be crushed."))
-        fixes.append("Back off limiting/clipping only if the punch or clarity disappears.")
+    if loudness.rms_db < style["rms_min"] - 2.0:
+        add_problem(
+            70,
+            f"The track is noticeably quiet for this style ({loudness.rms_db:.1f} dB RMS).",
+            "Add loudness gradually with gain staging, controlled saturation or clipping, and final limiting.",
+        )
+    elif loudness.rms_db > style["rms_max"] + 1.0:
+        add_problem(
+            72,
+            f"The master is unusually dense/loud ({loudness.rms_db:.1f} dB RMS).",
+            "Back off the final limiting if the kick, 808, or vocal has lost punch and separation.",
+        )
     else:
-        master_notes.append("Loudness is in a usable range for the selected style.")
+        master_notes.append("Loudness is within a usable range for the selected style.")
 
-    if loudness.dynamic_range_db < 6:
-        problems.append((60, "Dynamic range is tight, which can make the beat feel flattened."))
-        fixes.append("Reduce over-compression or clipping on the master and let transients breathe.")
-    elif loudness.dynamic_range_db > 16:
-        problems.append((55, "Dynamic range is wide, so some sections may feel uneven."))
-        fixes.append("Use automation or compression to make sections feel more controlled.")
+    if loudness.dynamic_range_db < 5:
+        add_problem(
+            68,
+            f"The master has very little peak-to-average movement ({loudness.dynamic_range_db:.1f} dB).",
+            "Reduce compression or clipping slightly and compare whether the drums regain punch.",
+        )
+    elif loudness.dynamic_range_db > 19:
+        add_problem(
+            58,
+            f"Level movement is unusually wide ({loudness.dynamic_range_db:.1f} dB).",
+            "Use automation or light compression only on sections that fall noticeably behind.",
+        )
 
     if frequency.low_end_total_percent > style["low_end_problem"]:
-        problems.append((72, "Low end is extremely dominant, even for rage/underground trap."))
-        fixes.append("Do not automatically turn the 808 down. First check whether the melody, vocal range, or upper mids are being masked.")
-        producer_notes.append("Extreme low-end profile detected. This can be stylistically correct if the melody/vocal still cuts through.")
-    elif frequency.low_end_total_percent > style["low_end_warning"]:
-        producer_notes.append("Heavy bass detected, but this is normal for rage and underground trap. Judge masking before calling it a problem.")
-    elif frequency.low_end_total_percent < 15:
-        problems.append((70, "Low end is weak for rage/trap; the beat may not hit hard enough."))
-        fixes.append("Raise the 808/bass, add saturation, or choose a stronger 808 sample.")
+        add_problem(
+            74,
+            f"Low end dominates {frequency.low_end_total_percent:.1f}% of the measured balance.",
+            "Check whether the 808 masks the vocal or melody before lowering it; use level, envelope, or selective EQ instead of a blind bass cut.",
+        )
+    elif frequency.low_end_total_percent < 13:
+        add_problem(
+            69,
+            f"Low-end presence is light for rage/trap ({frequency.low_end_total_percent:.1f}%).",
+            "Check the 808 level, octave, saturation, and compatibility with the kick.",
+        )
     else:
-        producer_notes.append("Low-end presence looks usable for the selected style.")
+        producer_notes.append(f"Low-end balance is usable for the selected style ({frequency.low_end_total_percent:.1f}%).")
 
-    if bands["Mud"] > 12:
-        problems.append((80, "Mud range is elevated around 250-500 Hz."))
-        fixes.append("Gently cut 250-500 Hz on melodies, pads, or the master if the mix feels cloudy.")
-    if bands["Low Mids"] > 24:
-        problems.append((62, "Low mids are crowded, which can fight vocals and make the beat feel boxy."))
-        fixes.append("Make room around 500-1000 Hz, especially if vocals will be added.")
-    if bands["Harsh Zone"] > 18:
-        problems.append((78, "Harsh zone is strong around 2k-5k."))
-        fixes.append("Use dynamic EQ around 2k-5k on harsh leads, vocals, claps, or hats.")
-    if bands["Highs"] < 8:
-        problems.append((55, "High end is dull, so the beat may lack shine or air."))
-        fixes.append("Add brightness carefully with hats, open hats, exciter, or a gentle high shelf.")
-    elif bands["Highs"] > 35:
-        problems.append((65, "High end is very strong and could become sharp on headphones."))
-        fixes.append("Turn down harsh hats/leads or tame 6k-10k with EQ.")
+    if bands["Mud"] > 17.0 and mud_excess > 2.0:
+        add_problem(
+            76,
+            f"The 250-500 Hz area stands about {mud_excess:.1f} points above the track's average band level.",
+            "Solo likely contributors and make a small cut only where the cloudiness is actually coming from.",
+        )
 
-    if rhythm.drum_activity == "Low":
-        problems.append((45, "Drum movement is low; the beat may need more bounce or percussion variation."))
-        fixes.append("Add hat rolls, percussion fills, or small drum changes every 4-8 bars.")
-    elif rhythm.drum_activity == "High":
-        problems.append((45, "Drum movement is very active; the beat could become overcrowded."))
-        fixes.append("Mute extra percussion in some sections so the hook/drop feels bigger.")
+    if bands["Low Mids"] > 20.0:
+        add_problem(
+            63,
+            f"Low mids are unusually concentrated ({bands['Low Mids']:.1f}%).",
+            "Check 500-1000 Hz on stacked melodies and vocals for masking or boxiness.",
+        )
+    if bands["Harsh Zone"] > 20.0:
+        add_problem(
+            73,
+            f"Upper-mid energy is strong around 2-5 kHz ({bands['Harsh Zone']:.1f}%).",
+            "Use dynamic EQ on the specific lead, vocal, clap, or hat that becomes sharp—not automatically on the full master.",
+        )
+    if bands["Highs"] < 6.0:
+        add_problem(
+            56,
+            f"The top end is restrained ({bands['Highs']:.1f}%).",
+            "Compare against a reference before adding hats, excitation, or a gentle high shelf.",
+        )
+    elif bands["Highs"] > 38.0:
+        add_problem(
+            64,
+            f"The top end is unusually dominant ({bands['Highs']:.1f}%).",
+            "Check hats and bright leads on headphones and tame only the source that feels sharp.",
+        )
 
-    if len(sections) >= 3:
-        verse = sections[1].avg_energy
-        hook = sections[2].avg_energy
-        if hook <= verse * 1.03:
-            problems.append((45, "Hook/verse contrast looks low, but arrangement detection is still an estimate."))
-            fixes.append("Check the waveform/sections by ear. If the hook feels flat, add contrast with melody layers, drum changes, or vocal energy.")
+    if rhythm.onset_density < 0.7:
+        add_problem(
+            48,
+            f"Rhythmic movement is sparse ({rhythm.onset_density:.2f} detected hits/sec).",
+            "Add variation only if the song feels empty; silence may be part of the intended pocket.",
+        )
+    elif rhythm.onset_density > 7.5:
+        add_problem(
+            50,
+            f"Rhythmic movement is extremely dense ({rhythm.onset_density:.2f} detected hits/sec).",
+            "Check whether hats or percussion blur together, and remove parts only in sections that feel crowded.",
+        )
+
+    hook_energies = [s.avg_energy for s in sections if "Hook" in s.name or "Chorus" in s.name]
+    verse_energies = [s.avg_energy for s in sections if s.name == "Verse"]
+    if hook_energies and verse_energies:
+        hook_energy = float(np.mean(hook_energies))
+        verse_energy = float(np.mean(verse_energies))
+        if hook_energy <= verse_energy * 0.98:
+            add_problem(
+                47,
+                "Detected hook sections are quieter than the detected verses.",
+                "Listen at the estimated transitions and add contrast only if the hook truly feels smaller than intended.",
+            )
+        elif hook_energy <= verse_energy * 1.01:
+            producer_notes.append("Hook and verse energy are close; this may be intentional, so arrangement contrast was not treated as a firm problem.")
 
     intro = sections[0] if sections else None
-    if intro and intro.end > rhythm.seconds_per_bar * 8.5:
-        problems.append((50, "Intro may be long for short-form listener retention."))
-        fixes.append("Consider bringing drums, 808, or a strong tag/moment in earlier.")
+    if intro and rhythm.seconds_per_bar > 0:
+        intro_bars = intro.end / rhythm.seconds_per_bar
+        if intro_bars > 12:
+            add_problem(
+                52,
+                f"The detected intro is approximately {intro_bars:.1f} bars long.",
+                "Consider introducing a defining vocal, drum, 808, or melodic moment earlier if retention feels slow.",
+            )
 
-    artist_notes.append(f"Autotune/key starting point: {basic.key}. Confidence: {basic.key_confidence:.1f}%.")
+    if basic.key == "Uncertain":
+        artist_notes.append(f"Key could not be identified confidently ({basic.key_confidence:.1f}% confidence). Verify it by ear before setting Auto-Tune.")
+    else:
+        artist_notes.append(f"Possible Auto-Tune starting point: {basic.key} ({basic.key_confidence:.1f}% confidence).")
+
     artist_notes.append(f"Beat energy: {scores.energy:.1f}/10. Darkness: {scores.darkness:.1f}/10.")
-    artist_notes.append(f"Vocal space estimate: {scores.vocal_space:.1f}/10. Higher means easier space for vocals.")
-    if frequency.low_end_total_percent > style["low_end_warning"]:
-        artist_notes.append("Low end is very strong. For rage/trap this can be correct, but vocals may need low-mid cleanup to sit right.")
-    if frequency.brightness_label == "Low":
-        artist_notes.append("Beat leans dark, so brighter vocals/adlibs may cut through well.")
+    artist_notes.append(f"Vocal space estimate: {scores.vocal_space:.1f}/10. Higher suggests less measured low-mid masking.")
 
     producer_notes.append(f"Selected style preset: {DEFAULT_STYLE}.")
-    producer_notes.append(f"Dominant frequency area: {frequency.dominant_band}.")
-    producer_notes.append(f"Drum activity is {rhythm.drum_activity.lower()} at {rhythm.onset_density:.2f} hits/sec.")
-    producer_notes.append(f"Estimated length: {rhythm.estimated_bars} bars at {basic.bpm:.0f} BPM.")
-
-    master_notes.append(f"Peak: {loudness.peak_db:.2f} dB. RMS: {loudness.rms_db:.2f} dB. Dynamic range: {loudness.dynamic_range_db:.2f} dB.")
-
-    sorted_problems = [text for _, text in sorted(problems, key=lambda item: item[0], reverse=True)]
-    top_problems = sorted_problems[:5]
-    unique_fixes = []
-    for fix in fixes:
-        if fix not in unique_fixes:
-            unique_fixes.append(fix)
-
-    if top_problems:
-        next_steps.extend(unique_fixes[:3])
+    producer_notes.append(f"Dominant measured frequency area: {frequency.dominant_band}.")
+    producer_notes.append(f"Detected rhythmic activity: {rhythm.drum_activity.lower()} ({rhythm.onset_density:.2f} hits/sec).")
+    if basic.bpm > 0 and rhythm.estimated_bars > 0:
+        producer_notes.append(f"Estimated length: {rhythm.estimated_bars} bars at {basic.bpm:.1f} BPM.")
     else:
-        top_problems.append("No major technical red flags. Focus on taste, arrangement, and reference comparison.")
-        next_steps.append("Compare it to one reference track and adjust by ear, not just by numbers.")
+        producer_notes.append("BPM was uncertain, so bar count was not estimated.")
+
+    master_notes.append(
+        f"Peak: {loudness.peak_db:.2f} dB. RMS: {loudness.rms_db:.2f} dB. Peak-to-average range: {loudness.dynamic_range_db:.2f} dB."
+    )
+
+    # Keep one problem per category and only return evidence-backed items.
+    sorted_items = sorted(problems, key=lambda item: item[0], reverse=True)
+    top_items = sorted_items[:5]
+    top_problems = [problem for _, problem, _ in top_items]
+    suggested_fixes = []
+    for _, _, fix in sorted_items:
+        if fix not in suggested_fixes:
+            suggested_fixes.append(fix)
+
+    next_steps = [fix for _, _, fix in top_items[:3]]
+    if not top_problems:
+        top_problems = ["No strong technical red flags were detected. Use a reference track and your ears for creative decisions."]
+        next_steps = ["Compare the loudest hook and busiest verse against one reference at matched volume before changing anything."]
 
     if scores.release >= 85:
-        next_steps.append("This is close. Only make small changes unless you hear a clear problem.")
+        next_steps.append("The technical reading is strong; avoid changing the mix unless a reference or listening test reveals a clear issue.")
     elif scores.release >= 70:
-        next_steps.append("Fix the top 1-2 issues, export again, then re-run SoundLens.")
+        next_steps.append("Address only the highest-confidence issue, export again, and compare at matched loudness.")
     else:
-        next_steps.append("Fix the technical problems first before worrying about tiny creative details.")
+        next_steps.append("Fix the clearest technical issue first, then re-run SoundLens before making smaller changes.")
 
-    return top_problems, unique_fixes, artist_notes, producer_notes, master_notes, next_steps
-
-
+    return top_problems, suggested_fixes, artist_notes, producer_notes, master_notes, next_steps
 
 def stem_metrics_from_file(stem_path: Path, name: str) -> StemMetrics:
     y, sr = load_audio(stem_path)
