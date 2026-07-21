@@ -1869,7 +1869,7 @@
             <div class="card info-card"><h2>Key</h2><div id="key">-</div></div>
             <div class="card info-card"><h2>BPM</h2><div id="bpm">-</div></div>
             <div class="card info-card"><h2>Duration</h2><div id="duration">-</div></div>
-            <div class="card info-card"><h2>Sample Rate</h2><div id="sampleRate">-</div></div>
+            <div class="card info-card"><h2>Estimated Bars</h2><div id="estimatedBars">-</div></div>
         </div>
     </div>
 
@@ -3004,7 +3004,7 @@ async function analyze(){
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = String(totalSeconds % 60).padStart(2, "0");
     document.getElementById("duration").innerText = `${minutes}:${seconds}`;
-    document.getElementById("sampleRate").innerText = report.basic.sample_rate + " Hz";
+    document.getElementById("estimatedBars").innerText = Number(report.rhythm?.estimated_bars || 0) > 0 ? Math.round(report.rhythm.estimated_bars) : "Uncertain";
 
     document.getElementById("problems").innerHTML = (report.top_problems || []).map(item => `<li>${item}</li>`).join("");
     document.getElementById("fixes").innerHTML = (report.next_steps || []).map(item => `<li>${item}</li>`).join("");
@@ -3169,7 +3169,7 @@ async function runProfileComparison(file, status){
 
             const overviewArtist = document.getElementById("overviewClosestArtist");
             if(overviewArtist){
-                overviewArtist.innerText = `${best.profile_name} (${Math.round(score)}%) • ${best.confidence || "Medium"} Confidence`;
+                overviewArtist.innerText = `${best.profile_name} (${Math.round(score)}%) • Underground Hip-Hop`;
             }
 
             if(matchesBox){
@@ -3187,7 +3187,7 @@ async function runProfileComparison(file, status){
                             <div class="match-bar-bg">
                                 <div class="match-bar" style="width:${Math.max(0, Math.min(100, score))}%"></div>
                             </div>
-                            <p class="muted">Confidence: ${profile.confidence || "Medium"} • ${profile.confidence_percent || "-"}% • Tracks: ${tracks}</p>
+                            <p class="muted">Underground Hip-Hop • Tracks: ${tracks}</p>
                             ${matchComponentHTML(profile.score_components)}
                         </div>
                     `;
