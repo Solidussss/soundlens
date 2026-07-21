@@ -3301,7 +3301,7 @@ function renderReports(){
                             </div>
                             <div class="report-metric">
                                 <span>Energy</span>
-                                <strong>${report.energy_score ?? "-"}</strong>
+                                <strong>${energy == null || energy === "-" ? "-" : Number(energy).toFixed(1)}</strong>
                             </div>
                             <div class="report-metric">
                                 <span>Arrangement</span>
