@@ -343,7 +343,7 @@ def save_report_for_user(user: dict, report_dict: dict, text_report: str, origin
         "title": report_dict.get("basic", {}).get("file_name") or original_filename,
         "release_score": report_dict.get("scores", {}).get("release"),
         "mix_score": report_dict.get("scores", {}).get("mix"),
-        "master_score": report_dict.get("scores", {}).get("master"),
+        "energy_score": report_dict.get("scores", {}).get("energy"),
         "arrangement_score": report_dict.get("scores", {}).get("arrangement"),
         "report": report_dict,
         "text_report": text_report,
@@ -383,7 +383,7 @@ def list_reports_for_user(user: dict) -> list[dict]:
             "original_filename": data.get("original_filename"),
             "release_score": data.get("release_score"),
             "mix_score": data.get("mix_score"),
-            "master_score": data.get("master_score"),
+            "energy_score": data.get("energy_score"),
             "arrangement_score": data.get("arrangement_score"),
             "closest_artist": closest_artist,
         })
