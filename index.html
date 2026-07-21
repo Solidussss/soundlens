@@ -1566,6 +1566,231 @@
         .admin-debug-box{background:rgba(15,17,23,0.55);border:1px solid #303750;border-radius:16px;padding:14px;white-space:pre-wrap;overflow:auto;max-height:340px;color:var(--muted);font-size:12px;}
         #fixesPage .fix-card,#fixesPage details{display:none;}
 
+
+        /* SoundLens Core — lightweight visual identity tile */
+        .sound-core-card{
+            position:relative;
+            overflow:hidden;
+            min-height:430px;
+            background:
+                radial-gradient(circle at 50% 40%, rgba(99,102,241,0.18), transparent 34%),
+                linear-gradient(145deg,rgba(20,23,36,0.98),rgba(11,13,19,0.98));
+            border:1px solid #343b58;
+        }
+        .sound-core-card:before{
+            content:"";
+            position:absolute;
+            inset:-35%;
+            background:conic-gradient(from 0deg,transparent,rgba(99,102,241,0.09),transparent 32%,rgba(34,211,238,0.07),transparent 65%);
+            animation:coreBackdropSpin 24s linear infinite;
+            pointer-events:none;
+        }
+        .sound-core-header{
+            position:relative;
+            z-index:2;
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            gap:16px;
+            flex-wrap:wrap;
+        }
+        .sound-core-title{ margin:0; font-size:28px; letter-spacing:-0.7px; }
+        .sound-core-status{
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+            padding:7px 11px;
+            border-radius:999px;
+            background:rgba(99,102,241,0.14);
+            border:1px solid rgba(129,140,248,0.22);
+            color:#dfe1ff;
+            font-size:12px;
+            font-weight:900;
+            text-transform:uppercase;
+            letter-spacing:0.75px;
+        }
+        .sound-core-status:before{
+            content:"";
+            width:7px;
+            height:7px;
+            border-radius:50%;
+            background:#8b8ffb;
+            box-shadow:0 0 14px rgba(139,143,251,0.9);
+            animation:coreStatusPulse 2s ease-in-out infinite;
+        }
+        .sound-core-stage{
+            position:relative;
+            z-index:2;
+            min-height:285px;
+            display:grid;
+            place-items:center;
+            margin:4px 0 10px;
+        }
+        .sound-core-orbit{
+            --core-size:170px;
+            --core-pulse:4.2s;
+            --core-hue:252;
+            --core-energy:0.62;
+            --core-roughness:18%;
+            position:relative;
+            width:270px;
+            height:270px;
+            display:grid;
+            place-items:center;
+            animation:coreFloat 6.8s ease-in-out infinite;
+            filter:drop-shadow(0 24px 34px rgba(0,0,0,0.34));
+        }
+        .sound-core-ring{
+            position:absolute;
+            width:230px;
+            height:230px;
+            border-radius:50%;
+            border:1px solid hsla(var(--core-hue),90%,72%,0.28);
+            box-shadow:inset 0 0 28px hsla(var(--core-hue),90%,62%,0.08),0 0 38px hsla(var(--core-hue),90%,62%,0.12);
+            animation:coreRingSpin 13s linear infinite;
+        }
+        .sound-core-ring:before,.sound-core-ring:after{
+            content:"";
+            position:absolute;
+            border-radius:50%;
+            background:hsl(var(--core-hue),90%,72%);
+            box-shadow:0 0 16px hsla(var(--core-hue),95%,70%,0.9);
+        }
+        .sound-core-ring:before{ width:8px; height:8px; top:22px; left:42px; }
+        .sound-core-ring:after{ width:5px; height:5px; right:18px; bottom:64px; opacity:0.7; }
+        .sound-core-ring.ring-two{
+            width:266px;
+            height:170px;
+            transform:rotate(-18deg);
+            opacity:0.48;
+            animation-duration:18s;
+            animation-direction:reverse;
+        }
+        .sound-core{
+            position:relative;
+            width:var(--core-size);
+            height:var(--core-size);
+            border-radius:58% 42% 55% 45% / 48% 56% 44% 52%;
+            background:
+                radial-gradient(circle at 34% 28%,rgba(255,255,255,0.88),transparent 10%),
+                radial-gradient(circle at 42% 38%,hsla(var(--core-hue),95%,78%,0.8),transparent 24%),
+                radial-gradient(circle at 60% 64%,hsla(calc(var(--core-hue) + 34),95%,58%,0.78),transparent 54%),
+                linear-gradient(145deg,hsl(var(--core-hue),84%,61%),hsl(calc(var(--core-hue) + 28),84%,42%));
+            box-shadow:
+                inset -22px -26px 42px rgba(3,5,12,0.34),
+                inset 16px 14px 34px rgba(255,255,255,0.12),
+                0 0 calc(48px + 38px * var(--core-energy)) hsla(var(--core-hue),95%,62%,0.54),
+                0 0 calc(88px + 44px * var(--core-energy)) hsla(calc(var(--core-hue) + 28),90%,55%,0.18);
+            animation:coreBreathe var(--core-pulse) ease-in-out infinite,coreMorph 9s ease-in-out infinite;
+            transform:translateZ(0);
+        }
+        .sound-core:before{
+            content:"";
+            position:absolute;
+            inset:14%;
+            border-radius:inherit;
+            background:radial-gradient(circle at 68% 28%,rgba(255,255,255,0.24),transparent 15%),repeating-radial-gradient(circle at 45% 54%,rgba(255,255,255,0.08) 0 2px,transparent 3px 11px);
+            opacity:0.55;
+            mix-blend-mode:screen;
+            animation:coreTexture 10s linear infinite;
+        }
+        .sound-core:after{
+            content:"";
+            position:absolute;
+            inset:-12%;
+            border-radius:50%;
+            border:1px solid hsla(var(--core-hue),96%,76%,0.18);
+            filter:blur(1px);
+            animation:coreEcho var(--core-pulse) ease-out infinite;
+        }
+        .sound-core-particle{
+            position:absolute;
+            width:4px;
+            height:4px;
+            border-radius:50%;
+            background:#fff;
+            box-shadow:0 0 12px hsla(var(--core-hue),95%,72%,0.95);
+            opacity:0.72;
+        }
+        .sound-core-particle.p1{ top:24px; right:48px; animation:particleDrift 5.4s ease-in-out infinite; }
+        .sound-core-particle.p2{ bottom:34px; left:38px; animation:particleDrift 6.8s ease-in-out infinite reverse; }
+        .sound-core-particle.p3{ top:104px; left:7px; width:3px; height:3px; animation:particleDrift 4.8s ease-in-out infinite 1s; }
+        .sound-core-metrics{
+            position:relative;
+            z-index:2;
+            display:grid;
+            grid-template-columns:repeat(4,minmax(0,1fr));
+            gap:10px;
+        }
+        .sound-core-metric{
+            background:rgba(15,17,23,0.58);
+            border:1px solid #303750;
+            border-radius:15px;
+            padding:12px;
+            text-align:center;
+        }
+        .sound-core-metric span{
+            display:block;
+            color:var(--muted);
+            font-size:10px;
+            font-weight:900;
+            text-transform:uppercase;
+            letter-spacing:0.85px;
+            margin-bottom:5px;
+        }
+        .sound-core-metric strong{
+            display:block;
+            font-size:18px;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+        .sound-core-signal{
+            position:relative;
+            z-index:2;
+            display:flex;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:8px;
+            margin-top:12px;
+        }
+        .sound-core-chip{
+            display:inline-flex;
+            align-items:center;
+            min-height:30px;
+            padding:7px 11px;
+            border-radius:999px;
+            background:rgba(99,102,241,0.11);
+            border:1px solid rgba(129,140,248,0.18);
+            color:#dfe1ff;
+            font-size:12px;
+            font-weight:800;
+            max-width:100%;
+        }
+        @keyframes coreBackdropSpin{ to{ transform:rotate(360deg); } }
+        @keyframes coreRingSpin{ to{ transform:rotate(360deg); } }
+        @keyframes coreStatusPulse{ 50%{ transform:scale(1.35); opacity:0.55; } }
+        @keyframes coreFloat{ 0%,100%{ transform:translateY(3px) rotate(-1deg); } 50%{ transform:translateY(-8px) rotate(1deg); } }
+        @keyframes coreBreathe{ 0%,100%{ transform:scale(0.97); } 50%{ transform:scale(1.035); } }
+        @keyframes coreMorph{
+            0%,100%{ border-radius:58% 42% 55% 45% / 48% 56% 44% 52%; }
+            33%{ border-radius:44% 56% 47% 53% / 58% 43% 57% 42%; }
+            66%{ border-radius:53% 47% 60% 40% / 43% 59% 41% 57%; }
+        }
+        @keyframes coreTexture{ to{ transform:rotate(360deg); } }
+        @keyframes coreEcho{ 0%{ transform:scale(0.86); opacity:0.32; } 72%,100%{ transform:scale(1.18); opacity:0; } }
+        @keyframes particleDrift{ 0%,100%{ transform:translate(0,0) scale(0.8); opacity:0.35; } 50%{ transform:translate(10px,-12px) scale(1.35); opacity:0.9; } }
+        @media(max-width:768px){
+            .sound-core-card{ min-height:410px; }
+            .sound-core-orbit{ width:240px; height:240px; }
+            .sound-core-ring{ width:210px; height:210px; }
+            .sound-core-ring.ring-two{ width:235px; height:150px; }
+            .sound-core-metrics{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+        }
+        @media (prefers-reduced-motion: reduce){
+            .sound-core-card:before,.sound-core-status:before,.sound-core-orbit,.sound-core-ring,.sound-core,.sound-core:before,.sound-core:after,.sound-core-particle{ animation:none !important; }
+        }
+
     </style>
 </head>
 
@@ -1835,14 +2060,36 @@
         </div>
 
 
-        <div class="card ai-review-card" id="aiReviewCard">
-            <div class="eyebrow">SoundLens AI <span id="aiModelPill" class="ai-model-pill">Ready</span></div>
-            <h2 style="margin-top:0">Personalized Review</h2>
-            <p class="muted">After analysis, SoundLens AI explains the report in plain English using this track's actual metrics.</p>
-            <div id="aiReviewContent" class="ai-review-grid">
-                <div class="ai-review-tile">
-                    <span>Waiting</span>
-                    <p>Upload a track to generate a specific AI review.</p>
+        <div class="card sound-core-card" id="aiReviewCard">
+            <div class="sound-core-header">
+                <div>
+                    <div class="eyebrow">Sonic Identity</div>
+                    <h2 class="sound-core-title">SoundLens Core</h2>
+                </div>
+                <div id="aiModelPill" class="sound-core-status">Waiting</div>
+            </div>
+
+            <div id="aiReviewContent">
+                <div class="sound-core-stage">
+                    <div class="sound-core-orbit" id="soundCoreOrbit">
+                        <div class="sound-core-ring"></div>
+                        <div class="sound-core-ring ring-two"></div>
+                        <div class="sound-core" id="soundCoreOrb"></div>
+                        <i class="sound-core-particle p1"></i>
+                        <i class="sound-core-particle p2"></i>
+                        <i class="sound-core-particle p3"></i>
+                    </div>
+                </div>
+
+                <div class="sound-core-metrics">
+                    <div class="sound-core-metric"><span>Mix</span><strong id="coreMix">—</strong></div>
+                    <div class="sound-core-metric"><span>Energy</span><strong id="coreEnergy">—</strong></div>
+                    <div class="sound-core-metric"><span>Arrangement</span><strong id="coreArrangement">—</strong></div>
+                    <div class="sound-core-metric"><span>Character</span><strong id="coreCharacter">Waiting</strong></div>
+                </div>
+
+                <div class="sound-core-signal" id="soundCoreSignals">
+                    <span class="sound-core-chip">Upload a track to generate its core</span>
                 </div>
             </div>
         </div>
@@ -2234,55 +2481,76 @@ async function loadAdminDebug(){
 }
 
 function renderAIReview(report){
-    const card = document.getElementById("aiReviewCard");
-    const box = document.getElementById("aiReviewContent");
+    const orb = document.getElementById("soundCoreOrb");
+    const orbit = document.getElementById("soundCoreOrbit");
     const pill = document.getElementById("aiModelPill");
+    const signals = document.getElementById("soundCoreSignals");
 
-    if(!card || !box){ return; }
+    if(!orb || !orbit){ return; }
 
+    const scores = report.scores || {};
+    const frequency = report.frequency || {};
     const review = report.ai_review || {};
+
+    const clamp = (value,min,max) => Math.min(max,Math.max(min,Number(value) || 0));
+    const mix = clamp(scores.mix,0,100);
+    const arrangement = clamp(scores.arrangement,0,100);
+    const energyRaw = clamp(scores.energy,0,10);
+    const energyNorm = energyRaw / 10;
+    const brightness = clamp(
+        frequency.brightness_score ??
+        frequency.brightness ??
+        frequency.spectral_brightness ??
+        50,
+        0,
+        100
+    );
+
+    const hue = Math.round(228 + (brightness / 100) * 72);
+    const size = Math.round(148 + (mix / 100) * 34);
+    const pulse = (5.6 - energyNorm * 2.6).toFixed(2);
+
+    orbit.style.setProperty("--core-hue", hue);
+    orbit.style.setProperty("--core-size", `${size}px`);
+    orbit.style.setProperty("--core-pulse", `${pulse}s`);
+    orbit.style.setProperty("--core-energy", energyNorm.toFixed(2));
+
+    const character =
+        energyRaw >= 7.5 ? "Charged" :
+        energyRaw >= 5.0 ? "Focused" :
+        energyRaw >= 3.0 ? "Atmospheric" : "Calm";
+
+    document.getElementById("coreMix").innerText = Math.round(mix);
+    document.getElementById("coreEnergy").innerText = energyRaw.toFixed(1);
+    document.getElementById("coreArrangement").innerText = Math.round(arrangement);
+    document.getElementById("coreCharacter").innerText = character;
+
+    if(pill){
+        pill.innerText = report.ai_enabled ? "Core Generated" : "Core Ready";
+    }
+
+    const shortSignal = value => {
+        const clean = String(value || "").replace(/\s+/g," ").trim();
+        if(!clean){ return ""; }
+        const firstSentence = clean.split(/[.!?]/)[0].trim();
+        return firstSentence.length > 48 ? firstSentence.slice(0,45).trim() + "…" : firstSentence;
+    };
+
     const strengths = Array.isArray(review.biggest_strengths) ? review.biggest_strengths : [];
     const weaknesses = Array.isArray(review.biggest_weaknesses) ? review.biggest_weaknesses : [];
 
-    if(pill){
-        pill.innerText = report.ai_enabled ? "AI Generated" : "Standard";
+    const signalItems = [
+        strengths.length ? shortSignal(strengths[0]) : "",
+        weaknesses.length ? shortSignal(weaknesses[0]) : "",
+        shortSignal(review.artist_direction),
+        shortSignal(review.priority_fix)
+    ].filter(Boolean).slice(0,4);
+
+    if(signals){
+        signals.innerHTML = signalItems.length
+            ? signalItems.map(item => `<span class="sound-core-chip">${escapeHtml(item)}</span>`).join("")
+            : `<span class="sound-core-chip">${escapeHtml(character)} sonic profile</span>`;
     }
-
-    const listHTML = items => {
-        if(!items.length){ return "<p>Not enough detail returned for this section.</p>"; }
-        return `<ul class="ai-review-list">${items.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
-    };
-
-    box.innerHTML = `
-        <div class="ai-review-tile">
-            <span>🎯 First Impression</span>
-            <p>${escapeHtml(review.first_impression || "SoundLens generated the core metrics. AI review was not available for this run.")}</p>
-        </div>
-        <div class="ai-review-tile">
-            <span>🔥 Biggest Strengths</span>
-            ${listHTML(strengths)}
-        </div>
-        <div class="ai-review-tile">
-            <span>⚠ Biggest Weaknesses</span>
-            ${listHTML(weaknesses)}
-        </div>
-        <div class="ai-review-tile">
-            <span>🎛 Mix Advice</span>
-            <p>${escapeHtml(review.mix_advice || "Use the fixes page to decide what to adjust first.")}</p>
-        </div>
-        <div class="ai-review-tile">
-            <span>🎵 Artist Direction</span>
-            <p>${escapeHtml(review.artist_direction || "Artist direction will appear after profile matching.")}</p>
-        </div>
-        <div class="ai-review-tile">
-            <span>🚀 Priority Fix</span>
-            <p>${escapeHtml(review.priority_fix || "Fix the highest impact issue first.")}</p>
-        </div>
-        <div class="ai-review-tile">
-            <span>⭐ Release Verdict</span>
-            <p>${escapeHtml(review.release_verdict || "Use the release score and fixes before deciding whether to upload.")}</p>
-        </div>
-    `;
 }
 
 
