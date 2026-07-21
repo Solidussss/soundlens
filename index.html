@@ -1462,8 +1462,120 @@
         .landing-card p{ margin:0; color:var(--muted); line-height:1.45; }
         .pricing-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:16px; }
         .pricing-card{ background:rgba(15,17,23,0.55); border:1px solid #303750; border-radius:20px; padding:22px; }
-        .pricing-card.featured{ border-color:#6366f1; box-shadow:0 0 0 1px rgba(99,102,241,0.35); }
+        .pricing-card.featured{
+            background:linear-gradient(145deg,#6d5dfc 0%,#5a4de2 52%,#4538b8 100%);
+            border-color:#8b83ff;
+            box-shadow:0 18px 46px rgba(88,74,220,0.34),0 0 0 1px rgba(151,143,255,0.34);
+        }
+        .pricing-card.featured h3,
+        .pricing-card.featured p,
+        .pricing-card.featured li{ color:white; }
+        .pricing-card.featured button{
+            background:white;
+            color:#4f46c8;
+        }
+        .pricing-card.featured button:hover{ background:#f2f1ff; }
         .pricing-card ul{ padding-left:20px; color:var(--muted); line-height:1.7; }
+
+        /* Pro access locks: SoundLens Core + Galaxy only */
+        .premium-lock-host{ position:relative; }
+        .premium-lock-host.pro-locked{ min-height:560px; }
+        .premium-lock-host.pro-locked > :not(.pro-lock-panel){ display:none !important; }
+        .pro-lock-panel{
+            display:none;
+            position:relative;
+            z-index:5;
+            width:100%;
+            padding:32px;
+        }
+        .premium-lock-host.pro-locked > .pro-lock-panel{ display:block; }
+        .pro-lock-heading{ text-align:center; max-width:720px; margin:0 auto 26px; }
+        .pro-lock-icon{
+            width:54px;
+            height:54px;
+            margin:0 auto 14px;
+            display:grid;
+            place-items:center;
+            border-radius:18px;
+            background:rgba(99,102,241,0.18);
+            border:1px solid rgba(139,143,251,0.34);
+            font-size:26px;
+        }
+        .pro-lock-heading h2{ margin:0 0 9px; font-size:34px; letter-spacing:-1px; }
+        .pro-lock-heading p{ margin:0; color:var(--muted); line-height:1.55; }
+        .pro-plan-grid{
+            display:grid;
+            grid-template-columns:repeat(2,minmax(0,1fr));
+            gap:18px;
+            max-width:900px;
+            margin:0 auto;
+        }
+        .pro-plan-tile{
+            border-radius:24px;
+            padding:26px;
+            border:1px solid #303750;
+            min-height:330px;
+            display:flex;
+            flex-direction:column;
+        }
+        .pro-plan-tile.free{
+            background:linear-gradient(145deg,#171a24,#0e1017);
+            box-shadow:0 18px 44px rgba(0,0,0,0.24);
+        }
+        .pro-plan-tile.pro{
+            background:linear-gradient(145deg,#6d5dfc 0%,#5a4de2 52%,#4538b8 100%);
+            border-color:#9189ff;
+            box-shadow:0 22px 54px rgba(88,74,220,0.38),0 0 0 1px rgba(167,160,255,0.22);
+        }
+        .pro-plan-top{ display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:18px; }
+        .pro-plan-name{ font-size:24px; font-weight:950; }
+        .pro-plan-badge{
+            padding:6px 10px;
+            border-radius:999px;
+            font-size:11px;
+            font-weight:900;
+            text-transform:uppercase;
+            letter-spacing:.7px;
+            background:rgba(255,255,255,0.18);
+            color:white;
+        }
+        .pro-plan-tile.free .pro-plan-badge{ background:#252b3f; color:var(--muted); }
+        .pro-plan-list{ list-style:none; padding:0; margin:0 0 22px; display:grid; gap:12px; }
+        .pro-plan-list li{ display:flex; gap:10px; align-items:flex-start; line-height:1.4; }
+        .pro-plan-list li:before{ content:"✓"; font-weight:950; }
+        .pro-plan-tile.free .pro-plan-list li{ color:#c5cad6; }
+        .pro-plan-tile.pro .pro-plan-list li{ color:white; }
+        .pro-upgrade-btn{
+            margin-top:auto;
+            width:100%;
+            background:white;
+            color:#4f46c8;
+            padding:14px 18px;
+            border-radius:13px;
+        }
+        .pro-upgrade-btn:hover{ background:#f2f1ff; }
+        .pro-current-label{
+            margin-top:auto;
+            text-align:center;
+            padding:14px;
+            border-radius:13px;
+            background:#202431;
+            color:var(--muted);
+            font-weight:800;
+        }
+        .plan-pill.plan-pro,
+        .plan-pill.plan-studio,
+        .plan-pill.plan-lifetime{
+            background:linear-gradient(135deg,#6d5dfc,#4f46c8);
+            box-shadow:0 0 16px rgba(99,102,241,0.32);
+        }
+        @media(max-width:768px){
+            .premium-lock-host.pro-locked{ min-height:0; }
+            .pro-lock-panel{ padding:20px 14px; }
+            .pro-lock-heading h2{ font-size:28px; }
+            .pro-plan-grid{ grid-template-columns:1fr; }
+            .pro-plan-tile{ min-height:0; padding:22px; }
+        }
         .feedback-form textarea,.feedback-form select,.feedback-form input{ width:100%; margin:8px 0 12px 0; padding:12px; border-radius:10px; border:1px solid #303750; background:#0f1117; color:white; }
         .admin-table{ width:100%; overflow-x:auto; }
 
@@ -2280,7 +2392,36 @@
         </div>
 
 
-        <div class="card sound-core-card" id="aiReviewCard">
+        <div class="card sound-core-card premium-lock-host" id="aiReviewCard">
+            <div id="coreProLock" class="pro-lock-panel">
+                <div class="pro-lock-heading">
+                    <div class="pro-lock-icon">🔒</div>
+                    <h2>Unlock SoundLens Core</h2>
+                    <p>See the deeper sonic identity behind your track with Atmosphere, Intensity, Identity, and Character.</p>
+                </div>
+                <div class="pro-plan-grid">
+                    <div class="pro-plan-tile free">
+                        <div class="pro-plan-top"><div class="pro-plan-name">Free</div><div class="pro-plan-badge">Current</div></div>
+                        <ul class="pro-plan-list">
+                            <li>3 uploads per day</li>
+                            <li>Overview scores</li>
+                            <li>Basic Artist Match</li>
+                            <li>Saved reports</li>
+                        </ul>
+                        <div class="pro-current-label">Free plan</div>
+                    </div>
+                    <div class="pro-plan-tile pro">
+                        <div class="pro-plan-top"><div class="pro-plan-name">SoundLens Pro</div><div class="pro-plan-badge">Unlock</div></div>
+                        <ul class="pro-plan-list">
+                            <li>Unlimited uploads</li>
+                            <li>SoundLens Core</li>
+                            <li>Interactive Galaxy</li>
+                            <li>Full analysis and future Pro tools</li>
+                        </ul>
+                        <button class="pro-upgrade-btn" onclick="startStripeCheckout('pro')">Upgrade to Pro</button>
+                    </div>
+                </div>
+            </div>
             <div class="sound-core-header">
                 <div>
                     <div class="eyebrow">Sonic Identity</div>
@@ -2361,7 +2502,36 @@
     </div>
 
     <div id="fixesPage" class="page">
-        <div class="galaxy-card">
+        <div id="galaxyPremiumHost" class="galaxy-card premium-lock-host">
+            <div id="galaxyProLock" class="pro-lock-panel">
+                <div class="pro-lock-heading">
+                    <div class="pro-lock-icon">🔒</div>
+                    <h2>Unlock SoundLens Galaxy</h2>
+                    <p>Map where your sound lives and see how your track is pulled between its closest artist matches.</p>
+                </div>
+                <div class="pro-plan-grid">
+                    <div class="pro-plan-tile free">
+                        <div class="pro-plan-top"><div class="pro-plan-name">Free</div><div class="pro-plan-badge">Current</div></div>
+                        <ul class="pro-plan-list">
+                            <li>3 uploads per day</li>
+                            <li>Overview scores</li>
+                            <li>Basic Artist Match</li>
+                            <li>Saved reports</li>
+                        </ul>
+                        <div class="pro-current-label">Free plan</div>
+                    </div>
+                    <div class="pro-plan-tile pro">
+                        <div class="pro-plan-top"><div class="pro-plan-name">SoundLens Pro</div><div class="pro-plan-badge">Unlock</div></div>
+                        <ul class="pro-plan-list">
+                            <li>Unlimited uploads</li>
+                            <li>SoundLens Core</li>
+                            <li>Interactive Galaxy</li>
+                            <li>Full analysis and future Pro tools</li>
+                        </ul>
+                        <button class="pro-upgrade-btn" onclick="startStripeCheckout('pro')">Upgrade to Pro</button>
+                    </div>
+                </div>
+            </div>
             <div class="galaxy-header">
                 <div>
                     <div class="eyebrow">SoundLens Galaxy</div>
@@ -2483,7 +2653,23 @@ const AUTH_TOKEN_KEY = "soundlens_auth_token";
 let latestProfiles = [];
 let latestAnalyzeComparison = null;
 
+function hasPremiumAccess(){
+    const plan = String(currentUser?.plan || "free").toLowerCase();
+    return ["pro", "studio", "lifetime"].includes(plan) || isJaydenAdmin(currentUser);
+}
+
+function updatePremiumAccessUI(){
+    const unlocked = hasPremiumAccess();
+    const coreHost = document.getElementById("aiReviewCard");
+    const galaxyHost = document.getElementById("galaxyPremiumHost");
+
+    [coreHost, galaxyHost].forEach(host => {
+        if(host){ host.classList.toggle("pro-locked", !unlocked); }
+    });
+}
+
 function showPage(pageId){
+    updatePremiumAccessUI();
     document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
     document.querySelectorAll(".nav-links a").forEach(link => link.classList.remove("active-nav"));
 
@@ -3059,7 +3245,7 @@ function updateAccountUI(){
         const remaining = currentUser.uploads_remaining === null ? "Unlimited" : currentUser.uploads_remaining;
         status.innerHTML = `
             Logged in as <strong>${currentUser.display_name || currentUser.email}</strong>
-            <span class="plan-pill">${currentUser.plan}</span>
+            <span class="plan-pill plan-${String(currentUser.plan || "free").toLowerCase()}">${currentUser.plan}</span>
             <span>Uploads left today: ${remaining}</span>
         `;
         if(authNav){ authNav.innerText = "Account"; }
@@ -3067,6 +3253,8 @@ function updateAccountUI(){
         status.innerText = "Not logged in";
         if(authNav){ authNav.innerText = "Login"; }
     }
+
+    updatePremiumAccessUI();
 }
 
 async function apiJSON(url, options={}){
