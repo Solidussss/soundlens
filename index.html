@@ -1802,7 +1802,7 @@
         <a id="nav-overviewPage" onclick="showPage('overviewPage')">Overview</a>
         <a id="nav-artistPage" onclick="showPage('artistPage')">Artist Match</a>
         <a id="nav-fixesPage" onclick="showPage('fixesPage')">Fixes</a>
-        <a id="nav-arrangementPage" onclick="showPage('arrangementPage')">Arrangement</a>
+        <a id="nav-arrangementPage" onclick="showPage('arrangementPage')">Identity</a>
         <a id="nav-advancedPage" onclick="showPage('advancedPage')">Advanced</a>
         <a id="nav-dashboardPage" onclick="showPage('dashboardPage'); loadDashboard();">Dashboard</a>
         <a id="nav-learnPage" onclick="showPage('learnPage')">About</a>
@@ -2082,9 +2082,9 @@
                 </div>
 
                 <div class="sound-core-metrics">
-                    <div class="sound-core-metric"><span>Mix</span><strong id="coreMix">—</strong></div>
-                    <div class="sound-core-metric"><span>Energy</span><strong id="coreEnergy">—</strong></div>
-                    <div class="sound-core-metric"><span>Arrangement</span><strong id="coreArrangement">—</strong></div>
+                    <div class="sound-core-metric"><span>Atmosphere</span><strong id="coreMix">—</strong></div>
+                    <div class="sound-core-metric"><span>Intensity</span><strong id="coreEnergy">—</strong></div>
+                    <div class="sound-core-metric"><span>Identity</span><strong id="coreArrangement">—</strong></div>
                     <div class="sound-core-metric"><span>Character</span><strong id="coreCharacter">Waiting</strong></div>
                 </div>
 
@@ -2096,19 +2096,19 @@
 
         <div class="grid">
             <div class="card score-card">
-                <h2>Mix</h2>
+                <h2>Atmosphere</h2>
                 <div id="mixScore" class="score">0</div>
-                <div id="mixLabel" class="score-label"></div>
+                <div id="atmosphereLabel" class="score-label"></div>
             </div>
             <div class="card score-card">
-                <h2>Energy</h2>
+                <h2>Intensity</h2>
                 <div id="energyScore" class="score">0.0</div>
-                <div id="energyLabel" class="score-label">Waiting</div>
+                <div id="intensityLabel" class="score-label">Waiting</div>
             </div>
             <div class="card score-card">
-                <h2>Arrangement</h2>
+                <h2>Identity</h2>
                 <div id="arrangementScore" class="score">0</div>
-                <div id="arrangementLabel" class="score-label"></div>
+                <div id="identityLabel" class="score-label"></div>
             </div>
         </div>
 
@@ -2133,7 +2133,7 @@
                     <div class="placeholder-mini"><span>Profile Match</span><strong>Closest artist lane</strong></div>
                     <div class="placeholder-mini"><span>Fingerprint</span><strong>Audio identity comparison</strong></div>
                     <div class="placeholder-mini"><span>Frequency</span><strong>Tonal balance matching</strong></div>
-                    <div class="placeholder-mini"><span>Arrangement</span><strong>Section energy matching</strong></div>
+                    <div class="placeholder-mini"><span>Identity</span><strong>Section energy matching</strong></div>
                 </div>
             </div>
         </div>
@@ -2182,7 +2182,7 @@
 
     <div id="arrangementPage" class="page">
         <div class="card" id="arrangementSection">
-            <div class="eyebrow">Arrangement</div>
+            <div class="eyebrow">Identity</div>
             <h2 style="margin-top:0">Song Structure</h2>
 
             <div id="arrangementTimeline" class="timeline-card">
@@ -2190,7 +2190,7 @@
                 <p class="placeholder-copy">V1 breaks the audio into sections and shows energy flow. It does not guess verse or chorus labels.</p>
                 <div class="placeholder-grid">
                     <div class="placeholder-mini"><span>Sections</span><strong>Automatic boundaries</strong></div>
-                    <div class="placeholder-mini"><span>Energy</span><strong>Low, medium, high movement</strong></div>
+                    <div class="placeholder-mini"><span>Intensity</span><strong>Low, medium, high movement</strong></div>
                     <div class="placeholder-mini"><span>Pacing</span><strong>Where the track changes</strong></div>
                 </div>
             </div>
@@ -2767,7 +2767,7 @@ function matchComponentHTML(components){
         <div class="component-grid">
             <div class="component-pill">Fingerprint<strong>${show(components.fingerprint, "Rebuild")}</strong></div>
             <div class="component-pill">Frequency<strong>${show(components.frequency)}</strong></div>
-            <div class="component-pill">Arrangement<strong>${show(components.arrangement || components.core)}</strong></div>
+            <div class="component-pill">Identity<strong>${show(components.arrangement || components.core)}</strong></div>
             <div class="component-pill">Core<strong>${show(components.core)}</strong></div>
         </div>
     `;
@@ -3137,7 +3137,7 @@ function renderReports(){
 
                         <div class="report-metrics">
                             <div class="report-metric">
-                                <span>Mix</span>
+                                <span>Atmosphere</span>
                                 <strong>${mix}</strong>
                             </div>
                             <div class="report-metric">
@@ -3145,7 +3145,7 @@ function renderReports(){
                                 <strong>${master}</strong>
                             </div>
                             <div class="report-metric">
-                                <span>Arrangement</span>
+                                <span>Identity</span>
                                 <strong>${arrangement}</strong>
                             </div>
                         </div>
@@ -3260,11 +3260,11 @@ async function analyze(){
     updateOverview(report);
     renderAIReview(report);
     renderAIFixesPage(report);
-    setScore("mixScore", "mixLabel", report.scores.mix);
+    setScore("mixScore", "atmosphereLabel", report.scores.mix);
     const energy = Number(report.scores.energy || 0);
     document.getElementById("energyScore").innerText = energy.toFixed(1);
-    document.getElementById("energyLabel").innerText = energy >= 7.5 ? "High" : energy >= 4.5 ? "Balanced" : "Low";
-    setScore("arrangementScore", "arrangementLabel", report.scores.arrangement);
+    document.getElementById("intensityLabel").innerText = energy >= 7.5 ? "High" : energy >= 4.5 ? "Balanced" : "Low";
+    setScore("arrangementScore", "identityLabel", report.scores.arrangement);
 
     document.getElementById("key").innerText = report.basic.key || "Uncertain";
     document.getElementById("bpm").innerText = Number(report.basic.bpm || 0) > 0 ? Math.round(report.basic.bpm) : "Uncertain";
