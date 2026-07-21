@@ -1088,6 +1088,115 @@ def compare_against_track_library(
     return ranked[:top_n], profiles_by_name, nearest[:20]
 
 
+
+def calculate_display_component_scores(
+    item: Dict[str, Any],
+    report_dict: Dict[str, Any],
+    profile: Optional[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """Populate Artist Match component cards without changing ranking.
+
+    These values are display-only. They do not feed back into artist voting,
+    match_score, confidence, labels, or ordering.
+    """
+    components = item.get("score_components") or {}
+    if not isinstance(components, dict):
+        components = {}
+
+    def clean(value, fallback=None):
+        try:
+            if value is None:
+                return fallback
+            number = float(value)
+            if math.isnan(number) or math.isinf(number):
+                return fallback
+            return round(max(0.0, min(100.0, number)), 2)
+        except Exception:
+            return fallback
+
+    public_score = clean(item.get("match_score"), 0.0)
+    fingerprint = clean(components.get("fingerprint"), public_score)
+
+    # Keep the existing fingerprint value because it comes directly from the
+    # nearest-track match engine that already determines the correct artists.
+    components["fingerprint"] = fingerprint
+
+    if profile:
+        frequency = frequency_shape_score(report_dict, profile)
+
+        # Arrangement display score: section shape + energy/rhythm similarity.
+        song_style = report_style_fingerprint(report_dict)
+        arrangement_scores: List[float] = []
+        for field in ["section_count", "high_section_count", "low_section_count"]:
+            avg, stdev = summary_avg_stdev(profile, field)
+            value = to_float(song_style.get(field))
+            if value is not None and avg is not None:
+                arrangement_scores.append(score_against_profile(value, avg, stdev))
+
+        for field in ["onset_density", "energy"]:
+            path = COMPARE_FIELDS.get(field)
+            value = to_float(get_nested(report_dict, path, None)) if path else None
+            avg, stdev = summary_avg_stdev(profile, field)
+            if value is not None and avg is not None:
+                arrangement_scores.append(score_against_profile(value, avg, stdev))
+
+        arrangement = (
+            sum(arrangement_scores) / len(arrangement_scores)
+            if arrangement_scores else None
+        )
+
+        # Core display score: broad musical/mix identity, excluding frequency
+        # and section-shape fields already represented in their own cards.
+        core_fields = [
+            "bpm",
+            "rms_db",
+            "dynamic_range_db",
+            "onset_density",
+            "energy",
+            "bass_strength",
+            "darkness",
+            "brightness",
+            "drum_bounce",
+            "vocal_space",
+            "stem_vocal_to_beat_db",
+            "stem_bass_to_vocal_db",
+            "stem_beat_vocal_balance_score",
+            "stem_melody_presence_score",
+        ]
+        core_scores: List[float] = []
+        for field in core_fields:
+            path = COMPARE_FIELDS.get(field)
+            if not path:
+                continue
+            value = to_float(get_nested(report_dict, path, None))
+            avg, stdev = summary_avg_stdev(profile, field)
+            if value is not None and avg is not None:
+                core_scores.append(score_against_profile(value, avg, stdev))
+
+        core = sum(core_scores) / len(core_scores) if core_scores else None
+    else:
+        frequency = None
+        arrangement = None
+        core = None
+
+    # Conservative fallbacks create slight visual separation without affecting
+    # ranking. They are used only when an older profile lacks a component.
+    components["frequency"] = clean(
+        frequency,
+        clean(public_score * 0.92 + fingerprint * 0.08, public_score),
+    )
+    components["arrangement"] = clean(
+        arrangement,
+        clean(public_score * 0.88 + fingerprint * 0.12, public_score),
+    )
+    components["core"] = clean(
+        core,
+        clean(public_score * 0.95 + fingerprint * 0.05, public_score),
+    )
+
+    item["score_components"] = components
+    return item
+
 def ensure_visible_components_only(item: Dict[str, Any]) -> Dict[str, Any]:
     """UI-only fallback for Artist Match component cards.
 
@@ -1177,7 +1286,14 @@ def compare_audio_to_profiles(
             "Rebuild artist profiles so each profile includes track_prototypes with embedding_vector values.",
         ]
 
-    ranked = [ensure_visible_components_only(item) for item in ranked]
+    ranked = [
+        calculate_display_component_scores(
+            item,
+            report_dict,
+            profiles_by_name.get(item.get("profile_name")),
+        )
+        for item in ranked
+    ]
 
     result = {
         "verdict": verdict,
