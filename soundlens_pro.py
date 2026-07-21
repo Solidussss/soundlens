@@ -485,10 +485,8 @@ def detect_key(y: np.ndarray, sr: int) -> Tuple[str, str, str, float]:
         spread = best_score - third_score
         confidence = clamp(30 + (gap * 150) + (spread * 55), 0, 92)
 
-        # Do not pretend a weak chroma guess is reliable.
-        if confidence < 45 or gap < 0.035:
-            return "Uncertain", "Uncertain", "Uncertain", round(float(confidence), 1)
-
+        # Always return the strongest detected key candidate. Confidence remains
+        # visible so SoundLens can improve accuracy over time without hiding the key.
         return f"{best_note} {best_mode}", best_note, best_mode, round(float(confidence), 1)
 
     except Exception:
@@ -1122,26 +1120,9 @@ def calculate_scores(
     meaningful_clipping = loudness.clipping_percent >= 0.01
     heavy_clipping = loudness.clipping_percent >= 0.10
 
+    # Mix score now focuses on balance and clarity. Clipping, limiter level,
+    # loudness, and peak-to-average range remain measurements but do not lower it.
     mix_score = 100
-    if heavy_clipping:
-        mix_score -= 15
-    elif meaningful_clipping:
-        mix_score -= 6
-
-    if loudness.peak_db > 0.05:
-        mix_score -= 8
-    elif loudness.peak_db > -0.05 and meaningful_clipping:
-        mix_score -= 3
-
-    if loudness.rms_db < style["rms_min"] - 2.0 or loudness.rms_db > style["rms_max"] + 1.0:
-        mix_score -= 8
-    elif loudness.rms_db < style["rms_min"] or loudness.rms_db > style["rms_max"]:
-        mix_score -= 3
-
-    if loudness.dynamic_range_db < targets["dynamic_min"] - 1.0:
-        mix_score -= 8
-    elif loudness.dynamic_range_db > targets["dynamic_max"] + 3.0:
-        mix_score -= 5
 
     if bands["Bass / 808"] < 8:
         mix_score -= 7
@@ -1191,29 +1172,81 @@ def calculate_scores(
     if bands["Highs"] > 38 or bands["Highs"] < 6:
         master_score -= 6
 
-    arrangement_score = 88
-    if duration < 45:
-        arrangement_score -= 22
-    elif duration < 70:
-        arrangement_score -= 10
-    elif duration > 300:
-        arrangement_score -= 5
+    # Arrangement score responds to the detected structure instead of starting
+    # at a near-fixed 88. It evaluates usable section count, energy movement,
+    # hook/verse contrast, intro length, outro shape, duration, and rhythm density.
+    arrangement_score = 82.0
+    section_count = len(sections)
 
-    if rhythm.onset_density > 7.5 or rhythm.onset_density < 0.7:
-        arrangement_score -= 4
+    if 4 <= section_count <= 7:
+        arrangement_score += 5
+    elif section_count <= 2:
+        arrangement_score -= 14
+    elif section_count == 3:
+        arrangement_score -= 5
+    elif section_count > 8:
+        arrangement_score -= min(10, (section_count - 8) * 2)
+
+    if duration < 45:
+        arrangement_score -= 18
+    elif duration < 70:
+        arrangement_score -= 7
+    elif 90 <= duration <= 210:
+        arrangement_score += 3
+    elif duration > 300:
+        arrangement_score -= 7
+
+    energies = np.array([s.avg_energy for s in sections], dtype=float) if sections else np.array([])
+    if energies.size >= 2 and float(np.mean(energies)) > EPSILON:
+        energy_cv = float(np.std(energies) / (np.mean(energies) + EPSILON))
+        if 0.08 <= energy_cv <= 0.32:
+            arrangement_score += 6
+        elif energy_cv < 0.04:
+            arrangement_score -= 9
+        elif energy_cv > 0.48:
+            arrangement_score -= 5
 
     hook_energies = [s.avg_energy for s in sections if "Hook" in s.name or "Chorus" in s.name]
     verse_energies = [s.avg_energy for s in sections if s.name == "Verse"]
     if hook_energies and verse_energies:
         hook_energy = float(np.mean(hook_energies))
         verse_energy = float(np.mean(verse_energies))
-        if hook_energy <= verse_energy * 1.01:
+        contrast_ratio = hook_energy / max(verse_energy, EPSILON)
+        if 1.04 <= contrast_ratio <= 1.35:
+            arrangement_score += 6
+        elif contrast_ratio < 0.98:
+            arrangement_score -= 8
+        elif contrast_ratio < 1.02:
             arrangement_score -= 4
+        elif contrast_ratio > 1.60:
+            arrangement_score -= 3
+
+    if sections:
+        intro_length = sections[0].end - sections[0].start
+        if 4 <= intro_length <= 18:
+            arrangement_score += 3
+        elif intro_length > 30:
+            arrangement_score -= 7
+
+        last = sections[-1]
+        outro_length = last.end - last.start
+        if last.name == "Outro" and 4 <= outro_length <= 24:
+            arrangement_score += 2
+        elif outro_length > 38:
+            arrangement_score -= 4
+
+    if rhythm.onset_density > 8.5 or rhythm.onset_density < 0.5:
+        arrangement_score -= 5
+    elif 1.2 <= rhythm.onset_density <= 6.5:
+        arrangement_score += 2
 
     mix_score = int(clamp(mix_score, 0, 100))
     master_score = int(clamp(master_score, 0, 100))
-    arrangement_score = int(clamp(arrangement_score, 0, 100))
-    release_score = int(round((mix_score * 0.35) + (master_score * 0.35) + (arrangement_score * 0.30)))
+    arrangement_score = int(round(clamp(arrangement_score, 0, 100)))
+
+    # Mastering is no longer part of the public verdict. Keep the legacy master
+    # value in JSON for compatibility, but base release readiness on mix and arrangement.
+    release_score = int(round((mix_score * 0.60) + (arrangement_score * 0.40)))
 
     energy_score = clamp((loudness.rms_db + 24.0) / 1.6, 0, 10)
     bass_strength = clamp(frequency.low_end_total_percent / 4.5, 0, 10)
@@ -1261,55 +1294,18 @@ def build_feedback(
     def add_problem(priority: int, problem: str, fix: str) -> None:
         problems.append((priority, problem, fix))
 
-    # Only sustained/meaningful clipping becomes a top problem. A few isolated
-    # samples are reported as a note rather than dominating every result.
-    if loudness.clipping_percent >= 0.10:
-        add_problem(
-            96,
-            f"Sustained clipping is present ({loudness.clipping_percent:.3f}% of samples).",
-            "Lower the level feeding the final clipper/limiter and use a safer output ceiling.",
-        )
-        master_notes.append("Clipping is strong enough to deserve attention before final export.")
-    elif loudness.clipping_percent >= 0.01:
-        add_problem(
-            78,
-            f"Some clipping is present ({loudness.clipping_percent:.3f}% of samples).",
-            "Check the loudest section and reduce the limiter or clipper only if distortion is audible.",
-        )
-    elif loudness.clipping_detected:
+    # Clipping, limiting, RMS loudness, and dynamic range remain available as
+    # measurements, but they no longer become the overview's main issue or fix.
+    # SoundLens now prioritizes production, balance, rhythm, and arrangement.
+    if loudness.clipping_detected:
         master_notes.append(
-            f"Only {loudness.clipping_samples} isolated near-full-scale samples were found; this is not automatically an audible clipping problem."
+            f"Clipping measurement: {loudness.clipping_percent:.4f}% of samples near full scale."
         )
     else:
-        master_notes.append("No obvious clipping problem detected.")
-
-    if loudness.rms_db < style["rms_min"] - 2.0:
-        add_problem(
-            70,
-            f"The track is noticeably quiet for this style ({loudness.rms_db:.1f} dB RMS).",
-            "Add loudness gradually with gain staging, controlled saturation or clipping, and final limiting.",
-        )
-    elif loudness.rms_db > style["rms_max"] + 1.0:
-        add_problem(
-            72,
-            f"The master is unusually dense/loud ({loudness.rms_db:.1f} dB RMS).",
-            "Back off the final limiting if the kick, 808, or vocal has lost punch and separation.",
-        )
-    else:
-        master_notes.append("Loudness is within a usable range for the selected style.")
-
-    if loudness.dynamic_range_db < 5:
-        add_problem(
-            68,
-            f"The master has very little peak-to-average movement ({loudness.dynamic_range_db:.1f} dB).",
-            "Reduce compression or clipping slightly and compare whether the drums regain punch.",
-        )
-    elif loudness.dynamic_range_db > 19:
-        add_problem(
-            58,
-            f"Level movement is unusually wide ({loudness.dynamic_range_db:.1f} dB).",
-            "Use automation or light compression only on sections that fall noticeably behind.",
-        )
+        master_notes.append("No near-full-scale samples were detected.")
+    master_notes.append(
+        f"Loudness measurement: {loudness.rms_db:.1f} dB RMS with {loudness.dynamic_range_db:.1f} dB peak-to-average range."
+    )
 
     if frequency.low_end_total_percent > style["low_end_problem"]:
         add_problem(
@@ -1395,10 +1391,9 @@ def build_feedback(
                 "Consider introducing a defining vocal, drum, 808, or melodic moment earlier if retention feels slow.",
             )
 
-    if basic.key == "Uncertain":
-        artist_notes.append(f"Key could not be identified confidently ({basic.key_confidence:.1f}% confidence). Verify it by ear before setting Auto-Tune.")
-    else:
-        artist_notes.append(f"Possible Auto-Tune starting point: {basic.key} ({basic.key_confidence:.1f}% confidence).")
+    artist_notes.append(
+        f"Detected Auto-Tune starting point: {basic.key} ({basic.key_confidence:.1f}% confidence). Verify by ear while key detection continues improving."
+    )
 
     artist_notes.append(f"Beat energy: {scores.energy:.1f}/10. Darkness: {scores.darkness:.1f}/10.")
     artist_notes.append(f"Vocal space estimate: {scores.vocal_space:.1f}/10. Higher suggests less measured low-mid masking.")

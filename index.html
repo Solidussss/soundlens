@@ -1766,7 +1766,7 @@
     </div></div>
 
     <div class="card"><h2>Free vs Pro</h2><div class="pricing-grid">
-        <div class="pricing-card"><h3>Free</h3><p class="muted">For testing SoundLens.</p><ul><li>3 uploads per day</li><li>Artist Match</li><li>Mix, master, and arrangement scores</li><li>Basic saved reports</li></ul></div>
+        <div class="pricing-card"><h3>Free</h3><p class="muted">For testing SoundLens.</p><ul><li>3 uploads per day</li><li>Artist Match</li><li>Mix, energy, and arrangement scores</li><li>Basic saved reports</li></ul></div>
         <div class="pricing-card featured"><h3>SoundLens Pro</h3><p class="muted">For artists and producers using it seriously.</p><ul><li>Unlimited uploads</li><li>Saved report history</li><li>Advanced artist matching</li><li>Suggested EQ guide</li><li>More accurate updates over time</li></ul><button onclick="startStripeCheckout('pro')">Upgrade to Pro</button></div>
     </div></div>
 
@@ -1810,7 +1810,7 @@
                 <div>
                     <div class="eyebrow">SoundLens Verdict</div>
                     <h1 class="hero-title" id="overviewTitle">Upload a track to begin</h1>
-                    <p class="muted" id="overviewSubtext">Your verdict, scores, artist match, biggest issue, and recommended fix will appear here.</p>
+                    <p class="muted" id="overviewSubtext">Your verdict, scores, artist match, sound profile, and recommended move will appear here.</p>
                 </div>
                 <div class="hero-score-wrap">
                     <div id="overviewReleaseScore" class="hero-score">0</div>
@@ -1824,7 +1824,7 @@
                     <strong id="overviewClosestArtist">Upload a track to compare artist profiles.</strong>
                 </div>
                 <div class="summary-tile">
-                    <span>Biggest Issue</span>
+                    <span>Sound Profile</span>
                     <strong id="overviewMainIssue">Waiting for analysis...</strong>
                 </div>
                 <div class="summary-tile">
@@ -1854,9 +1854,9 @@
                 <div id="mixLabel" class="score-label"></div>
             </div>
             <div class="card score-card">
-                <h2>Master</h2>
-                <div id="masterScore" class="score">0</div>
-                <div id="masterLabel" class="score-label"></div>
+                <h2>Energy</h2>
+                <div id="energyScore" class="score">0.0</div>
+                <div id="energyLabel" class="score-label">Waiting</div>
             </div>
             <div class="card score-card">
                 <h2>Arrangement</h2>
@@ -2287,9 +2287,14 @@ function renderAIReview(report){
 
 
 function mainIssueFromReport(report){
-    const problems = report.top_problems || [];
-    if(problems.length){ return problems[0]; }
-    return "No major technical red flags.";
+    const frequency = report.frequency || {};
+    const rhythm = report.rhythm || {};
+    const scores = report.scores || {};
+    const dominant = frequency.dominant_band || "Balanced spectrum";
+    const activity = String(rhythm.drum_activity || "Medium").toLowerCase();
+    const darkness = Number(scores.darkness || 0);
+    const tone = darkness >= 6.5 ? "dark" : darkness <= 3.5 ? "bright" : "balanced";
+    return `${tone.charAt(0).toUpperCase() + tone.slice(1)} tone, ${dominant.toLowerCase()} focus, ${activity} drum movement.`;
 }
 
 function mainFixFromReport(report){
@@ -2307,7 +2312,7 @@ function updateOverview(report){
     document.getElementById("overviewReleaseLabel").className = "hero-status " + label.className;
 
     document.getElementById("overviewTitle").innerText = release >= 80 ? "Strong Foundation" : release >= 60 ? "Close, But Needs Fixes" : "Needs Work Before Release";
-    document.getElementById("overviewSubtext").innerText = "SoundLens found the biggest things worth checking first.";
+    document.getElementById("overviewSubtext").innerText = "SoundLens summarized the track direction and the highest-value move to check next.";
     document.getElementById("overviewMainIssue").innerText = mainIssueFromReport(report);
     document.getElementById("overviewMainFix").innerText = mainFixFromReport(report);
 }
@@ -2988,12 +2993,17 @@ async function analyze(){
     renderAIReview(report);
     renderAIFixesPage(report);
     setScore("mixScore", "mixLabel", report.scores.mix);
-    setScore("masterScore", "masterLabel", report.scores.master);
+    const energy = Number(report.scores.energy || 0);
+    document.getElementById("energyScore").innerText = energy.toFixed(1);
+    document.getElementById("energyLabel").innerText = energy >= 7.5 ? "High" : energy >= 4.5 ? "Balanced" : "Low";
     setScore("arrangementScore", "arrangementLabel", report.scores.arrangement);
 
     document.getElementById("key").innerText = report.basic.key || "Uncertain";
     document.getElementById("bpm").innerText = Number(report.basic.bpm || 0) > 0 ? Math.round(report.basic.bpm) : "Uncertain";
-    document.getElementById("duration").innerText = Math.round(report.basic.duration_seconds) + " sec";
+    const totalSeconds = Math.max(0, Math.round(Number(report.basic.duration_seconds || 0)));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = String(totalSeconds % 60).padStart(2, "0");
+    document.getElementById("duration").innerText = `${minutes}:${seconds}`;
     document.getElementById("sampleRate").innerText = report.basic.sample_rate + " Hz";
 
     document.getElementById("problems").innerHTML = (report.top_problems || []).map(item => `<li>${item}</li>`).join("");
