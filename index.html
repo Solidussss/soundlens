@@ -2129,7 +2129,7 @@
                     <div class="placeholder-mini"><span>Profile Match</span><strong>Closest artist lane</strong></div>
                     <div class="placeholder-mini"><span>Fingerprint</span><strong>Audio identity comparison</strong></div>
                     <div class="placeholder-mini"><span>Frequency</span><strong>Tonal balance matching</strong></div>
-                    <div class="placeholder-mini"><span>Identity</span><strong>Section energy matching</strong></div>
+                    <div class="placeholder-mini"><span>Arrangement</span><strong>Section energy matching</strong></div>
                 </div>
             </div>
         </div>
@@ -2178,7 +2178,7 @@
 
     <div id="arrangementPage" class="page">
         <div class="card" id="arrangementSection">
-            <div class="eyebrow">Identity</div>
+            <div class="eyebrow">Arrangement</div>
             <h2 style="margin-top:0">Song Structure</h2>
 
             <div id="arrangementTimeline" class="timeline-card">
@@ -2585,10 +2585,14 @@ function renderAIReview(report){
     orbit.style.setProperty("--core-pulse", `${pulse}s`);
     orbit.style.setProperty("--core-energy", energyNorm.toFixed(2));
 
-    document.getElementById("coreMix").innerText = atmosphere;
-    document.getElementById("coreEnergy").innerText = intensity;
-    document.getElementById("coreArrangement").innerText = identity;
-    document.getElementById("coreCharacter").innerText = character;
+    const coreMixEl = document.getElementById("coreMix");
+    const coreEnergyEl = document.getElementById("coreEnergy");
+    const coreArrangementEl = document.getElementById("coreArrangement");
+    const coreCharacterEl = document.getElementById("coreCharacter");
+    if(coreMixEl) coreMixEl.innerText = atmosphere;
+    if(coreEnergyEl) coreEnergyEl.innerText = intensity;
+    if(coreArrangementEl) coreArrangementEl.innerText = identity;
+    if(coreCharacterEl) coreCharacterEl.innerText = character;
 
     if(pill){
         pill.innerText = report.ai_enabled ? "Core Generated" : "Core Ready";
@@ -2808,7 +2812,7 @@ function matchComponentHTML(components){
         <div class="component-grid">
             <div class="component-pill">Fingerprint<strong>${show(components.fingerprint, "Rebuild")}</strong></div>
             <div class="component-pill">Frequency<strong>${show(components.frequency)}</strong></div>
-            <div class="component-pill">Identity<strong>${show(components.arrangement || components.core)}</strong></div>
+            <div class="component-pill">Arrangement<strong>${show(components.arrangement || components.core)}</strong></div>
             <div class="component-pill">Core<strong>${show(components.core)}</strong></div>
         </div>
     `;
@@ -3178,7 +3182,7 @@ function renderReports(){
 
                         <div class="report-metrics">
                             <div class="report-metric">
-                                <span>Atmosphere</span>
+                                <span>Mix</span>
                                 <strong>${mix}</strong>
                             </div>
                             <div class="report-metric">
@@ -3186,7 +3190,7 @@ function renderReports(){
                                 <strong>${master}</strong>
                             </div>
                             <div class="report-metric">
-                                <span>Identity</span>
+                                <span>Arrangement</span>
                                 <strong>${arrangement}</strong>
                             </div>
                         </div>
@@ -3301,11 +3305,11 @@ async function analyze(){
     updateOverview(report);
     renderAIReview(report);
     renderAIFixesPage(report);
-    setScore("mixScore", "atmosphereLabel", report.scores.mix);
+    setScore("mixScore", "mixLabel", report.scores.mix);
     const energy = Number(report.scores.energy || 0);
     document.getElementById("energyScore").innerText = energy.toFixed(1);
     document.getElementById("energyLabel").innerText = energy >= 7.5 ? "High" : energy >= 4.5 ? "Balanced" : "Low";
-    setScore("arrangementScore", "identityLabel", report.scores.arrangement);
+    setScore("arrangementScore", "arrangementLabel", report.scores.arrangement);
 
     document.getElementById("key").innerText = report.basic.key || "Uncertain";
     document.getElementById("bpm").innerText = Number(report.basic.bpm || 0) > 0 ? Math.round(report.basic.bpm) : "Uncertain";
