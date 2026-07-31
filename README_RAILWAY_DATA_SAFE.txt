@@ -29,3 +29,13 @@ IMPORTANT
 This update prevents future deployments from replacing data. It cannot recreate
 users that are already absent unless an older JSON file, Railway volume backup,
 or other backup still exists.
+
+
+HEATMAP + ACCOUNT UPDATE
+- A real coordinate click heatmap is now inside the Admin page.
+- It can be filtered by page and desktop/tablet/mobile.
+- Forgot Password remains enabled through the existing request/reset flow.
+- Delete Account spacing has been corrected.
+- Heatmap and account controls have additional mobile layout rules.
+- Older click events remain in analytics, but only clicks recorded after this
+  update contain coordinates and can appear on the heatmap.

@@ -1020,6 +1020,46 @@ async def admin_stats(authorization: str | None = Header(default=None)):
     top_pages = sorted(page_counts.items(), key=lambda x: x[1], reverse=True)[:10]
     top_clicks = sorted(click_counts.items(), key=lambda x: x[1], reverse=True)[:10]
 
+    # Real click heatmap points. Coordinates are normalized to the active
+    # SoundLens page, allowing desktop/mobile data to be viewed together.
+    # No screenshots, passwords, form values, or uploaded audio are stored.
+    heatmap_points = []
+    for event in reversed(click_events):
+        detail = ((event.get("details") or {}).get("details") or {})
+        try:
+            x_percent = float(detail.get("x_percent"))
+            y_percent = float(detail.get("y_percent"))
+        except (TypeError, ValueError):
+            continue
+
+        if not (0 <= x_percent <= 100 and 0 <= y_percent <= 100):
+            continue
+
+        heatmap_points.append({
+            "x": round(x_percent, 3),
+            "y": round(y_percent, 3),
+            "page": str(detail.get("page") or "unknown")[:80],
+            "device": str(detail.get("device") or "unknown")[:20],
+            "target": str(
+                detail.get("label")
+                or detail.get("id")
+                or detail.get("tag")
+                or "Click"
+            )[:80],
+            "created_at": event.get("created_at"),
+        })
+
+        # Keep the admin payload responsive even after heavy usage.
+        if len(heatmap_points) >= 5000:
+            break
+
+    heatmap_points.reverse()
+
+    heatmap_page_counts = {}
+    for point in heatmap_points:
+        page = point["page"]
+        heatmap_page_counts[page] = heatmap_page_counts.get(page, 0) + 1
+
     return {
         "ok": True,
         "admin": public_user(admin),
@@ -1043,6 +1083,15 @@ async def admin_stats(authorization: str | None = Header(default=None)):
         "latest_events": latest_events,
         "top_pages": [{"name": name, "count": count} for name, count in top_pages],
         "top_clicks": [{"name": name, "count": count} for name, count in top_clicks],
+        "heatmap_points": heatmap_points,
+        "heatmap_pages": [
+            {"name": name, "count": count}
+            for name, count in sorted(
+                heatmap_page_counts.items(),
+                key=lambda item: item[1],
+                reverse=True,
+            )
+        ],
     }
 
 

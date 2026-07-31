@@ -2055,6 +2055,16 @@
         #adminPage .admin-event-meta{font-size:12px;color:var(--muted);margin-top:3px;}
         #adminPage .admin-event-detail{color:var(--muted);font-size:12px;overflow-wrap:anywhere;}
         #adminPage .admin-empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed #303750;border-radius:14px;}
+        #adminPage .heatmap-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+        #adminPage .heatmap-controls select{background:#0f1117;color:white;border:1px solid #303750;border-radius:10px;padding:10px 12px;min-width:190px;}
+        #adminPage .heatmap-shell{position:relative;width:100%;background:#0f1117;border:1px solid #303750;border-radius:18px;overflow:hidden;aspect-ratio:16/10;}
+        #adminPage #adminHeatmapCanvas{position:absolute;inset:0;width:100%;height:100%;}
+        #adminPage .heatmap-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:10% 10%;}
+        #adminPage .heatmap-label{position:absolute;left:14px;top:12px;z-index:2;background:rgba(15,17,23,.84);border:1px solid #303750;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:850;}
+        #adminPage .heatmap-legend{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-top:10px;}
+        #accountPage .delete-account-form{display:grid;gap:14px;margin-top:22px;}
+        #accountPage .delete-account-form button{width:100%;margin:0;}
+        #accountPage #deleteAccountStatus{margin:0;min-height:20px;}
         @media(max-width:980px){#adminPage .admin-layout{grid-template-columns:1fr;}#adminPage .admin-user-row{grid-template-columns:1fr 1fr;}#adminPage .admin-user-row>div:first-child{grid-column:1/-1;}#adminPage .admin-event{grid-template-columns:1fr;}}
 
 
@@ -2083,6 +2093,12 @@
             .two-grid,.contact-grid{grid-template-columns:1fr;}
             button,.audio-upload-btn{min-height:44px;}
             input,textarea,select{font-size:16px!important;}
+            #adminPage .heatmap-controls{display:grid;grid-template-columns:1fr;gap:10px;}
+            #adminPage .heatmap-controls select,#adminPage .heatmap-controls button{width:100%;min-width:0;}
+            #adminPage .heatmap-shell{aspect-ratio:4/5;min-height:430px;}
+            #adminPage .heatmap-label{max-width:calc(100% - 28px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+            #accountPage .delete-account-form{gap:12px;margin-top:18px;}
+            #accountPage .delete-account-form button{width:100%;min-height:48px;}
         }
     </style>
 </head>
@@ -2330,7 +2346,7 @@
 <div id="termsPage" class="page legal-page"><div class="card"><div class="eyebrow">Effective July 31, 2026</div><h1>Terms of Service</h1><p>These Terms govern access to and use of SoundLens, including its website, audio-analysis tools, artist-comparison features, accounts, saved reports, and paid plans. By creating an account or using SoundLens, you agree to these Terms.</p><h2>1. Eligibility and accounts</h2><p>You must provide accurate account information, protect your login credentials, and notify SoundLens of suspected unauthorized access. You are responsible for activity performed through your account.</p><h2>2. Uploaded audio and permissions</h2><p>You retain ownership of audio you upload. You grant SoundLens a limited permission to receive, process, temporarily store, and analyze that audio solely to operate, secure, maintain, and improve the service. You must have the legal right to upload and analyze the material. Do not upload content that infringes copyright, privacy, contractual, or other rights.</p><h2>3. Analysis results</h2><p>SoundLens provides automated estimates and creative-production guidance. BPM, key, mix, arrangement, release, energy, artist-match, and related outputs may be incomplete or inaccurate and are not guarantees of commercial performance, release quality, similarity, ownership, or legal clearance. Use professional judgment and reference listening before making release, business, or technical decisions.</p><h2>4. Acceptable use</h2><p>You may not misuse the service, attempt unauthorized access, interfere with infrastructure, evade limits, reverse engineer protected components, upload malicious files, scrape at unreasonable volume, impersonate others, or use SoundLens to violate applicable law or third-party rights.</p><h2>5. Paid plans and billing</h2><p>Paid plans are billed through the payment provider shown at checkout. Prices, billing intervals, included features, and applicable taxes are displayed before purchase. Subscriptions renew until cancelled through the available billing method. SoundLens may change future pricing or plan features with reasonable notice; changes do not retroactively alter completed billing periods.</p><h2>6. Availability and changes</h2><p>SoundLens may add, change, suspend, or discontinue features to maintain security, reliability, legal compliance, or product quality. Continuous or error-free availability is not guaranteed.</p><h2>7. Suspension and termination</h2><p>Access may be limited or terminated for material violations, fraud, abuse, security risk, non-payment, or conduct that harms SoundLens or other users. You may stop using the service and request account deletion at any time.</p><h2>8. Disclaimers and limitation</h2><p>To the maximum extent permitted by law, SoundLens is provided “as is” and “as available,” without warranties of accuracy, fitness for a particular purpose, non-infringement, uninterrupted access, or specific results. SoundLens is not liable for indirect, incidental, special, consequential, or lost-profit damages arising from use of the service. Where liability cannot be excluded, total liability is limited to the amount you paid to SoundLens during the twelve months before the event giving rise to the claim.</p><h2>9. Governing law</h2><p>These Terms are governed by the laws of Alberta and the federal laws of Canada applicable there, without regard to conflict-of-law rules. Courts located in Alberta will have jurisdiction, subject to any consumer rights that cannot legally be waived.</p><h2>10. Contact</h2><p>Questions about these Terms can be submitted through the Contact page.</p></div></div>
 <div id="privacyPage" class="page legal-page"><div class="card"><div class="eyebrow">Effective July 31, 2026</div><h1>Privacy Policy</h1><p>This Policy explains how SoundLens handles information when you use the service.</p><h2>Information collected</h2><ul><li>Account details such as email, display name, plan, verification status, and login timestamps.</li><li>Audio files and technical analysis data needed to generate reports and artist comparisons.</li><li>Saved reports, feedback, contact messages, and support correspondence.</li><li>Usage events such as pages viewed, buttons clicked, upload status, session activity, device/browser details supplied by the browser, and basic security events.</li><li>Billing identifiers and subscription status received from Stripe. SoundLens does not store full payment-card numbers.</li></ul><h2>How information is used</h2><p>Information is used to provide analysis, authenticate accounts, enforce usage limits, save reports, process subscriptions, support users, detect misuse, understand product performance, and improve SoundLens.</p><h2>Audio handling</h2><p>Uploaded audio is processed to generate requested analysis. Temporary uploads may remain on the server as required for processing and operational troubleshooting. Saved report data remains connected to the account until deleted. Users should not upload confidential audio unless they accept this processing.</p><h2>Service providers</h2><p>Information may be processed by hosting, email, payment, analytics, and AI service providers only as needed to operate SoundLens. Their own terms and privacy practices may apply.</p><h2>Retention and deletion</h2><p>Information is kept only as long as reasonably required for the purposes described, legal obligations, dispute resolution, security, and backups. Account deletion removes the active account and saved reports from the application. Limited records may remain in backups or logs for a reasonable period.</p><h2>Security</h2><p>SoundLens uses reasonable safeguards, including password hashing and access controls. No internet service can guarantee absolute security.</p><h2>Your choices</h2><p>You may request support, correct account information, delete individual saved reports, or permanently delete your account from the Account section. Marketing emails, when introduced, will include an unsubscribe method.</p><h2>Contact</h2><p>Privacy questions can be submitted through the Contact page.</p></div></div>
 <div id="refundPage" class="page legal-page"><div class="card"><div class="eyebrow">Billing</div><h1>Refund Policy</h1><p>SoundLens subscriptions provide immediate access to digital features. Except where required by law, subscription charges are generally non-refundable after access has been provided.</p><h2>Duplicate or incorrect charges</h2><p>Contact SoundLens promptly if you believe you were charged more than once, charged after a confirmed cancellation, or billed an incorrect amount. Verified billing errors will be corrected.</p><h2>Technical failure</h2><p>When a prolonged technical problem materially prevents use of paid features and SoundLens cannot restore access within a reasonable period, SoundLens may provide a proportional refund or account credit at its discretion.</p><h2>Cancellation</h2><p>Cancellation stops future renewals. Access normally continues through the already-paid billing period. Not using the service does not by itself create a refund right.</p><h2>Requests</h2><p>Submit requests through the Contact page with the account email, charge date, amount, and reason. Nothing in this Policy limits non-waivable consumer rights under applicable law.</p></div></div>
-<div id="accountPage" class="page legal-page"><div class="card danger-card"><div class="eyebrow">Account Controls</div><h1>Delete account</h1><p>This permanently removes your active SoundLens account and saved reports. A safety backup is created before deletion, but restoration is not guaranteed. This action cannot be undone through the website.</p><div class="contact-form"><input id="deleteAccountPassword" type="password" placeholder="Confirm your password"><button onclick="deleteMyAccount()">Permanently Delete Account</button><p id="deleteAccountStatus" class="muted"></p></div></div></div>
+<div id="accountPage" class="page legal-page"><div class="card danger-card"><div class="eyebrow">Account Controls</div><h1>Delete account</h1><p>This permanently removes your active SoundLens account and saved reports. A safety backup is created before deletion, but restoration is not guaranteed. This action cannot be undone through the website.</p><div class="contact-form delete-account-form"><input id="deleteAccountPassword" type="password" placeholder="Confirm your password"><button onclick="deleteMyAccount()">Permanently Delete Account</button><p id="deleteAccountStatus" class="muted"></p></div></div></div>
 
 <div id="adminPage" class="page">
     <div class="hero-card admin-hero">
@@ -2404,6 +2420,44 @@
                 <h2>Latest Feedback</h2>
                 <div id="adminFeedbackList"><div class="admin-empty">Loading feedback...</div></div>
             </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="admin-section-head">
+            <div>
+                <div class="eyebrow">Behaviour Analytics</div>
+                <h2>Click Heatmap</h2>
+            </div>
+            <span id="adminHeatmapCount" class="pill">0 clicks</span>
+        </div>
+
+        <p class="admin-note">See where users click on each SoundLens page. The map stores normalized click positions, page names, and device class. It does not record typed text, passwords, screenshots, or audio.</p>
+
+        <div class="heatmap-controls">
+            <select id="adminHeatmapPage" onchange="renderAdminHeatmap()">
+                <option value="all">All pages</option>
+            </select>
+
+            <select id="adminHeatmapDevice" onchange="renderAdminHeatmap()">
+                <option value="all">All devices</option>
+                <option value="desktop">Desktop</option>
+                <option value="tablet">Tablet</option>
+                <option value="mobile">Mobile</option>
+            </select>
+
+            <button onclick="renderAdminHeatmap()">Refresh Heatmap</button>
+        </div>
+
+        <div class="heatmap-shell" id="adminHeatmapShell">
+            <div class="heatmap-label" id="adminHeatmapLabel">All pages · All devices</div>
+            <canvas id="adminHeatmapCanvas"></canvas>
+            <div class="heatmap-grid"></div>
+        </div>
+
+        <div class="heatmap-legend">
+            <span>Lower activity</span>
+            <span>Higher activity</span>
         </div>
     </div>
 </div>
@@ -3496,6 +3550,146 @@ async function grantLifetimeAccess(){
     }catch(error){ status.innerText = error.message; }
 }
 
+
+function adminHeatmapPageName(page){
+    const names = {
+        analyzePage:"Analyze",
+        overviewPage:"Overview",
+        artistPage:"Artist Match",
+        fixesPage:"Galaxy",
+        arrangementPage:"Arrangement",
+        advancedPage:"Advanced",
+        dashboardPage:"Dashboard",
+        learnPage:"About",
+        feedbackPage:"Feedback",
+        contactPage:"Contact",
+        authPage:"Account",
+        pricingPage:"Pricing",
+        termsPage:"Terms",
+        privacyPage:"Privacy",
+        refundPage:"Refunds",
+        accountPage:"Delete Account"
+    };
+    return names[page] || page || "Unknown";
+}
+
+function populateAdminHeatmapPages(){
+    const select = document.getElementById("adminHeatmapPage");
+    if(!select || !adminDashboardData){ return; }
+
+    const previous = select.value || "all";
+    const pages = adminDashboardData.heatmap_pages || [];
+
+    select.innerHTML =
+        `<option value="all">All pages</option>` +
+        pages.map(item =>
+            `<option value="${adminEscape(item.name)}">${adminEscape(adminHeatmapPageName(item.name))} (${item.count})</option>`
+        ).join("");
+
+    if([...select.options].some(option => option.value === previous)){
+        select.value = previous;
+    }
+}
+
+function renderAdminHeatmap(){
+    const canvas = document.getElementById("adminHeatmapCanvas");
+    const shell = document.getElementById("adminHeatmapShell");
+
+    if(!canvas || !shell || !adminDashboardData){ return; }
+
+    const selectedPage = document.getElementById("adminHeatmapPage")?.value || "all";
+    const selectedDevice = document.getElementById("adminHeatmapDevice")?.value || "all";
+
+    const points = (adminDashboardData.heatmap_points || []).filter(point =>
+        (selectedPage === "all" || point.page === selectedPage) &&
+        (selectedDevice === "all" || point.device === selectedDevice)
+    );
+
+    const pixelRatio = window.devicePixelRatio || 1;
+    const width = Math.max(1, shell.clientWidth);
+    const height = Math.max(1, shell.clientHeight);
+
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+
+    const context = canvas.getContext("2d");
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    context.clearRect(0, 0, width, height);
+
+    const radius = Math.max(30, Math.min(width, height) * 0.08);
+
+    const density = points.map(point => {
+        const x = point.x / 100 * width;
+        const y = point.y / 100 * height;
+        let nearby = 0;
+
+        for(const other of points){
+            const otherX = other.x / 100 * width;
+            const otherY = other.y / 100 * height;
+            const distance = Math.hypot(x - otherX, y - otherY);
+
+            if(distance <= radius * 1.4){
+                nearby += 1 - distance / (radius * 1.4);
+            }
+        }
+
+        return {point, nearby};
+    });
+
+    const maxDensity = Math.max(1, ...density.map(item => item.nearby));
+
+    context.globalCompositeOperation = "lighter";
+
+    for(const item of density){
+        const x = item.point.x / 100 * width;
+        const y = item.point.y / 100 * height;
+        const intensity = Math.max(0.12, item.nearby / maxDensity);
+
+        const gradient = context.createRadialGradient(x, y, 0, x, y, radius);
+        gradient.addColorStop(0, `rgba(255,70,35,${0.48 + intensity * 0.38})`);
+        gradient.addColorStop(0.32, `rgba(255,210,50,${0.28 + intensity * 0.35})`);
+        gradient.addColorStop(0.68, `rgba(65,160,255,${0.16 + intensity * 0.20})`);
+        gradient.addColorStop(1, "rgba(0,0,0,0)");
+
+        context.fillStyle = gradient;
+        context.beginPath();
+        context.arc(x, y, radius, 0, Math.PI * 2);
+        context.fill();
+    }
+
+    context.globalCompositeOperation = "source-over";
+
+    const count = document.getElementById("adminHeatmapCount");
+    const label = document.getElementById("adminHeatmapLabel");
+
+    if(count){
+        count.innerText = `${points.length} click${points.length === 1 ? "" : "s"}`;
+    }
+
+    if(label){
+        const pageLabel = selectedPage === "all"
+            ? "All pages"
+            : adminHeatmapPageName(selectedPage);
+        const deviceLabel = selectedDevice === "all"
+            ? "All devices"
+            : selectedDevice;
+        label.innerText = `${pageLabel} · ${deviceLabel}`;
+    }
+
+    if(!points.length){
+        context.fillStyle = "rgba(156,163,175,.9)";
+        context.font = "600 14px Arial";
+        context.textAlign = "center";
+        context.fillText(
+            "No coordinate clicks recorded for this filter yet.",
+            width / 2,
+            height / 2
+        );
+    }
+}
+
 async function loadAdminDashboard(){
     const total = document.getElementById("adminTotalUsers");
     if(!total){ return; }
@@ -3516,6 +3710,8 @@ async function loadAdminDashboard(){
         document.getElementById("adminCompletionRate").innerText = `${stats.analysis_completion_rate ?? 0}%`;
         renderAdminUsers();
         renderAdminEvents();
+        populateAdminHeatmapPages();
+        renderAdminHeatmap();
         const feedback = data.latest_feedback || [];
         document.getElementById("adminFeedbackList").innerHTML = feedback.length ? feedback.map(item => `<div class="admin-event"><div><div class="admin-event-title">${adminEscape(item.email || "Anonymous")}</div><div class="admin-event-meta">${adminEscape(item.accuracy || "No accuracy rating")} · ${adminEscape(item.rating || "-")}/5</div></div><div class="admin-event-detail">${adminEscape(item.message || "")}</div><div class="admin-event-meta">${adminEscape(adminDate(item.created_at))}</div></div>`).join("") : `<div class="admin-empty">No feedback yet.</div>`;
     }catch(error){
@@ -4266,7 +4462,67 @@ async function downloadAdminBackup(){
 function setupSafeAnalytics(){
     const sessionKey="soundlens_session_started";
     if(!sessionStorage.getItem(sessionKey)){sessionStorage.setItem(sessionKey,"1");trackClientEvent("session_start",{path:location.pathname,referrer:document.referrer||null,screen:`${screen.width}x${screen.height}`,userAgent:navigator.userAgent.slice(0,240)});}
-    document.addEventListener("click",event=>{const el=event.target.closest("button,a");if(!el)return;const label=(el.innerText||el.getAttribute("aria-label")||"").trim().replace(/\s+/g," ").slice(0,80);trackClientEvent("ui_click",{id:el.id||null,label,tag:el.tagName,page:document.querySelector(".page.active")?.id||null});},{passive:true});
+    document.addEventListener("click",event=>{
+        const activePage = document.querySelector(".page.active");
+        if(!activePage){ return; }
+
+        const rect = activePage.getBoundingClientRect();
+        if(rect.width <= 0 || rect.height <= 0){ return; }
+
+        const element =
+            event.target.closest("button,a,input,select,textarea,label,[role='button']") ||
+            event.target;
+
+        const label = (
+            element.innerText ||
+            element.getAttribute?.("aria-label") ||
+            element.getAttribute?.("placeholder") ||
+            element.id ||
+            element.tagName ||
+            "Click"
+        ).trim().replace(/\s+/g," ").slice(0,80);
+
+        const viewportWidth =
+            window.innerWidth ||
+            document.documentElement.clientWidth;
+
+        const device =
+            viewportWidth <= 640
+                ? "mobile"
+                : viewportWidth <= 1024
+                    ? "tablet"
+                    : "desktop";
+
+        const xPercent = Math.max(
+            0,
+            Math.min(100, ((event.clientX - rect.left) / rect.width) * 100)
+        );
+
+        const yPercent = Math.max(
+            0,
+            Math.min(100, ((event.clientY - rect.top) / rect.height) * 100)
+        );
+
+        trackClientEvent("ui_click",{
+            id:element.id || null,
+            label,
+            tag:element.tagName || null,
+            page:activePage.id || null,
+            x_percent:Number(xPercent.toFixed(3)),
+            y_percent:Number(yPercent.toFixed(3)),
+            device,
+            viewport_width:viewportWidth,
+            viewport_height:
+                window.innerHeight ||
+                document.documentElement.clientHeight
+        });
+    },{passive:true});
+
+    window.addEventListener("resize",()=>{
+        if(document.getElementById("adminPage")?.classList.contains("active")){
+            renderAdminHeatmap();
+        }
+    });
 }
 window.addEventListener("load",()=>{setupSafeAnalytics();const params=new URLSearchParams(location.search);if(params.get("reset_token")){showPage("resetPage");}});
 
