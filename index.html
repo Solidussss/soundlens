@@ -2057,6 +2057,33 @@
         #adminPage .admin-empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed #303750;border-radius:14px;}
         @media(max-width:980px){#adminPage .admin-layout{grid-template-columns:1fr;}#adminPage .admin-user-row{grid-template-columns:1fr 1fr;}#adminPage .admin-user-row>div:first-child{grid-column:1/-1;}#adminPage .admin-event{grid-template-columns:1fr;}}
 
+
+        .legal-page .card{max-width:1000px;margin-left:auto;margin-right:auto;line-height:1.65;}
+        .legal-page h1{font-size:42px;margin-bottom:8px;}
+        .legal-page h2{margin-top:28px;font-size:22px;}
+        .legal-page p,.legal-page li{color:#d1d5db;}
+        .legal-page ul{padding-left:22px;}
+        .legal-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:28px auto 4px;max-width:1000px;}
+        .legal-links a{color:var(--muted);cursor:pointer;text-decoration:none;font-size:13px;}
+        .legal-links a:hover{color:white;}
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+        .contact-form input,.contact-form textarea{width:100%;background:#111522;border:1px solid #303750;color:white;border-radius:10px;padding:12px;font:inherit;}
+        .contact-form textarea{min-height:160px;resize:vertical;}
+        .danger-card{border-color:rgba(239,68,68,.45);}
+        .danger-card button{background:#b91c1c;}
+        .forgot-link{display:inline-block;margin-top:12px;color:#a5b4fc;cursor:pointer;font-size:13px;}
+        .admin-mini-list{display:grid;gap:8px;margin-top:10px;}
+        .admin-mini-row{display:flex;justify-content:space-between;gap:12px;background:rgba(15,17,23,.48);border:1px solid #303750;border-radius:10px;padding:10px 12px;font-size:13px;}
+        @media(max-width:700px){
+            body{padding:10px 12px 28px;}
+            .navbar{top:6px;border-radius:12px;padding:8px;overflow-x:auto;justify-content:flex-start;}
+            .hero-card,.card{padding:17px;border-radius:16px;}
+            .hero-title,.legal-page h1{font-size:30px;letter-spacing:-.8px;}
+            .hero-score{font-size:68px;}
+            .two-grid,.contact-grid{grid-template-columns:1fr;}
+            button,.audio-upload-btn{min-height:44px;}
+            input,textarea,select{font-size:16px!important;}
+        }
     </style>
 </head>
 
@@ -2073,6 +2100,7 @@
         <a id="nav-dashboardPage" onclick="showPage('dashboardPage'); loadDashboard();">Dashboard</a>
         <a id="nav-learnPage" onclick="showPage('learnPage')">About</a>
         <a id="nav-feedbackPage" onclick="showPage('feedbackPage')">Feedback</a>
+        <a id="nav-contactPage" onclick="showPage('contactPage')">Contact</a>
         <a id="nav-adminPage" onclick="showPage('adminPage'); loadAdminDashboard();">Admin</a>
         <a id="nav-authPage" onclick="showPage('authPage')">Login</a>
     </div>
@@ -2128,6 +2156,7 @@
             <input id="loginEmail" type="email" placeholder="Email">
             <input id="loginPassword" type="password" placeholder="Password">
             <button class="wide-btn" onclick="login()">Login</button>
+            <span class="forgot-link" onclick="openForgotPassword()">Forgot password?</span>
             <p id="loginMessage" class="muted auth-message"></p>
         </div>
 
@@ -2288,6 +2317,21 @@
     </div>
 </div>
 
+
+<div id="forgotPage" class="page legal-page">
+  <div class="card"><div class="eyebrow">Account Recovery</div><h1>Reset your password</h1><p class="muted">Enter your account email. For security, SoundLens gives the same response whether or not the address is registered.</p><div class="contact-form"><input id="forgotEmail" type="email" placeholder="Email"><button onclick="requestPasswordReset()">Send Reset Link</button><p id="forgotMessage" class="muted"></p></div></div>
+</div>
+<div id="resetPage" class="page legal-page">
+  <div class="card"><div class="eyebrow">Account Recovery</div><h1>Choose a new password</h1><div class="contact-form"><input id="resetPassword" type="password" placeholder="New password (8+ characters)"><button onclick="confirmPasswordReset()">Update Password</button><p id="resetMessage" class="muted"></p></div></div>
+</div>
+<div id="contactPage" class="page legal-page">
+  <div class="card"><div class="eyebrow">Support</div><h1>Contact SoundLens</h1><p>Questions about your account, billing, a report, or the service can be sent here. Include the email connected to your account so the issue can be located.</p><div class="contact-form"><div class="contact-grid"><input id="contactName" placeholder="Name"><input id="contactEmail" type="email" placeholder="Email"></div><input id="contactSubject" placeholder="Subject"><textarea id="contactMessage" placeholder="How can SoundLens help?"></textarea><button onclick="submitContact()">Send Message</button><p id="contactStatus" class="muted"></p></div></div>
+</div>
+<div id="termsPage" class="page legal-page"><div class="card"><div class="eyebrow">Effective July 31, 2026</div><h1>Terms of Service</h1><p>These Terms govern access to and use of SoundLens, including its website, audio-analysis tools, artist-comparison features, accounts, saved reports, and paid plans. By creating an account or using SoundLens, you agree to these Terms.</p><h2>1. Eligibility and accounts</h2><p>You must provide accurate account information, protect your login credentials, and notify SoundLens of suspected unauthorized access. You are responsible for activity performed through your account.</p><h2>2. Uploaded audio and permissions</h2><p>You retain ownership of audio you upload. You grant SoundLens a limited permission to receive, process, temporarily store, and analyze that audio solely to operate, secure, maintain, and improve the service. You must have the legal right to upload and analyze the material. Do not upload content that infringes copyright, privacy, contractual, or other rights.</p><h2>3. Analysis results</h2><p>SoundLens provides automated estimates and creative-production guidance. BPM, key, mix, arrangement, release, energy, artist-match, and related outputs may be incomplete or inaccurate and are not guarantees of commercial performance, release quality, similarity, ownership, or legal clearance. Use professional judgment and reference listening before making release, business, or technical decisions.</p><h2>4. Acceptable use</h2><p>You may not misuse the service, attempt unauthorized access, interfere with infrastructure, evade limits, reverse engineer protected components, upload malicious files, scrape at unreasonable volume, impersonate others, or use SoundLens to violate applicable law or third-party rights.</p><h2>5. Paid plans and billing</h2><p>Paid plans are billed through the payment provider shown at checkout. Prices, billing intervals, included features, and applicable taxes are displayed before purchase. Subscriptions renew until cancelled through the available billing method. SoundLens may change future pricing or plan features with reasonable notice; changes do not retroactively alter completed billing periods.</p><h2>6. Availability and changes</h2><p>SoundLens may add, change, suspend, or discontinue features to maintain security, reliability, legal compliance, or product quality. Continuous or error-free availability is not guaranteed.</p><h2>7. Suspension and termination</h2><p>Access may be limited or terminated for material violations, fraud, abuse, security risk, non-payment, or conduct that harms SoundLens or other users. You may stop using the service and request account deletion at any time.</p><h2>8. Disclaimers and limitation</h2><p>To the maximum extent permitted by law, SoundLens is provided “as is” and “as available,” without warranties of accuracy, fitness for a particular purpose, non-infringement, uninterrupted access, or specific results. SoundLens is not liable for indirect, incidental, special, consequential, or lost-profit damages arising from use of the service. Where liability cannot be excluded, total liability is limited to the amount you paid to SoundLens during the twelve months before the event giving rise to the claim.</p><h2>9. Governing law</h2><p>These Terms are governed by the laws of Alberta and the federal laws of Canada applicable there, without regard to conflict-of-law rules. Courts located in Alberta will have jurisdiction, subject to any consumer rights that cannot legally be waived.</p><h2>10. Contact</h2><p>Questions about these Terms can be submitted through the Contact page.</p></div></div>
+<div id="privacyPage" class="page legal-page"><div class="card"><div class="eyebrow">Effective July 31, 2026</div><h1>Privacy Policy</h1><p>This Policy explains how SoundLens handles information when you use the service.</p><h2>Information collected</h2><ul><li>Account details such as email, display name, plan, verification status, and login timestamps.</li><li>Audio files and technical analysis data needed to generate reports and artist comparisons.</li><li>Saved reports, feedback, contact messages, and support correspondence.</li><li>Usage events such as pages viewed, buttons clicked, upload status, session activity, device/browser details supplied by the browser, and basic security events.</li><li>Billing identifiers and subscription status received from Stripe. SoundLens does not store full payment-card numbers.</li></ul><h2>How information is used</h2><p>Information is used to provide analysis, authenticate accounts, enforce usage limits, save reports, process subscriptions, support users, detect misuse, understand product performance, and improve SoundLens.</p><h2>Audio handling</h2><p>Uploaded audio is processed to generate requested analysis. Temporary uploads may remain on the server as required for processing and operational troubleshooting. Saved report data remains connected to the account until deleted. Users should not upload confidential audio unless they accept this processing.</p><h2>Service providers</h2><p>Information may be processed by hosting, email, payment, analytics, and AI service providers only as needed to operate SoundLens. Their own terms and privacy practices may apply.</p><h2>Retention and deletion</h2><p>Information is kept only as long as reasonably required for the purposes described, legal obligations, dispute resolution, security, and backups. Account deletion removes the active account and saved reports from the application. Limited records may remain in backups or logs for a reasonable period.</p><h2>Security</h2><p>SoundLens uses reasonable safeguards, including password hashing and access controls. No internet service can guarantee absolute security.</p><h2>Your choices</h2><p>You may request support, correct account information, delete individual saved reports, or permanently delete your account from the Account section. Marketing emails, when introduced, will include an unsubscribe method.</p><h2>Contact</h2><p>Privacy questions can be submitted through the Contact page.</p></div></div>
+<div id="refundPage" class="page legal-page"><div class="card"><div class="eyebrow">Billing</div><h1>Refund Policy</h1><p>SoundLens subscriptions provide immediate access to digital features. Except where required by law, subscription charges are generally non-refundable after access has been provided.</p><h2>Duplicate or incorrect charges</h2><p>Contact SoundLens promptly if you believe you were charged more than once, charged after a confirmed cancellation, or billed an incorrect amount. Verified billing errors will be corrected.</p><h2>Technical failure</h2><p>When a prolonged technical problem materially prevents use of paid features and SoundLens cannot restore access within a reasonable period, SoundLens may provide a proportional refund or account credit at its discretion.</p><h2>Cancellation</h2><p>Cancellation stops future renewals. Access normally continues through the already-paid billing period. Not using the service does not by itself create a refund right.</p><h2>Requests</h2><p>Submit requests through the Contact page with the account email, charge date, amount, and reason. Nothing in this Policy limits non-waivable consumer rights under applicable law.</p></div></div>
+<div id="accountPage" class="page legal-page"><div class="card danger-card"><div class="eyebrow">Account Controls</div><h1>Delete account</h1><p>This permanently removes your active SoundLens account and saved reports. A safety backup is created before deletion, but restoration is not guaranteed. This action cannot be undone through the website.</p><div class="contact-form"><input id="deleteAccountPassword" type="password" placeholder="Confirm your password"><button onclick="deleteMyAccount()">Permanently Delete Account</button><p id="deleteAccountStatus" class="muted"></p></div></div></div>
+
 <div id="adminPage" class="page">
     <div class="hero-card admin-hero">
         <div class="eyebrow">Owner Control Center</div>
@@ -2295,6 +2339,7 @@
         <p class="muted auth-subtext">Users, plans, account activity, feedback, and security events in one private dashboard.</p>
         <div class="admin-toolbar">
             <input id="adminUserSearch" type="search" placeholder="Search users by email..." oninput="renderAdminUsers()">
+            <button onclick="downloadAdminBackup()">Download Data Backup</button>
             <button onclick="loadAdminDashboard()">Refresh</button>
         </div>
     </div>
@@ -2308,6 +2353,9 @@
         <div class="admin-kpi"><span>Uploads Today</span><strong id="adminUploadsToday">-</strong></div>
         <div class="admin-kpi"><span>Saved Reports</span><strong id="adminReportsSaved">-</strong></div>
         <div class="admin-kpi"><span>Feedback</span><strong id="adminFeedbackCount">-</strong></div>
+        <div class="admin-kpi"><span>Returning Users</span><strong id="adminReturningUsers">-</strong></div>
+        <div class="admin-kpi"><span>Page Views</span><strong id="adminPageViews">-</strong></div>
+        <div class="admin-kpi"><span>Completion Rate</span><strong id="adminCompletionRate">-</strong></div>
     </div>
 
     <div class="admin-layout">
@@ -2637,6 +2685,8 @@
     </div>
 
 </div>
+
+<div class="legal-links"><a onclick="showPage('termsPage')">Terms</a><a onclick="showPage('privacyPage')">Privacy</a><a onclick="showPage('refundPage')">Refunds</a><a onclick="showPage('contactPage')">Contact</a><a onclick="showPage('accountPage')">Delete Account</a></div>
 
 <script>
 
@@ -3461,6 +3511,9 @@ async function loadAdminDashboard(){
         document.getElementById("adminUploadsToday").innerText = stats.uploads_today ?? "-";
         document.getElementById("adminReportsSaved").innerText = stats.reports_saved ?? "-";
         document.getElementById("adminFeedbackCount").innerText = stats.feedback_count ?? "-";
+        document.getElementById("adminReturningUsers").innerText = stats.returning_users ?? "-";
+        document.getElementById("adminPageViews").innerText = stats.page_views ?? "-";
+        document.getElementById("adminCompletionRate").innerText = `${stats.analysis_completion_rate ?? 0}%`;
         renderAdminUsers();
         renderAdminEvents();
         const feedback = data.latest_feedback || [];
@@ -4176,6 +4229,46 @@ async function runProfileComparison(file, status){
     }
 }
 
+
+
+function openForgotPassword(){
+    const existing = document.getElementById("loginEmail")?.value || "";
+    document.getElementById("forgotEmail").value = existing;
+    showPage("forgotPage");
+}
+async function requestPasswordReset(){
+    const box=document.getElementById("forgotMessage"); box.innerText="Sending...";
+    try{const data=await apiJSON("/auth/forgot-password",{method:"POST",body:JSON.stringify({email:document.getElementById("forgotEmail").value})}); box.innerText=data.message;}
+    catch(e){box.innerText=e.message;}
+}
+async function confirmPasswordReset(){
+    const box=document.getElementById("resetMessage"); box.innerText="Updating...";
+    const token=new URLSearchParams(location.search).get("reset_token")||"";
+    try{const data=await apiJSON("/auth/reset-password",{method:"POST",body:JSON.stringify({token,password:document.getElementById("resetPassword").value})}); box.innerText=data.message; setTimeout(()=>showPage("authPage"),900);}
+    catch(e){box.innerText=e.message;}
+}
+async function submitContact(){
+    const box=document.getElementById("contactStatus"); box.innerText="Sending...";
+    try{const data=await apiJSON("/contact",{method:"POST",body:JSON.stringify({name:document.getElementById("contactName").value,email:document.getElementById("contactEmail").value,subject:document.getElementById("contactSubject").value,message:document.getElementById("contactMessage").value})}); box.innerText=data.message; document.getElementById("contactMessage").value="";}
+    catch(e){box.innerText=e.message;}
+}
+async function deleteMyAccount(){
+    const box=document.getElementById("deleteAccountStatus");
+    if(!confirm("Permanently delete your SoundLens account and saved reports?")){return;}
+    box.innerText="Deleting account...";
+    try{const data=await apiJSON("/account",{method:"DELETE",body:JSON.stringify({password:document.getElementById("deleteAccountPassword").value})}); localStorage.removeItem(AUTH_TOKEN_KEY); currentUser=null; box.innerText=data.message; setTimeout(()=>location.reload(),1000);}
+    catch(e){box.innerText=e.message;}
+}
+async function downloadAdminBackup(){
+    try{const token=localStorage.getItem(AUTH_TOKEN_KEY); const response=await fetch(API_BASE+"/admin/export-data",{headers:{Authorization:"Bearer "+token}}); if(!response.ok){const d=await response.json();throw new Error(d.detail||"Backup failed.");} const blob=await response.blob(); const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download="soundlens_data_backup.zip"; a.click(); URL.revokeObjectURL(url);}
+    catch(e){alert(e.message);}
+}
+function setupSafeAnalytics(){
+    const sessionKey="soundlens_session_started";
+    if(!sessionStorage.getItem(sessionKey)){sessionStorage.setItem(sessionKey,"1");trackClientEvent("session_start",{path:location.pathname,referrer:document.referrer||null,screen:`${screen.width}x${screen.height}`,userAgent:navigator.userAgent.slice(0,240)});}
+    document.addEventListener("click",event=>{const el=event.target.closest("button,a");if(!el)return;const label=(el.innerText||el.getAttribute("aria-label")||"").trim().replace(/\s+/g," ").slice(0,80);trackClientEvent("ui_click",{id:el.id||null,label,tag:el.tagName,page:document.querySelector(".page.active")?.id||null});},{passive:true});
+}
+window.addEventListener("load",()=>{setupSafeAnalytics();const params=new URLSearchParams(location.search);if(params.get("reset_token")){showPage("resetPage");}});
 
 async function startStripeCheckout(plan){
     const token = localStorage.getItem(AUTH_TOKEN_KEY);

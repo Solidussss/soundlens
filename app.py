@@ -1,6 +1,6 @@
 from dataclasses import asdict
 from pathlib import Path
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import hashlib
 import json
 import os
@@ -8,6 +8,9 @@ import shutil
 import traceback
 import uuid
 import smtplib
+import secrets
+import tempfile
+import zipfile
 from email.message import EmailMessage
 import stripe
 
@@ -49,6 +52,10 @@ SAVED_REPORTS_DIR.mkdir(exist_ok=True)
 
 ADMIN_EVENTS_PATH = Path("soundlens_admin_events.json")
 FEEDBACK_PATH = Path("soundlens_feedback.json")
+CONTACT_MESSAGES_PATH = Path("soundlens_contact_messages.json")
+BACKUPS_DIR = Path("soundlens_backups")
+BACKUPS_DIR.mkdir(exist_ok=True)
+PASSWORD_RESET_EXPIRY_MINUTES = int(os.getenv("SOUNDLENS_PASSWORD_RESET_EXPIRY_MINUTES", "30"))
 
 SOUNDLENS_NOTIFY_EMAIL = os.getenv("SOUNDLENS_NOTIFY_EMAIL", "soudlensmail@gmail.com")
 SOUNDLENS_ADMIN_EMAILS = {
@@ -116,6 +123,26 @@ class AdminEmailPayload(BaseModel):
     email: str
 
 
+class PasswordResetRequestPayload(BaseModel):
+    email: str
+
+
+class PasswordResetConfirmPayload(BaseModel):
+    token: str
+    password: str
+
+
+class ContactPayload(BaseModel):
+    name: str | None = None
+    email: str
+    subject: str | None = None
+    message: str
+
+
+class DeleteAccountPayload(BaseModel):
+    password: str
+
+
 
 def utc_today() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -123,6 +150,28 @@ def utc_today() -> str:
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def parse_iso(value: str | None):
+    try:
+        return datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except Exception:
+        return None
+
+
+def create_data_backup() -> Path:
+    """Create a copy-only ZIP of current user/admin data. Never mutates source data."""
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    target = BACKUPS_DIR / f"soundlens_data_backup_{stamp}.zip"
+    with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for path in [USERS_DB_PATH, ADMIN_EVENTS_PATH, FEEDBACK_PATH, CONTACT_MESSAGES_PATH]:
+            if path.exists():
+                archive.write(path, arcname=path.name)
+        if SAVED_REPORTS_DIR.exists():
+            for path in SAVED_REPORTS_DIR.rglob("*"):
+                if path.is_file():
+                    archive.write(path, arcname=str(path))
+    return target
 
 
 def read_json_file(path: Path, fallback):
@@ -438,6 +487,7 @@ def signup(payload: AuthPayload):
     db["tokens"][token] = user_id
     save_users_db(db)
     track_event("signup_success", user, {"email": email})
+    send_signup_verification_email(user)
 
     return {"token": token, "user": public_user(user)}
 
@@ -487,6 +537,103 @@ def logout(authorization: str | None = Header(default=None)):
         del db["tokens"][token]
         save_users_db(db)
     return {"ok": True}
+
+
+@app.post("/auth/forgot-password")
+def forgot_password(payload: PasswordResetRequestPayload):
+    db = load_users_db()
+    email = normalize_email(payload.email)
+    user = find_user_by_email(db, email)
+    # Always return the same response to avoid exposing which emails are registered.
+    generic = {"ok": True, "message": "If an account exists for that email, a reset link has been sent."}
+    if not user:
+        track_event("password_reset_requested", None, {"email": email, "account_found": False})
+        return generic
+    token = secrets.token_urlsafe(32)
+    user["password_reset_token"] = token
+    user["password_reset_expires_at"] = (datetime.now(timezone.utc) + timedelta(minutes=PASSWORD_RESET_EXPIRY_MINUTES)).isoformat()
+    save_users_db(db)
+    link = f"{SOUNDLENS_PUBLIC_URL}/?reset_token={token}"
+    sent = send_notification_email_to(user.get("email"), "Reset your SoundLens password", f"""A password reset was requested for your SoundLens account.
+
+Reset your password here:
+{link}
+
+This link expires in {PASSWORD_RESET_EXPIRY_MINUTES} minutes. If you did not request this, you can ignore this email.
+
+SoundLens
+soundlensapp.com
+""")
+    track_event("password_reset_requested", user, {"sent": sent})
+    return generic
+
+
+@app.post("/auth/reset-password")
+def reset_password(payload: PasswordResetConfirmPayload):
+    if not payload.password or len(payload.password) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters.")
+    token = str(payload.token or "").strip()
+    db = load_users_db()
+    user = next((u for u in db.get("users", {}).values() if u.get("password_reset_token") == token), None)
+    if not user:
+        raise HTTPException(status_code=400, detail="This reset link is invalid or expired.")
+    expires = parse_iso(user.get("password_reset_expires_at"))
+    if not expires or expires < datetime.now(timezone.utc):
+        user["password_reset_token"] = None
+        user["password_reset_expires_at"] = None
+        save_users_db(db)
+        raise HTTPException(status_code=400, detail="This reset link is invalid or expired.")
+    salt = str(uuid.uuid4())
+    user["password_salt"] = salt
+    user["password_hash"] = hash_password(payload.password, salt)
+    user["password_reset_token"] = None
+    user["password_reset_expires_at"] = None
+    user["password_changed_at"] = now_iso()
+    # Invalidate every existing session for this account.
+    db["tokens"] = {k:v for k,v in db.get("tokens", {}).items() if v != user.get("id")}
+    save_users_db(db)
+    track_event("password_reset_completed", user, {})
+    return {"ok": True, "message": "Password updated. Log in with your new password."}
+
+
+@app.delete("/account")
+def delete_account(payload: DeleteAccountPayload, authorization: str | None = Header(default=None)):
+    db, user = get_current_user(authorization)
+    expected = hash_password(payload.password, user.get("password_salt", ""))
+    if expected != user.get("password_hash"):
+        raise HTTPException(status_code=401, detail="Password is incorrect.")
+    user_id = user.get("id")
+    email = user.get("email")
+    # Backup first, then remove only this account's records.
+    create_data_backup()
+    user_dir = SAVED_REPORTS_DIR / str(user_id)
+    if user_dir.exists():
+        shutil.rmtree(user_dir)
+    db["tokens"] = {k:v for k,v in db.get("tokens", {}).items() if v != user_id}
+    db.get("users", {}).pop(user_id, None)
+    save_users_db(db)
+    track_event("account_deleted", None, {"user_id": user_id, "email": email})
+    return {"ok": True, "message": "Your SoundLens account and saved reports were deleted."}
+
+
+@app.post("/contact")
+def contact(payload: ContactPayload, authorization: str | None = Header(default=None)):
+    user = None
+    try:
+        _, user = get_current_user(authorization)
+    except Exception:
+        pass
+    email = normalize_email(payload.email)
+    message = str(payload.message or "").strip()
+    if "@" not in email:
+        raise HTTPException(status_code=400, detail="Enter a valid email.")
+    if len(message) < 10:
+        raise HTTPException(status_code=400, detail="Please include a little more detail in your message.")
+    item = {"id": str(uuid.uuid4()), "created_at": now_iso(), "name": str(payload.name or "").strip()[:120], "email": email, "subject": str(payload.subject or "General question").strip()[:160], "message": message[:5000], "user_id": user.get("id") if user else None}
+    append_json_list(CONTACT_MESSAGES_PATH, item)
+    sent = send_notification_email("New SoundLens contact message", f"Name: {item['name']}\nEmail: {email}\nSubject: {item['subject']}\n\n{item['message']}")
+    track_event("contact_submitted", user, {"email": email, "subject": item["subject"], "notification_sent": sent})
+    return {"ok": True, "message": "Your message was sent. SoundLens will reply by email."}
 
 
 @app.get("/billing/config")
@@ -801,7 +948,32 @@ async def admin_stats(authorization: str | None = Header(default=None)):
 
     user_rows.sort(key=lambda u: u.get("last_active") or u.get("created_at") or "", reverse=True)
     latest_feedback = sorted(feedback, key=lambda f: f.get("created_at", ""), reverse=True)[:20]
-    latest_events = sorted(events, key=lambda e: e.get("created_at", ""), reverse=True)[:100]
+    latest_events = sorted(events, key=lambda e: e.get("created_at", ""), reverse=True)[:250]
+
+    page_views = [e for e in events if e.get("event") == "page_view"]
+    click_events = [e for e in events if e.get("event") == "ui_click"]
+    completed = len([e for e in events if e.get("event") == "analysis_completed"])
+    started = len([e for e in events if e.get("event") == "analysis_started"])
+    returning_ids = set()
+    seen_days = {}
+    for event in events:
+        uid = (event.get("user") or {}).get("id")
+        day = str(event.get("created_at") or "")[:10]
+        if uid and day:
+            seen_days.setdefault(uid, set()).add(day)
+    returning_ids = {uid for uid, days in seen_days.items() if len(days) > 1}
+    page_counts = {}
+    click_counts = {}
+    for event in page_views:
+        details = event.get("details") or {}
+        page = details.get("page") or (details.get("details") or {}).get("page") or "unknown"
+        page_counts[page] = page_counts.get(page, 0) + 1
+    for event in click_events:
+        detail = ((event.get("details") or {}).get("details") or {})
+        label = detail.get("label") or detail.get("id") or detail.get("tag") or "unknown"
+        click_counts[label] = click_counts.get(label, 0) + 1
+    top_pages = sorted(page_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+    top_clicks = sorted(click_counts.items(), key=lambda x: x[1], reverse=True)[:10]
 
     return {
         "ok": True,
@@ -816,11 +988,25 @@ async def admin_stats(authorization: str | None = Header(default=None)):
             "reports_saved": reports_saved,
             "feedback_count": len(feedback),
             "events_tracked": len(events),
+            "returning_users": len(returning_ids),
+            "page_views": len(page_views),
+            "clicks_tracked": len(click_events),
+            "analysis_completion_rate": round((completed / started * 100), 1) if started else 0,
         },
         "users": user_rows,
         "latest_feedback": latest_feedback,
         "latest_events": latest_events,
+        "top_pages": [{"name": name, "count": count} for name, count in top_pages],
+        "top_clicks": [{"name": name, "count": count} for name, count in top_clicks],
     }
+
+
+@app.get("/admin/export-data")
+def admin_export_data(authorization: str | None = Header(default=None)):
+    _, admin = get_admin_user(authorization)
+    backup = create_data_backup()
+    track_event("admin_data_exported", admin, {"filename": backup.name})
+    return FileResponse(backup, filename=backup.name, media_type="application/zip")
 
 
 @app.post("/admin/lifetime-account")
