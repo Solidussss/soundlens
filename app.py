@@ -46,15 +46,52 @@ STEMS_DIR.mkdir(exist_ok=True)
 # Local launch database.
 # This is good for local testing and early MVP work.
 # For production, move this to Postgres/Supabase/Firebase and use real Stripe webhooks.
-USERS_DB_PATH = Path("soundlens_users.json")
-SAVED_REPORTS_DIR = Path("saved_reports")
-SAVED_REPORTS_DIR.mkdir(exist_ok=True)
+# Persistent application data.
+# On Railway, mount a Volume at /data. You may override this with
+# SOUNDLENS_DATA_DIR. Code remains in the project directory while user data
+# lives outside the Git checkout, so a deploy cannot replace it.
+_default_data_dir = "/data" if Path("/data").exists() else "."
+DATA_DIR = Path(os.getenv("SOUNDLENS_DATA_DIR", _default_data_dir)).expanduser()
+DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-ADMIN_EVENTS_PATH = Path("soundlens_admin_events.json")
-FEEDBACK_PATH = Path("soundlens_feedback.json")
-CONTACT_MESSAGES_PATH = Path("soundlens_contact_messages.json")
-BACKUPS_DIR = Path("soundlens_backups")
-BACKUPS_DIR.mkdir(exist_ok=True)
+USERS_DB_PATH = DATA_DIR / "soundlens_users.json"
+SAVED_REPORTS_DIR = DATA_DIR / "saved_reports"
+SAVED_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+
+ADMIN_EVENTS_PATH = DATA_DIR / "soundlens_admin_events.json"
+FEEDBACK_PATH = DATA_DIR / "soundlens_feedback.json"
+CONTACT_MESSAGES_PATH = DATA_DIR / "soundlens_contact_messages.json"
+BACKUPS_DIR = DATA_DIR / "soundlens_backups"
+BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def migrate_legacy_data_once() -> None:
+    """Copy legacy project-root data into the persistent data directory.
+
+    This is copy-only and runs only when the persistent destination does not
+    already exist. It never overwrites production data.
+    """
+    if DATA_DIR.resolve() == Path(".").resolve():
+        return
+
+    legacy_files = [
+        "soundlens_users.json",
+        "soundlens_admin_events.json",
+        "soundlens_feedback.json",
+        "soundlens_contact_messages.json",
+    ]
+    for filename in legacy_files:
+        source = Path(filename)
+        destination = DATA_DIR / filename
+        if source.exists() and not destination.exists():
+            shutil.copy2(source, destination)
+
+    legacy_reports = Path("saved_reports")
+    if legacy_reports.exists() and not any(SAVED_REPORTS_DIR.iterdir()):
+        shutil.copytree(legacy_reports, SAVED_REPORTS_DIR, dirs_exist_ok=True)
+
+
+migrate_legacy_data_once()
 PASSWORD_RESET_EXPIRY_MINUTES = int(os.getenv("SOUNDLENS_PASSWORD_RESET_EXPIRY_MINUTES", "30"))
 
 SOUNDLENS_NOTIFY_EMAIL = os.getenv("SOUNDLENS_NOTIFY_EMAIL", "soudlensmail@gmail.com")
@@ -184,7 +221,15 @@ def read_json_file(path: Path, fallback):
 
 
 def write_json_file(path: Path, data) -> None:
-    path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    """Atomically write JSON so an interrupted deploy/write cannot blank data."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = path.with_name(f".{path.name}.{uuid.uuid4().hex}.tmp")
+    try:
+        temp_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        os.replace(temp_path, path)
+    finally:
+        if temp_path.exists():
+            temp_path.unlink(missing_ok=True)
 
 
 def append_json_list(path: Path, item: dict) -> None:
@@ -315,7 +360,7 @@ def load_users_db() -> dict:
 
 
 def save_users_db(data: dict) -> None:
-    USERS_DB_PATH.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    write_json_file(USERS_DB_PATH, data)
 
 
 def normalize_email(email: str) -> str:
