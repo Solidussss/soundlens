@@ -2,6 +2,7 @@ from dataclasses import asdict
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 import hashlib
+import html as html_lib
 import json
 import os
 import shutil
@@ -283,7 +284,12 @@ def send_notification_email(subject: str, body: str) -> bool:
 
 
 
-def send_notification_email_to(to_email: str | None, subject: str, body: str) -> bool:
+def send_notification_email_to(
+    to_email: str | None,
+    subject: str,
+    body: str,
+    html_body: str | None = None,
+) -> bool:
     if not to_email:
         return False
     if not SMTP_HOST or not SMTP_USERNAME or not SMTP_PASSWORD:
@@ -295,6 +301,8 @@ def send_notification_email_to(to_email: str | None, subject: str, body: str) ->
         msg["From"] = SMTP_FROM_EMAIL
         msg["To"] = to_email
         msg.set_content(body)
+        if html_body:
+            msg.add_alternative(html_body, subtype="html")
 
         with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=12) as server:
             server.starttls()
@@ -305,6 +313,66 @@ def send_notification_email_to(to_email: str | None, subject: str, body: str) ->
     except Exception as error:
         track_event("email_failed", None, {"to": to_email, "subject": subject, "error": str(error)})
         return False
+
+
+def build_branded_email(
+    title: str,
+    message: str,
+    button_text: str | None = None,
+    button_url: str | None = None,
+    note: str | None = None,
+) -> str:
+    logo_url = f"{SOUNDLENS_PUBLIC_URL}/static/soundlens_email_logo.png"
+    safe_title = html_lib.escape(str(title or "SoundLens"))
+    safe_message = html_lib.escape(str(message or "")).replace("\n", "<br>")
+    safe_note = html_lib.escape(str(note or "")).replace("\n", "<br>") if note else ""
+
+    button_html = ""
+    if button_text and button_url:
+        button_html = f"""
+        <tr><td align="center" style="padding:8px 32px 30px;">
+          <a href="{html_lib.escape(str(button_url), quote=True)}"
+             style="display:inline-block;background:#6366f1;color:#fff;text-decoration:none;
+                    font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;
+                    padding:14px 24px;border-radius:12px;">
+            {html_lib.escape(str(button_text))}
+          </a>
+        </td></tr>"""
+
+    note_html = f"""
+        <tr><td style="padding:0 32px 28px;color:#9ca3af;font-family:Arial,Helvetica,sans-serif;
+                      font-size:13px;line-height:20px;text-align:center;">{safe_note}</td></tr>
+    """ if safe_note else ""
+
+    return f"""<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{safe_title}</title></head>
+<body style="margin:0;padding:0;background:#0b0d13;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#0b0d13;">
+<tr><td align="center" style="padding:24px 12px;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+       style="max-width:620px;background:#151926;border:1px solid #2d3348;border-radius:20px;overflow:hidden;">
+<tr><td align="center" style="background:#000;padding:18px 20px 10px;">
+<img src="{logo_url}" alt="SoundLens" width="420"
+     style="display:block;width:100%;max-width:420px;height:auto;border:0;">
+</td></tr>
+<tr><td style="padding:34px 32px 14px;color:#fff;font-family:Arial,Helvetica,sans-serif;
+               font-size:30px;font-weight:800;line-height:38px;text-align:center;">{safe_title}</td></tr>
+<tr><td style="padding:0 32px 26px;color:#cbd5e1;font-family:Arial,Helvetica,sans-serif;
+               font-size:16px;line-height:25px;text-align:center;">{safe_message}</td></tr>
+{button_html}
+{note_html}
+<tr><td style="padding:24px 28px;background:#0f1117;border-top:1px solid #2d3348;
+               color:#9ca3af;font-family:Arial,Helvetica,sans-serif;font-size:12px;
+               line-height:19px;text-align:center;">
+<strong style="color:#fff;">SoundLens</strong><br>
+Music analysis built for artists and producers.<br>
+<a href="{SOUNDLENS_PUBLIC_URL}" style="color:#8b8ffb;text-decoration:none;">soundlensapp.com</a>
+<br><br>© 2026 SoundLens
+</td></tr>
+</table>
+</td></tr></table>
+</body></html>"""
 
 
 def build_verification_link(token: str) -> str:
@@ -328,9 +396,15 @@ If you did not create a SoundLens account, you can ignore this email.
 
 SoundLens
 soundlensapp.com
-@soundlensapp_
 """
-    return send_notification_email_to(user.get("email"), subject, body)
+    html_body = build_branded_email(
+        title="Confirm your email",
+        message="Verify your email address to finish setting up your SoundLens account.",
+        button_text="Confirm Email",
+        button_url=verify_link,
+        note="If you did not create this account, you can safely ignore this email.",
+    )
+    return send_notification_email_to(user.get("email"), subject, body, html_body)
 
 
 def is_admin_user(user: dict) -> bool:
@@ -599,7 +673,8 @@ def forgot_password(payload: PasswordResetRequestPayload):
     user["password_reset_expires_at"] = (datetime.now(timezone.utc) + timedelta(minutes=PASSWORD_RESET_EXPIRY_MINUTES)).isoformat()
     save_users_db(db)
     link = f"{SOUNDLENS_PUBLIC_URL}/?reset_token={token}"
-    sent = send_notification_email_to(user.get("email"), "Reset your SoundLens password", f"""A password reset was requested for your SoundLens account.
+    reset_subject = "Reset your SoundLens password"
+    reset_body = f"""A password reset was requested for your SoundLens account.
 
 Reset your password here:
 {link}
@@ -608,7 +683,15 @@ This link expires in {PASSWORD_RESET_EXPIRY_MINUTES} minutes. If you did not req
 
 SoundLens
 soundlensapp.com
-""")
+"""
+    reset_html = build_branded_email(
+        title="Reset your password",
+        message="We received a request to reset the password for your SoundLens account.",
+        button_text="Reset Password",
+        button_url=link,
+        note=f"This link expires in {PASSWORD_RESET_EXPIRY_MINUTES} minutes. If you did not request this, you can ignore this email.",
+    )
+    sent = send_notification_email_to(user.get("email"), reset_subject, reset_body, reset_html)
     track_event("password_reset_requested", user, {"sent": sent})
     return generic
 
