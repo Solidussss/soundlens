@@ -175,6 +175,11 @@ class PasswordResetConfirmPayload(BaseModel):
     password: str
 
 
+class ChangePasswordPayload(BaseModel):
+    current_password: str
+    new_password: str
+
+
 class ContactPayload(BaseModel):
     name: str | None = None
     email: str
@@ -727,6 +732,42 @@ def reset_password(payload: PasswordResetConfirmPayload):
     save_users_db(db)
     track_event("password_reset_completed", user, {})
     return {"ok": True, "message": "Password updated. Log in with your new password."}
+
+
+@app.post("/auth/change-password")
+def change_password(payload: ChangePasswordPayload, authorization: str | None = Header(default=None)):
+    db, user = get_current_user(authorization)
+    current_password = str(payload.current_password or "")
+    new_password = str(payload.new_password or "")
+
+    if len(new_password) < 8:
+        raise HTTPException(status_code=400, detail="New password must be at least 8 characters.")
+    if current_password == new_password:
+        raise HTTPException(status_code=400, detail="Choose a new password that is different from your current password.")
+
+    expected = hash_password(current_password, user.get("password_salt", ""))
+    if expected != user.get("password_hash"):
+        track_event("password_change_failed", user, {"reason": "wrong_current_password"})
+        raise HTTPException(status_code=401, detail="Current password is incorrect.")
+
+    salt = str(uuid.uuid4())
+    user["password_salt"] = salt
+    user["password_hash"] = hash_password(new_password, salt)
+    user["password_reset_token"] = None
+    user["password_reset_expires_at"] = None
+    user["password_changed_at"] = now_iso()
+    user.pop("password_changed_by_admin", None)
+
+    # Keep this browser signed in, but invalidate every other session for the account.
+    current_token = get_bearer_token(authorization)
+    user_id = user.get("id")
+    db["tokens"] = {
+        token: uid for token, uid in db.get("tokens", {}).items()
+        if uid != user_id or token == current_token
+    }
+    save_users_db(db)
+    track_event("password_changed", user, {})
+    return {"ok": True, "message": "Password changed successfully.", "user": public_user(user)}
 
 
 @app.delete("/account")

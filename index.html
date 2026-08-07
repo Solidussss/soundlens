@@ -2346,7 +2346,30 @@
 <div id="termsPage" class="page legal-page"><div class="card"><div class="eyebrow">Effective July 31, 2026</div><h1>Terms of Service</h1><p>These Terms govern access to and use of SoundLens, including its website, audio-analysis tools, artist-comparison features, accounts, saved reports, and paid plans. By creating an account or using SoundLens, you agree to these Terms.</p><h2>1. Eligibility and accounts</h2><p>You must provide accurate account information, protect your login credentials, and notify SoundLens of suspected unauthorized access. You are responsible for activity performed through your account.</p><h2>2. Uploaded audio and permissions</h2><p>You retain ownership of audio you upload. You grant SoundLens a limited permission to receive, process, temporarily store, and analyze that audio solely to operate, secure, maintain, and improve the service. You must have the legal right to upload and analyze the material. Do not upload content that infringes copyright, privacy, contractual, or other rights.</p><h2>3. Analysis results</h2><p>SoundLens provides automated estimates and creative-production guidance. BPM, key, mix, arrangement, release, energy, artist-match, and related outputs may be incomplete or inaccurate and are not guarantees of commercial performance, release quality, similarity, ownership, or legal clearance. Use professional judgment and reference listening before making release, business, or technical decisions.</p><h2>4. Acceptable use</h2><p>You may not misuse the service, attempt unauthorized access, interfere with infrastructure, evade limits, reverse engineer protected components, upload malicious files, scrape at unreasonable volume, impersonate others, or use SoundLens to violate applicable law or third-party rights.</p><h2>5. Paid plans and billing</h2><p>Paid plans are billed through the payment provider shown at checkout. Prices, billing intervals, included features, and applicable taxes are displayed before purchase. Subscriptions renew until cancelled through the available billing method. SoundLens may change future pricing or plan features with reasonable notice; changes do not retroactively alter completed billing periods.</p><h2>6. Availability and changes</h2><p>SoundLens may add, change, suspend, or discontinue features to maintain security, reliability, legal compliance, or product quality. Continuous or error-free availability is not guaranteed.</p><h2>7. Suspension and termination</h2><p>Access may be limited or terminated for material violations, fraud, abuse, security risk, non-payment, or conduct that harms SoundLens or other users. You may stop using the service and request account deletion at any time.</p><h2>8. Disclaimers and limitation</h2><p>To the maximum extent permitted by law, SoundLens is provided “as is” and “as available,” without warranties of accuracy, fitness for a particular purpose, non-infringement, uninterrupted access, or specific results. SoundLens is not liable for indirect, incidental, special, consequential, or lost-profit damages arising from use of the service. Where liability cannot be excluded, total liability is limited to the amount you paid to SoundLens during the twelve months before the event giving rise to the claim.</p><h2>9. Governing law</h2><p>These Terms are governed by the laws of Alberta and the federal laws of Canada applicable there, without regard to conflict-of-law rules. Courts located in Alberta will have jurisdiction, subject to any consumer rights that cannot legally be waived.</p><h2>10. Contact</h2><p>Questions about these Terms can be submitted through the Contact page.</p></div></div>
 <div id="privacyPage" class="page legal-page"><div class="card"><div class="eyebrow">Effective July 31, 2026</div><h1>Privacy Policy</h1><p>This Policy explains how SoundLens handles information when you use the service.</p><h2>Information collected</h2><ul><li>Account details such as email, display name, plan, verification status, and login timestamps.</li><li>Audio files and technical analysis data needed to generate reports and artist comparisons.</li><li>Saved reports, feedback, contact messages, and support correspondence.</li><li>Usage events such as pages viewed, buttons clicked, upload status, session activity, device/browser details supplied by the browser, and basic security events.</li><li>Billing identifiers and subscription status received from Stripe. SoundLens does not store full payment-card numbers.</li></ul><h2>How information is used</h2><p>Information is used to provide analysis, authenticate accounts, enforce usage limits, save reports, process subscriptions, support users, detect misuse, understand product performance, and improve SoundLens.</p><h2>Audio handling</h2><p>Uploaded audio is processed to generate requested analysis. Temporary uploads may remain on the server as required for processing and operational troubleshooting. Saved report data remains connected to the account until deleted. Users should not upload confidential audio unless they accept this processing.</p><h2>Service providers</h2><p>Information may be processed by hosting, email, payment, analytics, and AI service providers only as needed to operate SoundLens. Their own terms and privacy practices may apply.</p><h2>Retention and deletion</h2><p>Information is kept only as long as reasonably required for the purposes described, legal obligations, dispute resolution, security, and backups. Account deletion removes the active account and saved reports from the application. Limited records may remain in backups or logs for a reasonable period.</p><h2>Security</h2><p>SoundLens uses reasonable safeguards, including password hashing and access controls. No internet service can guarantee absolute security.</p><h2>Your choices</h2><p>You may request support, correct account information, delete individual saved reports, or permanently delete your account from the Account section. Marketing emails, when introduced, will include an unsubscribe method.</p><h2>Contact</h2><p>Privacy questions can be submitted through the Contact page.</p></div></div>
 <div id="refundPage" class="page legal-page"><div class="card"><div class="eyebrow">Billing</div><h1>Refund Policy</h1><p>SoundLens subscriptions provide immediate access to digital features. Except where required by law, subscription charges are generally non-refundable after access has been provided.</p><h2>Duplicate or incorrect charges</h2><p>Contact SoundLens promptly if you believe you were charged more than once, charged after a confirmed cancellation, or billed an incorrect amount. Verified billing errors will be corrected.</p><h2>Technical failure</h2><p>When a prolonged technical problem materially prevents use of paid features and SoundLens cannot restore access within a reasonable period, SoundLens may provide a proportional refund or account credit at its discretion.</p><h2>Cancellation</h2><p>Cancellation stops future renewals. Access normally continues through the already-paid billing period. Not using the service does not by itself create a refund right.</p><h2>Requests</h2><p>Submit requests through the Contact page with the account email, charge date, amount, and reason. Nothing in this Policy limits non-waivable consumer rights under applicable law.</p></div></div>
-<div id="accountPage" class="page legal-page"><div class="card danger-card"><div class="eyebrow">Account Controls</div><h1>Delete account</h1><p>This permanently removes your active SoundLens account and saved reports. A safety backup is created before deletion, but restoration is not guaranteed. This action cannot be undone through the website.</p><div class="contact-form delete-account-form"><input id="deleteAccountPassword" type="password" placeholder="Confirm your password"><button onclick="deleteMyAccount()">Permanently Delete Account</button><p id="deleteAccountStatus" class="muted"></p></div></div></div>
+<div id="accountPage" class="page legal-page">
+    <div class="card">
+        <div class="eyebrow">Account Security</div>
+        <h1>Change password</h1>
+        <p>Update the password you use to sign in to SoundLens. Your plan, reports, and account data will not change.</p>
+        <div class="contact-form delete-account-form">
+            <input id="changeCurrentPassword" type="password" autocomplete="current-password" placeholder="Current password">
+            <input id="changeNewPassword" type="password" autocomplete="new-password" placeholder="New password (8+ characters)">
+            <input id="changeConfirmPassword" type="password" autocomplete="new-password" placeholder="Confirm new password">
+            <button onclick="changeMyPassword()">Change Password</button>
+            <p id="changePasswordStatus" class="muted"></p>
+        </div>
+    </div>
+    <div class="card danger-card">
+        <div class="eyebrow">Account Controls</div>
+        <h1>Delete account</h1>
+        <p>This permanently removes your active SoundLens account and saved reports. A safety backup is created before deletion, but restoration is not guaranteed. This action cannot be undone through the website.</p>
+        <div class="contact-form delete-account-form">
+            <input id="deleteAccountPassword" type="password" placeholder="Confirm your password">
+            <button onclick="deleteMyAccount()">Permanently Delete Account</button>
+            <p id="deleteAccountStatus" class="muted"></p>
+        </div>
+    </div>
+</div>
 
 <div id="adminPage" class="page">
     <div class="hero-card admin-hero">
@@ -2761,7 +2784,7 @@
 
 </div>
 
-<div class="legal-links"><a onclick="showPage('termsPage')">Terms</a><a onclick="showPage('privacyPage')">Privacy</a><a onclick="showPage('refundPage')">Refunds</a><a onclick="showPage('contactPage')">Contact</a><a onclick="showPage('accountPage')">Delete Account</a></div>
+<div class="legal-links"><a onclick="showPage('termsPage')">Terms</a><a onclick="showPage('privacyPage')">Privacy</a><a onclick="showPage('refundPage')">Refunds</a><a onclick="showPage('contactPage')">Contact</a><a onclick="showPage('accountPage')">Account</a></div>
 
 <script>
 
@@ -3501,7 +3524,7 @@ function adminEventLabel(item){
     const pageNames = {analyzePage:"Analyze",overviewPage:"Overview",artistPage:"Artist Match",fixesPage:"Galaxy",arrangementPage:"Arrangement",advancedPage:"Advanced",dashboardPage:"Dashboard",learnPage:"About",feedbackPage:"Feedback",adminPage:"Admin",authPage:"Account"};
     const event = item.event || "event";
     const page = item.details?.page || item.details?.details?.page;
-    const labels = {signup_success:"Account created",login_success:"Logged in",login_failed:"Failed login",logout:"Logged out",analysis_started:"Started analysis",analysis_completed:"Completed analysis",analysis_failed:"Analysis failed",report_deleted:"Deleted report",email_verified:"Verified email",lifetime_account_created:"Lifetime account created",lifetime_access_granted:"Lifetime access granted",pro_access_granted:"Pro access granted",pro_access_removed:"Pro access removed",admin_pro_grant_removed:"Manual Pro grant removed",admin_password_changed:"Admin changed password",admin_access_denied:"Blocked admin access",feedback_submitted:"Submitted feedback"};
+    const labels = {signup_success:"Account created",login_success:"Logged in",login_failed:"Failed login",logout:"Logged out",analysis_started:"Started analysis",analysis_completed:"Completed analysis",analysis_failed:"Analysis failed",report_deleted:"Deleted report",email_verified:"Verified email",lifetime_account_created:"Lifetime account created",lifetime_access_granted:"Lifetime access granted",pro_access_granted:"Pro access granted",pro_access_removed:"Pro access removed",admin_pro_grant_removed:"Manual Pro grant removed",admin_password_changed:"Admin changed password",password_changed:"Changed password",password_change_failed:"Password change failed",admin_access_denied:"Blocked admin access",feedback_submitted:"Submitted feedback"};
     if(event === "page_view" && page){ return `Viewed ${pageNames[page] || page}`; }
     return labels[event] || event.replaceAll("_"," ").replace(/\b\w/g, c => c.toUpperCase());
 }
@@ -3644,7 +3667,7 @@ function adminHeatmapPageName(page){
         termsPage:"Terms",
         privacyPage:"Privacy",
         refundPage:"Refunds",
-        accountPage:"Delete Account"
+        accountPage:"Account"
     };
     return names[page] || page || "Unknown";
 }
@@ -4524,6 +4547,24 @@ async function submitContact(){
     try{const data=await apiJSON("/contact",{method:"POST",body:JSON.stringify({name:document.getElementById("contactName").value,email:document.getElementById("contactEmail").value,subject:document.getElementById("contactSubject").value,message:document.getElementById("contactMessage").value})}); box.innerText=data.message; document.getElementById("contactMessage").value="";}
     catch(e){box.innerText=e.message;}
 }
+async function changeMyPassword(){
+    const box=document.getElementById("changePasswordStatus");
+    const current=document.getElementById("changeCurrentPassword").value;
+    const next=document.getElementById("changeNewPassword").value;
+    const confirmNext=document.getElementById("changeConfirmPassword").value;
+    if(!current){box.innerText="Enter your current password.";return;}
+    if(next.length<8){box.innerText="New password must be at least 8 characters.";return;}
+    if(next!==confirmNext){box.innerText="New passwords do not match.";return;}
+    box.innerText="Changing password...";
+    try{
+        const data=await apiJSON("/auth/change-password",{method:"POST",body:JSON.stringify({current_password:current,new_password:next})});
+        box.innerText=data.message;
+        document.getElementById("changeCurrentPassword").value="";
+        document.getElementById("changeNewPassword").value="";
+        document.getElementById("changeConfirmPassword").value="";
+    }catch(e){box.innerText=e.message;}
+}
+
 async function deleteMyAccount(){
     const box=document.getElementById("deleteAccountStatus");
     if(!confirm("Permanently delete your SoundLens account and saved reports?")){return;}
