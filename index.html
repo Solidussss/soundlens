@@ -2415,16 +2415,26 @@
                 </div>
                 <p id="adminGrantStatus" class="admin-status"></p>
             </div>
-
-            <div class="card">
+<div class="card">
                 <h2>Manage Existing User Pro</h2>
-                <p class="admin-note">Grant a user Pro manually or remove a manual Pro grant. Stripe-paid subscriptions are protected from accidental removal.</p>
+                <p class="admin-note">Enter an email to grant Pro. If the old account record is missing, SoundLens restores a Pro account for that email automatically; the user can use Forgot Password to set a new password. You can also remove a manual Pro grant.</p>
                 <div class="admin-form">
                     <input id="adminProEmail" type="email" placeholder="Existing user email">
                     <button onclick="grantProAccess()">Grant Pro</button>
                     <button onclick="removeProAccess()" style="background:#b91c1c;">Remove Pro</button>
                 </div>
                 <p id="adminProStatus" class="admin-status"></p>
+            </div>
+
+            <div class="card">
+                <h2>Reset User Password</h2>
+                <p class="admin-note">Set a temporary password for an existing account. This does not change Free, Pro, Studio, or Lifetime status. The user will be signed out of old sessions and can log in with the new password.</p>
+                <div class="admin-form">
+                    <input id="adminPasswordEmail" type="email" placeholder="User email">
+                    <input id="adminNewPassword" type="password" placeholder="Temporary password (8+ characters)">
+                    <button onclick="setAdminUserPassword()">Set New Password</button>
+                </div>
+                <p id="adminPasswordStatus" class="admin-status"></p>
             </div>
 
             <div class="card">
@@ -3491,7 +3501,7 @@ function adminEventLabel(item){
     const pageNames = {analyzePage:"Analyze",overviewPage:"Overview",artistPage:"Artist Match",fixesPage:"Galaxy",arrangementPage:"Arrangement",advancedPage:"Advanced",dashboardPage:"Dashboard",learnPage:"About",feedbackPage:"Feedback",adminPage:"Admin",authPage:"Account"};
     const event = item.event || "event";
     const page = item.details?.page || item.details?.details?.page;
-    const labels = {signup_success:"Account created",login_success:"Logged in",login_failed:"Failed login",logout:"Logged out",analysis_started:"Started analysis",analysis_completed:"Completed analysis",analysis_failed:"Analysis failed",report_deleted:"Deleted report",email_verified:"Verified email",lifetime_account_created:"Lifetime account created",lifetime_access_granted:"Lifetime access granted",pro_access_granted:"Pro access granted",pro_access_removed:"Pro access removed",admin_pro_grant_removed:"Manual Pro grant removed",admin_access_denied:"Blocked admin access",feedback_submitted:"Submitted feedback"};
+    const labels = {signup_success:"Account created",login_success:"Logged in",login_failed:"Failed login",logout:"Logged out",analysis_started:"Started analysis",analysis_completed:"Completed analysis",analysis_failed:"Analysis failed",report_deleted:"Deleted report",email_verified:"Verified email",lifetime_account_created:"Lifetime account created",lifetime_access_granted:"Lifetime access granted",pro_access_granted:"Pro access granted",pro_access_removed:"Pro access removed",admin_pro_grant_removed:"Manual Pro grant removed",admin_password_changed:"Admin changed password",admin_access_denied:"Blocked admin access",feedback_submitted:"Submitted feedback"};
     if(event === "page_view" && page){ return `Viewed ${pageNames[page] || page}`; }
     return labels[event] || event.replaceAll("_"," ").replace(/\b\w/g, c => c.toUpperCase());
 }
@@ -3511,6 +3521,7 @@ function renderAdminUsers(){
             <div><div class="admin-user-sub">Reports</div><strong>${user.reports_saved ?? 0}</strong></div>
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
                 <button class="small-btn" onclick="prefillPro('${adminEscape(user.email)}')">Pro</button>
+                <button class="small-btn" onclick="prefillPassword('${adminEscape(user.email)}')">Password</button>
                 <button class="small-btn" onclick="prefillLifetime('${adminEscape(user.email)}')">Lifetime</button>
             </div>
         </div>`).join("") : `<div class="admin-empty">No users match that search.</div>`;
@@ -3547,6 +3558,11 @@ function prefillPro(email){
     if(input){ input.value = email; input.focus(); }
 }
 
+function prefillPassword(email){
+    const input = document.getElementById("adminPasswordEmail");
+    if(input){ input.value = email; input.focus(); }
+}
+
 async function createLifetimeAccount(){
     const status = document.getElementById("adminLifetimeStatus");
     status.innerText = "Creating account...";
@@ -3568,6 +3584,7 @@ async function grantLifetimeAccess(){
         await loadAdminDashboard();
     }catch(error){ status.innerText = error.message; }
 }
+
 
 async function grantProAccess(){
     const status = document.getElementById("adminProStatus");
@@ -3593,6 +3610,22 @@ async function removeProAccess(){
     }catch(error){ status.innerText = error.message; }
 }
 
+
+async function setAdminUserPassword(){
+    const status = document.getElementById("adminPasswordStatus");
+    const email = document.getElementById("adminPasswordEmail").value.trim();
+    const password = document.getElementById("adminNewPassword").value;
+    if(!email){ status.innerText = "Enter the user's email."; return; }
+    if(password.length < 8){ status.innerText = "Temporary password must be at least 8 characters."; return; }
+    if(!confirm(`Set a new password for ${email}? Their old sessions will be signed out.`)){ return; }
+    status.innerText = "Updating password...";
+    try{
+        const data = await apiJSON("/admin/set-password", {method:"POST",body:JSON.stringify({email,password})});
+        status.innerText = data.message || "Password updated.";
+        document.getElementById("adminNewPassword").value = "";
+        await loadAdminDashboard();
+    }catch(error){ status.innerText = error.message; }
+}
 
 function adminHeatmapPageName(page){
     const names = {
