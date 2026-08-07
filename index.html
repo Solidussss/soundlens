@@ -2335,7 +2335,7 @@
 
 
 <div id="forgotPage" class="page legal-page">
-  <div class="card"><div class="eyebrow">Account Recovery</div><h1>Reset your password</h1><p class="muted">Enter your account email. For security, SoundLens gives the same response whether or not the address is registered.</p><div class="contact-form"><input id="forgotEmail" type="email" placeholder="Email"><button onclick="requestPasswordReset()">Send Reset Link</button><p id="forgotMessage" class="muted"></p></div></div>
+  <div class="card"><div class="eyebrow">Account Recovery</div><h1>Reset your password</h1><p class="muted">Enter your email and SoundLens will send you an account-recovery email. If the address is connected to an account, the email will contain a secure password-reset link.</p><div class="contact-form"><input id="forgotEmail" type="email" placeholder="Email"><button onclick="requestPasswordReset()">Send Reset Email</button><p id="forgotMessage" class="muted"></p></div></div>
 </div>
 <div id="resetPage" class="page legal-page">
   <div class="card"><div class="eyebrow">Account Recovery</div><h1>Choose a new password</h1><div class="contact-form"><input id="resetPassword" type="password" placeholder="New password (8+ characters)"><button onclick="confirmPasswordReset()">Update Password</button><p id="resetMessage" class="muted"></p></div></div>
@@ -4532,9 +4532,19 @@ function openForgotPassword(){
     showPage("forgotPage");
 }
 async function requestPasswordReset(){
-    const box=document.getElementById("forgotMessage"); box.innerText="Sending...";
-    try{const data=await apiJSON("/auth/forgot-password",{method:"POST",body:JSON.stringify({email:document.getElementById("forgotEmail").value})}); box.innerText=data.message;}
-    catch(e){box.innerText=e.message;}
+    const box=document.getElementById("forgotMessage");
+    const email=(document.getElementById("forgotEmail").value||"").trim();
+    if(!email){ box.innerText="Enter your email address."; return; }
+    box.innerText="Sending reset email...";
+    try{
+        const data=await apiJSON("/auth/forgot-password",{
+            method:"POST",
+            body:JSON.stringify({email})
+        });
+        box.innerText=data.message || "Email sent. Check your inbox and spam folder.";
+    }catch(e){
+        box.innerText=e.message || "SoundLens could not send the email. Please contact support.";
+    }
 }
 async function confirmPasswordReset(){
     const box=document.getElementById("resetMessage"); box.innerText="Updating...";

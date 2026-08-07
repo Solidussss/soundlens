@@ -339,7 +339,12 @@ def send_notification_email_to(
 
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = SMTP_FROM_EMAIL or SMTP_USERNAME
+    smtp_host_lower = str(SMTP_HOST or "").strip().lower()
+    # Gmail is most reliable when the From address matches the authenticated account.
+    sender = SMTP_USERNAME if smtp_host_lower in {"smtp.gmail.com", "smtp.googlemail.com"} else (SMTP_FROM_EMAIL or SMTP_USERNAME)
+    msg["From"] = sender
+    if SMTP_FROM_EMAIL and SMTP_FROM_EMAIL != sender:
+        msg["Reply-To"] = SMTP_FROM_EMAIL
     msg["To"] = to_email
     msg.set_content(body)
     if html_body:
@@ -695,16 +700,55 @@ def logout(authorization: str | None = Header(default=None)):
 def forgot_password(payload: PasswordResetRequestPayload):
     db = load_users_db()
     email = normalize_email(payload.email)
+
+    if not email or "@" not in email:
+        raise HTTPException(status_code=400, detail="Enter a valid email address.")
+
     user = find_user_by_email(db, email)
-    # Always return the same response to avoid exposing which emails are registered.
-    generic = {"ok": True, "message": "If an account exists for that email, a reset link has been sent."}
+
+    # We send an email either way:
+    # - registered account -> real password-reset link
+    # - no account -> a simple notice saying no SoundLens account was found
+    # This means the page never claims an email was sent when SMTP actually failed.
     if not user:
-        track_event("password_reset_requested", None, {"email": email, "account_found": False})
-        return generic
+        subject = "SoundLens password reset request"
+        body = f"""A password reset was requested for {email}, but no SoundLens account is registered with this address.
+
+If you use SoundLens with another email, return to the login page and try that address.
+
+SoundLens
+soundlensapp.com
+"""
+        html_body = build_branded_email(
+            title="No SoundLens account found",
+            message=f"A password reset was requested for {email}, but there is no SoundLens account registered with this email address.",
+            button_text="Return to SoundLens",
+            button_url=SOUNDLENS_PUBLIC_URL,
+            note="If you did not request this email, you can safely ignore it.",
+        )
+        sent = send_notification_email_to(email, subject, body, html_body)
+        track_event("password_reset_requested", None, {
+            "email": email,
+            "account_found": False,
+            "sent": sent,
+        })
+        if not sent:
+            raise HTTPException(
+                status_code=503,
+                detail="SoundLens could not send the email. Email delivery is currently unavailable. Please contact SoundLens support.",
+            )
+        return {
+            "ok": True,
+            "message": f"Email sent to {email}. Check your inbox and spam folder.",
+        }
+
     token = secrets.token_urlsafe(32)
     user["password_reset_token"] = token
-    user["password_reset_expires_at"] = (datetime.now(timezone.utc) + timedelta(minutes=PASSWORD_RESET_EXPIRY_MINUTES)).isoformat()
+    user["password_reset_expires_at"] = (
+        datetime.now(timezone.utc) + timedelta(minutes=PASSWORD_RESET_EXPIRY_MINUTES)
+    ).isoformat()
     save_users_db(db)
+
     link = f"{SOUNDLENS_PUBLIC_URL}/?reset_token={token}"
     reset_subject = "Reset your SoundLens password"
     reset_body = f"""A password reset was requested for your SoundLens account.
@@ -724,9 +768,26 @@ soundlensapp.com
         button_url=link,
         note=f"This link expires in {PASSWORD_RESET_EXPIRY_MINUTES} minutes. If you did not request this, you can ignore this email.",
     )
+
     sent = send_notification_email_to(user.get("email"), reset_subject, reset_body, reset_html)
-    track_event("password_reset_requested", user, {"sent": sent})
-    return generic
+    track_event("password_reset_requested", user, {
+        "email": email,
+        "account_found": True,
+        "sent": sent,
+    })
+
+    if not sent:
+        # Do not lie to the user. Keep the token so an admin can still recover the
+        # account, but tell the frontend that delivery failed.
+        raise HTTPException(
+            status_code=503,
+            detail="SoundLens could not send your reset email. Email delivery is currently unavailable. Please contact SoundLens support.",
+        )
+
+    return {
+        "ok": True,
+        "message": f"Reset email sent to {email}. Check your inbox and spam folder.",
+    }
 
 
 @app.post("/auth/reset-password")
