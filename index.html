@@ -2416,6 +2416,19 @@
                 <p id="adminGrantStatus" class="admin-status"></p>
             </div>
 
+
+            <div class="card">
+                <h2>Create / Restore Pro Account</h2>
+                <p class="admin-note">Use this when a paid user's account record is missing. Creates a verified Pro account with a temporary password. If the account already exists, use Grant Pro below instead.</p>
+                <div class="admin-form">
+                    <input id="adminCreateProEmail" type="email" placeholder="Paid user email">
+                    <input id="adminCreateProPassword" type="password" placeholder="Temporary password (6+ characters)">
+                    <input id="adminCreateProName" type="text" placeholder="Display name (optional)">
+                    <button onclick="createProAccount()">Create / Restore Pro</button>
+                </div>
+                <p id="adminCreateProStatus" class="admin-status"></p>
+            </div>
+
             <div class="card">
                 <h2>Manage Existing User Pro</h2>
                 <p class="admin-note">Grant a user Pro manually or remove a manual Pro grant. Stripe-paid subscriptions are protected from accidental removal.</p>
@@ -3565,6 +3578,22 @@ async function grantLifetimeAccess(){
         const email = document.getElementById("adminGrantEmail").value;
         const data = await apiJSON("/admin/grant-lifetime", {method:"POST",body:JSON.stringify({email})});
         status.innerText = data.message || "Lifetime access granted.";
+        await loadAdminDashboard();
+    }catch(error){ status.innerText = error.message; }
+}
+
+
+async function createProAccount(){
+    const status = document.getElementById("adminCreateProStatus");
+    status.innerText = "Creating Pro account...";
+    try{
+        const data = await apiJSON("/admin/pro-account", {method:"POST",body:JSON.stringify({
+            email:document.getElementById("adminCreateProEmail").value,
+            password:document.getElementById("adminCreateProPassword").value,
+            display_name:document.getElementById("adminCreateProName").value
+        })});
+        status.innerText = data.message || "Pro account created.";
+        document.getElementById("adminCreateProPassword").value = "";
         await loadAdminDashboard();
     }catch(error){ status.innerText = error.message; }
 }
