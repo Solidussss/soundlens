@@ -2415,9 +2415,10 @@
                 </div>
                 <p id="adminGrantStatus" class="admin-status"></p>
             </div>
-<div class="card">
+
+            <div class="card">
                 <h2>Manage Existing User Pro</h2>
-                <p class="admin-note">Enter an email to grant Pro. If the old account record is missing, SoundLens restores a Pro account for that email automatically; the user can use Forgot Password to set a new password. You can also remove a manual Pro grant.</p>
+                <p class="admin-note">Grant a user Pro manually or remove a manual Pro grant. Stripe-paid subscriptions are protected from accidental removal.</p>
                 <div class="admin-form">
                     <input id="adminProEmail" type="email" placeholder="Existing user email">
                     <button onclick="grantProAccess()">Grant Pro</button>
@@ -3567,7 +3568,6 @@ async function grantLifetimeAccess(){
         await loadAdminDashboard();
     }catch(error){ status.innerText = error.message; }
 }
-
 
 async function grantProAccess(){
     const status = document.getElementById("adminProStatus");

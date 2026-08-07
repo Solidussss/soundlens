@@ -1235,77 +1235,13 @@ def grant_lifetime(payload: AdminEmailPayload, authorization: str | None = Heade
     return {"ok": True, "message": f"Lifetime access granted to {user.get('email')}.", "user": public_user(user)}
 
 
-
-@app.post("/admin/pro-account")
-def create_pro_account(payload: AdminLifetimeAccountPayload, authorization: str | None = Header(default=None)):
-    db, admin = get_admin_user(authorization)
-    email = normalize_email(payload.email)
-    if not email or "@" not in email:
-        raise HTTPException(status_code=400, detail="Enter a valid email.")
-    if not payload.password or len(payload.password) < 6:
-        raise HTTPException(status_code=400, detail="Temporary password must be at least 6 characters.")
-    if find_user_by_email(db, email):
-        raise HTTPException(status_code=400, detail="That account already exists. Use Grant Pro instead.")
-
-    user_id = str(uuid.uuid4())
-    salt = str(uuid.uuid4())
-    user = {
-        "id": user_id,
-        "email": email,
-        "display_name": payload.display_name or email.split("@")[0],
-        "password_salt": salt,
-        "password_hash": hash_password(payload.password, salt),
-        "plan": "pro",
-        "usage": {"date": utc_today(), "count": 0},
-        "total_uploads": 0,
-        "created_at": now_iso(),
-        "email_verified": True,
-        "email_verification_token": None,
-        "email_verified_at": now_iso(),
-        "admin_pro_granted": True,
-        "admin_pro_granted_at": now_iso(),
-        "admin_pro_granted_by": admin.get("email"),
-        "account_restored_by_admin": True,
-    }
-    db.setdefault("users", {})[user_id] = user
-    save_users_db(db)
-    track_event("pro_account_created", user, {"admin_email": admin.get("email"), "restored": True})
-    return {"ok": True, "message": f"Pro account created/restored for {email}.", "user": public_user(user)}
-
 @app.post("/admin/grant-pro")
 def grant_pro(payload: AdminEmailPayload, authorization: str | None = Header(default=None)):
     db, admin = get_admin_user(authorization)
-    email = normalize_email(payload.email)
-    if not email or "@" not in email:
-        raise HTTPException(status_code=400, detail="Enter a valid email.")
-
-    user = find_user_by_email(db, email)
-    created = False
+    user = find_user_by_email(db, payload.email)
     if not user:
-        # Recovery path: allow an admin to restore Pro using only the customer's email.
-        # We cannot recover their old password, so create a secure random unusable
-        # credential; the customer can use the existing Forgot Password flow to set one.
-        user_id = str(uuid.uuid4())
-        salt = str(uuid.uuid4())
-        recovery_secret = str(uuid.uuid4()) + str(uuid.uuid4())
-        user = {
-            "id": user_id,
-            "email": email,
-            "display_name": email.split("@")[0],
-            "password_salt": salt,
-            "password_hash": hash_password(recovery_secret, salt),
-            "plan": "pro",
-            "usage": {"date": utc_today(), "count": 0},
-            "total_uploads": 0,
-            "created_at": now_iso(),
-            "email_verified": True,
-            "email_verification_token": None,
-            "email_verified_at": now_iso(),
-            "account_restored_by_admin": True,
-        }
-        db.setdefault("users", {})[user_id] = user
-        created = True
-    elif user.get("plan") == "lifetime":
+        raise HTTPException(status_code=404, detail="Account not found.")
+    if user.get("plan") == "lifetime":
         raise HTTPException(status_code=400, detail="This account already has Lifetime access.")
 
     user["plan"] = "pro"
@@ -1313,11 +1249,8 @@ def grant_pro(payload: AdminEmailPayload, authorization: str | None = Header(def
     user["admin_pro_granted_at"] = now_iso()
     user["admin_pro_granted_by"] = admin.get("email")
     save_users_db(db)
-    track_event("pro_account_restored" if created else "pro_access_granted", user, {"admin_email": admin.get("email")})
-
-    if created:
-        return {"ok": True, "message": f"Pro restored for {email}. The user can use Forgot Password to set a new password.", "user": public_user(user)}
-    return {"ok": True, "message": f"Pro access granted to {email}.", "user": public_user(user)}
+    track_event("pro_access_granted", user, {"admin_email": admin.get("email")})
+    return {"ok": True, "message": f"Pro access granted to {user.get('email')}.", "user": public_user(user)}
 
 
 @app.post("/admin/remove-pro")
