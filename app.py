@@ -271,27 +271,61 @@ def track_event(event_type: str, user: dict | None = None, details: dict | None 
     })
 
 
-def send_notification_email(subject: str, body: str) -> bool:
-    if not SMTP_HOST or not SMTP_USERNAME or not SMTP_PASSWORD or not SOUNDLENS_NOTIFY_EMAIL:
+def _smtp_password() -> str:
+    # Google app passwords are often copied with spaces. Gmail expects the
+    # 16-character value itself, so normalize spaces for smtp.gmail.com.
+    password = str(SMTP_PASSWORD or "")
+    if str(SMTP_HOST or "").strip().lower() in {"smtp.gmail.com", "smtp.googlemail.com"}:
+        password = password.replace(" ", "")
+    return password
+
+
+def _send_email_message(msg: EmailMessage, to_email: str, subject: str) -> bool:
+    host = str(SMTP_HOST or "").strip()
+    username = str(SMTP_USERNAME or "").strip()
+    password = _smtp_password()
+    if not host or not username or not password:
+        track_event("email_failed", None, {
+            "to": to_email,
+            "subject": subject,
+            "error": "SMTP is not fully configured (host/username/password missing).",
+        })
         return False
 
     try:
-        msg = EmailMessage()
-        msg["Subject"] = subject
-        msg["From"] = SMTP_FROM_EMAIL
-        msg["To"] = SOUNDLENS_NOTIFY_EMAIL
-        msg.set_content(body)
-
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=12) as server:
-            server.starttls()
-            server.login(SMTP_USERNAME, SMTP_PASSWORD)
-            server.send_message(msg)
-
+        # Port 465 uses implicit TLS. Ports such as 587 use STARTTLS.
+        if int(SMTP_PORT) == 465:
+            with smtplib.SMTP_SSL(host, int(SMTP_PORT), timeout=20) as server:
+                server.login(username, password)
+                server.send_message(msg)
+        else:
+            with smtplib.SMTP(host, int(SMTP_PORT), timeout=20) as server:
+                server.ehlo()
+                server.starttls()
+                server.ehlo()
+                server.login(username, password)
+                server.send_message(msg)
         return True
     except Exception as error:
-        track_event("email_failed", None, {"subject": subject, "error": str(error)})
+        track_event("email_failed", None, {
+            "to": to_email,
+            "subject": subject,
+            "error": f"{type(error).__name__}: {error}",
+            "smtp_host": host,
+            "smtp_port": int(SMTP_PORT),
+        })
         return False
 
+
+def send_notification_email(subject: str, body: str) -> bool:
+    if not SOUNDLENS_NOTIFY_EMAIL:
+        return False
+    msg = EmailMessage()
+    msg["Subject"] = subject
+    msg["From"] = SMTP_FROM_EMAIL or SMTP_USERNAME
+    msg["To"] = SOUNDLENS_NOTIFY_EMAIL
+    msg.set_content(body)
+    return _send_email_message(msg, SOUNDLENS_NOTIFY_EMAIL, subject)
 
 
 def send_notification_email_to(
@@ -302,27 +336,16 @@ def send_notification_email_to(
 ) -> bool:
     if not to_email:
         return False
-    if not SMTP_HOST or not SMTP_USERNAME or not SMTP_PASSWORD:
-        return False
 
-    try:
-        msg = EmailMessage()
-        msg["Subject"] = subject
-        msg["From"] = SMTP_FROM_EMAIL
-        msg["To"] = to_email
-        msg.set_content(body)
-        if html_body:
-            msg.add_alternative(html_body, subtype="html")
+    msg = EmailMessage()
+    msg["Subject"] = subject
+    msg["From"] = SMTP_FROM_EMAIL or SMTP_USERNAME
+    msg["To"] = to_email
+    msg.set_content(body)
+    if html_body:
+        msg.add_alternative(html_body, subtype="html")
 
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=12) as server:
-            server.starttls()
-            server.login(SMTP_USERNAME, SMTP_PASSWORD)
-            server.send_message(msg)
-
-        return True
-    except Exception as error:
-        track_event("email_failed", None, {"to": to_email, "subject": subject, "error": str(error)})
-        return False
+    return _send_email_message(msg, str(to_email), subject)
 
 
 def build_branded_email(
@@ -808,6 +831,19 @@ def contact(payload: ContactPayload, authorization: str | None = Header(default=
     sent = send_notification_email("New SoundLens contact message", f"Name: {item['name']}\nEmail: {email}\nSubject: {item['subject']}\n\n{item['message']}")
     track_event("contact_submitted", user, {"email": email, "subject": item["subject"], "notification_sent": sent})
     return {"ok": True, "message": "Your message was sent. SoundLens will reply by email."}
+
+
+@app.post("/admin/test-email")
+def admin_test_email(authorization: str | None = Header(default=None)):
+    _, admin = get_admin_user(authorization)
+    target = admin.get("email")
+    subject = "SoundLens email test"
+    body = "Your SoundLens SMTP email system is working correctly."
+    sent = send_notification_email_to(target, subject, body)
+    if not sent:
+        raise HTTPException(status_code=502, detail="SMTP send failed. Check Admin activity for the exact email_failed error.")
+    track_event("admin_test_email_sent", admin, {"to": target})
+    return {"ok": True, "message": f"Test email sent to {target}."}
 
 
 @app.get("/billing/config")
