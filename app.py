@@ -1235,6 +1235,59 @@ def grant_lifetime(payload: AdminEmailPayload, authorization: str | None = Heade
     return {"ok": True, "message": f"Lifetime access granted to {user.get('email')}.", "user": public_user(user)}
 
 
+@app.post("/admin/grant-pro")
+def grant_pro(payload: AdminEmailPayload, authorization: str | None = Header(default=None)):
+    db, admin = get_admin_user(authorization)
+    user = find_user_by_email(db, payload.email)
+    if not user:
+        raise HTTPException(status_code=404, detail="Account not found.")
+    if user.get("plan") == "lifetime":
+        raise HTTPException(status_code=400, detail="This account already has Lifetime access.")
+
+    user["plan"] = "pro"
+    user["admin_pro_granted"] = True
+    user["admin_pro_granted_at"] = now_iso()
+    user["admin_pro_granted_by"] = admin.get("email")
+    save_users_db(db)
+    track_event("pro_access_granted", user, {"admin_email": admin.get("email")})
+    return {"ok": True, "message": f"Pro access granted to {user.get('email')}.", "user": public_user(user)}
+
+
+@app.post("/admin/remove-pro")
+def remove_pro(payload: AdminEmailPayload, authorization: str | None = Header(default=None)):
+    db, admin = get_admin_user(authorization)
+    user = find_user_by_email(db, payload.email)
+    if not user:
+        raise HTTPException(status_code=404, detail="Account not found.")
+    if user.get("plan") == "lifetime":
+        raise HTTPException(status_code=400, detail="This account has Lifetime access. Pro removal does not change Lifetime accounts.")
+    if user.get("plan") != "pro":
+        raise HTTPException(status_code=400, detail="This account is not currently on Pro.")
+
+    # Do not silently override an active Stripe-backed subscription. Manual Pro
+    # can be removed here; paid Pro must be cancelled through Stripe first.
+    if user.get("stripe_subscription_id") and not user.get("admin_pro_granted"):
+        raise HTTPException(status_code=400, detail="This Pro account is tied to Stripe. Cancel the Stripe subscription before removing Pro here.")
+
+    if user.get("stripe_subscription_id") and user.get("admin_pro_granted"):
+        user.pop("admin_pro_granted", None)
+        user.pop("admin_pro_granted_at", None)
+        user.pop("admin_pro_granted_by", None)
+        save_users_db(db)
+        track_event("admin_pro_grant_removed", user, {"admin_email": admin.get("email"), "stripe_still_active": True})
+        return {"ok": True, "message": f"Manual Pro grant removed for {user.get('email')}, but the Stripe subscription still keeps Pro active.", "user": public_user(user)}
+
+    user["plan"] = "free"
+    user["admin_pro_granted"] = False
+    user["admin_pro_removed_at"] = now_iso()
+    user["admin_pro_removed_by"] = admin.get("email")
+    user.pop("admin_pro_granted_at", None)
+    user.pop("admin_pro_granted_by", None)
+    save_users_db(db)
+    track_event("pro_access_removed", user, {"admin_email": admin.get("email")})
+    return {"ok": True, "message": f"Pro access removed from {user.get('email')}. Account is now Free.", "user": public_user(user)}
+
+
 @app.get("/")
 def home():
     return FileResponse("index.html")
