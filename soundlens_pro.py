@@ -344,213 +344,431 @@ def memory_safe_audio(y: np.ndarray, sr: int, target_sr: int = 22050, max_second
 
 
 def detect_bpm(y: np.ndarray, sr: int) -> float:
-    """
-    More honest BPM detection.
+    """Estimate BPM using consensus across several parts of the song.
 
-    Old problem: when librosa failed, SoundLens returned 140.0, and the
-    90-115 BPM rule multiplied by 1.5, forcing too many songs toward 135-160.
-
-    This version:
-    - never fake-falls back to 140
-    - checks multiple tempo estimates
-    - keeps 90-115 BPM as valid instead of forcing it upward
-    - returns 0.0 when confidence is too weak, so the UI can say Uncertain
+    A single window can be fooled by a sparse intro, halftime section, or beat
+    switch.  This version samples early/middle/late regions, runs more than one
+    librosa tempo estimator, and chooses the tempo family that receives the
+    strongest agreement.  The public return type stays exactly the same.
     """
     try:
-        max_seconds = 90
         target_sr = 22050
-
-        if len(y) > sr * max_seconds:
-            start = max(0, (len(y) // 2) - (sr * max_seconds // 2))
-            y_bpm = y[start:start + (sr * max_seconds)]
-        else:
-            y_bpm = y
-
+        y_work = np.asarray(y, dtype=np.float32)
         if sr != target_sr:
-            y_bpm = librosa.resample(y_bpm, orig_sr=sr, target_sr=target_sr)
+            y_work = librosa.resample(y_work, orig_sr=sr, target_sr=target_sr)
             bpm_sr = target_sr
         else:
             bpm_sr = sr
 
-        y_bpm = y_bpm.astype(np.float32)
-        y_bpm = y_bpm - float(np.mean(y_bpm))
-
-        # Percussive energy is usually better for rap/trap tempo than the full mix.
-        try:
-            y_percussive = librosa.effects.percussive(y_bpm)
-            if np.max(np.abs(y_percussive)) > 1e-5:
-                y_for_tempo = y_percussive
-            else:
-                y_for_tempo = y_bpm
-        except Exception:
-            y_for_tempo = y_bpm
-
-        onset_env = librosa.onset.onset_strength(y=y_for_tempo, sr=bpm_sr)
-        if onset_env.size < 8 or float(np.max(onset_env)) <= EPSILON:
+        y_work = y_work - float(np.mean(y_work))
+        duration = len(y_work) / max(bpm_sr, 1)
+        if duration < 4.0:
             return 0.0
 
-        candidates: List[float] = []
+        def make_windows(audio: np.ndarray) -> List[np.ndarray]:
+            # A broad window plus early/middle/late windows gives consensus
+            # without repeatedly processing the whole file.
+            windows: List[np.ndarray] = []
+            broad_seconds = min(90.0, duration)
+            broad_len = int(broad_seconds * bpm_sr)
+            broad_start = max(0, (len(audio) - broad_len) // 2)
+            windows.append(audio[broad_start:broad_start + broad_len])
 
-        try:
-            tempo_frames = librosa.feature.rhythm.tempo(
-                onset_envelope=onset_env,
-                sr=bpm_sr,
-                aggregate=None,
-            )
-            tempo_frames = np.asarray(tempo_frames, dtype=float)
-            tempo_frames = tempo_frames[np.isfinite(tempo_frames)]
-            if tempo_frames.size:
-                candidates.extend([
-                    float(np.median(tempo_frames)),
-                    float(np.percentile(tempo_frames, 35)),
-                    float(np.percentile(tempo_frames, 65)),
-                ])
-        except Exception:
-            pass
+            window_seconds = min(36.0, max(18.0, duration * 0.24))
+            win_len = int(window_seconds * bpm_sr)
+            if len(audio) > win_len * 1.35:
+                for center_ratio in (0.20, 0.50, 0.80):
+                    center = int(len(audio) * center_ratio)
+                    start_i = max(0, min(center - win_len // 2, len(audio) - win_len))
+                    piece = audio[start_i:start_i + win_len]
+                    if len(piece) >= bpm_sr * 8:
+                        windows.append(piece)
+            return windows
 
-        try:
-            tempo_bt, _ = librosa.beat.beat_track(y=y_for_tempo, sr=bpm_sr, trim=False)
-            if isinstance(tempo_bt, np.ndarray):
-                tempo_bt = float(tempo_bt[0])
-            candidates.append(float(tempo_bt))
-        except Exception:
-            pass
+        def raw_estimates(piece: np.ndarray) -> List[float]:
+            estimates: List[float] = []
+            if piece.size < bpm_sr * 4:
+                return estimates
 
-        cleaned: List[float] = []
-        for candidate in candidates:
-            if candidate is None or not np.isfinite(candidate) or candidate <= 0:
-                continue
+            try:
+                percussive = librosa.effects.percussive(piece)
+                if float(np.max(np.abs(percussive))) > 1e-5:
+                    tempo_audio = percussive
+                else:
+                    tempo_audio = piece
+            except Exception:
+                tempo_audio = piece
 
-            # Add half/double alternatives, then choose the most plausible range.
-            for option in [candidate, candidate / 2, candidate * 2]:
+            onset_env = librosa.onset.onset_strength(y=tempo_audio, sr=bpm_sr, hop_length=256)
+            if onset_env.size < 8 or float(np.max(onset_env)) <= EPSILON:
+                return estimates
+
+            try:
+                frames = librosa.feature.tempo(
+                    onset_envelope=onset_env,
+                    sr=bpm_sr,
+                    hop_length=256,
+                    aggregate=None,
+                )
+                frames = np.asarray(frames, dtype=float)
+                frames = frames[np.isfinite(frames) & (frames > 0)]
+                if frames.size:
+                    estimates.extend([
+                        float(np.median(frames)),
+                        float(np.percentile(frames, 30)),
+                        float(np.percentile(frames, 70)),
+                    ])
+            except Exception:
+                pass
+
+            try:
+                tempo_bt, beat_frames = librosa.beat.beat_track(
+                    y=tempo_audio,
+                    sr=bpm_sr,
+                    hop_length=256,
+                    trim=False,
+                )
+                tempo_bt = float(np.ravel(tempo_bt)[0]) if isinstance(tempo_bt, np.ndarray) else float(tempo_bt)
+                if np.isfinite(tempo_bt) and tempo_bt > 0:
+                    estimates.append(tempo_bt)
+
+                # Median spacing of detected beats is an independent sanity check.
+                beat_frames = np.asarray(beat_frames, dtype=float)
+                if beat_frames.size >= 5:
+                    beat_times = librosa.frames_to_time(beat_frames, sr=bpm_sr, hop_length=256)
+                    intervals = np.diff(beat_times)
+                    intervals = intervals[np.isfinite(intervals) & (intervals > 0.12)]
+                    if intervals.size:
+                        spacing_bpm = 60.0 / float(np.median(intervals))
+                        if np.isfinite(spacing_bpm):
+                            estimates.append(spacing_bpm)
+            except Exception:
+                pass
+
+            try:
+                onset_times = librosa.onset.onset_detect(
+                    onset_envelope=onset_env,
+                    sr=bpm_sr,
+                    hop_length=256,
+                    units="time",
+                    backtrack=False,
+                )
+                onset_times = np.asarray(onset_times, dtype=float)
+                if onset_times.size >= 8:
+                    intervals = np.diff(onset_times)
+                    intervals = intervals[np.isfinite(intervals) & (intervals >= 0.18) & (intervals <= 1.2)]
+                    if intervals.size >= 5:
+                        interval_bpm = 60.0 / float(np.median(intervals))
+                        if np.isfinite(interval_bpm) and interval_bpm > 0:
+                            estimates.extend([interval_bpm, interval_bpm])
+            except Exception:
+                pass
+
+            clean = []
+            for value in estimates:
+                if not np.isfinite(value) or value <= 0:
+                    continue
+                value = float(value)
+                while value < 45:
+                    value *= 2.0
+                while value > 220:
+                    value /= 2.0
+                if 45 <= value <= 220:
+                    clean.append(value)
+            return clean
+
+        window_estimates: List[List[float]] = []
+        for piece in make_windows(y_work):
+            estimates = raw_estimates(piece)
+            if estimates:
+                window_estimates.append(estimates)
+
+        if not window_estimates:
+            return 0.0
+
+        all_raw = [v for group in window_estimates for v in group]
+        hypotheses: List[float] = []
+        for value in all_raw:
+            for option in (value, value * 2.0, value / 2.0):
                 if 55 <= option <= 190:
-                    while option < 55:
-                        option *= 2
-                    while option > 190:
-                        option /= 2
-                    cleaned.append(float(option))
+                    hypotheses.append(float(option))
 
-        if not cleaned:
+        if not hypotheses:
             return 0.0
 
-        # Prefer the tempo cluster supported by multiple estimates.
-        rounded = [round(x / 2) * 2 for x in cleaned]
-        clusters = {}
-        for original, bucket in zip(cleaned, rounded):
-            clusters.setdefault(bucket, []).append(original)
+        # Merge nearly identical hypotheses to 1-BPM buckets.
+        buckets = sorted(set(round(h) for h in hypotheses))
 
-        best_bucket, values = max(
-            clusters.items(),
-            key=lambda item: (len(item[1]), -abs(float(np.median(item[1])) - 120)),
-        )
-        bpm = float(np.median(values))
+        def family_distance(raw: float, hypothesis: float) -> Tuple[float, float]:
+            # Direct agreement is strongest. Half/double agreement still counts,
+            # but is discounted so it cannot automatically overpower direct votes.
+            options = [
+                (abs(raw - hypothesis), 1.00),
+                (abs(raw * 2.0 - hypothesis), 0.76),
+                (abs(raw / 2.0 - hypothesis), 0.76),
+            ]
+            return min(options, key=lambda item: item[0])
 
-        # If a tempo is still below common rap/trap working tempo, only double
-        # clear half-time values. Do NOT turn 95 into 142.5.
+        scored: List[Tuple[float, float]] = []
+        for hypothesis in buckets:
+            total = 0.0
+            agreeing_windows = 0
+            for estimates in window_estimates:
+                best_window = 0.0
+                for raw in estimates:
+                    distance, relation_weight = family_distance(raw, float(hypothesis))
+                    # Smooth support: very close estimates dominate; >8 BPM apart
+                    # contribute almost nothing.
+                    support = max(0.0, 1.0 - (distance / 8.0)) * relation_weight
+                    best_window = max(best_window, support)
+                if best_window >= 0.45:
+                    agreeing_windows += 1
+                total += best_window
+
+            # Agreement across separate song regions is more valuable than many
+            # similar estimates from one region.
+            score = total + (agreeing_windows * 0.40)
+            # Tiny preference for the common rap/trap working display range only
+            # when evidence is otherwise tied. It is intentionally weak.
+            if 75 <= hypothesis <= 180:
+                score += 0.05
+            scored.append((score, float(hypothesis)))
+
+        scored.sort(key=lambda item: item[0], reverse=True)
+        best_score, best_hypothesis = scored[0]
+        if best_score <= 0:
+            return 0.0
+
+        # Refine around direct/family-compatible raw estimates instead of returning
+        # the integer bucket center.
+        compatible = []
+        for raw in all_raw:
+            distance, _ = family_distance(raw, best_hypothesis)
+            if distance <= 5.0:
+                choices = [raw, raw * 2.0, raw / 2.0]
+                mapped = min(
+                    (x for x in choices if 55 <= x <= 190),
+                    key=lambda x: abs(x - best_hypothesis),
+                    default=None,
+                )
+                if mapped is not None:
+                    compatible.append(float(mapped))
+
+        bpm = float(np.median(compatible)) if compatible else best_hypothesis
         if bpm < 70:
-            bpm *= 2
-        elif bpm > 180:
-            bpm /= 2
+            bpm *= 2.0
+        elif bpm > 190:
+            bpm /= 2.0
 
         if not np.isfinite(bpm) or bpm <= 0:
             return 0.0
-
         return round(float(bpm), 2)
-
     except Exception:
         return 0.0
 
-
 def detect_key(y: np.ndarray, sr: int) -> Tuple[str, str, str, float]:
+    """Estimate musical key using multi-window, multi-method consensus.
+
+    Full mixes are difficult: tuned 808s, sparse melodies, pitch bends and short
+    intros can all mislead a single chroma pass.  This keeps SoundLens' existing
+    public key fields, but votes across several song regions, three chroma views,
+    and two established major/minor profile families.
     """
-    More honest key detection.
+    # Temperley-style profiles provide an independent opinion from the existing
+    # Krumhansl-Schmuckler profiles.
+    temperley_major = np.array([5.0, 2.0, 3.5, 2.0, 4.5, 4.0, 2.0, 4.5, 2.0, 3.5, 1.5, 4.0], dtype=float)
+    temperley_minor = np.array([5.0, 2.0, 3.5, 4.5, 2.0, 4.0, 2.0, 4.5, 3.5, 2.0, 1.5, 4.0], dtype=float)
 
-    Old problem: SoundLens always forced a key even when the chroma evidence was weak.
-    Heavy 808s can dominate pitch detection, so confidence matters.
+    profile_sets = [
+        (MAJOR_PROFILE.astype(float), MINOR_PROFILE.astype(float), 1.00),
+        (temperley_major, temperley_minor, 0.88),
+    ]
 
-    This version:
-    - tries harmonic audio first
-    - blends CQT and STFT chroma when possible
-    - returns Uncertain when the top key is not clearly separated
-    """
-    def chroma_vector(audio: np.ndarray, sample_rate: int) -> np.ndarray:
-        vectors = []
-        try:
-            chroma = librosa.feature.chroma_cqt(y=audio, sr=sample_rate, bins_per_octave=12)
-            vectors.append(np.mean(chroma, axis=1))
-        except Exception:
-            pass
-        try:
-            chroma = librosa.feature.chroma_stft(y=audio, sr=sample_rate)
-            vectors.append(np.mean(chroma, axis=1))
-        except Exception:
-            pass
-
-        if not vectors:
-            return np.zeros(12, dtype=float)
-
-        chroma_mean = np.mean(np.vstack(vectors), axis=0)
-        chroma_mean = np.maximum(chroma_mean - np.median(chroma_mean) * 0.20, 0)
-        return chroma_mean / (np.linalg.norm(chroma_mean) + EPSILON)
-
-    def key_candidates(chroma_norm: np.ndarray) -> List[Tuple[float, str, str]]:
-        major_norm = MAJOR_PROFILE / np.linalg.norm(MAJOR_PROFILE)
-        minor_norm = MINOR_PROFILE / np.linalg.norm(MINOR_PROFILE)
-        results = []
+    def rank_keys(chroma_norm: np.ndarray, major: np.ndarray, minor: np.ndarray) -> List[Tuple[float, str, str]]:
+        major_norm = major / (np.linalg.norm(major) + EPSILON)
+        minor_norm = minor / (np.linalg.norm(minor) + EPSILON)
+        results: List[Tuple[float, str, str]] = []
         for i, note in enumerate(NOTES_SHARP):
             results.append((float(np.dot(chroma_norm, np.roll(major_norm, i))), note, "Major"))
             results.append((float(np.dot(chroma_norm, np.roll(minor_norm, i))), note, "Minor"))
-        return sorted(results, key=lambda x: x[0], reverse=True)
+        return sorted(results, key=lambda item: item[0], reverse=True)
+
+    def chroma_views(audio: np.ndarray, sample_rate: int) -> List[np.ndarray]:
+        views: List[np.ndarray] = []
+        if audio.size < sample_rate * 3:
+            return views
+
+        audio = np.asarray(audio, dtype=np.float32)
+        audio = audio - float(np.mean(audio))
+
+        # Harmonic separation reduces drums and transient noise.
+        try:
+            harmonic = librosa.effects.harmonic(audio, margin=2.5)
+            if float(np.max(np.abs(harmonic))) > 1e-5:
+                tonal = harmonic
+            else:
+                tonal = audio
+        except Exception:
+            tonal = audio
+
+        # CQT starts above the deepest sub range so a dominant 808 fundamental
+        # is less likely to decide the entire key by itself.
+        try:
+            # Compute the CQT once, then derive two different chroma summaries
+            # from it. This keeps the stronger consensus approach practical on
+            # Railway instead of running two expensive CQT transforms per window.
+            cqt_matrix = np.abs(librosa.cqt(
+                tonal,
+                sr=sample_rate,
+                hop_length=512,
+                bins_per_octave=36,
+                n_bins=36 * 6,
+                fmin=librosa.note_to_hz("C2"),
+            ))
+            cqt = librosa.feature.chroma_cqt(
+                C=cqt_matrix,
+                sr=sample_rate,
+                bins_per_octave=36,
+                fmin=librosa.note_to_hz("C2"),
+            )
+            vec = np.mean(cqt, axis=1)
+            if np.any(vec > 0):
+                views.append(vec)
+
+            cens = librosa.feature.chroma_cens(
+                C=cqt_matrix,
+                sr=sample_rate,
+                bins_per_octave=36,
+                fmin=librosa.note_to_hz("C2"),
+            )
+            vec = np.mean(cens, axis=1)
+            if np.any(vec > 0):
+                views.append(vec)
+        except Exception:
+            pass
+
+        # STFT chroma with frequencies below 80 Hz removed is another independent
+        # view and specifically reduces low-sub dominance.
+        try:
+            n_fft = 4096
+            stft = np.abs(librosa.stft(tonal, n_fft=n_fft, hop_length=1024)) ** 2
+            freqs = librosa.fft_frequencies(sr=sample_rate, n_fft=n_fft)
+            stft[freqs < 80.0, :] = 0.0
+            stft_chroma = librosa.feature.chroma_stft(S=stft, sr=sample_rate, n_chroma=12)
+            vec = np.mean(stft_chroma, axis=1)
+            if np.any(vec > 0):
+                views.append(vec)
+        except Exception:
+            pass
+
+        normalized: List[np.ndarray] = []
+        for vec in views:
+            vec = np.asarray(vec, dtype=float)
+            vec = np.maximum(vec - np.median(vec) * 0.15, 0.0)
+            norm = float(np.linalg.norm(vec))
+            if norm > EPSILON:
+                normalized.append(vec / norm)
+        return normalized
 
     try:
-        max_seconds = 75
         target_sr = 22050
-
-        if len(y) > sr * max_seconds:
-            start = max(0, (len(y) // 2) - (sr * max_seconds // 2))
-            y_key = y[start:start + (sr * max_seconds)]
-        else:
-            y_key = y
-
+        y_work = np.asarray(y, dtype=np.float32)
         if sr != target_sr:
-            y_key = librosa.resample(y_key, orig_sr=sr, target_sr=target_sr)
+            y_work = librosa.resample(y_work, orig_sr=sr, target_sr=target_sr)
             key_sr = target_sr
         else:
             key_sr = sr
+        y_work = y_work - float(np.mean(y_work))
 
-        y_key = y_key.astype(np.float32)
-        y_key = y_key - float(np.mean(y_key))
-
-        # Harmonic-only audio reduces drum/808 interference when it works.
-        try:
-            y_harmonic = librosa.effects.harmonic(y_key)
-            if np.max(np.abs(y_harmonic)) > 1e-5:
-                y_for_key = y_harmonic
-            else:
-                y_for_key = y_key
-        except Exception:
-            y_for_key = y_key
-
-        chroma_norm = chroma_vector(y_for_key, key_sr)
-        if not np.any(chroma_norm > 0):
+        duration = len(y_work) / max(key_sr, 1)
+        if duration < 4.0:
             return "Uncertain", "Uncertain", "Uncertain", 0.0
 
-        ranked = key_candidates(chroma_norm)
-        best_score, best_note, best_mode = ranked[0]
-        second_score, _, _ = ranked[1]
-        third_score, _, _ = ranked[2]
+        window_seconds = min(22.0, max(14.0, duration * 0.16))
+        win_len = int(window_seconds * key_sr)
+        windows: List[np.ndarray] = []
 
-        gap = best_score - second_score
-        spread = best_score - third_score
-        confidence = clamp(30 + (gap * 150) + (spread * 55), 0, 92)
+        if len(y_work) <= win_len * 1.3:
+            windows = [y_work]
+        else:
+            # Avoid relying on one chorus/verse. Sample across the song while
+            # staying away from the very first/last seconds when possible.
+            for center_ratio in (0.22, 0.50, 0.78):
+                center = int(len(y_work) * center_ratio)
+                start_i = max(0, min(center - win_len // 2, len(y_work) - win_len))
+                piece = y_work[start_i:start_i + win_len]
+                if len(piece) >= key_sr * 8:
+                    windows.append(piece)
 
-        # Always return the strongest detected key candidate. Confidence remains
-        # visible so SoundLens can improve accuracy over time without hiding the key.
+        aggregate: Dict[Tuple[str, str], float] = {}
+        first_place_votes: Dict[Tuple[str, str], int] = {}
+        usable_windows = 0
+
+        for piece in windows:
+            views = chroma_views(piece, key_sr)
+            if not views:
+                continue
+            usable_windows += 1
+            window_scores: Dict[Tuple[str, str], float] = {}
+
+            for view in views:
+                for major_profile, minor_profile, profile_weight in profile_sets:
+                    ranked = rank_keys(view, major_profile, minor_profile)
+                    if not ranked:
+                        continue
+                    top_score = ranked[0][0]
+                    low_score = ranked[-1][0]
+                    span = max(top_score - low_score, EPSILON)
+
+                    # Give the top few candidates graded support. Normalizing each
+                    # method prevents one chroma representation from dominating
+                    # merely because its raw correlation range is larger.
+                    for rank_index, (score, note, mode) in enumerate(ranked[:5]):
+                        normalized_score = (score - low_score) / span
+                        rank_weight = [1.00, 0.58, 0.34, 0.18, 0.10][rank_index]
+                        key_id = (note, mode)
+                        contribution = normalized_score * rank_weight * profile_weight
+                        window_scores[key_id] = window_scores.get(key_id, 0.0) + contribution
+
+                    winner = (ranked[0][1], ranked[0][2])
+                    first_place_votes[winner] = first_place_votes.get(winner, 0) + 1
+
+            if not window_scores:
+                continue
+
+            # Normalize this window before adding it so every song region has a
+            # comparable voice, even if one region is sparse.
+            max_window = max(window_scores.values()) + EPSILON
+            for key_id, score in window_scores.items():
+                aggregate[key_id] = aggregate.get(key_id, 0.0) + (score / max_window)
+
+        if not aggregate or usable_windows == 0:
+            return "Uncertain", "Uncertain", "Uncertain", 0.0
+
+        ranked_final = sorted(aggregate.items(), key=lambda item: item[1], reverse=True)
+        (best_note, best_mode), best_score = ranked_final[0]
+        second_score = ranked_final[1][1] if len(ranked_final) > 1 else 0.0
+        third_score = ranked_final[2][1] if len(ranked_final) > 2 else 0.0
+
+        # Confidence is based on separation plus actual first-place agreement.
+        total_method_votes = max(sum(first_place_votes.values()), 1)
+        best_votes = first_place_votes.get((best_note, best_mode), 0)
+        vote_ratio = best_votes / total_method_votes
+        gap_ratio = (best_score - second_score) / max(best_score, EPSILON)
+        spread_ratio = (best_score - third_score) / max(best_score, EPSILON)
+
+        confidence = (
+            24.0
+            + (vote_ratio * 38.0)
+            + (gap_ratio * 42.0)
+            + (spread_ratio * 16.0)
+            + min(8.0, usable_windows * 1.5)
+        )
+        confidence = clamp(confidence, 18.0, 96.0)
+
         return f"{best_note} {best_mode}", best_note, best_mode, round(float(confidence), 1)
-
     except Exception:
         return "Uncertain", "Uncertain", "Uncertain", 0.0
-
 
 def analyze_loudness(y: np.ndarray) -> LoudnessInfo:
     peak = float(np.max(np.abs(y)))
@@ -909,208 +1127,281 @@ def section_energy(y: np.ndarray, sr: int, start: float, end: float) -> float:
 
 
 def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: RhythmInfo) -> List[ArrangementSection]:
-    """Musical arrangement detection.
+    """Estimate musical sections without assuming a fixed verse/chorus order.
 
-    Goal:
-    - not fixed 16-second chunks
-    - not every tiny waveform dip
-    - normal song sections: intro, hook/chorus, verse, hook, verse/bridge, outro
-    - boundaries snap near real low-energy transition points
-
-    This is an estimate, but it should behave more like song structure.
+    Boundaries use both energy and tonal/timbral novelty.  Labels are conservative:
+    SoundLens calls something a likely hook/chorus only when a similar section
+    actually repeats later in the song.  This avoids manufacturing a conventional
+    structure that the audio does not support.
     """
     if duration <= 0:
         return []
 
     y_arr, arr_sr = memory_safe_audio(y, sr, target_sr=22050, max_seconds=180)
-
     hop_length = 512
     frame_length = 2048
 
     try:
-        rms = librosa.feature.rms(
-            y=y_arr,
-            frame_length=frame_length,
-            hop_length=hop_length,
-        )[0]
+        rms = librosa.feature.rms(y=y_arr, frame_length=frame_length, hop_length=hop_length)[0]
     except Exception:
         rms = np.array([], dtype=np.float32)
 
     if rms.size < 8:
-        return [
-            ArrangementSection(
-                name="Full Track",
-                start=0.0,
-                end=duration,
-                avg_energy=section_energy(y, sr, 0.0, duration),
-                energy_label="Medium",
-            )
-        ]
+        return [ArrangementSection(
+            name="Full Track",
+            start=0.0,
+            end=duration,
+            avg_energy=section_energy(y, sr, 0.0, duration),
+            energy_label="Medium",
+        )]
 
     times = librosa.frames_to_time(np.arange(len(rms)), sr=arr_sr, hop_length=hop_length)
-    rms = np.asarray(rms, dtype=np.float32)
-    rms = np.nan_to_num(rms, nan=0.0, posinf=0.0, neginf=0.0)
+    rms = np.nan_to_num(np.asarray(rms, dtype=np.float32), nan=0.0, posinf=0.0, neginf=0.0)
+    energy = rms / (float(np.max(rms)) + EPSILON) if float(np.max(rms)) > EPSILON else rms
 
-    if float(np.max(rms)) > EPSILON:
-        energy = rms / (float(np.max(rms)) + EPSILON)
-    else:
-        energy = rms
-
-    # Smooth enough to ignore drum flickers, but still catch actual section changes.
     smooth_seconds = 2.0
     smooth_frames = max(5, int(round(smooth_seconds / max(hop_length / arr_sr, EPSILON))))
     if smooth_frames % 2 == 0:
         smooth_frames += 1
-
     kernel = np.ones(smooth_frames, dtype=np.float32) / smooth_frames
     smooth = np.convolve(energy, kernel, mode="same")
-    derivative = np.abs(np.diff(smooth, prepend=smooth[0]))
 
-    # Musical section length constraints.
-    # Most rap sections are around 8/16 bars. At 140 BPM:
-    # 8 bars ~13.7 sec, 16 bars ~27.4 sec.
+    rms_derivative = np.abs(np.diff(smooth, prepend=smooth[0]))
+    rms_change = rms_derivative / (float(np.percentile(rms_derivative, 95)) + EPSILON)
+    rms_change = np.clip(rms_change, 0.0, 2.0)
+
+    # Harmonic/timbral novelty catches transitions that do not create a large
+    # volume dip (for example a beat switch or verse-to-hook instrument change).
+    spectral_change = np.zeros_like(smooth, dtype=np.float32)
+    try:
+        chroma = librosa.feature.chroma_stft(
+            y=y_arr,
+            sr=arr_sr,
+            n_fft=frame_length,
+            hop_length=hop_length,
+        )
+        chroma = np.nan_to_num(chroma, nan=0.0, posinf=0.0, neginf=0.0)
+        chroma_delta = np.linalg.norm(np.diff(chroma, axis=1, prepend=chroma[:, :1]), axis=0)
+
+        centroid = librosa.feature.spectral_centroid(
+            y=y_arr,
+            sr=arr_sr,
+            n_fft=frame_length,
+            hop_length=hop_length,
+        )[0]
+        centroid = np.nan_to_num(centroid, nan=0.0, posinf=0.0, neginf=0.0)
+        centroid_delta = np.abs(np.diff(centroid, prepend=centroid[0]))
+        centroid_delta = centroid_delta / (float(np.percentile(centroid_delta, 95)) + EPSILON)
+
+        chroma_delta = chroma_delta / (float(np.percentile(chroma_delta, 95)) + EPSILON)
+        spectral_change = np.clip((chroma_delta * 0.72) + (centroid_delta * 0.28), 0.0, 2.0).astype(np.float32)
+    except Exception:
+        pass
+
+    combined_change = (rms_change * 0.52) + (spectral_change * 0.48)
+
     bar_seconds = max(float(rhythm.seconds_per_bar), 1.5)
     min_section_seconds = max(8.0, min(12.0, bar_seconds * 4.0))
     preferred_section_seconds = max(14.0, min(28.0, bar_seconds * 8.0))
     max_section_seconds = max(24.0, min(46.0, bar_seconds * 16.0))
-
-    # For very short songs, keep it slightly tighter.
     if duration < 120:
         max_section_seconds = min(max_section_seconds, 34.0)
 
-    # Candidate transition points: low valleys with meaningful before/after change.
     candidates: List[Tuple[float, float]] = []
-
-    valley_threshold = float(np.percentile(smooth, 42))
-    change_threshold = max(
-        float(np.percentile(derivative, 82)),
-        float(np.mean(derivative) + np.std(derivative) * 0.45),
-        0.008,
-    )
-
+    valley_threshold = float(np.percentile(smooth, 44))
+    change_threshold = max(float(np.percentile(combined_change, 80)), 0.12)
     look_seconds = 5.0
     look_frames = max(4, int(round(look_seconds / max(hop_length / arr_sr, EPSILON))))
 
     for idx in range(look_frames, len(smooth) - look_frames):
         time = float(times[idx])
-
         if time < 4.0 or time > duration - 4.0:
             continue
 
         left_avg = float(np.mean(smooth[idx - look_frames:idx]))
         right_avg = float(np.mean(smooth[idx:idx + look_frames]))
-        shift = abs(right_avg - left_avg)
-
+        energy_shift = abs(right_avg - left_avg)
         is_valley = smooth[idx] <= smooth[idx - 1] and smooth[idx] <= smooth[idx + 1]
-        is_low_enough = smooth[idx] <= valley_threshold
-        is_change = derivative[idx] >= change_threshold
-        meaningful_shift = shift >= 0.055
+        is_low = smooth[idx] <= valley_threshold
+        novelty = float(combined_change[idx])
 
-        # Score favors actual valleys and larger structural changes.
-        if (is_valley and meaningful_shift) or (is_low_enough and is_change and meaningful_shift):
+        # Accept either a meaningful energy transition or a strong tonal/timbral
+        # transition. Valley points get a bonus because section changes often land
+        # on a short dip or breath.
+        meaningful_energy = energy_shift >= 0.045
+        meaningful_novelty = novelty >= change_threshold
+        if (meaningful_energy and (is_valley or is_low)) or meaningful_novelty:
             valley_strength = 1.0 - float(smooth[idx])
-            score = (shift * 3.0) + (valley_strength * 1.2) + (float(derivative[idx]) * 10.0)
+            score = (energy_shift * 3.2) + (novelty * 1.45) + (valley_strength * (0.55 if is_valley else 0.20))
             candidates.append((time, score))
 
+    # Collapse candidate clusters so one transition does not produce several
+    # boundaries a fraction of a second apart.
     candidates.sort(key=lambda item: item[0])
+    clustered: List[Tuple[float, float]] = []
+    for time, score in candidates:
+        if clustered and time - clustered[-1][0] < 2.0:
+            if score > clustered[-1][1]:
+                clustered[-1] = (time, score)
+        else:
+            clustered.append((time, score))
+    candidates = clustered
 
     boundaries = [0.0]
-
-    # Intro boundary: prefer first meaningful dip/change around 8-18 sec.
-    intro_candidates = [(t, s) for t, s in candidates if 7.0 <= t <= min(22.0, duration * 0.25)]
+    intro_candidates = [(t, sc) for t, sc in candidates if 6.0 <= t <= min(24.0, duration * 0.28)]
     if intro_candidates:
-        intro_boundary = max(intro_candidates, key=lambda item: item[1])[0]
-        boundaries.append(round(float(intro_boundary), 2))
+        boundaries.append(round(float(max(intro_candidates, key=lambda item: item[1])[0]), 2))
 
-    # Main boundaries: choose strongest transition after each musical section window.
     while duration - boundaries[-1] > max_section_seconds:
         last = boundaries[-1]
         target = last + preferred_section_seconds
         search_start = last + min_section_seconds
         search_end = min(last + max_section_seconds, duration - min_section_seconds)
-
-        available = [(t, s) for t, s in candidates if search_start <= t <= search_end]
+        available = [(t, sc) for t, sc in candidates if search_start <= t <= search_end]
 
         if available:
-            # Prefer strong candidates close to preferred section length.
             def candidate_score(item):
-                t, s = item
+                t, sc = item
                 distance_penalty = abs(t - target) / max(preferred_section_seconds, 1.0)
-                return s - (distance_penalty * 0.55)
-
+                return sc - (distance_penalty * 0.48)
             boundary = max(available, key=candidate_score)[0]
         else:
-            # Fallback: snap near preferred length to the lowest local energy point.
             target_time = min(target, duration - min_section_seconds)
             idx = int(np.argmin(np.abs(times - target_time)))
             radius = max(4, int(round(4.0 / max(hop_length / arr_sr, EPSILON))))
             left = max(0, idx - radius)
             right = min(len(smooth), idx + radius + 1)
+            # If there is no clear candidate, use a local minimum as a conservative
+            # fallback rather than inventing an exact fixed-time boundary.
             valley_idx = left + int(np.argmin(smooth[left:right]))
             boundary = float(times[valley_idx])
 
         if boundary <= boundaries[-1] + min_section_seconds:
             boundary = boundaries[-1] + preferred_section_seconds
-
         if boundary >= duration - min_section_seconds:
             break
-
         boundaries.append(round(float(boundary), 2))
 
-    boundaries.append(duration)
+    max_sections = 8 if duration >= 130 else 7
 
-    # Clean boundaries: no duplicate / tiny fragments.
+    # A short song may contain several clear transitions even when no section
+    # exceeds max_section_seconds. Add strong interior candidates when they split
+    # an existing span into two musically plausible sections.
+    candidate_strength_cutoff = float(np.percentile([sc for _, sc in candidates], 68)) if candidates else float("inf")
+    changed = True
+    while changed and len(boundaries) < max_sections:
+        changed = False
+        trial_boundaries = sorted(boundaries + [duration])
+        best_extra = None
+        best_extra_score = -float("inf")
+        for left_b, right_b in zip(trial_boundaries[:-1], trial_boundaries[1:]):
+            if right_b - left_b < min_section_seconds * 2.15:
+                continue
+            for t, sc in candidates:
+                if sc < candidate_strength_cutoff:
+                    continue
+                if t - left_b < min_section_seconds or right_b - t < min_section_seconds:
+                    continue
+                # Prefer strong changes near an 8/16-bar-style subdivision.
+                midpoint_penalty = abs((t - left_b) - preferred_section_seconds) / max(preferred_section_seconds, 1.0)
+                adjusted = sc - midpoint_penalty * 0.20
+                if adjusted > best_extra_score:
+                    best_extra_score = adjusted
+                    best_extra = t
+        if best_extra is not None:
+            boundaries.append(round(float(best_extra), 2))
+            boundaries = sorted(set(boundaries))
+            changed = True
+
+    boundaries.append(duration)
+    boundaries = sorted(set(boundaries))
     cleaned = [boundaries[0]]
     for boundary in boundaries[1:]:
         if boundary - cleaned[-1] >= min_section_seconds or abs(boundary - duration) < 0.1:
             cleaned.append(boundary)
-
     if cleaned[-1] < duration:
         cleaned.append(duration)
-
-    # If final outro is too tiny, merge it.
     if len(cleaned) >= 3 and cleaned[-1] - cleaned[-2] < 7.0:
         cleaned.pop(-2)
 
     boundaries = cleaned
-
-    # Keep total sections reasonable: usually 4-8, rarely more.
-    max_sections = 8 if duration >= 130 else 7
     while len(boundaries) - 1 > max_sections:
-        # Merge the shortest non-intro section.
         lengths = [(boundaries[i + 1] - boundaries[i], i) for i in range(1, len(boundaries) - 1)]
         if not lengths:
             break
         _, remove_index = min(lengths, key=lambda item: item[0])
         boundaries.pop(remove_index)
 
-    raw_energies = []
-    for start, end in zip(boundaries[:-1], boundaries[1:]):
-        raw_energies.append(section_energy(y, sr, start, end))
-
+    raw_energies = [section_energy(y, sr, a, b) for a, b in zip(boundaries[:-1], boundaries[1:])]
     avg_energy = float(np.mean(raw_energies)) + EPSILON
     max_energy = float(np.max(raw_energies)) + EPSILON
 
+    # Build compact timbre/harmony signatures for repeated-section detection.
+    # This is only used to decide whether "hook/chorus" is justified.
+    signatures: List[Optional[np.ndarray]] = []
+    for start_t, end_t in zip(boundaries[:-1], boundaries[1:]):
+        try:
+            start_sample = int(start_t * sr)
+            end_sample = int(end_t * sr)
+            part = np.asarray(y[start_sample:end_sample], dtype=np.float32)
+            if part.size < sr * 3:
+                signatures.append(None)
+                continue
+            if sr != 22050:
+                part = librosa.resample(part, orig_sr=sr, target_sr=22050)
+                sig_sr = 22050
+            else:
+                sig_sr = sr
+            max_len = int(sig_sr * 24)
+            if len(part) > max_len:
+                middle = len(part) // 2
+                part = part[max(0, middle - max_len // 2):max(0, middle - max_len // 2) + max_len]
+            peak = float(np.max(np.abs(part))) + EPSILON
+            part = (part / peak).astype(np.float32)
+            try:
+                tonal = librosa.effects.harmonic(part, margin=2.0)
+                if float(np.max(np.abs(tonal))) <= 1e-5:
+                    tonal = part
+            except Exception:
+                tonal = part
+
+            mfcc = np.mean(librosa.feature.mfcc(y=part, sr=sig_sr, n_mfcc=10), axis=1)
+            mfcc = (mfcc - np.mean(mfcc)) / (np.std(mfcc) + EPSILON)
+            chroma = np.mean(librosa.feature.chroma_stft(y=tonal, sr=sig_sr, n_fft=2048, hop_length=1024), axis=1)
+            chroma = chroma / (np.linalg.norm(chroma) + EPSILON)
+            contrast = np.mean(librosa.feature.spectral_contrast(y=part, sr=sig_sr), axis=1)
+            contrast = (contrast - np.mean(contrast)) / (np.std(contrast) + EPSILON)
+            signature = np.concatenate([mfcc, chroma, contrast]).astype(np.float32)
+            signature = signature / (np.linalg.norm(signature) + EPSILON)
+            signatures.append(signature)
+        except Exception:
+            signatures.append(None)
+
+    repeated_indices = set()
+    for i in range(1, max(1, len(signatures) - 1)):
+        sig_i = signatures[i]
+        if sig_i is None:
+            continue
+        for j in range(i + 2, len(signatures) - 1):
+            sig_j = signatures[j]
+            if sig_j is None or len(sig_i) != len(sig_j):
+                continue
+            similarity = float(np.dot(sig_i, sig_j))
+            # Require strong timbral/harmonic similarity and roughly comparable
+            # section energy. This is much stronger evidence of a repeated hook
+            # than position in the song alone.
+            e1 = raw_energies[i] / avg_energy
+            e2 = raw_energies[j] / avg_energy
+            if similarity >= 0.88 and abs(e1 - e2) <= 0.28:
+                repeated_indices.add(i)
+                repeated_indices.add(j)
+
     sections: List[ArrangementSection] = []
-
-    # Name sections in a normal song-structure pattern, but energy still affects
-    # hook/bridge/outro decisions.
-    pattern_names = [
-        "Intro",
-        "Chorus / Hook",
-        "Verse",
-        "Chorus / Hook",
-        "Verse",
-        "Bridge / Breakdown",
-        "Chorus / Hook",
-        "Outro",
-    ]
-
-    for idx, (start, end) in enumerate(zip(boundaries[:-1], boundaries[1:])):
+    for idx, (start_t, end_t) in enumerate(zip(boundaries[:-1], boundaries[1:])):
         energy_value = raw_energies[idx]
         rel_avg = energy_value / avg_energy
         rel_max = energy_value / max_energy
-        length = end - start
+        length = end_t - start_t
 
         if rel_avg >= 1.10 or rel_max >= 0.86:
             energy_label = "High"
@@ -1122,31 +1413,32 @@ def estimate_arrangement(y: np.ndarray, sr: int, duration: float, rhythm: Rhythm
         is_first = idx == 0
         is_last = idx == len(boundaries) - 2
 
-        if is_first:
-            name = "Intro"
+        section_total = len(boundaries) - 1
+        if section_total == 1:
+            name = "Full Track"
+        elif is_first:
+            # Only call it an intro when it is actually a short opening section.
+            # Otherwise avoid pretending the first long block has a known role.
+            intro_limit = min(24.0, max(10.0, duration * 0.28))
+            name = "Intro" if length <= intro_limit else "Opening Section"
         elif is_last and (energy_label == "Low" or length <= 24):
             name = "Outro"
-        elif idx < len(pattern_names):
-            name = pattern_names[idx]
+        elif idx in repeated_indices and energy_label in {"High", "Medium"}:
+            name = "Likely Hook / Chorus"
+        elif energy_label == "High":
+            name = "Peak Section"
+        elif energy_label == "Low":
+            name = "Breakdown / Low Energy"
         else:
-            name = "Verse"
+            name = "Main Section"
 
-        # Energy-based corrections.
-        if not is_first and not is_last:
-            if energy_label == "High" and name not in {"Chorus / Hook", "Hook / Drop"}:
-                name = "Chorus / Hook"
-            elif energy_label == "Low" and length >= 10:
-                name = "Bridge / Breakdown"
-
-        sections.append(
-            ArrangementSection(
-                name=name,
-                start=float(start),
-                end=float(end),
-                avg_energy=float(energy_value),
-                energy_label=energy_label,
-            )
-        )
+        sections.append(ArrangementSection(
+            name=name,
+            start=float(start_t),
+            end=float(end_t),
+            avg_energy=float(energy_value),
+            energy_label=energy_label,
+        ))
 
     return sections
 
@@ -1310,21 +1602,30 @@ def calculate_scores(
             arrangement_score -= 7
 
     hook_energies = [s.avg_energy for s in sections if "Hook" in s.name or "Chorus" in s.name]
-    verse_energies = [s.avg_energy for s in sections if "Verse" in s.name]
-    if hook_energies and verse_energies:
-        contrast_ratio = float(np.mean(hook_energies)) / max(float(np.mean(verse_energies)), EPSILON)
-        if 1.07 <= contrast_ratio <= 1.35:
-            arrangement_score += 9
-        elif 1.03 <= contrast_ratio < 1.07 or 1.35 < contrast_ratio <= 1.55:
-            arrangement_score += 3
-        elif contrast_ratio < 0.98:
-            arrangement_score -= 10
-        elif contrast_ratio < 1.03:
-            arrangement_score -= 6
-        elif contrast_ratio > 1.75:
-            arrangement_score -= 5
+    main_energies = [
+        s.avg_energy for s in sections
+        if s.name in {"Main Section", "Peak Section"} and "Hook" not in s.name and "Chorus" not in s.name
+    ]
+    if hook_energies and main_energies:
+        contrast_ratio = float(np.mean(hook_energies)) / max(float(np.mean(main_energies)), EPSILON)
+        if 1.05 <= contrast_ratio <= 1.40:
+            arrangement_score += 7
+        elif 1.00 <= contrast_ratio < 1.05 or 1.40 < contrast_ratio <= 1.60:
+            arrangement_score += 2
+        elif contrast_ratio < 0.96:
+            arrangement_score -= 7
+        elif contrast_ratio > 1.80:
+            arrangement_score -= 4
     else:
-        arrangement_score -= 4
+        # No confidently repeated hook is not automatically a structural flaw.
+        # Use the already-computed section-to-section energy movement instead.
+        non_edge = [sec.avg_energy for sec in sections[1:-1]] if len(sections) > 2 else []
+        if len(non_edge) >= 2:
+            movement = float(np.std(non_edge) / (np.mean(non_edge) + EPSILON))
+            if movement >= 0.07:
+                arrangement_score += 2
+            elif movement < 0.03:
+                arrangement_score -= 3
 
     if sections:
         intro_length = sections[0].end - sections[0].start
@@ -1488,18 +1789,18 @@ def build_feedback(
         )
 
     hook_energies = [s.avg_energy for s in sections if "Hook" in s.name or "Chorus" in s.name]
-    verse_energies = [s.avg_energy for s in sections if s.name == "Verse"]
-    if hook_energies and verse_energies:
+    main_energies = [s.avg_energy for s in sections if s.name in {"Main Section", "Peak Section"}]
+    if hook_energies and main_energies:
         hook_energy = float(np.mean(hook_energies))
-        verse_energy = float(np.mean(verse_energies))
-        if hook_energy <= verse_energy * 0.98:
+        main_energy = float(np.mean(main_energies))
+        if hook_energy <= main_energy * 0.96:
             add_problem(
                 47,
-                "Detected hook sections are quieter than the detected verses.",
-                "Listen at the estimated transitions and add contrast only if the hook truly feels smaller than intended.",
+                "A repeated section that looks hook-like is quieter than the surrounding main sections.",
+                "Listen at the estimated transitions and add contrast only if that repeated section is intended to be the hook.",
             )
-        elif hook_energy <= verse_energy * 1.01:
-            producer_notes.append("Hook and verse energy are close; this may be intentional, so arrangement contrast was not treated as a firm problem.")
+        elif hook_energy <= main_energy * 1.01:
+            producer_notes.append("The repeated hook-like section and surrounding sections have similar energy; this may be intentional.")
 
     intro = sections[0] if sections else None
     if intro and rhythm.seconds_per_bar > 0:
