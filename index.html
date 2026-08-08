@@ -2509,6 +2509,7 @@
             </select>
 
             <button onclick="loadAdminDashboard()">Refresh Heatmap</button>
+            <button class="danger-btn" onclick="resetAdminHeatmap()">Reset Clicks</button>
         </div>
 
         <div class="heatmap-shell" id="adminHeatmapShell">
@@ -3556,7 +3557,9 @@ function renderAdminUsers(){
     const box = document.getElementById("adminUsersList");
     if(!box || !adminDashboardData){ return; }
     const query = (document.getElementById("adminUserSearch")?.value || "").trim().toLowerCase();
-    const users = (adminDashboardData.users || []).filter(user => !query || String(user.email || "").toLowerCase().includes(query));
+    const users = (adminDashboardData.users || []).filter(user =>
+        !isJaydenAdmin(user) && (!query || String(user.email || "").toLowerCase().includes(query))
+    );
     document.getElementById("adminUserCount").innerText = `${users.length} shown`;
     box.innerHTML = users.length ? users.map(user => `
         <div class="admin-user-row">
@@ -3710,6 +3713,16 @@ function populateAdminHeatmapPages(){
 
     if([...select.options].some(option => option.value === previous)){
         select.value = previous;
+    }
+}
+
+async function resetAdminHeatmap(){
+    if(!confirm("Reset all recorded heatmap clicks? This cannot be undone.")){ return; }
+    try{
+        await apiJSON("/admin/reset-heatmap", {method:"POST"});
+        await loadAdminDashboard();
+    }catch(error){
+        alert(error.message);
     }
 }
 
