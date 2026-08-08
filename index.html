@@ -784,6 +784,18 @@
             gap:14px;
         }
 
+        .free-report-lock{
+            display:none;
+            margin-bottom:14px;
+            padding:18px;
+            border-radius:16px;
+            border:1px solid rgba(139,143,251,0.34);
+            background:linear-gradient(135deg,rgba(99,102,241,0.14),rgba(15,17,23,0.78));
+        }
+        .free-report-lock h3{ margin:0 0 7px 0; }
+        .free-report-lock p{ margin:0 0 14px 0; color:var(--muted); line-height:1.45; }
+        .free-report-lock.show{ display:block; }
+
         .report-card{
             background:var(--card2);
             border:1px solid #252b3f;
@@ -2236,6 +2248,11 @@
 
     <div class="card dashboard-section">
         <h2 class="mini-section-title">Saved Reports</h2>
+        <div id="freeReportLock" class="free-report-lock">
+            <h3>Save your reports with Pro</h3>
+            <p>Reports aren't saved on the Free plan. Upgrade to Pro to keep your analysis history and access previous reports anytime.</p>
+            <button onclick="startStripeCheckout('pro')">Upgrade to Pro</button>
+        </div>
         <input id="reportSearch" type="text" placeholder="Search reports..." oninput="renderReports()" style="width:100%;padding:12px;border-radius:10px;border:1px solid #303750;background:#0f1117;color:white;margin-bottom:14px">
         <div id="savedReportsList"><p class="muted">Login to view saved reports.</p></div>
     </div>
@@ -2815,6 +2832,11 @@ function updatePremiumAccessUI(){
     [coreHost, galaxyHost].forEach(host => {
         if(host){ host.classList.toggle("pro-locked", !unlocked); }
     });
+
+    const freeReportLock = document.getElementById("freeReportLock");
+    const reportSearch = document.getElementById("reportSearch");
+    if(freeReportLock){ freeReportLock.classList.toggle("show", !!currentUser && !unlocked); }
+    if(reportSearch){ reportSearch.style.display = (!!currentUser && !unlocked) ? "none" : "block"; }
 }
 
 function showPage(pageId){
