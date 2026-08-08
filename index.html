@@ -2399,6 +2399,7 @@
             <button onclick="downloadAdminBackup()">Download Data Backup</button>
             <button onclick="loadAdminDashboard()">Refresh</button>
             <button class="danger-btn" onclick="resetAdminActivity()">Reset Activity</button>
+            <span id="adminActivityResetStatus" class="muted" style="font-size:12px;"></span>
         </div>
     </div>
 
@@ -2511,6 +2512,7 @@
 
             <button onclick="loadAdminDashboard()">Refresh Heatmap</button>
             <button class="danger-btn" onclick="resetAdminHeatmap()">Reset Clicks</button>
+            <span id="adminHeatmapResetStatus" class="muted" style="font-size:12px;"></span>
         </div>
 
         <div class="heatmap-shell" id="adminHeatmapShell">
@@ -3727,22 +3729,32 @@ function populateAdminHeatmapPages(){
 }
 
 async function resetAdminHeatmap(){
-    if(!confirm("Reset all recorded heatmap clicks? This cannot be undone.")){ return; }
+    const status = document.getElementById("adminHeatmapResetStatus");
+    if(status){ status.innerText = "Resetting clicks..."; }
     try{
-        await apiJSON("/admin/reset-clicks", {method:"POST"});
+        const data = await apiJSON("/admin/reset-analytics", {
+            method:"POST",
+            body:JSON.stringify({scope:"clicks"})
+        });
+        if(status){ status.innerText = data.message || "Clicks reset."; }
         await loadAdminDashboard();
     }catch(error){
-        alert(error.message);
+        if(status){ status.innerText = error.message || "Could not reset clicks."; }
     }
 }
 
 async function resetAdminActivity(){
-    if(!confirm("Reset all tracked admin activity? This clears page views, clicks, login/activity events, and the heatmap, but does not delete users, reports, feedback, or account data.")){ return; }
+    const status = document.getElementById("adminActivityResetStatus");
+    if(status){ status.innerText = "Resetting activity..."; }
     try{
-        await apiJSON("/admin/reset-activity", {method:"POST"});
+        const data = await apiJSON("/admin/reset-analytics", {
+            method:"POST",
+            body:JSON.stringify({scope:"activity"})
+        });
+        if(status){ status.innerText = data.message || "Activity reset."; }
         await loadAdminDashboard();
     }catch(error){
-        alert(error.message);
+        if(status){ status.innerText = error.message || "Could not reset activity."; }
     }
 }
 
