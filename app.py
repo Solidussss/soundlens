@@ -8,11 +8,10 @@ import os
 import shutil
 import traceback
 import uuid
-import smtplib
+import resend
 import secrets
 import tempfile
 import zipfile
-from email.message import EmailMessage
 import stripe
 
 from fastapi import FastAPI, UploadFile, File, Header, HTTPException, Request
@@ -102,11 +101,12 @@ SOUNDLENS_ADMIN_EMAILS = {
     if email.strip()
 }
 
-SMTP_HOST = os.getenv("SMTP_HOST", "")
-SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USERNAME = os.getenv("SMTP_USERNAME", "")
-SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
-SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL", SMTP_USERNAME or SOUNDLENS_NOTIFY_EMAIL)
+RESEND_API_KEY = os.getenv("RESEND_API_KEY", "").strip()
+RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "SoundLens <noreply@soundlensapp.com>").strip()
+RESEND_REPLY_TO = os.getenv("RESEND_REPLY_TO", SOUNDLENS_NOTIFY_EMAIL).strip()
+
+if RESEND_API_KEY:
+    resend.api_key = RESEND_API_KEY
 
 
 FREE_DAILY_UPLOAD_LIMIT = int(os.getenv("SOUNDLENS_FREE_DAILY_UPLOAD_LIMIT", "3"))
@@ -271,48 +271,42 @@ def track_event(event_type: str, user: dict | None = None, details: dict | None 
     })
 
 
-def _smtp_password() -> str:
-    # Google app passwords are often copied with spaces. Gmail expects the
-    # 16-character value itself, so normalize spaces for smtp.gmail.com.
-    password = str(SMTP_PASSWORD or "")
-    if str(SMTP_HOST or "").strip().lower() in {"smtp.gmail.com", "smtp.googlemail.com"}:
-        password = password.replace(" ", "")
-    return password
-
-
-def _send_email_message(msg: EmailMessage, to_email: str, subject: str) -> bool:
-    host = str(SMTP_HOST or "").strip()
-    username = str(SMTP_USERNAME or "").strip()
-    password = _smtp_password()
-    if not host or not username or not password:
+def _send_resend_email(
+    to_email: str | None,
+    subject: str,
+    body: str,
+    html_body: str | None = None,
+) -> bool:
+    if not to_email:
+        return False
+    if not RESEND_API_KEY:
         track_event("email_failed", None, {
             "to": to_email,
             "subject": subject,
-            "error": "SMTP is not fully configured (host/username/password missing).",
+            "error": "RESEND_API_KEY is not configured.",
         })
         return False
 
+    params = {
+        "from": RESEND_FROM_EMAIL,
+        "to": [str(to_email)],
+        "subject": subject,
+        "text": body,
+    }
+    if html_body:
+        params["html"] = html_body
+    if RESEND_REPLY_TO:
+        params["reply_to"] = RESEND_REPLY_TO
+
     try:
-        # Port 465 uses implicit TLS. Ports such as 587 use STARTTLS.
-        if int(SMTP_PORT) == 465:
-            with smtplib.SMTP_SSL(host, int(SMTP_PORT), timeout=20) as server:
-                server.login(username, password)
-                server.send_message(msg)
-        else:
-            with smtplib.SMTP(host, int(SMTP_PORT), timeout=20) as server:
-                server.ehlo()
-                server.starttls()
-                server.ehlo()
-                server.login(username, password)
-                server.send_message(msg)
+        resend.Emails.send(params)
         return True
     except Exception as error:
         track_event("email_failed", None, {
             "to": to_email,
             "subject": subject,
             "error": f"{type(error).__name__}: {error}",
-            "smtp_host": host,
-            "smtp_port": int(SMTP_PORT),
+            "provider": "resend",
         })
         return False
 
@@ -320,12 +314,7 @@ def _send_email_message(msg: EmailMessage, to_email: str, subject: str) -> bool:
 def send_notification_email(subject: str, body: str) -> bool:
     if not SOUNDLENS_NOTIFY_EMAIL:
         return False
-    msg = EmailMessage()
-    msg["Subject"] = subject
-    msg["From"] = SMTP_FROM_EMAIL or SMTP_USERNAME
-    msg["To"] = SOUNDLENS_NOTIFY_EMAIL
-    msg.set_content(body)
-    return _send_email_message(msg, SOUNDLENS_NOTIFY_EMAIL, subject)
+    return _send_resend_email(SOUNDLENS_NOTIFY_EMAIL, subject, body)
 
 
 def send_notification_email_to(
@@ -334,24 +323,7 @@ def send_notification_email_to(
     body: str,
     html_body: str | None = None,
 ) -> bool:
-    if not to_email:
-        return False
-
-    msg = EmailMessage()
-    msg["Subject"] = subject
-    smtp_host_lower = str(SMTP_HOST or "").strip().lower()
-    # Gmail is most reliable when the From address matches the authenticated account.
-    sender = SMTP_USERNAME if smtp_host_lower in {"smtp.gmail.com", "smtp.googlemail.com"} else (SMTP_FROM_EMAIL or SMTP_USERNAME)
-    msg["From"] = sender
-    if SMTP_FROM_EMAIL and SMTP_FROM_EMAIL != sender:
-        msg["Reply-To"] = SMTP_FROM_EMAIL
-    msg["To"] = to_email
-    msg.set_content(body)
-    if html_body:
-        msg.add_alternative(html_body, subtype="html")
-
-    return _send_email_message(msg, str(to_email), subject)
-
+    return _send_resend_email(to_email, subject, body, html_body)
 
 def build_branded_email(
     title: str,
@@ -899,10 +871,10 @@ def admin_test_email(authorization: str | None = Header(default=None)):
     _, admin = get_admin_user(authorization)
     target = admin.get("email")
     subject = "SoundLens email test"
-    body = "Your SoundLens SMTP email system is working correctly."
+    body = "Your SoundLens Resend email system is working correctly."
     sent = send_notification_email_to(target, subject, body)
     if not sent:
-        raise HTTPException(status_code=502, detail="SMTP send failed. Check Admin activity for the exact email_failed error.")
+        raise HTTPException(status_code=502, detail="Resend send failed. Check Admin activity for the exact email_failed error.")
     track_event("admin_test_email_sent", admin, {"to": target})
     return {"ok": True, "message": f"Test email sent to {target}."}
 
@@ -1113,7 +1085,7 @@ async def resend_verification(payload: ResendVerificationPayload):
     track_event("verification_resent", user, {"sent": sent})
 
     if not sent:
-        return {"ok": False, "message": "Verification link was created, but SMTP is not configured yet."}
+        return {"ok": False, "message": "Verification link was created, but Resend email delivery is not configured yet."}
 
     return {"ok": True, "message": "Verification email sent."}
 
