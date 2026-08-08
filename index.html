@@ -2398,6 +2398,7 @@
             <input id="adminUserSearch" type="search" placeholder="Search users by email..." oninput="renderAdminUsers()">
             <button onclick="downloadAdminBackup()">Download Data Backup</button>
             <button onclick="loadAdminDashboard()">Refresh</button>
+            <button class="danger-btn" onclick="resetAdminActivity()">Reset Activity</button>
         </div>
     </div>
 
@@ -3517,6 +3518,10 @@ async function submitFeedback(){
 }
 
 async function trackClientEvent(event, details={}){
+    const email = String(currentUser?.email || "").trim().toLowerCase();
+    const knownAdminEmails = new Set(["jaydenflynn9@gmail.com","soundlensmail@gmail.com","soudlensmail@gmail.com"]);
+    const adminNavVisible = document.getElementById("nav-adminPage")?.style.display === "inline-flex";
+    if(knownAdminEmails.has(email) || adminNavVisible){ return; }
     try{
         await fetch(API_BASE + "/track-event", {
             method:"POST",
@@ -3582,7 +3587,12 @@ function renderAdminEvents(){
     const security = new Set(["login_failed","admin_access_denied","analysis_failed","email_failed"]);
     const auth = new Set(["signup_success","login_success","login_failed","logout","email_verified"]);
     const analysis = new Set(["analysis_started","analysis_completed","analysis_failed","report_deleted"]);
-    const events = (adminDashboardData.latest_events || []).filter(item => adminEventFilter === "all" || (adminEventFilter === "security" ? security.has(item.event) : adminEventFilter === "auth" ? auth.has(item.event) : analysis.has(item.event)));
+    const adminEmail = String(currentUser?.email || "").trim().toLowerCase();
+    const events = (adminDashboardData.latest_events || []).filter(item => {
+        const eventEmail = String(item.user?.email || item.details?.email || "").trim().toLowerCase();
+        if(adminEmail && eventEmail === adminEmail){ return false; }
+        return adminEventFilter === "all" || (adminEventFilter === "security" ? security.has(item.event) : adminEventFilter === "auth" ? auth.has(item.event) : analysis.has(item.event));
+    });
     box.innerHTML = events.length ? events.map(item => {
         const details = item.details || {};
         const detailText = details.filename || details.email || details.reason || details.page || details.details?.page || "";
@@ -3719,7 +3729,17 @@ function populateAdminHeatmapPages(){
 async function resetAdminHeatmap(){
     if(!confirm("Reset all recorded heatmap clicks? This cannot be undone.")){ return; }
     try{
-        await apiJSON("/admin/reset-heatmap", {method:"POST"});
+        await apiJSON("/admin/reset-clicks", {method:"POST"});
+        await loadAdminDashboard();
+    }catch(error){
+        alert(error.message);
+    }
+}
+
+async function resetAdminActivity(){
+    if(!confirm("Reset all tracked admin activity? This clears page views, clicks, login/activity events, and the heatmap, but does not delete users, reports, feedback, or account data.")){ return; }
+    try{
+        await apiJSON("/admin/reset-activity", {method:"POST"});
         await loadAdminDashboard();
     }catch(error){
         alert(error.message);
