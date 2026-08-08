@@ -1557,7 +1557,9 @@ def home():
 
 def save_upload(file: UploadFile) -> Path:
     safe_name = Path(file.filename or "uploaded_audio.wav").name
-    file_path = UPLOADS_DIR / safe_name
+    original = Path(safe_name)
+    unique_name = f"{original.stem}_{uuid.uuid4().hex}{original.suffix.lower()}"
+    file_path = UPLOADS_DIR / unique_name
 
     with file_path.open("wb") as buffer:
         shutil.copyfileobj(file.file, buffer)

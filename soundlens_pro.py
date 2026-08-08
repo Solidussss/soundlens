@@ -27,6 +27,8 @@ import json
 import math
 import sys
 import subprocess
+import shutil
+import tempfile
 import threading
 import time
 from dataclasses import asdict, dataclass, field
@@ -38,7 +40,7 @@ import numpy as np
 
 EPSILON = 1e-9
 NOTES_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-SUPPORTED_EXTENSIONS = {".wav", ".mp3", ".flac", ".m4a", ".aac", ".ogg"}
+SUPPORTED_EXTENSIONS = {".wav", ".mp3", ".flac", ".m4a", ".aac", ".ogg", ".aiff", ".aif"}
 
 # Krumhansl-Schmuckler style key profiles. They are not perfect, but they are
 # much better than simply picking the loudest chroma note and calling it minor.
@@ -248,19 +250,76 @@ def score_label(score: float) -> str:
     return "Weak"
 
 
+def _ffmpeg_executable() -> Optional[str]:
+    """Find system FFmpeg or the binary bundled by imageio-ffmpeg."""
+    system_ffmpeg = shutil.which("ffmpeg")
+    if system_ffmpeg:
+        return system_ffmpeg
+    try:
+        import imageio_ffmpeg
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception:
+        return None
+
+
+def _decode_with_ffmpeg(audio_file: Path) -> Tuple[np.ndarray, int]:
+    """Decode a supported file to a temporary WAV used only for analysis."""
+    ffmpeg = _ffmpeg_executable()
+    if not ffmpeg:
+        raise RuntimeError("This audio format needs FFmpeg, but FFmpeg is unavailable on the server.")
+
+    temp_name = None
+    try:
+        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+            temp_name = tmp.name
+
+        completed = subprocess.run(
+            [ffmpeg, "-v", "error", "-y", "-i", str(audio_file),
+             "-vn", "-ac", "1", "-c:a", "pcm_f32le", temp_name],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=180,
+        )
+        if completed.returncode != 0:
+            detail = (completed.stderr or "FFmpeg could not decode the file.").strip()
+            raise ValueError(f"Could not decode audio file: {detail[-800:]}")
+
+        y, sr = librosa.load(temp_name, mono=True, sr=None)
+        return np.asarray(y, dtype=np.float32), int(sr)
+    finally:
+        if temp_name:
+            Path(temp_name).unlink(missing_ok=True)
+
+
 def load_audio(audio_file: Path) -> Tuple[np.ndarray, int]:
     if not audio_file.exists():
         raise FileNotFoundError(f"File not found: {audio_file}")
-    if audio_file.suffix.lower() not in SUPPORTED_EXTENSIONS:
-        print(f"Warning: {audio_file.suffix} is not in the common supported list, but SoundLens will try to load it.")
-    y, sr = librosa.load(audio_file, mono=True, sr=None)
+
+    suffix = audio_file.suffix.lower()
+    if suffix not in SUPPORTED_EXTENSIONS:
+        raise ValueError(
+            f"Unsupported audio format '{suffix or 'unknown'}'. "
+            "SoundLens supports WAV, MP3, FLAC, M4A, AAC, OGG, AIFF and AIF."
+        )
+
+    try:
+        y, sr = librosa.load(audio_file, mono=True, sr=None)
+        y = np.asarray(y, dtype=np.float32)
+    except Exception as primary_error:
+        print(f"Primary decoder failed for {audio_file.name}: {primary_error}")
+        y, sr = _decode_with_ffmpeg(audio_file)
+
     if y.size == 0:
         raise ValueError("Audio file loaded empty.")
-    # Remove DC offset and normalize only for analysis stability, not for loudness numbers.
+    if not np.all(np.isfinite(y)):
+        y = np.nan_to_num(y, nan=0.0, posinf=0.0, neginf=0.0).astype(np.float32)
+    if float(np.max(np.abs(y))) <= EPSILON:
+        raise ValueError("Audio file contains no audible signal.")
+
     y = y.astype(np.float32)
     y = y - float(np.mean(y))
-    return y, sr
-
+    return y, int(sr)
 
 def memory_safe_audio(y: np.ndarray, sr: int, target_sr: int = 22050, max_seconds: int = 120) -> Tuple[np.ndarray, int]:
     """Downsample and trim an analysis-only copy so Railway does not run out of RAM."""
