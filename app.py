@@ -1293,6 +1293,50 @@ async def admin_stats(authorization: str | None = Header(default=None)):
     }
 
 
+
+@app.post("/admin/reset-analytics")
+def admin_reset_analytics(payload: dict, authorization: str | None = Header(default=None)):
+    _, admin = get_admin_user(authorization)
+
+    mode = str(payload.get("mode", "activity")).strip().lower()
+    events = read_json_file(ADMIN_EVENTS_PATH, [])
+    if not isinstance(events, list):
+        events = []
+
+    create_data_backup()
+
+    if mode == "clicks":
+        kept = [event for event in events if event.get("event") != "ui_click"]
+        removed = len(events) - len(kept)
+        write_json_file(ADMIN_EVENTS_PATH, kept)
+        return {
+            "ok": True,
+            "removed": removed,
+            "message": f"Reset {removed} tracked click event(s)."
+        }
+
+    if mode == "activity":
+        removed = len(events)
+        write_json_file(ADMIN_EVENTS_PATH, [])
+        return {
+            "ok": True,
+            "removed": removed,
+            "message": "Admin activity history reset."
+        }
+
+    raise HTTPException(status_code=400, detail="Unknown reset mode.")
+
+
+@app.post("/admin/reset-clicks")
+def admin_reset_clicks(authorization: str | None = Header(default=None)):
+    return admin_reset_analytics({"mode": "clicks"}, authorization)
+
+
+@app.post("/admin/reset-activity")
+def admin_reset_activity(authorization: str | None = Header(default=None)):
+    return admin_reset_analytics({"mode": "activity"}, authorization)
+
+
 @app.get("/admin/export-data")
 def admin_export_data(authorization: str | None = Header(default=None)):
     _, admin = get_admin_user(authorization)
