@@ -1302,321 +1302,173 @@ def calculate_scores(
     rhythm: RhythmInfo,
     sections: List[ArrangementSection],
 ) -> Scores:
-    """Calculate evidence-based SoundLens scores with a wider useful spread.
-
-    Mix and Arrangement used to saturate because broad "normal" ranges stacked
-    large bonuses on top of already-high baselines. This version treats normal
-    values as competent, reserves 90+ for multiple strong signals, and applies
-    stronger penalties when measurements are clearly outside useful ranges.
-
-    Public/report field names remain unchanged.
-    """
+    """Measurement-driven scoring with continuous evidence instead of broad buckets."""
     bands = frequency.band_percentages
     style = STYLE_PRESETS[DEFAULT_STYLE]
 
-    primary_values = [
+    primary_values = np.array([
         bands["Sub"], bands["Bass / 808"], bands["Mud"], bands["Low Mids"],
         bands["Mids / Melody"], bands["Highs"], bands["Air"],
-    ]
+    ], dtype=float)
     primary_average = float(np.mean(primary_values))
-    mud_excess = bands["Mud"] - primary_average
+    mud_excess = float(bands["Mud"] - primary_average)
 
-    meaningful_clipping = loudness.clipping_percent >= 0.01
-    heavy_clipping = loudness.clipping_percent >= 0.10
+    def closeness(value: float, center: float, soft_radius: float, hard_radius: float) -> float:
+        distance = abs(float(value) - float(center))
+        if distance <= soft_radius:
+            return 1.0 - 0.25 * (distance / max(soft_radius, EPSILON))
+        if distance <= hard_radius:
+            return 0.75 * (1.0 - (distance - soft_radius) / max(hard_radius - soft_radius, EPSILON))
+        overshoot = min((distance - hard_radius) / max(hard_radius, EPSILON), 1.0)
+        return -0.35 * overshoot
 
-    # ---------------- MIX ----------------
-    # 66 = competent/neutral. Frequency balance can build a strong score, but it
-    # cannot by itself force every polished master into the mid-90s. Audible
-    # integrity (clipping/dynamics) also matters to the public Mix score.
-    mix_score = 66.0
+    def range_fit(value: float, low: float, high: float, outer_low: float, outer_high: float) -> float:
+        v = float(value)
+        if low <= v <= high:
+            center = (low + high) / 2.0
+            half = max((high - low) / 2.0, EPSILON)
+            return 1.0 - 0.15 * abs(v - center) / half
+        if outer_low <= v < low:
+            return (v - outer_low) / max(low - outer_low, EPSILON)
+        if high < v <= outer_high:
+            return (outer_high - v) / max(outer_high - high, EPSILON)
+        if v < outer_low:
+            return -min((outer_low - v) / max(abs(outer_low), 1.0), 1.0)
+        return -min((v - outer_high) / max(abs(outer_high), 1.0), 1.0)
 
-    bass_808 = bands["Bass / 808"]
-    low_end = frequency.low_end_total_percent
-    highs = bands["Highs"]
-    harsh = bands["Harsh Zone"]
-    low_mids = bands["Low Mids"]
-    mids = bands["Mids / Melody"]
-    mud = bands["Mud"]
+    # MIX: many continuous measurements must agree before the score can move a lot.
+    bass_808 = float(bands["Bass / 808"])
+    low_end = float(frequency.low_end_total_percent)
+    mud = float(bands["Mud"])
+    low_mids = float(bands["Low Mids"])
+    mids = float(bands["Mids / Melody"])
+    highs = float(bands["Highs"])
+    harsh = float(bands["Harsh Zone"])
+    mid_total = float(frequency.mid_total_percent)
+    top_total = float(frequency.top_total_percent)
 
-    # Low end.
-    if 14.0 <= bass_808 <= 22.0:
-        mix_score += 3
-    elif 11.0 <= bass_808 <= 28.0:
-        mix_score += 1
-    elif 8.0 <= bass_808 <= 38.0:
-        mix_score -= 2
+    mix_components = {
+        "bass_808": range_fit(bass_808, 13.0, 22.0, 7.0, 40.0),
+        "low_end": range_fit(low_end, 25.0, 42.0, 15.0, 62.0),
+        "mud": range_fit(mud, 9.0, 14.5, 5.0, 21.0),
+        "low_mids": range_fit(low_mids, 10.0, 19.0, 5.0, 28.0),
+        "mids": range_fit(mids, 11.0, 23.0, 6.0, 34.0),
+        "highs": range_fit(highs, 9.0, 21.0, 4.0, 40.0),
+        "harsh": range_fit(harsh, 8.0, 15.0, 5.0, 24.0),
+        "mid_total": range_fit(mid_total, 30.0, 48.0, 20.0, 60.0),
+        "top_total": range_fit(top_total, 17.0, 32.0, 8.0, 43.0),
+        "mud_excess": closeness(mud_excess, 0.0, 1.5, 5.0),
+    }
+    mix_weights = {
+        "bass_808": 0.13, "low_end": 0.13, "mud": 0.12, "low_mids": 0.08,
+        "mids": 0.10, "highs": 0.09, "harsh": 0.11, "mid_total": 0.08,
+        "top_total": 0.08, "mud_excess": 0.08,
+    }
+    spectral_quality = sum(mix_components[k] * mix_weights[k] for k in mix_weights)
+    dynamic_fit = range_fit(float(loudness.dynamic_range_db), 6.0, 14.5, 3.0, 21.0)
+    rms_fit = range_fit(float(loudness.rms_db), style["rms_min"], style["rms_max"], style["rms_min"] - 5.0, style["rms_max"] + 4.0)
+
+    clip = float(loudness.clipping_percent)
+    if clip <= 0.002:
+        clipping_fit = 1.0
+    elif clip <= 0.01:
+        clipping_fit = 0.75
+    elif clip <= 0.05:
+        clipping_fit = 0.35
+    elif clip <= 0.10:
+        clipping_fit = 0.0
+    elif clip <= 0.25:
+        clipping_fit = -0.45
     else:
-        mix_score -= 9
+        clipping_fit = -0.85
 
-    if 27.0 <= low_end <= 42.0:
-        mix_score += 2
-    elif 22.0 <= low_end <= 52.0:
-        mix_score += 0
-    elif 17.0 <= low_end <= 62.0:
-        mix_score -= 3
-    else:
-        mix_score -= 8
+    technical_quality = spectral_quality * 0.72 + dynamic_fit * 0.14 + rms_fit * 0.06 + clipping_fit * 0.08
+    mix_score = 63.0 + technical_quality * 27.0
+    strong_count = sum(1 for v in mix_components.values() if v >= 0.75)
+    weak_count = sum(1 for v in mix_components.values() if v < 0.20)
+    if strong_count >= 8 and weak_count == 0 and dynamic_fit >= 0.65 and clipping_fit >= 0.35:
+        mix_score += 4.0
+    elif strong_count <= 4:
+        mix_score -= 4.0
+    if weak_count >= 3:
+        mix_score -= min(9.0, 2.5 * weak_count)
 
-    # Mud / mids.
-    if mud <= 14.0 and mud_excess <= 0.8:
-        mix_score += 3
-    elif mud <= 16.0 and mud_excess <= 1.8:
-        mix_score += 1
-    elif mud > 20.0 or mud_excess > 4.0:
-        mix_score -= 10
-    elif mud > 17.5 or mud_excess > 2.5:
-        mix_score -= 5
-    else:
-        mix_score -= 1
+    master_quality = dynamic_fit * 0.42 + rms_fit * 0.33 + clipping_fit * 0.25
+    master_score = 65.0 + master_quality * 27.0
 
-    if 11.0 <= low_mids <= 18.5:
-        mix_score += 2
-    elif 8.0 <= low_mids <= 22.0:
-        mix_score += 0
-    elif low_mids > 27.0 or low_mids < 5.0:
-        mix_score -= 6
-    else:
-        mix_score -= 2
-
-    if 12.0 <= mids <= 21.0:
-        mix_score += 2
-    elif 9.0 <= mids <= 27.0:
-        mix_score += 0
-    elif mids < 6.0 or mids > 34.0:
-        mix_score -= 6
-    else:
-        mix_score -= 2
-
-    # Top end.
-    if 10.0 <= highs <= 20.0:
-        mix_score += 2
-    elif 7.0 <= highs <= 28.0:
-        mix_score += 0
-    elif highs < 5.0 or highs > 40.0:
-        mix_score -= 8
-    else:
-        mix_score -= 3
-
-    if harsh <= 14.5:
-        mix_score += 2
-    elif harsh <= 17.5:
-        mix_score += 0
-    elif harsh > 23.0:
-        mix_score -= 9
-    elif harsh > 19.0:
-        mix_score -= 5
-    else:
-        mix_score -= 2
-
-    # Whole-spectrum checks.
-    if 31.0 <= frequency.mid_total_percent <= 48.0:
-        mix_score += 1
-    elif frequency.mid_total_percent < 22.0 or frequency.mid_total_percent > 60.0:
-        mix_score -= 6
-
-    if 18.0 <= frequency.top_total_percent <= 32.0:
-        mix_score += 1
-    elif frequency.top_total_percent < 9.0 or frequency.top_total_percent > 43.0:
-        mix_score -= 6
-
-    strong_mix_checks = sum([
-        14.0 <= bass_808 <= 22.0,
-        27.0 <= low_end <= 42.0,
-        mud <= 14.0 and mud_excess <= 0.8,
-        11.0 <= low_mids <= 18.5,
-        12.0 <= mids <= 21.0,
-        10.0 <= highs <= 20.0,
-        harsh <= 14.5,
-        31.0 <= frequency.mid_total_percent <= 48.0,
-        18.0 <= frequency.top_total_percent <= 32.0,
-    ])
-    if strong_mix_checks >= 8:
-        mix_score += 2
-    elif strong_mix_checks <= 3:
-        mix_score -= 4
-
-    # Public mix quality should react to damaged/over-compressed exports too.
-    # These are deliberately smaller than the separate hidden Master penalties.
-    if heavy_clipping:
-        mix_score -= 6
-    elif meaningful_clipping:
-        mix_score -= 2
-    else:
-        mix_score += 2
-
-    if 6.0 <= loudness.dynamic_range_db <= 14.5:
-        mix_score += 3
-    elif loudness.dynamic_range_db < 4.0:
-        mix_score -= 7
-    elif loudness.dynamic_range_db < 6.0:
-        mix_score -= 3
-    elif loudness.dynamic_range_db > 20.0:
-        mix_score -= 4
-
-    if style["rms_min"] <= loudness.rms_db <= style["rms_max"]:
-        mix_score += 1
-    elif loudness.rms_db < style["rms_min"] - 4 or loudness.rms_db > style["rms_max"] + 3:
-        mix_score -= 3
-
-    # MASTER remains in JSON for compatibility, but is not shown publicly.
-    master_score = 76.0
-    if style["rms_min"] <= loudness.rms_db <= style["rms_max"]:
-        master_score += 8
-    elif loudness.rms_db < style["rms_min"] - 3 or loudness.rms_db > style["rms_max"] + 2:
-        master_score -= 10
-    else:
-        master_score -= 3
-
-    if 6.0 <= loudness.dynamic_range_db <= 14.5:
-        master_score += 7
-    elif loudness.dynamic_range_db < 4.0 or loudness.dynamic_range_db > 20:
-        master_score -= 10
-    else:
-        master_score -= 3
-
-    if heavy_clipping:
-        master_score -= 12
-    elif meaningful_clipping:
-        master_score -= 4
-    else:
-        master_score += 3
-
-    # ---------------- ARRANGEMENT ----------------
-    # Structure should not get a huge score merely for being normal length or
-    # containing 5-7 detected sections. Contrast and movement carry more weight.
-    arrangement_score = 63.0
+    # ARRANGEMENT: score quality only as strongly as SoundLens trusts its own section map.
     section_count = len(sections)
-
+    energies = np.array([float(s.avg_energy) for s in sections], dtype=float) if sections else np.array([])
+    lengths = np.array([max(0.0, float(s.end - s.start)) for s in sections], dtype=float) if sections else np.array([])
+    confidence_parts = []
     if 4 <= section_count <= 8:
-        arrangement_score += 3
+        confidence_parts.append(0.95)
     elif section_count == 3 or section_count == 9:
-        arrangement_score -= 1
-    elif section_count <= 2:
-        arrangement_score -= 14
-    elif section_count > 10:
-        arrangement_score -= min(13, (section_count - 10) * 3 + 4)
+        confidence_parts.append(0.70)
+    elif section_count in (1, 2) or section_count > 10:
+        confidence_parts.append(0.35)
+    else:
+        confidence_parts.append(0.55)
 
-    # Duration is a pacing sanity check, not a major quality bonus.
-    if 85 <= duration <= 230:
-        arrangement_score += 2
-    elif 65 <= duration < 85 or 230 < duration <= 280:
-        arrangement_score += 0
-    elif duration < 45:
-        arrangement_score -= 15
-    elif duration < 65:
-        arrangement_score -= 7
-    elif duration > 330:
-        arrangement_score -= 8
+    if lengths.size >= 2 and float(np.mean(lengths)) > EPSILON:
+        length_cv = float(np.std(lengths) / (np.mean(lengths) + EPSILON))
+        confidence_parts.append(0.90 if 0.10 <= length_cv <= 0.45 else 0.70 if 0.05 <= length_cv < 0.10 or 0.45 < length_cv <= 0.70 else 0.45)
+    else:
+        length_cv = 0.0
+        confidence_parts.append(0.35)
 
-    energies = np.array([s.avg_energy for s in sections], dtype=float) if sections else np.array([])
-    energy_cv = None
     if energies.size >= 2 and float(np.mean(energies)) > EPSILON:
         energy_cv = float(np.std(energies) / (np.mean(energies) + EPSILON))
-        if 0.12 <= energy_cv <= 0.30:
-            arrangement_score += 10
-        elif 0.08 <= energy_cv < 0.12 or 0.30 < energy_cv <= 0.40:
-            arrangement_score += 5
-        elif 0.05 <= energy_cv < 0.08:
-            arrangement_score += 1
-        elif energy_cv < 0.035:
-            arrangement_score -= 12
-        elif energy_cv < 0.05:
-            arrangement_score -= 6
-        elif energy_cv > 0.55:
-            arrangement_score -= 8
-        elif energy_cv > 0.45:
-            arrangement_score -= 3
+        confidence_parts.append(0.95 if 0.08 <= energy_cv <= 0.40 else 0.70 if 0.04 <= energy_cv < 0.08 or 0.40 < energy_cv <= 0.55 else 0.40)
+    else:
+        energy_cv = 0.0
+        confidence_parts.append(0.35)
+
+    repeated_indices = [i for i, sec in enumerate(sections) if "Likely Hook" in sec.name or "Chorus" in sec.name]
+    peak_indices = [i for i, sec in enumerate(sections) if sec.name == "Peak Section"]
+    confidence_parts.append(0.95 if len(repeated_indices) >= 2 else 0.75 if len(repeated_indices) == 1 or len(peak_indices) >= 1 else 0.55)
+    structure_confidence = float(np.mean(confidence_parts)) if confidence_parts else 0.35
+
+    energy_quality = range_fit(energy_cv, 0.10, 0.30, 0.03, 0.58) if energies.size >= 2 else 0.0
+    pacing_quality = range_fit(length_cv, 0.10, 0.38, 0.02, 0.75) if lengths.size >= 2 else 0.0
+    repeated_quality = 1.0 if len(repeated_indices) >= 2 else 0.55 if len(repeated_indices) == 1 else 0.30 if len(peak_indices) >= 1 else 0.0
 
     hook_energies = [s.avg_energy for s in sections if "Hook" in s.name or "Chorus" in s.name]
-    main_energies = [
-        s.avg_energy for s in sections
-        if s.name in {"Main Section", "Peak Section"}
-        and "Hook" not in s.name and "Chorus" not in s.name
-    ]
-
-    structural_evidence = 0
-
+    main_energies = [s.avg_energy for s in sections if s.name in {"Main Section", "Peak Section"} and "Hook" not in s.name and "Chorus" not in s.name]
+    contrast_quality = 0.0
     if hook_energies and main_energies:
         contrast_ratio = float(np.mean(hook_energies)) / max(float(np.mean(main_energies)), EPSILON)
-        if 1.08 <= contrast_ratio <= 1.38:
-            arrangement_score += 8
-            structural_evidence += 2
-        elif 1.03 <= contrast_ratio < 1.08 or 1.38 < contrast_ratio <= 1.55:
-            arrangement_score += 3
-            structural_evidence += 1
-        elif contrast_ratio < 0.97:
-            arrangement_score -= 7
-        elif contrast_ratio > 1.75:
-            arrangement_score -= 4
-    else:
-        non_edge = [sec.avg_energy for sec in sections[1:-1]] if len(sections) > 2 else []
-        if len(non_edge) >= 2:
-            movement = float(np.std(non_edge) / (np.mean(non_edge) + EPSILON))
-            if movement >= 0.10:
-                arrangement_score += 5
-                structural_evidence += 1
-            elif movement >= 0.06:
-                arrangement_score += 2
-            elif movement < 0.025:
-                arrangement_score -= 5
+        contrast_quality = range_fit(contrast_ratio, 1.05, 1.38, 0.90, 1.75)
+    elif energies.size >= 3:
+        interior = energies[1:-1]
+        if interior.size >= 2 and float(np.mean(interior)) > EPSILON:
+            movement = float(np.std(interior) / (np.mean(interior) + EPSILON))
+            contrast_quality = range_fit(movement, 0.07, 0.22, 0.015, 0.50)
 
-    # Repeated sections are meaningful structural evidence, but not an automatic 90.
-    repeated_count = sum(
-        1 for sec in sections
-        if "Likely Hook" in sec.name or "Chorus" in sec.name
-    )
-    peak_count = sum(1 for sec in sections if sec.name == "Peak Section")
-    if repeated_count >= 2:
-        arrangement_score += 5
-        structural_evidence += 2
-    elif repeated_count == 1:
-        arrangement_score += 2
-        structural_evidence += 1
-    elif peak_count >= 1:
-        arrangement_score += 1
-
+    edge_quality = 0.5
     if sections:
-        intro_length = sections[0].end - sections[0].start
-        if 5 <= intro_length <= 18:
-            arrangement_score += 2
-        elif intro_length > 34:
-            arrangement_score -= 7
-
+        intro_len = float(sections[0].end - sections[0].start)
+        intro_fit = range_fit(intro_len, 5.0, 18.0, 0.0, 36.0)
         last = sections[-1]
-        outro_length = last.end - last.start
-        if last.name == "Outro" and 4 <= outro_length <= 22:
-            arrangement_score += 1
-        elif outro_length > 42:
-            arrangement_score -= 5
+        outro_len = float(last.end - last.start)
+        outro_fit = range_fit(outro_len, 4.0, 22.0, 0.0, 45.0) if last.name == "Outro" else 0.25
+        edge_quality = intro_fit * 0.60 + outro_fit * 0.40
 
-        # Very uniform section lengths can be valid, but when combined with weak
-        # energy movement they are less convincing evidence of a dynamic arrangement.
-        lengths = np.array([max(0.0, s.end - s.start) for s in sections], dtype=float)
-        if lengths.size >= 4 and float(np.mean(lengths)) > EPSILON:
-            length_cv = float(np.std(lengths) / (np.mean(lengths) + EPSILON))
-            if length_cv >= 0.18:
-                arrangement_score += 2
-            elif length_cv < 0.06 and (energy_cv is None or energy_cv < 0.08):
-                arrangement_score -= 3
+    onset_fit = range_fit(float(rhythm.onset_density), 1.4, 5.8, 0.45, 8.5)
+    arrangement_quality = energy_quality * 0.28 + pacing_quality * 0.18 + repeated_quality * 0.16 + contrast_quality * 0.18 + edge_quality * 0.08 + onset_fit * 0.12
+    raw_arrangement = 60.0 + arrangement_quality * 31.0
+    neutral = 72.0
+    arrangement_score = neutral + (raw_arrangement - neutral) * structure_confidence
+    if arrangement_quality >= 0.82 and structure_confidence >= 0.82:
+        arrangement_score += 3.0
+    if structure_confidence < 0.50:
+        arrangement_score = neutral + (arrangement_score - neutral) * 0.55
 
-    if 1.4 <= rhythm.onset_density <= 5.8:
-        arrangement_score += 2
-    elif rhythm.onset_density > 8.5 or rhythm.onset_density < 0.45:
-        arrangement_score -= 7
-
-    # Exceptional arrangement scores require multiple independent structural signals.
-    if structural_evidence >= 4 and energy_cv is not None and 0.10 <= energy_cv <= 0.38:
-        arrangement_score += 4
-    elif structural_evidence == 0 and energy_cv is not None and energy_cv < 0.08:
-        arrangement_score -= 4
-
-    # Keep the public range familiar, but make the ceiling difficult to reach.
-    mix_score = int(round(clamp(mix_score, 35, 95)))
+    mix_score = int(round(clamp(mix_score, 35, 96)))
     master_score = int(round(clamp(master_score, 35, 96)))
-    arrangement_score = int(round(clamp(arrangement_score, 30, 95)))
+    arrangement_score = int(round(clamp(arrangement_score, 35, 96)))
 
     release_score = (mix_score * 0.58) + (arrangement_score * 0.42)
-
     weakest_public_score = min(mix_score, arrangement_score)
     if weakest_public_score < 60:
         release_score = min(release_score, weakest_public_score + 8)
@@ -1624,7 +1476,6 @@ def calculate_scores(
         release_score = min(release_score, weakest_public_score + 10)
     elif weakest_public_score < 80:
         release_score = min(release_score, weakest_public_score + 12)
-
     release_score = int(round(clamp(release_score, 30, 95)))
 
     energy_score = clamp((loudness.rms_db + 24.0) / 1.6, 0, 10)
@@ -1632,23 +1483,12 @@ def calculate_scores(
     brightness_score = clamp(frequency.brightness_centroid_hz / 500, 0, 10)
     darkness_score = clamp(10 - brightness_score, 0, 10)
     drum_bounce = clamp((rhythm.onset_density - 0.5) * 1.35, 0, 10)
-    vocal_space = clamp(
-        10 - max(0.0, mud_excess) * 1.5 - max(0.0, bands["Low Mids"] - 17.0) * 0.5,
-        0,
-        10,
-    )
+    vocal_space = clamp(10 - max(0.0, mud_excess) * 1.5 - max(0.0, bands["Low Mids"] - 17.0) * 0.5, 0, 10)
 
     return Scores(
-        mix=mix_score,
-        master=master_score,
-        arrangement=arrangement_score,
-        release=release_score,
-        energy=energy_score,
-        bass_strength=bass_strength,
-        darkness=darkness_score,
-        brightness=brightness_score,
-        drum_bounce=drum_bounce,
-        vocal_space=vocal_space,
+        mix=mix_score, master=master_score, arrangement=arrangement_score, release=release_score,
+        energy=energy_score, bass_strength=bass_strength, darkness=darkness_score,
+        brightness=brightness_score, drum_bounce=drum_bounce, vocal_space=vocal_space,
     )
 
 def build_feedback(
