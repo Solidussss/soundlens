@@ -1302,13 +1302,14 @@ def calculate_scores(
     rhythm: RhythmInfo,
     sections: List[ArrangementSection],
 ) -> Scores:
-    """Calculate stricter, evidence-based SoundLens scores.
+    """Calculate evidence-based SoundLens scores with a wider useful spread.
 
-    The previous version started Mix at 100 and only removed a few points, so
-    almost every professionally released song landed at 97-100. This version
-    starts from a realistic baseline and rewards measurable strengths while
-    applying graduated penalties. The report shape and AI integration stay the
-    same; only the numeric scoring curve changes.
+    Mix and Arrangement used to saturate because broad "normal" ranges stacked
+    large bonuses on top of already-high baselines. This version treats normal
+    values as competent, reserves 90+ for multiple strong signals, and applies
+    stronger penalties when measurements are clearly outside useful ranges.
+
+    Public/report field names remain unchanged.
     """
     bands = frequency.band_percentages
     style = STYLE_PRESETS[DEFAULT_STYLE]
@@ -1323,9 +1324,11 @@ def calculate_scores(
     meaningful_clipping = loudness.clipping_percent >= 0.01
     heavy_clipping = loudness.clipping_percent >= 0.10
 
-    # MIX: 75 is a competent baseline. 90+ now requires several independent
-    # strengths instead of simply avoiding obvious problems.
-    mix_score = 75.0
+    # ---------------- MIX ----------------
+    # 66 = competent/neutral. Frequency balance can build a strong score, but it
+    # cannot by itself force every polished master into the mid-90s. Audible
+    # integrity (clipping/dynamics) also matters to the public Mix score.
+    mix_score = 66.0
 
     bass_808 = bands["Bass / 808"]
     low_end = frequency.low_end_total_percent
@@ -1333,62 +1336,127 @@ def calculate_scores(
     harsh = bands["Harsh Zone"]
     low_mids = bands["Low Mids"]
     mids = bands["Mids / Melody"]
+    mud = bands["Mud"]
 
-    # Low-end balance.
-    if 14 <= bass_808 <= 34:
-        mix_score += 5
-    elif 9 <= bass_808 < 14 or 34 < bass_808 <= 44:
+    # Low end.
+    if 14.0 <= bass_808 <= 22.0:
+        mix_score += 3
+    elif 11.0 <= bass_808 <= 28.0:
         mix_score += 1
-    elif bass_808 < 7 or bass_808 > 54:
-        mix_score -= 10
+    elif 8.0 <= bass_808 <= 38.0:
+        mix_score -= 2
     else:
-        mix_score -= 4
-
-    if 24 <= low_end <= 55:
-        mix_score += 4
-    elif low_end < 16 or low_end > 68:
         mix_score -= 9
-    elif low_end < 21 or low_end > 61:
-        mix_score -= 4
 
-    # Midrange clarity and vocal room.
-    if bands["Mud"] <= 15.5 and mud_excess <= 1.5:
-        mix_score += 4
-    elif bands["Mud"] > 20 or mud_excess > 4.0:
-        mix_score -= 10
-    elif bands["Mud"] > 17 or mud_excess > 2.0:
-        mix_score -= 5
-
-    if 8 <= low_mids <= 20:
+    if 27.0 <= low_end <= 42.0:
         mix_score += 2
-    elif low_mids > 25:
+    elif 22.0 <= low_end <= 52.0:
+        mix_score += 0
+    elif 17.0 <= low_end <= 62.0:
+        mix_score -= 3
+    else:
+        mix_score -= 8
+
+    # Mud / mids.
+    if mud <= 14.0 and mud_excess <= 0.8:
+        mix_score += 3
+    elif mud <= 16.0 and mud_excess <= 1.8:
+        mix_score += 1
+    elif mud > 20.0 or mud_excess > 4.0:
+        mix_score -= 10
+    elif mud > 17.5 or mud_excess > 2.5:
+        mix_score -= 5
+    else:
+        mix_score -= 1
+
+    if 11.0 <= low_mids <= 18.5:
+        mix_score += 2
+    elif 8.0 <= low_mids <= 22.0:
+        mix_score += 0
+    elif low_mids > 27.0 or low_mids < 5.0:
+        mix_score -= 6
+    else:
+        mix_score -= 2
+
+    if 12.0 <= mids <= 21.0:
+        mix_score += 2
+    elif 9.0 <= mids <= 27.0:
+        mix_score += 0
+    elif mids < 6.0 or mids > 34.0:
+        mix_score -= 6
+    else:
+        mix_score -= 2
+
+    # Top end.
+    if 10.0 <= highs <= 20.0:
+        mix_score += 2
+    elif 7.0 <= highs <= 28.0:
+        mix_score += 0
+    elif highs < 5.0 or highs > 40.0:
+        mix_score -= 8
+    else:
+        mix_score -= 3
+
+    if harsh <= 14.5:
+        mix_score += 2
+    elif harsh <= 17.5:
+        mix_score += 0
+    elif harsh > 23.0:
+        mix_score -= 9
+    elif harsh > 19.0:
+        mix_score -= 5
+    else:
+        mix_score -= 2
+
+    # Whole-spectrum checks.
+    if 31.0 <= frequency.mid_total_percent <= 48.0:
+        mix_score += 1
+    elif frequency.mid_total_percent < 22.0 or frequency.mid_total_percent > 60.0:
         mix_score -= 6
 
-    if 11 <= mids <= 28:
-        mix_score += 3
-    elif mids < 7:
+    if 18.0 <= frequency.top_total_percent <= 32.0:
+        mix_score += 1
+    elif frequency.top_total_percent < 9.0 or frequency.top_total_percent > 43.0:
         mix_score -= 6
 
-    # Top-end balance.
-    if 9 <= highs <= 28:
-        mix_score += 4
-    elif highs < 5 or highs > 40:
-        mix_score -= 9
-    elif highs < 7 or highs > 34:
+    strong_mix_checks = sum([
+        14.0 <= bass_808 <= 22.0,
+        27.0 <= low_end <= 42.0,
+        mud <= 14.0 and mud_excess <= 0.8,
+        11.0 <= low_mids <= 18.5,
+        12.0 <= mids <= 21.0,
+        10.0 <= highs <= 20.0,
+        harsh <= 14.5,
+        31.0 <= frequency.mid_total_percent <= 48.0,
+        18.0 <= frequency.top_total_percent <= 32.0,
+    ])
+    if strong_mix_checks >= 8:
+        mix_score += 2
+    elif strong_mix_checks <= 3:
         mix_score -= 4
 
-    if harsh <= 16:
+    # Public mix quality should react to damaged/over-compressed exports too.
+    # These are deliberately smaller than the separate hidden Master penalties.
+    if heavy_clipping:
+        mix_score -= 6
+    elif meaningful_clipping:
+        mix_score -= 2
+    else:
+        mix_score += 2
+
+    if 6.0 <= loudness.dynamic_range_db <= 14.5:
         mix_score += 3
-    elif harsh > 23:
-        mix_score -= 9
-    elif harsh > 19:
+    elif loudness.dynamic_range_db < 4.0:
+        mix_score -= 7
+    elif loudness.dynamic_range_db < 6.0:
+        mix_score -= 3
+    elif loudness.dynamic_range_db > 20.0:
         mix_score -= 4
 
-    # A mix only reaches the 90s when the spectrum is genuinely balanced.
-    if frequency.mid_total_percent < 20 or frequency.mid_total_percent > 58:
-        mix_score -= 5
-    if frequency.top_total_percent < 8 or frequency.top_total_percent > 42:
-        mix_score -= 5
+    if style["rms_min"] <= loudness.rms_db <= style["rms_max"]:
+        mix_score += 1
+    elif loudness.rms_db < style["rms_min"] - 4 or loudness.rms_db > style["rms_max"] + 3:
+        mix_score -= 3
 
     # MASTER remains in JSON for compatibility, but is not shown publicly.
     master_score = 76.0
@@ -1413,101 +1481,142 @@ def calculate_scores(
     else:
         master_score += 3
 
-    # ARRANGEMENT: 70 baseline. Structure, contrast, pacing and movement must
-    # earn the score rather than receiving an automatic high-80s result.
-    arrangement_score = 70.0
+    # ---------------- ARRANGEMENT ----------------
+    # Structure should not get a huge score merely for being normal length or
+    # containing 5-7 detected sections. Contrast and movement carry more weight.
+    arrangement_score = 63.0
     section_count = len(sections)
 
-    if 5 <= section_count <= 7:
-        arrangement_score += 8
-    elif section_count == 4 or section_count == 8:
+    if 4 <= section_count <= 8:
         arrangement_score += 3
+    elif section_count == 3 or section_count == 9:
+        arrangement_score -= 1
     elif section_count <= 2:
-        arrangement_score -= 16
-    elif section_count == 3:
-        arrangement_score -= 7
-    elif section_count > 9:
-        arrangement_score -= min(14, (section_count - 9) * 3)
+        arrangement_score -= 14
+    elif section_count > 10:
+        arrangement_score -= min(13, (section_count - 10) * 3 + 4)
 
-    if 95 <= duration <= 210:
-        arrangement_score += 6
-    elif 70 <= duration < 95 or 210 < duration <= 260:
+    # Duration is a pacing sanity check, not a major quality bonus.
+    if 85 <= duration <= 230:
         arrangement_score += 2
+    elif 65 <= duration < 85 or 230 < duration <= 280:
+        arrangement_score += 0
     elif duration < 45:
-        arrangement_score -= 18
-    elif duration < 70:
+        arrangement_score -= 15
+    elif duration < 65:
+        arrangement_score -= 7
+    elif duration > 330:
         arrangement_score -= 8
-    elif duration > 320:
-        arrangement_score -= 9
 
     energies = np.array([s.avg_energy for s in sections], dtype=float) if sections else np.array([])
+    energy_cv = None
     if energies.size >= 2 and float(np.mean(energies)) > EPSILON:
         energy_cv = float(np.std(energies) / (np.mean(energies) + EPSILON))
-        if 0.10 <= energy_cv <= 0.30:
-            arrangement_score += 9
-        elif 0.06 <= energy_cv < 0.10 or 0.30 < energy_cv <= 0.40:
-            arrangement_score += 3
+        if 0.12 <= energy_cv <= 0.30:
+            arrangement_score += 10
+        elif 0.08 <= energy_cv < 0.12 or 0.30 < energy_cv <= 0.40:
+            arrangement_score += 5
+        elif 0.05 <= energy_cv < 0.08:
+            arrangement_score += 1
         elif energy_cv < 0.035:
-            arrangement_score -= 13
-        elif energy_cv < 0.06:
-            arrangement_score -= 7
-        elif energy_cv > 0.52:
-            arrangement_score -= 7
+            arrangement_score -= 12
+        elif energy_cv < 0.05:
+            arrangement_score -= 6
+        elif energy_cv > 0.55:
+            arrangement_score -= 8
+        elif energy_cv > 0.45:
+            arrangement_score -= 3
 
     hook_energies = [s.avg_energy for s in sections if "Hook" in s.name or "Chorus" in s.name]
     main_energies = [
         s.avg_energy for s in sections
-        if s.name in {"Main Section", "Peak Section"} and "Hook" not in s.name and "Chorus" not in s.name
+        if s.name in {"Main Section", "Peak Section"}
+        and "Hook" not in s.name and "Chorus" not in s.name
     ]
+
+    structural_evidence = 0
+
     if hook_energies and main_energies:
         contrast_ratio = float(np.mean(hook_energies)) / max(float(np.mean(main_energies)), EPSILON)
-        if 1.05 <= contrast_ratio <= 1.40:
-            arrangement_score += 7
-        elif 1.00 <= contrast_ratio < 1.05 or 1.40 < contrast_ratio <= 1.60:
-            arrangement_score += 2
-        elif contrast_ratio < 0.96:
+        if 1.08 <= contrast_ratio <= 1.38:
+            arrangement_score += 8
+            structural_evidence += 2
+        elif 1.03 <= contrast_ratio < 1.08 or 1.38 < contrast_ratio <= 1.55:
+            arrangement_score += 3
+            structural_evidence += 1
+        elif contrast_ratio < 0.97:
             arrangement_score -= 7
-        elif contrast_ratio > 1.80:
+        elif contrast_ratio > 1.75:
             arrangement_score -= 4
     else:
-        # No confidently repeated hook is not automatically a structural flaw.
-        # Use the already-computed section-to-section energy movement instead.
         non_edge = [sec.avg_energy for sec in sections[1:-1]] if len(sections) > 2 else []
         if len(non_edge) >= 2:
             movement = float(np.std(non_edge) / (np.mean(non_edge) + EPSILON))
-            if movement >= 0.07:
+            if movement >= 0.10:
+                arrangement_score += 5
+                structural_evidence += 1
+            elif movement >= 0.06:
                 arrangement_score += 2
-            elif movement < 0.03:
-                arrangement_score -= 3
+            elif movement < 0.025:
+                arrangement_score -= 5
+
+    # Repeated sections are meaningful structural evidence, but not an automatic 90.
+    repeated_count = sum(
+        1 for sec in sections
+        if "Likely Hook" in sec.name or "Chorus" in sec.name
+    )
+    peak_count = sum(1 for sec in sections if sec.name == "Peak Section")
+    if repeated_count >= 2:
+        arrangement_score += 5
+        structural_evidence += 2
+    elif repeated_count == 1:
+        arrangement_score += 2
+        structural_evidence += 1
+    elif peak_count >= 1:
+        arrangement_score += 1
 
     if sections:
         intro_length = sections[0].end - sections[0].start
-        if 4 <= intro_length <= 16:
-            arrangement_score += 3
-        elif intro_length > 32:
-            arrangement_score -= 8
+        if 5 <= intro_length <= 18:
+            arrangement_score += 2
+        elif intro_length > 34:
+            arrangement_score -= 7
 
         last = sections[-1]
         outro_length = last.end - last.start
         if last.name == "Outro" and 4 <= outro_length <= 22:
-            arrangement_score += 2
-        elif outro_length > 40:
+            arrangement_score += 1
+        elif outro_length > 42:
             arrangement_score -= 5
 
-    if 1.2 <= rhythm.onset_density <= 5.8:
-        arrangement_score += 4
+        # Very uniform section lengths can be valid, but when combined with weak
+        # energy movement they are less convincing evidence of a dynamic arrangement.
+        lengths = np.array([max(0.0, s.end - s.start) for s in sections], dtype=float)
+        if lengths.size >= 4 and float(np.mean(lengths)) > EPSILON:
+            length_cv = float(np.std(lengths) / (np.mean(lengths) + EPSILON))
+            if length_cv >= 0.18:
+                arrangement_score += 2
+            elif length_cv < 0.06 and (energy_cv is None or energy_cv < 0.08):
+                arrangement_score -= 3
+
+    if 1.4 <= rhythm.onset_density <= 5.8:
+        arrangement_score += 2
     elif rhythm.onset_density > 8.5 or rhythm.onset_density < 0.45:
         arrangement_score -= 7
 
-    # Prevent automatic 100s. A score in the 90s should be exceptional.
-    mix_score = int(round(clamp(mix_score, 35, 96)))
+    # Exceptional arrangement scores require multiple independent structural signals.
+    if structural_evidence >= 4 and energy_cv is not None and 0.10 <= energy_cv <= 0.38:
+        arrangement_score += 4
+    elif structural_evidence == 0 and energy_cv is not None and energy_cv < 0.08:
+        arrangement_score -= 4
+
+    # Keep the public range familiar, but make the ceiling difficult to reach.
+    mix_score = int(round(clamp(mix_score, 35, 95)))
     master_score = int(round(clamp(master_score, 35, 96)))
-    arrangement_score = int(round(clamp(arrangement_score, 30, 96)))
+    arrangement_score = int(round(clamp(arrangement_score, 30, 95)))
 
     release_score = (mix_score * 0.58) + (arrangement_score * 0.42)
 
-    # A weak category must meaningfully limit release readiness instead of being
-    # hidden by a weighted average.
     weakest_public_score = min(mix_score, arrangement_score)
     if weakest_public_score < 60:
         release_score = min(release_score, weakest_public_score + 8)
