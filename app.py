@@ -523,7 +523,13 @@ def check_and_increment_upload(user: dict) -> None:
     usage["count"] = int(usage.get("count", 0) or 0) + 1
 
 
-def save_report_for_user(user: dict, report_dict: dict, text_report: str, original_filename: str) -> dict:
+def save_report_for_user(
+    user: dict,
+    report_dict: dict,
+    text_report: str,
+    original_filename: str,
+    report_title: str | None = None,
+) -> dict:
     user_id = user["id"]
     report_id = str(uuid.uuid4())
     user_dir = SAVED_REPORTS_DIR / user_id
@@ -534,7 +540,8 @@ def save_report_for_user(user: dict, report_dict: dict, text_report: str, origin
         "user_id": user_id,
         "created_at": now_iso(),
         "original_filename": original_filename,
-        "title": report_dict.get("basic", {}).get("file_name") or original_filename,
+        "title": (str(report_title).strip()[:120] if report_title and str(report_title).strip()
+                  else (report_dict.get("basic", {}).get("file_name") or original_filename)),
         "release_score": report_dict.get("scores", {}).get("release"),
         "mix_score": report_dict.get("scores", {}).get("mix"),
         "energy_score": report_dict.get("scores", {}).get("energy"),
@@ -1757,7 +1764,12 @@ Analysis data:
 
 
 @app.post("/analyze")
-def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str | None = Header(default=None)):
+def analyze(
+    stems: bool = None,
+    report_title: str | None = None,
+    file: UploadFile = File(...),
+    authorization: str | None = Header(default=None),
+):
     try:
         db, user = get_current_user(authorization)
 
@@ -1841,6 +1853,7 @@ def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str
                 report_dict=report_dict,
                 text_report=text_report,
                 original_filename=file.filename or file_path.name,
+                report_title=report_title,
             )
             saved_report_payload = {
                 "id": saved_report["id"],
