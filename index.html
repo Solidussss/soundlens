@@ -2818,6 +2818,7 @@ let currentUser = null;
 let savedReports = [];
 const API_BASE = window.location.origin;
 const AUTH_TOKEN_KEY = "soundlens_auth_token";
+const PLUGIN_LINK_CODE_KEY = "soundlens_pending_plugin_link";
 let latestProfiles = [];
 let latestAnalyzeComparison = null;
 
@@ -3389,6 +3390,55 @@ function matchComponentHTML(components){
 }
 
 
+
+function getPendingPluginLinkCode(){
+    const params = new URLSearchParams(window.location.search);
+    const fromUrl = (params.get("plugin_link") || "").trim();
+    if(fromUrl){
+        sessionStorage.setItem(PLUGIN_LINK_CODE_KEY, fromUrl);
+        return fromUrl;
+    }
+    return (sessionStorage.getItem(PLUGIN_LINK_CODE_KEY) || "").trim();
+}
+
+async function claimPendingPluginLink(){
+    const code = getPendingPluginLinkCode();
+    const token = localStorage.getItem(AUTH_TOKEN_KEY);
+    if(!code || !token){ return false; }
+
+    try{
+        const response = await fetch(API_BASE + "/plugin/link/claim", {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer " + token
+            },
+            body:JSON.stringify({code})
+        });
+
+        const data = await response.json();
+        if(!response.ok){
+            throw new Error(data.detail || "Could not link SoundLens plugin.");
+        }
+
+        sessionStorage.removeItem(PLUGIN_LINK_CODE_KEY);
+
+        // Remove the one-time code from the visible address after it is claimed.
+        const url = new URL(window.location.href);
+        url.searchParams.delete("plugin_link");
+        window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+
+        const message = document.getElementById("loginMessage");
+        if(message){ message.innerText = "Plugin linked. Return to SoundLens and press CHECK LINK."; }
+        return true;
+    }catch(error){
+        console.error("SoundLens plugin link failed:", error);
+        const message = document.getElementById("loginMessage");
+        if(message){ message.innerText = error.message; }
+        return false;
+    }
+}
+
 function getToken(){
     return localStorage.getItem(AUTH_TOKEN_KEY);
 }
@@ -3911,6 +3961,7 @@ async function signup(){
 
         localStorage.setItem(AUTH_TOKEN_KEY, data.token);
         currentUser = data.user;
+        await claimPendingPluginLink();
         updateAdminVisibility(data.user);
         updateAccountUI();
         message.innerText = "Account created.";
@@ -3936,6 +3987,7 @@ async function login(){
 
         localStorage.setItem(AUTH_TOKEN_KEY, data.token);
         currentUser = data.user;
+        await claimPendingPluginLink();
         updateAdminVisibility(data.user);
         updateAccountUI();
         message.innerText = "Logged in.";
@@ -4726,7 +4778,21 @@ function setupSafeAnalytics(){
         }
     });
 }
-window.addEventListener("load",()=>{setupSafeAnalytics();const params=new URLSearchParams(location.search);if(params.get("reset_token")){showPage("resetPage");}});
+window.addEventListener("load", async ()=>{
+    setupSafeAnalytics();
+    const params=new URLSearchParams(location.search);
+    if(params.get("reset_token")){ showPage("resetPage"); }
+    if(params.get("plugin_link")){
+        getPendingPluginLinkCode();
+        if(getToken()){
+            await claimPendingPluginLink();
+        }else{
+            showPage("authPage");
+            const message=document.getElementById("loginMessage");
+            if(message){ message.innerText="Sign in to link this SoundLens plugin."; }
+        }
+    }
+});
 
 async function startStripeCheckout(plan){
     const token = localStorage.getItem(AUTH_TOKEN_KEY);

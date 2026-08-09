@@ -62,6 +62,7 @@ SAVED_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 ADMIN_EVENTS_PATH = DATA_DIR / "soundlens_admin_events.json"
 FEEDBACK_PATH = DATA_DIR / "soundlens_feedback.json"
 CONTACT_MESSAGES_PATH = DATA_DIR / "soundlens_contact_messages.json"
+PLUGIN_LINKS_PATH = DATA_DIR / "soundlens_plugin_links.json"
 BACKUPS_DIR = DATA_DIR / "soundlens_backups"
 BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -192,6 +193,10 @@ class DeleteAccountPayload(BaseModel):
     password: str
 
 
+class PluginLinkClaimPayload(BaseModel):
+    code: str
+
+
 
 def utc_today() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -213,7 +218,7 @@ def create_data_backup() -> Path:
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     target = BACKUPS_DIR / f"soundlens_data_backup_{stamp}.zip"
     with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-        for path in [USERS_DB_PATH, ADMIN_EVENTS_PATH, FEEDBACK_PATH, CONTACT_MESSAGES_PATH]:
+        for path in [USERS_DB_PATH, ADMIN_EVENTS_PATH, FEEDBACK_PATH, CONTACT_MESSAGES_PATH, PLUGIN_LINKS_PATH]:
             if path.exists():
                 archive.write(path, arcname=path.name)
         if SAVED_REPORTS_DIR.exists():
@@ -578,6 +583,138 @@ def list_reports_for_user(user: dict) -> list[dict]:
         })
 
     return reports
+
+
+PLUGIN_LINK_EXPIRY_MINUTES = int(os.getenv("SOUNDLENS_PLUGIN_LINK_EXPIRY_MINUTES", "10"))
+
+
+def load_plugin_links() -> dict:
+    data = read_json_file(PLUGIN_LINKS_PATH, {"links": {}})
+    if not isinstance(data, dict):
+        data = {"links": {}}
+    data.setdefault("links", {})
+    return data
+
+
+def save_plugin_links(data: dict) -> None:
+    write_json_file(PLUGIN_LINKS_PATH, data)
+
+
+def clean_plugin_link_code(value: str | None) -> str:
+    value = str(value or "").strip()
+    # JUCE UUID strings contain only hex + hyphens. Keep the endpoint narrow.
+    if not value or len(value) > 80 or any(c not in "0123456789abcdefABCDEF-" for c in value):
+        raise HTTPException(status_code=400, detail="Invalid SoundLens Link code.")
+    return value
+
+
+def prune_plugin_links(data: dict) -> None:
+    now = datetime.now(timezone.utc)
+    expired = []
+    for code, item in data.get("links", {}).items():
+        expires = parse_iso(item.get("expires_at"))
+        consumed = parse_iso(item.get("consumed_at"))
+        if (expires and expires < now) or (consumed and consumed < now - timedelta(minutes=5)):
+            expired.append(code)
+    for code in expired:
+        data["links"].pop(code, None)
+
+
+@app.post("/plugin/link/claim")
+def claim_plugin_link(payload: PluginLinkClaimPayload, authorization: str | None = Header(default=None)):
+    """Attach a browser-authenticated SoundLens account to a one-time plugin code."""
+    db, user = get_current_user(authorization)
+    code = clean_plugin_link_code(payload.code)
+
+    links = load_plugin_links()
+    prune_plugin_links(links)
+
+    existing = links["links"].get(code)
+    if existing and existing.get("user_id") not in {None, user.get("id")}:
+        raise HTTPException(status_code=409, detail="This Link code is already attached to another account.")
+
+    plugin_token = existing.get("plugin_token") if existing else None
+    if not plugin_token:
+        plugin_token = secrets.token_urlsafe(32)
+
+    # Plugin tokens use the same existing bearer-token lookup as the website,
+    # so reports/license/account APIs work without creating a second auth system.
+    db.setdefault("tokens", {})[plugin_token] = user["id"]
+    save_users_db(db)
+
+    now = datetime.now(timezone.utc)
+    links["links"][code] = {
+        "code": code,
+        "user_id": user["id"],
+        "plugin_token": plugin_token,
+        "claimed_at": now.isoformat(),
+        "expires_at": (now + timedelta(minutes=PLUGIN_LINK_EXPIRY_MINUTES)).isoformat(),
+        "consumed_at": None,
+    }
+    save_plugin_links(links)
+    track_event("plugin_link_claimed", user, {"code_suffix": code[-8:]})
+
+    return {
+        "ok": True,
+        "status": "linked",
+        "message": "SoundLens plugin linked.",
+        "user": public_user(user),
+    }
+
+
+@app.get("/plugin/link/status")
+def plugin_link_status(code: str):
+    """Polled by the plugin. READY is returned only after the website account claimed this code."""
+    code = clean_plugin_link_code(code)
+    links = load_plugin_links()
+    prune_plugin_links(links)
+    item = links.get("links", {}).get(code)
+
+    if not item:
+        # Register the code as pending the first time the plugin checks it.
+        now = datetime.now(timezone.utc)
+        links["links"][code] = {
+            "code": code,
+            "user_id": None,
+            "plugin_token": None,
+            "claimed_at": None,
+            "expires_at": (now + timedelta(minutes=PLUGIN_LINK_EXPIRY_MINUTES)).isoformat(),
+            "consumed_at": None,
+        }
+        save_plugin_links(links)
+        return {"ok": True, "status": "pending", "message": "Sign in on the SoundLens website to finish linking."}
+
+    if not item.get("user_id") or not item.get("plugin_token"):
+        return {"ok": True, "status": "pending", "message": "Sign in on the SoundLens website to finish linking."}
+
+    db = load_users_db()
+    user = db.get("users", {}).get(item.get("user_id"))
+    if not user:
+        raise HTTPException(status_code=404, detail="Linked SoundLens account no longer exists.")
+
+    # The plugin receives the bearer token only because it possesses the random
+    # one-time code that it generated locally.
+    item["consumed_at"] = now_iso()
+    save_plugin_links(links)
+    return {
+        "ok": True,
+        "status": "ready",
+        "token": item.get("plugin_token"),
+        "user": public_user(user),
+    }
+
+
+@app.get("/plugin/link/me")
+def plugin_link_me(authorization: str | None = Header(default=None)):
+    """Real backend health/account/license verification for an already-linked plugin."""
+    db, user = get_current_user(authorization)
+    save_users_db(db)
+    return {
+        "ok": True,
+        "status": "ready",
+        "user": public_user(user),
+        "backend": "SoundLens",
+    }
 
 
 @app.post("/auth/signup")
