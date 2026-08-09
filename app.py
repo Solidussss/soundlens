@@ -8,6 +8,7 @@ import os
 import shutil
 import traceback
 import uuid
+import librosa
 import resend
 import secrets
 import tempfile
@@ -1102,13 +1103,26 @@ async def submit_feedback(payload: FeedbackPayload, authorization: str | None = 
     if len(message) < 2:
         raise HTTPException(status_code=400, detail="Please enter feedback before submitting.")
 
+    contact_email = normalize_email(payload.email) if payload.email else None
+    account_email = normalize_email(user.get("email")) if user and user.get("email") else None
+    account_user_id = user.get("id") if user else None
+
     item = {
         "id": str(uuid.uuid4()),
         "created_at": now_iso(),
         "rating": payload.rating,
         "accuracy": payload.accuracy,
         "message": message,
-        "email": normalize_email(payload.email) if payload.email else (user.get("email") if user else None),
+
+        # Keep "email" for backwards compatibility with older admin/frontend code.
+        # New feedback always stores the typed contact address separately from the
+        # authenticated SoundLens account identity so a bad contact email does not
+        # make the sender impossible to identify.
+        "email": contact_email or account_email,
+        "contact_email": contact_email,
+        "account_email": account_email,
+        "user_id": account_user_id,
+
         "report_id": payload.report_id,
         "page": payload.page,
         "user": {
@@ -1124,7 +1138,17 @@ async def submit_feedback(payload: FeedbackPayload, authorization: str | None = 
 
     send_notification_email(
         "New SoundLens feedback",
-        f"New feedback\n\nRating: {payload.rating}\nAccuracy: {payload.accuracy}\nEmail: {item.get('email')}\nPage: {payload.page}\nReport ID: {payload.report_id}\n\nMessage:\n{message}"
+        (
+            f"New feedback\n\n"
+            f"Rating: {payload.rating}\n"
+            f"Accuracy: {payload.accuracy}\n"
+            f"Contact email: {item.get('contact_email') or 'Not provided'}\n"
+            f"SoundLens account email: {item.get('account_email') or 'Not linked'}\n"
+            f"SoundLens user ID: {item.get('user_id') or 'Not linked'}\n"
+            f"Page: {payload.page}\n"
+            f"Report ID: {payload.report_id}\n\n"
+            f"Message:\n{message}"
+        )
     )
 
     return {"ok": True, "message": "Feedback sent. Thank you."}
@@ -1291,50 +1315,6 @@ async def admin_stats(authorization: str | None = Header(default=None)):
             )
         ],
     }
-
-
-
-@app.post("/admin/reset-analytics")
-def admin_reset_analytics(payload: dict, authorization: str | None = Header(default=None)):
-    _, admin = get_admin_user(authorization)
-
-    mode = str(payload.get("mode", "activity")).strip().lower()
-    events = read_json_file(ADMIN_EVENTS_PATH, [])
-    if not isinstance(events, list):
-        events = []
-
-    create_data_backup()
-
-    if mode == "clicks":
-        kept = [event for event in events if event.get("event") != "ui_click"]
-        removed = len(events) - len(kept)
-        write_json_file(ADMIN_EVENTS_PATH, kept)
-        return {
-            "ok": True,
-            "removed": removed,
-            "message": f"Reset {removed} tracked click event(s)."
-        }
-
-    if mode == "activity":
-        removed = len(events)
-        write_json_file(ADMIN_EVENTS_PATH, [])
-        return {
-            "ok": True,
-            "removed": removed,
-            "message": "Admin activity history reset."
-        }
-
-    raise HTTPException(status_code=400, detail="Unknown reset mode.")
-
-
-@app.post("/admin/reset-clicks")
-def admin_reset_clicks(authorization: str | None = Header(default=None)):
-    return admin_reset_analytics({"mode": "clicks"}, authorization)
-
-
-@app.post("/admin/reset-activity")
-def admin_reset_activity(authorization: str | None = Header(default=None)):
-    return admin_reset_analytics({"mode": "activity"}, authorization)
 
 
 @app.get("/admin/export-data")
@@ -1557,9 +1537,7 @@ def home():
 
 def save_upload(file: UploadFile) -> Path:
     safe_name = Path(file.filename or "uploaded_audio.wav").name
-    original = Path(safe_name)
-    unique_name = f"{original.stem}_{uuid.uuid4().hex}{original.suffix.lower()}"
-    file_path = UPLOADS_DIR / unique_name
+    file_path = UPLOADS_DIR / safe_name
 
     with file_path.open("wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
@@ -1645,13 +1623,23 @@ Analysis data:
 def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str | None = Header(default=None)):
     try:
         db, user = get_current_user(authorization)
+
+        file_path = save_upload(file)
+        duration_seconds = float(librosa.get_duration(path=str(file_path)))
+        if duration_seconds > 360:
+            file_path.unlink(missing_ok=True)
+            return {
+                "error": "Audio exceeds 6 minutes. Please upload a track that is 6 minutes or shorter.",
+                "report": None,
+                "text_report": "",
+                "ai_feedback": {},
+            }
+
         check_and_increment_upload(user)
         user["last_active_at"] = now_iso()
         user["total_uploads"] = int(user.get("total_uploads", 0) or 0) + 1
         save_users_db(db)
         track_event("analysis_started", user, {"filename": file.filename})
-
-        file_path = save_upload(file)
 
         report = analyze_audio(
             file_path,
@@ -1708,23 +1696,27 @@ def analyze(stems: bool = None, file: UploadFile = File(...), authorization: str
 
         text_report = render_report(report)
         track_event("analysis_completed", user, {"filename": file.filename, "release_score": report_dict.get("scores", {}).get("release")})
-        saved_report = save_report_for_user(
-            user=user,
-            report_dict=report_dict,
-            text_report=text_report,
-            original_filename=file.filename or file_path.name,
-        )
+
+        saved_report_payload = None
+        if user.get("plan", "free") in {"pro", "studio", "lifetime"}:
+            saved_report = save_report_for_user(
+                user=user,
+                report_dict=report_dict,
+                text_report=text_report,
+                original_filename=file.filename or file_path.name,
+            )
+            saved_report_payload = {
+                "id": saved_report["id"],
+                "created_at": saved_report["created_at"],
+                "title": saved_report["title"],
+            }
 
         return {
             "report": report_dict,
             "text_report": text_report,
             "ai_feedback": ai_feedback,
             "artist_comparison": artist_comparison,
-            "saved_report": {
-                "id": saved_report["id"],
-                "created_at": saved_report["created_at"],
-                "title": saved_report["title"],
-            },
+            "saved_report": saved_report_payload,
             "user": public_user(user),
         }
 
