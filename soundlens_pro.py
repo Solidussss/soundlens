@@ -242,13 +242,18 @@ def level_label(value: float, low: float, high: float) -> str:
 
 
 def score_label(score: float) -> str:
-    if score >= 85:
-        return "Excellent"
-    if score >= 70:
-        return "Good"
-    if score >= 50:
-        return "Needs Work"
-    return "Weak"
+    """SoundLens technical rating scale."""
+    if score >= 81:
+        return "Technically Exceptional"
+    if score >= 66:
+        return "Strong / Commercially Controlled"
+    if score >= 56:
+        return "Solid, with Measurable Weaknesses"
+    if score >= 41:
+        return "Noticeable Measurable Weaknesses"
+    if score >= 21:
+        return "Clear Technical Problems"
+    return "Severe Measurable Problems"
 
 
 def _ffmpeg_executable() -> Optional[str]:
@@ -1907,13 +1912,17 @@ def analyze_audio(audio_file: Path, use_stems: bool = False, demucs_output_dir: 
 
 
 def report_status(score: int) -> str:
-    if score >= 85:
-        return "Close to release-ready"
-    if score >= 70:
-        return "Good, but needs small fixes"
-    if score >= 50:
-        return "Needs work before release"
-    return "Not ready yet"
+    if score >= 81:
+        return "Technically exceptional"
+    if score >= 66:
+        return "Strong / commercially controlled"
+    if score >= 56:
+        return "Solid, with measurable weaknesses"
+    if score >= 41:
+        return "Noticeable measurable weaknesses"
+    if score >= 21:
+        return "Clear technical problems"
+    return "Severe measurable problems"
 
 
 def render_report(report: SoundLensReport) -> str:
