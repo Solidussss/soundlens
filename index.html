@@ -7,15 +7,6 @@
     <title>SoundLens</title>
     <script src="https://unpkg.com/wavesurfer.js@7"></script>
 
-    <script>
-    window.addEventListener("resize", () => {
-    const advancedPage = document.getElementById("advancedPage");
-
-    if(advancedPage && advancedPage.classList.contains("active") && latestEqData){
-        drawSuggestedEQ(latestEqData);
-    }
-});
-</script>
     <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
     <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/timeline.min.js"></script>
 
@@ -2124,10 +2115,7 @@
         <a id="nav-overviewPage" onclick="showPage('overviewPage')">Overview</a>
         <a id="nav-artistPage" onclick="showPage('artistPage')">Artist Match</a>
         <a id="nav-fixesPage" onclick="showPage('fixesPage')">Galaxy</a>
-        <a id="nav-arrangementPage" onclick="showPage('arrangementPage')">Arrangement</a>
-        <a id="nav-advancedPage" onclick="showPage('advancedPage')">Advanced</a>
         <a id="nav-dashboardPage" onclick="showPage('dashboardPage'); loadDashboard();">Dashboard</a>
-        <a id="nav-learnPage" onclick="showPage('learnPage')">About</a>
         <a id="nav-feedbackPage" onclick="showPage('feedbackPage')">Feedback</a>
         <a id="nav-contactPage" onclick="showPage('contactPage')">Contact</a>
         <a id="nav-adminPage" onclick="showPage('adminPage'); loadAdminDashboard();">Admin</a>
@@ -2297,45 +2285,6 @@
     </div>
 </div>
 
-
-<div id="learnPage" class="page">
-    <div class="hero-card">
-        <div class="hero-top">
-            <div>
-                <div class="eyebrow">About SoundLens</div>
-                <h1 class="hero-title">Understand your sound before you release it.</h1>
-                <p class="muted auth-subtext">SoundLens analyzes your beat or song and gives artist match, mix issues, arrangement feedback, and clear next steps.</p>
-            </div>
-            <div class="hero-score-wrap">
-                <div class="hero-status">@soundlensapp_</div>
-                <button onclick="showPage('analyzePage')" style="margin-top:14px">Analyze a Track</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="card"><h2>Who needs this?</h2><div class="landing-grid">
-        <div class="landing-card"><h3>Artists</h3><p>Check whether your track is loud enough, clear enough, and close to the sound you are aiming for.</p></div>
-        <div class="landing-card"><h3>Producers</h3><p>Get fast feedback on low end, bounce, brightness, arrangement, and artist-style direction.</p></div>
-        <div class="landing-card"><h3>Engineers</h3><p>Use SoundLens as a second opinion before sending a rough mix, master, or revision.</p></div>
-    </div></div>
-
-    <div class="card"><h2>How does it work?</h2><div class="landing-grid">
-        <div class="landing-card"><h3>1. Upload audio</h3><p>Choose a WAV, MP3, M4A, AAC, FLAC, or OGG file.</p></div>
-        <div class="landing-card"><h3>2. SoundLens analyzes</h3><p>It reads loudness, frequency balance, rhythm, arrangement, and sonic fingerprints.</p></div>
-        <div class="landing-card"><h3>3. Get fixes</h3><p>See the biggest problems first, then artist match and advanced EQ guidance.</p></div>
-    </div></div>
-
-    <div class="card"><h2>Free vs Pro</h2><div class="pricing-grid">
-        <div class="pricing-card"><h3>Free</h3><p class="muted">For testing SoundLens.</p><ul><li>3 uploads per day</li><li>Artist Match</li><li>Mix, energy, and arrangement scores</li><li>Basic saved reports</li></ul></div>
-        <div class="pricing-card featured"><h3>SoundLens Pro</h3><p class="muted">For artists and producers using it seriously.</p><ul><li>Unlimited uploads</li><li>Saved report history</li><li>Advanced artist matching</li><li>Suggested EQ guide</li><li>More accurate updates over time</li></ul><button onclick="startStripeCheckout('pro')">Upgrade to Pro</button></div>
-    </div></div>
-
-    <div class="card"><h2>Future features</h2><div class="landing-grid">
-        <div class="landing-card"><h3>Reference Track Mode</h3><p>Compare your upload directly against a specific reference track.</p></div>
-        <div class="landing-card"><h3>Better Stem Intelligence</h3><p>Deeper vocal, 808, drum, and melody balance feedback.</p></div>
-        <div class="landing-card"><h3>Artist Profile Expansion</h3><p>More artists, genres, and underground scenes added over time.</p></div>
-    </div></div>
-</div>
 
 <div id="feedbackPage" class="page">
     <div class="hero-card"><div class="eyebrow">Feedback</div><h1 class="hero-title">Help improve SoundLens.</h1><p class="muted auth-subtext">Tell us what felt accurate, what felt wrong, and what you want added next.</p></div>
@@ -2723,84 +2672,6 @@
         </div>
     </div>
 
-    <div id="arrangementPage" class="page">
-        <div class="card" id="arrangementSection">
-            <div class="eyebrow">Arrangement</div>
-            <h2 style="margin-top:0">Song Structure</h2>
-
-            <div id="arrangementTimeline" class="timeline-card">
-                <div class="placeholder-title">Section map will appear here.</div>
-                <p class="placeholder-copy">V1 breaks the audio into sections and shows energy flow. It does not guess verse or chorus labels.</p>
-                <div class="placeholder-grid">
-                    <div class="placeholder-mini"><span>Sections</span><strong>Automatic boundaries</strong></div>
-                    <div class="placeholder-mini"><span>Intensity</span><strong>Low, medium, high movement</strong></div>
-                    <div class="placeholder-mini"><span>Pacing</span><strong>Where the track changes</strong></div>
-                </div>
-            </div>
-
-            <details open>
-                <summary>Show section table</summary>
-                <table>
-                    <tbody id="arrangementTable">
-                        <tr class="empty-table-row">
-                            <td>No analysis loaded</td>
-                            <td>Upload a track</td>
-                            <td>Waiting</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </details>
-        </div>
-    </div>
-
-    <div id="advancedPage" class="page">
-<div class="two-grid">
-            <div class="card" id="mixSection">
-                <div class="eyebrow">Advanced</div>
-                <h2 style="margin-top:0">Mix / Loudness</h2>
-                <table><tbody id="loudnessTable">
-                    <tr class="empty-table-row"><td>Peak Level</td><td>Waiting</td></tr>
-                    <tr class="empty-table-row"><td>RMS Loudness</td><td>Waiting</td></tr>
-                    <tr class="empty-table-row"><td>Dynamic Range</td><td>Waiting</td></tr>
-                    <tr class="empty-table-row"><td>Clipping</td><td>Waiting</td></tr>
-                </tbody></table>
-            </div>
-            <div class="card">
-                <div class="eyebrow">Advanced</div>
-                <h2 style="margin-top:0">EQ Analyzer</h2>
-                <div id="eqAnalyzer" class="eq-grid">
-                    <div class="eq-placeholder-band"><div class="eq-placeholder-bar"></div><div class="eq-label">Sub<br>Waiting</div></div>
-                    <div class="eq-placeholder-band"><div class="eq-placeholder-bar"></div><div class="eq-label">808<br>Waiting</div></div>
-                    <div class="eq-placeholder-band"><div class="eq-placeholder-bar"></div><div class="eq-label">Mud<br>Waiting</div></div>
-                    <div class="eq-placeholder-band"><div class="eq-placeholder-bar"></div><div class="eq-label">Mids<br>Waiting</div></div>
-                    <div class="eq-placeholder-band"><div class="eq-placeholder-bar"></div><div class="eq-label">Highs<br>Waiting</div></div>
-                    <div class="eq-placeholder-band"><div class="eq-placeholder-bar"></div><div class="eq-label">Air<br>Waiting</div></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="eyebrow">Suggested EQ</div>
-            <h2 style="margin-top:0">Visual EQ Guide</h2>
-            <p class="muted" id="eqGuideText">Run artist match to generate a suggested EQ curve.</p>
-            <div class="eq-visual-card">
-                <div class="eq-canvas-wrap">
-                    <canvas id="suggestedEqCanvas"></canvas>
-                </div>
-                <div id="eqMoves" class="eq-move-grid"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Frequency Balance</h2>
-            <div id="frequencyTable">
-                <div class="placeholder-card">
-                    <div class="placeholder-title">Frequency balance will appear here.</div>
-                    <p class="placeholder-copy">Upload a track to see sub, bass, mud, mids, highs, air, and total balance.</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>
 
@@ -2854,9 +2725,6 @@ function showPage(pageId){
     if(nav){ nav.classList.add("active-nav"); }
 
     window.scrollTo({ top:0, behavior:"smooth" });
-    if(pageId === "advancedPage" && latestEqData){
-        setTimeout(() => drawSuggestedEQ(latestEqData), 80);
-    }
     if(typeof trackClientEvent === "function"){
         trackClientEvent("page_view", {page:pageId});
     }
@@ -3226,39 +3094,6 @@ function renderFixCards(report){
     document.getElementById("fixCards").innerHTML = items.join("");
 }
 
-function renderArrangementTimeline(sections){
-    const box = document.getElementById("arrangementTimeline");
-    if(!box){ return; }
-
-    sections = Array.isArray(sections) ? sections : [];
-
-    if(!sections.length){
-        box.innerHTML = `
-            <div class="placeholder-title">Section map will appear here.</div>
-            <p class="placeholder-copy">V1 breaks the audio into sections and shows energy flow. It does not guess verse or chorus labels.</p>
-        `;
-        return;
-    }
-
-    const maxLen = Math.max(...sections.map(s => Math.max(1, Number(s.end || 0) - Number(s.start || 0))));
-    box.innerHTML = sections.map((section, index) => {
-        const start = Number(section.start || 0);
-        const end = Number(section.end || 0);
-        const len = Math.max(1, end - start);
-        const width = Math.max(8, (len / maxLen) * 100);
-        const name = section.name || `Section ${index + 1}`;
-
-        return `
-            <div class="timeline-row">
-                <div class="timeline-name">${name}</div>
-                <div class="timeline-bg"><div class="timeline-fill" style="width:${width}%"></div></div>
-                <div class="muted">${formatTime(start)} - ${formatTime(end)}</div>
-            </div>
-        `;
-    }).join("");
-}
-
-
 function drawSuggestedEQ(eqData){
     latestEqData = eqData;
 
@@ -3600,7 +3435,7 @@ function adminDate(value){
 }
 
 function adminEventLabel(item){
-    const pageNames = {analyzePage:"Analyze",overviewPage:"Overview",artistPage:"Artist Match",fixesPage:"Galaxy",arrangementPage:"Arrangement",advancedPage:"Advanced",dashboardPage:"Dashboard",learnPage:"About",feedbackPage:"Feedback",adminPage:"Admin",authPage:"Account"};
+    const pageNames = {analyzePage:"Analyze",overviewPage:"Overview",artistPage:"Artist Match",fixesPage:"Galaxy",dashboardPage:"Dashboard",feedbackPage:"Feedback",adminPage:"Admin",authPage:"Account"};
     const event = item.event || "event";
     const page = item.details?.page || item.details?.details?.page;
     const labels = {signup_success:"Account created",login_success:"Logged in",login_failed:"Failed login",logout:"Logged out",analysis_started:"Started analysis",analysis_completed:"Completed analysis",analysis_failed:"Analysis failed",report_deleted:"Deleted report",email_verified:"Verified email",lifetime_account_created:"Lifetime account created",lifetime_access_granted:"Lifetime access granted",pro_access_granted:"Pro access granted",pro_access_removed:"Pro access removed",admin_pro_grant_removed:"Manual Pro grant removed",admin_password_changed:"Admin changed password",password_changed:"Changed password",password_change_failed:"Password change failed",admin_access_denied:"Blocked admin access",feedback_submitted:"Submitted feedback"};
@@ -3742,10 +3577,7 @@ function adminHeatmapPageName(page){
         overviewPage:"Overview",
         artistPage:"Artist Match",
         fixesPage:"Galaxy",
-        arrangementPage:"Arrangement",
-        advancedPage:"Advanced",
         dashboardPage:"Dashboard",
-        learnPage:"About",
         feedbackPage:"Feedback",
         contactPage:"Contact",
         authPage:"Account",
@@ -4345,49 +4177,7 @@ async function analyze(){
     document.getElementById("estimatedBars").innerText = Number(report.rhythm?.estimated_bars || 0) > 0 ? Math.round(report.rhythm.estimated_bars) : "Uncertain";
 
 
-    const loudness = report.loudness || {};
-    document.getElementById("loudnessTable").innerHTML = `
-        <tr><td>Peak Level</td><td>${Number(loudness.peak_db || 0).toFixed(2)} dB</td></tr>
-        <tr><td>RMS Loudness</td><td>${Number(loudness.rms_db || 0).toFixed(2)} dB</td></tr>
-        <tr><td>Dynamic Range</td><td>${Number(loudness.dynamic_range_db || 0).toFixed(2)} dB</td></tr>
-        <tr><td>Clipping</td><td>${loudness.clipping_detected ? "Yes" : "No"}</td></tr>
-        <tr><td>Clipping Samples</td><td>${loudness.clipping_samples || 0}</td></tr>
-    `;
-    const bands = (report.frequency && report.frequency.band_percentages) ? report.frequency.band_percentages : {};
-    const eqBands = {
-        "Sub": bands["Sub"] || 0,
-        "808": bands["Bass / 808"] || 0,
-        "Mud": bands["Mud"] || 0,
-        "Low Mids": bands["Low Mids"] || 0,
-        "Mids": bands["Mids / Melody"] || 0,
-        "Highs": bands["Highs"] || 0,
-        "Air": bands["Air"] || 0
-    };
-
-    document.getElementById("eqAnalyzer").innerHTML = Object.entries(eqBands).map(([band, value]) => `
-        <div class="eq-band">
-            <div class="eq-bar" style="height:${Math.max(8, Math.min(160, Number(value || 0) * 5))}px"></div>
-            <div class="eq-label">${band}<br>${value.toFixed(1)}%</div>
-        </div>
-    `).join("");
-
-    document.getElementById("frequencyTable").innerHTML = Object.entries(bands).map(([band, value]) => `
-        <div class="freq-row">
-            <div class="freq-top"><span>${band}</span><span>${value.toFixed(2)}%</span></div>
-            <div class="freq-bar-bg"><div class="freq-bar" style="width:${Math.max(0, Math.min(100, value))}%"></div></div>
-        </div>
-    `).join("");
-
     const sections = Array.isArray(report.sections) ? report.sections : [];
-    document.getElementById("arrangementTable").innerHTML = sections.map(section => `
-        <tr onclick="jumpToSection(${section.start})" style="cursor:pointer">
-            <td>${section.name}</td>
-            <td>${Math.round(section.start)}s - ${Math.round(section.end)}s</td>
-            <td>${section.energy_label}</td>
-        </tr>
-    `).join("");
-
-    renderArrangementTimeline(sections);
     drawSectionMarkers(sections);
 
     progress.setStage(92);
@@ -4628,10 +4418,6 @@ async function runProfileComparison(file, status){
             suggestionsBox.innerHTML = suggestions.map(item => `<li>${item}</li>`).join("");
         }
 
-        const eqData = comparison.eq_suggestions || fallbackEQFromReport();
-        if(eqData){
-            drawSuggestedEQ(eqData);
-        }
     }
     catch(error){
         console.error("Profile comparison error:", error);
@@ -4644,10 +4430,6 @@ async function runProfileComparison(file, status){
             matchesBox.innerHTML = `<p class="muted">Artist compare failed, but the main report still works. Check the backend terminal for the compare error.</p>`;
         }
 
-        const fallback = fallbackEQFromReport();
-        if(fallback){
-            drawSuggestedEQ(fallback);
-        }
     }
 }
 
