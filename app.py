@@ -1684,8 +1684,8 @@ def remove_studio(payload: AdminEmailPayload, authorization: str | None = Header
     if user.get("plan") != "studio":
         raise HTTPException(status_code=400, detail="This account is not currently on Studio.")
 
-    # Manual removal is immediate. If Stripe still has an active Studio subscription,
-    # cancel it in Stripe first or a later Stripe event can restore paid access.
+    # Manual Studio removal is immediate. Paid Studio accounts keep Pro website access,
+    # while studio_revoked_by_admin prevents Studio/plugin access from being restored by subscription updates.
     user["plan"] = "pro" if user.get("stripe_subscription_id") else "free"
     user["admin_studio_granted"] = False
     user["studio_revoked_by_admin"] = True

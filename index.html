@@ -3751,7 +3751,7 @@ function updateAccountUI(){
         const remaining = currentUser.uploads_remaining === null ? "Unlimited" : currentUser.uploads_remaining;
         status.innerHTML = `
             Logged in as <strong>${currentUser.display_name || currentUser.email}</strong>
-            <span class="plan-pill plan-${String(currentUser.plan || "free").toLowerCase()}">${currentUser.plan}</span>
+            <span class="plan-pill plan-${String(currentUser.plan || "free").toLowerCase()}">${String(currentUser.plan || "free").toUpperCase()}</span>
             <span>Uploads left today: ${remaining}</span>
         `;
         if(authNav){ authNav.innerText = "Account"; }
