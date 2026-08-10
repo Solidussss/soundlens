@@ -2104,6 +2104,115 @@
             #accountPage .delete-account-form{gap:12px;margin-top:18px;}
             #accountPage .delete-account-form button{width:100%;min-height:48px;}
         }
+    
+        /* SoundLens Artist Database */
+        #databasePage .database-hero{
+            position:relative;
+            overflow:hidden;
+            padding:30px;
+            margin-bottom:18px;
+        }
+        #databasePage .database-hero::after{
+            content:"";
+            position:absolute;
+            width:340px;height:340px;
+            right:-110px;top:-180px;
+            border-radius:50%;
+            background:radial-gradient(circle,rgba(99,102,241,.22),rgba(99,102,241,0) 68%);
+            pointer-events:none;
+        }
+        #databasePage .database-topline{
+            display:flex;
+            justify-content:space-between;
+            gap:18px;
+            align-items:flex-end;
+            flex-wrap:wrap;
+        }
+        #databasePage .database-count{
+            min-width:150px;
+            padding:15px 18px;
+            border:1px solid #2b3150;
+            border-radius:16px;
+            background:rgba(15,17,23,.68);
+            text-align:center;
+        }
+        #databasePage .database-count strong{
+            display:block;
+            font-size:30px;
+            line-height:1;
+            color:white;
+        }
+        #databasePage .database-count span{
+            display:block;
+            margin-top:7px;
+            color:var(--muted);
+            font-size:12px;
+            font-weight:800;
+            text-transform:uppercase;
+            letter-spacing:.12em;
+        }
+        #databasePage .artist-database-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(185px,1fr));
+            gap:12px;
+        }
+        #databasePage .artist-database-card{
+            position:relative;
+            overflow:hidden;
+            min-height:76px;
+            display:flex;
+            align-items:center;
+            gap:12px;
+            padding:16px;
+            border:1px solid #252b3f;
+            border-radius:16px;
+            background:linear-gradient(145deg,rgba(27,31,46,.96),rgba(17,19,28,.96));
+            opacity:0;
+            transform:translateY(16px) scale(.985);
+            animation:databaseCardIn .55s cubic-bezier(.2,.8,.2,1) forwards;
+            animation-delay:calc(var(--i) * 28ms);
+            transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+        }
+        #databasePage .artist-database-card:hover{
+            transform:translateY(-3px);
+            border-color:rgba(99,102,241,.7);
+            box-shadow:0 10px 28px rgba(0,0,0,.22);
+        }
+        #databasePage .artist-database-card::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:linear-gradient(110deg,transparent 25%,rgba(99,102,241,.08) 48%,transparent 70%);
+            transform:translateX(-120%);
+            animation:databaseSweep 6s ease-in-out infinite;
+            animation-delay:calc(var(--i) * 55ms);
+            pointer-events:none;
+        }
+        #databasePage .artist-dot{
+            width:10px;height:10px;flex:0 0 10px;
+            border-radius:50%;
+            background:#6366f1;
+            box-shadow:0 0 16px rgba(99,102,241,.85);
+        }
+        #databasePage .artist-name{
+            position:relative;
+            z-index:1;
+            font-weight:800;
+            color:white;
+            letter-spacing:-.1px;
+        }
+        @keyframes databaseCardIn{
+            to{opacity:1;transform:translateY(0) scale(1);}
+        }
+        @keyframes databaseSweep{
+            0%,70%{transform:translateX(-120%);}
+            88%,100%{transform:translateX(120%);}
+        }
+        @media (prefers-reduced-motion:reduce){
+            #databasePage .artist-database-card{animation:none;opacity:1;transform:none;}
+            #databasePage .artist-database-card::before{animation:none;}
+        }
+
     </style>
 </head>
 
@@ -2115,6 +2224,9 @@
         <a id="nav-overviewPage" onclick="showPage('overviewPage')">Overview</a>
         <a id="nav-artistPage" onclick="showPage('artistPage')">Artist Match</a>
         <a id="nav-fixesPage" onclick="showPage('fixesPage')">Galaxy</a>
+        <a id="nav-databasePage" onclick="showPage('databasePage')">Database</a>
+        <a id="nav-dashboardPage" onclick="showPage('dashboardPage'); loadDashboard();">Dashboard</a>
+        <a id="nav-feedbackPage" onclick="showPage('feedbackPage')">Feedback</a>
         <a id="nav-contactPage" onclick="showPage('contactPage')">Contact</a>
         <a id="nav-adminPage" onclick="showPage('adminPage'); loadAdminDashboard();">Admin</a>
         <a id="nav-authPage" onclick="showPage('authPage')">Login</a>
@@ -2129,6 +2241,68 @@
     </div>
 </div>
 
+
+
+<div id="databasePage" class="page">
+    <div class="hero-card database-hero">
+        <div class="database-topline">
+            <div>
+                <div class="eyebrow">Artist Database</div>
+                <h1 class="hero-title">The sound behind <span>SoundLens.</span></h1>
+                <p class="muted auth-subtext">Artists currently represented in the SoundLens matching system.</p>
+            </div>
+            <div class="database-count"><strong>46</strong><span>Artists indexed</span></div>
+        </div>
+    </div>
+    <div class="artist-database-grid">
+        <div class="artist-database-card" style="--i:0"><span class="artist-dot"></span><span class="artist-name">1oneam</span></div>
+        <div class="artist-database-card" style="--i:1"><span class="artist-dot"></span><span class="artist-name">Autumn</span></div>
+        <div class="artist-database-card" style="--i:2"><span class="artist-dot"></span><span class="artist-name">Bktharula</span></div>
+        <div class="artist-database-card" style="--i:3"><span class="artist-dot"></span><span class="artist-name">BoofPaxkMooky</span></div>
+        <div class="artist-database-card" style="--i:4"><span class="artist-dot"></span><span class="artist-name">Cheromani</span></div>
+        <div class="artist-database-card" style="--i:5"><span class="artist-dot"></span><span class="artist-name">D Savage</span></div>
+        <div class="artist-database-card" style="--i:6"><span class="artist-dot"></span><span class="artist-name">Destroy Lonely</span></div>
+        <div class="artist-database-card" style="--i:7"><span class="artist-dot"></span><span class="artist-name">Dom Corleo</span></div>
+        <div class="artist-database-card" style="--i:8"><span class="artist-dot"></span><span class="artist-name">Duwap Kaine</span></div>
+        <div class="artist-database-card" style="--i:9"><span class="artist-dot"></span><span class="artist-name">Eem Triplin</span></div>
+        <div class="artist-database-card" style="--i:10"><span class="artist-dot"></span><span class="artist-name">Eskdeekid</span></div>
+        <div class="artist-database-card" style="--i:11"><span class="artist-dot"></span><span class="artist-name">Fakemink</span></div>
+        <div class="artist-database-card" style="--i:12"><span class="artist-dot"></span><span class="artist-name">Feng</span></div>
+        <div class="artist-database-card" style="--i:13"><span class="artist-dot"></span><span class="artist-name">Fimiguerrero</span></div>
+        <div class="artist-database-card" style="--i:14"><span class="artist-dot"></span><span class="artist-name">Glokk40Spaz</span></div>
+        <div class="artist-database-card" style="--i:15"><span class="artist-dot"></span><span class="artist-name">Hardrock</span></div>
+        <div class="artist-database-card" style="--i:16"><span class="artist-dot"></span><span class="artist-name">Homixide Gang</span></div>
+        <div class="artist-database-card" style="--i:17"><span class="artist-dot"></span><span class="artist-name">Izaya Tiji</span></div>
+        <div class="artist-database-card" style="--i:18"><span class="artist-dot"></span><span class="artist-name">Jaydes</span></div>
+        <div class="artist-database-card" style="--i:19"><span class="artist-dot"></span><span class="artist-name">Kankan</span></div>
+        <div class="artist-database-card" style="--i:20"><span class="artist-dot"></span><span class="artist-name">Ken Carson</span></div>
+        <div class="artist-database-card" style="--i:21"><span class="artist-dot"></span><span class="artist-name">Lazer Dim 700</span></div>
+        <div class="artist-database-card" style="--i:22"><span class="artist-dot"></span><span class="artist-name">Lelo</span></div>
+        <div class="artist-database-card" style="--i:23"><span class="artist-dot"></span><span class="artist-name">Lil Tony</span></div>
+        <div class="artist-database-card" style="--i:24"><span class="artist-dot"></span><span class="artist-name">Midwxst</span></div>
+        <div class="artist-database-card" style="--i:25"><span class="artist-dot"></span><span class="artist-name">Molly Santana</span></div>
+        <div class="artist-database-card" style="--i:26"><span class="artist-dot"></span><span class="artist-name">Nettspend</span></div>
+        <div class="artist-database-card" style="--i:27"><span class="artist-dot"></span><span class="artist-name">Nine Vicious</span></div>
+        <div class="artist-database-card" style="--i:28"><span class="artist-dot"></span><span class="artist-name">Nino Paid</span></div>
+        <div class="artist-database-card" style="--i:29"><span class="artist-dot"></span><span class="artist-name">OhSxnta</span></div>
+        <div class="artist-database-card" style="--i:30"><span class="artist-dot"></span><span class="artist-name">Osamason</span></div>
+        <div class="artist-database-card" style="--i:31"><span class="artist-dot"></span><span class="artist-name">Prettifun</span></div>
+        <div class="artist-database-card" style="--i:32"><span class="artist-dot"></span><span class="artist-name">Protect</span></div>
+        <div class="artist-database-card" style="--i:33"><span class="artist-dot"></span><span class="artist-name">Rekover Jet</span></div>
+        <div class="artist-database-card" style="--i:34"><span class="artist-dot"></span><span class="artist-name">Rexv2</span></div>
+        <div class="artist-database-card" style="--i:35"><span class="artist-dot"></span><span class="artist-name">Rich Amiri</span></div>
+        <div class="artist-database-card" style="--i:36"><span class="artist-dot"></span><span class="artist-name">Slayr</span></div>
+        <div class="artist-database-card" style="--i:37"><span class="artist-dot"></span><span class="artist-name">SoFaygo</span></div>
+        <div class="artist-database-card" style="--i:38"><span class="artist-dot"></span><span class="artist-name">Sosocamo</span></div>
+        <div class="artist-database-card" style="--i:39"><span class="artist-dot"></span><span class="artist-name">Southsidesilhouette</span></div>
+        <div class="artist-database-card" style="--i:40"><span class="artist-dot"></span><span class="artist-name">Summrs</span></div>
+        <div class="artist-database-card" style="--i:41"><span class="artist-dot"></span><span class="artist-name">Tana</span></div>
+        <div class="artist-database-card" style="--i:42"><span class="artist-dot"></span><span class="artist-name">UntilJapan</span></div>
+        <div class="artist-database-card" style="--i:43"><span class="artist-dot"></span><span class="artist-name">Xaviersobased</span></div>
+        <div class="artist-database-card" style="--i:44"><span class="artist-dot"></span><span class="artist-name">Yeat</span></div>
+        <div class="artist-database-card" style="--i:45"><span class="artist-dot"></span><span class="artist-name">Yung Fazo</span></div>
+    </div>
+</div>
 
 <div id="authPage" class="page auth-page">
     <div class="auth-hero">
@@ -2284,19 +2458,8 @@
 </div>
 
 
-<div id="forgotPage" class="page legal-page">
-  <div class="card"><div class="eyebrow">Account Recovery</div><h1>Reset your password</h1><p class="muted">Enter your email and SoundLens will send you an account-recovery email. If the address is connected to an account, the email will contain a secure password-reset link.</p><div class="contact-form"><input id="forgotEmail" type="email" placeholder="Email"><button onclick="requestPasswordReset()">Send Reset Email</button><p id="forgotMessage" class="muted"></p></div></div>
-</div>
-<div id="resetPage" class="page legal-page">
-  <div class="card"><div class="eyebrow">Account Recovery</div><h1>Choose a new password</h1><div class="contact-form"><input id="resetPassword" type="password" placeholder="New password (8+ characters)"><button onclick="confirmPasswordReset()">Update Password</button><p id="resetMessage" class="muted"></p></div></div>
-</div>
-<div id="contactPage" class="page legal-page">
-  <div class="card"><div class="eyebrow">Support</div><h1>Contact SoundLens</h1><p>Questions about your account, billing, a report, or the service can be sent here. Include the email connected to your account so the issue can be located.</p><div class="contact-form"><div class="contact-grid"><input id="contactName" placeholder="Name"><input id="contactEmail" type="email" placeholder="Email"></div><input id="contactSubject" placeholder="Subject"><textarea id="contactMessage" placeholder="How can SoundLens help?"></textarea><button onclick="submitContact()">Send Message</button><p id="contactStatus" class="muted"></p></div></div>
-
-  <div class="card" style="margin-top:18px;">
-    <div class="eyebrow">Feedback</div>
-    <h2>Help improve SoundLens.</h2>
-    <p class="muted">Tell us what felt accurate, what felt wrong, and what you want added next.</p>
+<div id="feedbackPage" class="page">
+    <div class="hero-card"><div class="eyebrow">Feedback</div><h1 class="hero-title">Help improve SoundLens.</h1><p class="muted auth-subtext">Tell us what felt accurate, what felt wrong, and what you want added next.</p></div>
     <div class="card feedback-form">
         <h2>Quick Questionnaire</h2>
         <label class="muted">How useful was SoundLens?</label>
@@ -2307,8 +2470,17 @@
         <label class="muted">Feedback</label><textarea id="feedbackMessage" rows="6" placeholder="What should we fix or add?"></textarea>
         <button onclick="submitFeedback()">Send Feedback</button><p id="feedbackStatus" class="muted"></p>
     </div>
+</div>
 
-  </div>
+
+<div id="forgotPage" class="page legal-page">
+  <div class="card"><div class="eyebrow">Account Recovery</div><h1>Reset your password</h1><p class="muted">Enter your email and SoundLens will send you an account-recovery email. If the address is connected to an account, the email will contain a secure password-reset link.</p><div class="contact-form"><input id="forgotEmail" type="email" placeholder="Email"><button onclick="requestPasswordReset()">Send Reset Email</button><p id="forgotMessage" class="muted"></p></div></div>
+</div>
+<div id="resetPage" class="page legal-page">
+  <div class="card"><div class="eyebrow">Account Recovery</div><h1>Choose a new password</h1><div class="contact-form"><input id="resetPassword" type="password" placeholder="New password (8+ characters)"><button onclick="confirmPasswordReset()">Update Password</button><p id="resetMessage" class="muted"></p></div></div>
+</div>
+<div id="contactPage" class="page legal-page">
+  <div class="card"><div class="eyebrow">Support</div><h1>Contact SoundLens</h1><p>Questions about your account, billing, a report, or the service can be sent here. Include the email connected to your account so the issue can be located.</p><div class="contact-form"><div class="contact-grid"><input id="contactName" placeholder="Name"><input id="contactEmail" type="email" placeholder="Email"></div><input id="contactSubject" placeholder="Subject"><textarea id="contactMessage" placeholder="How can SoundLens help?"></textarea><button onclick="submitContact()">Send Message</button><p id="contactStatus" class="muted"></p></div></div>
 </div>
 <div id="termsPage" class="page legal-page"><div class="card"><div class="eyebrow">Effective July 31, 2026</div><h1>Terms of Service</h1><p>These Terms govern access to and use of SoundLens, including its website, audio-analysis tools, artist-comparison features, accounts, saved reports, and paid plans. By creating an account or using SoundLens, you agree to these Terms.</p><h2>1. Eligibility and accounts</h2><p>You must provide accurate account information, protect your login credentials, and notify SoundLens of suspected unauthorized access. You are responsible for activity performed through your account.</p><h2>2. Uploaded audio and permissions</h2><p>You retain ownership of audio you upload. You grant SoundLens a limited permission to receive, process, temporarily store, and analyze that audio solely to operate, secure, maintain, and improve the service. You must have the legal right to upload and analyze the material. Do not upload content that infringes copyright, privacy, contractual, or other rights.</p><h2>3. Analysis results</h2><p>SoundLens provides automated estimates and creative-production guidance. BPM, key, mix, arrangement, release, energy, artist-match, and related outputs may be incomplete or inaccurate and are not guarantees of commercial performance, release quality, similarity, ownership, or legal clearance. Use professional judgment and reference listening before making release, business, or technical decisions.</p><h2>4. Acceptable use</h2><p>You may not misuse the service, attempt unauthorized access, interfere with infrastructure, evade limits, reverse engineer protected components, upload malicious files, scrape at unreasonable volume, impersonate others, or use SoundLens to violate applicable law or third-party rights.</p><h2>5. Paid plans and billing</h2><p>Paid plans are billed through the payment provider shown at checkout. Prices, billing intervals, included features, and applicable taxes are displayed before purchase. Subscriptions renew until cancelled through the available billing method. SoundLens may change future pricing or plan features with reasonable notice; changes do not retroactively alter completed billing periods.</p><h2>6. Availability and changes</h2><p>SoundLens may add, change, suspend, or discontinue features to maintain security, reliability, legal compliance, or product quality. Continuous or error-free availability is not guaranteed.</p><h2>7. Suspension and termination</h2><p>Access may be limited or terminated for material violations, fraud, abuse, security risk, non-payment, or conduct that harms SoundLens or other users. You may stop using the service and request account deletion at any time.</p><h2>8. Disclaimers and limitation</h2><p>To the maximum extent permitted by law, SoundLens is provided “as is” and “as available,” without warranties of accuracy, fitness for a particular purpose, non-infringement, uninterrupted access, or specific results. SoundLens is not liable for indirect, incidental, special, consequential, or lost-profit damages arising from use of the service. Where liability cannot be excluded, total liability is limited to the amount you paid to SoundLens during the twelve months before the event giving rise to the claim.</p><h2>9. Governing law</h2><p>These Terms are governed by the laws of Alberta and the federal laws of Canada applicable there, without regard to conflict-of-law rules. Courts located in Alberta will have jurisdiction, subject to any consumer rights that cannot legally be waived.</p><h2>10. Contact</h2><p>Questions about these Terms can be submitted through the Contact page.</p></div></div>
 <div id="privacyPage" class="page legal-page"><div class="card"><div class="eyebrow">Effective July 31, 2026</div><h1>Privacy Policy</h1><p>This Policy explains how SoundLens handles information when you use the service.</p><h2>Information collected</h2><ul><li>Account details such as email, display name, plan, verification status, and login timestamps.</li><li>Audio files and technical analysis data needed to generate reports and artist comparisons.</li><li>Saved reports, feedback, contact messages, and support correspondence.</li><li>Usage events such as pages viewed, buttons clicked, upload status, session activity, device/browser details supplied by the browser, and basic security events.</li><li>Billing identifiers and subscription status received from Stripe. SoundLens does not store full payment-card numbers.</li></ul><h2>How information is used</h2><p>Information is used to provide analysis, authenticate accounts, enforce usage limits, save reports, process subscriptions, support users, detect misuse, understand product performance, and improve SoundLens.</p><h2>Audio handling</h2><p>Uploaded audio is processed to generate requested analysis. Temporary uploads may remain on the server as required for processing and operational troubleshooting. Saved report data remains connected to the account until deleted. Users should not upload confidential audio unless they accept this processing.</p><h2>Service providers</h2><p>Information may be processed by hosting, email, payment, analytics, and AI service providers only as needed to operate SoundLens. Their own terms and privacy practices may apply.</p><h2>Retention and deletion</h2><p>Information is kept only as long as reasonably required for the purposes described, legal obligations, dispute resolution, security, and backups. Account deletion removes the active account and saved reports from the application. Limited records may remain in backups or logs for a reasonable period.</p><h2>Security</h2><p>SoundLens uses reasonable safeguards, including password hashing and access controls. No internet service can guarantee absolute security.</p><h2>Your choices</h2><p>You may request support, correct account information, delete individual saved reports, or permanently delete your account from the Account section. Marketing emails, when introduced, will include an unsubscribe method.</p><h2>Contact</h2><p>Privacy questions can be submitted through the Contact page.</p></div></div>
@@ -3435,7 +3607,7 @@ function adminDate(value){
 }
 
 function adminEventLabel(item){
-    const pageNames = {analyzePage:"Analyze",overviewPage:"Overview",artistPage:"Artist Match",fixesPage:"Galaxy",dashboardPage:"Dashboard",adminPage:"Admin",authPage:"Account"};
+    const pageNames = {analyzePage:"Analyze",overviewPage:"Overview",artistPage:"Artist Match",fixesPage:"Galaxy",dashboardPage:"Dashboard",feedbackPage:"Feedback",adminPage:"Admin",authPage:"Account"};
     const event = item.event || "event";
     const page = item.details?.page || item.details?.details?.page;
     const labels = {signup_success:"Account created",login_success:"Logged in",login_failed:"Failed login",logout:"Logged out",analysis_started:"Started analysis",analysis_completed:"Completed analysis",analysis_failed:"Analysis failed",report_deleted:"Deleted report",email_verified:"Verified email",lifetime_account_created:"Lifetime account created",lifetime_access_granted:"Lifetime access granted",pro_access_granted:"Pro access granted",pro_access_removed:"Pro access removed",admin_pro_grant_removed:"Manual Pro grant removed",admin_password_changed:"Admin changed password",password_changed:"Changed password",password_change_failed:"Password change failed",admin_access_denied:"Blocked admin access",feedback_submitted:"Submitted feedback"};
@@ -3578,6 +3750,7 @@ function adminHeatmapPageName(page){
         artistPage:"Artist Match",
         fixesPage:"Galaxy",
         dashboardPage:"Dashboard",
+        feedbackPage:"Feedback",
         contactPage:"Contact",
         authPage:"Account",
         pricingPage:"Pricing",
