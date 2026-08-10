@@ -2180,6 +2180,48 @@
             #databasePage .database-topline{align-items:flex-start;flex-direction:column;}
         }
         @media(max-width:480px){#databasePage .database-grid{grid-template-columns:1fr;}}
+
+        /* Pricing page — Free / Pro / Studio */
+        #pricingPage{max-width:1400px;}
+        .plans-head{text-align:center;margin:6px auto 28px;}
+        .plans-kicker{display:inline-flex;align-items:center;gap:10px;padding:10px 22px;border:1px solid #303750;border-radius:999px;color:#aeb4c5;font-weight:800;letter-spacing:1px;text-transform:uppercase;background:rgba(15,17,23,.55);}
+        .plans-kicker:before{content:"";width:10px;height:10px;border-radius:50%;background:#7c5cff;box-shadow:0 0 18px rgba(124,92,255,.7);}
+        .plans-head h1{font-size:48px;line-height:1.05;margin:22px 0 10px;letter-spacing:-1.5px;}
+        .plans-gradient{background:linear-gradient(90deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent;}
+        .plans-head p{margin:0;color:var(--muted);font-size:17px;}
+        .plans-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:38px;max-width:1260px;margin:0 auto;}
+        .plan-card-v3{position:relative;display:flex;flex-direction:column;min-height:650px;padding:28px;border-radius:22px;border:1px solid #303750;background:linear-gradient(160deg,rgba(20,23,35,.98),rgba(10,12,19,.98));box-shadow:0 24px 60px rgba(0,0,0,.2);overflow:hidden;}
+        .plan-card-v3.pro{border-color:#6d4df0;box-shadow:0 24px 70px rgba(91,63,220,.15);}
+        .plan-card-v3.studio{border-color:#1aa6ba;box-shadow:0 24px 70px rgba(15,190,190,.12);}
+        .plan-card-top-v3{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:8px;}
+        .plan-icon-v3{width:54px;height:54px;border-radius:13px;border:1px solid #485169;background:linear-gradient(145deg,#2b3143,#171b28);display:grid;place-items:center;font-size:25px;}
+        .pro .plan-icon-v3{border-color:#6543c8;background:linear-gradient(145deg,#3d2479,#21183e);}
+        .studio .plan-icon-v3{border-color:#087f89;background:linear-gradient(145deg,#0d5058,#10292d);}
+        .plan-badge-v3{padding:9px 20px;border-radius:999px;border:1px solid #303750;color:#aeb4c5;font-weight:900;letter-spacing:.7px;}
+        .pro .plan-badge-v3{color:#b58cff;border-color:#6543c8;}
+        .studio .plan-badge-v3{color:#29e3d4;border-color:#087f89;}
+        .plan-card-v3 h2{font-size:31px;margin:4px 0 12px;}
+        .plan-price-v3{font-size:48px;font-weight:950;letter-spacing:-1.5px;margin-bottom:22px;}
+        .plan-price-v3 small{font-size:15px;color:var(--muted);font-weight:500;letter-spacing:0;}
+        .plan-rule-v3{height:1px;background:#2a3040;margin-bottom:20px;}
+        .plan-features-v3{display:grid;gap:18px;margin-bottom:28px;}
+        .plan-feature-v3{display:grid;grid-template-columns:42px 1fr 20px;gap:12px;align-items:center;}
+        .feature-icon-v3{width:42px;height:42px;border-radius:9px;border:1px solid #3a4257;background:#202535;display:grid;place-items:center;font-size:18px;}
+        .pro .feature-icon-v3{border-color:#523b9e;background:#241b42;}
+        .studio .feature-icon-v3{border-color:#12606a;background:#102d32;}
+        .plan-feature-v3 strong{display:block;font-size:16px;margin-bottom:3px;}
+        .plan-feature-v3 span{display:block;color:var(--muted);font-size:14px;line-height:1.3;}
+        .feature-check-v3{font-size:23px;font-weight:900;}
+        .pro .feature-check-v3{color:#8b5cf6}.studio .feature-check-v3{color:#2dd4bf}
+        .plan-action-v3{margin-top:auto;width:100%;padding:16px;border-radius:11px;border:1px solid #303750;background:transparent;color:white;font-size:16px;}
+        .plan-action-v3:hover{background:#202535;}
+        .pro .plan-action-v3{border:none;background:linear-gradient(90deg,#4169f5,#8549ed);box-shadow:0 8px 28px rgba(93,67,230,.25);}
+        .studio .plan-action-v3{border:none;background:linear-gradient(90deg,#17b8a5,#21c8bf);color:white;box-shadow:0 8px 28px rgba(24,190,177,.2);}
+        .plans-trust{max-width:1000px;margin:26px auto 0;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #252b3f;border-radius:16px;background:rgba(15,17,23,.72);padding:20px;}
+        .trust-item{text-align:center;padding:0 16px;border-right:1px solid #252b3f;} .trust-item:last-child{border-right:none}.trust-item strong{display:block}.trust-item span{display:block;color:var(--muted);font-size:13px;margin-top:4px;}
+        @media(max-width:1000px){.plans-grid{grid-template-columns:1fr;gap:18px;max-width:650px}.plan-card-v3{min-height:0}.plans-trust{grid-template-columns:1fr 1fr;gap:18px}.trust-item{border-right:none}.plans-head h1{font-size:40px}}
+        @media(max-width:560px){.plans-head h1{font-size:34px}.plans-trust{grid-template-columns:1fr}.plan-card-v3{padding:22px}}
+
 </style>
 </head>
 
@@ -2192,6 +2234,7 @@
         <a id="nav-artistPage" onclick="showPage('artistPage')">Artist Match</a>
         <a id="nav-fixesPage" onclick="showPage('fixesPage')">Galaxy</a>
         <a id="nav-databasePage" onclick="showPage('databasePage')">Database</a>
+        <a id="nav-pricingPage" onclick="showPage('pricingPage')">Pricing</a>
         
         
         <a id="nav-contactPage" onclick="showPage('contactPage')">Contact</a>
@@ -2645,6 +2688,60 @@
     </div>
   </div>
 </div>
+
+<div id="pricingPage" class="page">
+    <div class="plans-head">
+        <div class="plans-kicker">Plans &amp; Pricing</div>
+        <h1>Choose your <span class="plans-gradient">SoundLens</span> plan</h1>
+        <p>Upgrade or downgrade anytime. Cancel anytime.</p>
+    </div>
+    <div class="plans-grid">
+        <section class="plan-card-v3 free">
+            <div class="plan-card-top-v3"><div class="plan-icon-v3">♙</div><div class="plan-badge-v3">FREE</div></div>
+            <h2>Free</h2><div class="plan-price-v3">$0 <small>/ month</small></div><div class="plan-rule-v3"></div>
+            <div class="plan-features-v3">
+                <div class="plan-feature-v3"><div class="feature-icon-v3">◉</div><div><strong>3 reports per day</strong><span>Daily limit</span></div><div></div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">▥</div><div><strong>Core analysis</strong><span>BPM, Key, Loudness, EQ, Rhythm</span></div><div></div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">♧</div><div><strong>Artist Match</strong><span>Basic matches</span></div><div></div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">↓</div><div><strong>Export reports</strong><span>Standard export</span></div><div></div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">◌</div><div><strong>Community support</strong><span>Standard</span></div><div></div></div>
+            </div>
+            <button class="plan-action-v3" onclick="showPage('analyzePage')">Get Started</button>
+        </section>
+        <section class="plan-card-v3 pro">
+            <div class="plan-card-top-v3"><div class="plan-icon-v3">▥</div><div class="plan-badge-v3">PRO</div></div>
+            <h2>Pro</h2><div class="plan-price-v3">$9.99 <small>/ month</small></div><div class="plan-rule-v3"></div>
+            <div class="plan-features-v3">
+                <div class="plan-feature-v3"><div class="feature-icon-v3">∞</div><div><strong>Unlimited reports</strong><span>No daily limits</span></div><div class="feature-check-v3">✓</div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">▥</div><div><strong>Full analysis</strong><span>All metrics + Stem separation</span></div><div class="feature-check-v3">✓</div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">♧</div><div><strong>Advanced Artist Match</strong><span>More matches + insights</span></div><div class="feature-check-v3">✓</div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">◉</div><div><strong>Galaxy / Core</strong><span>Full access</span></div><div class="feature-check-v3">✓</div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">☁</div><div><strong>Export &amp; history</strong><span>Unlimited exports</span></div><div class="feature-check-v3">✓</div></div>
+            </div>
+            <button class="plan-action-v3" onclick="startStripeCheckout('pro')">Start Pro</button>
+        </section>
+        <section class="plan-card-v3 studio">
+            <div class="plan-card-top-v3"><div class="plan-icon-v3">▥</div><div class="plan-badge-v3">STUDIO</div></div>
+            <h2>Studio</h2><div class="plan-price-v3">$24.99 <small>/ month</small></div><div class="plan-rule-v3"></div>
+            <div class="plan-features-v3">
+                <div class="plan-feature-v3"><div class="feature-icon-v3">▣</div><div><strong>Everything in Pro</strong><span>All Pro features included</span></div><div class="feature-check-v3">✓</div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">▣</div><div><strong>SoundLens Plugin</strong><span>Use inside your DAW</span></div><div class="feature-check-v3">✓</div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">⌁</div><div><strong>Live Capture</strong><span>Real-time audio analysis</span></div><div class="feature-check-v3">✓</div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">◎</div><div><strong>Resonance</strong><span>Find problems, fix faster</span></div><div class="feature-check-v3">✓</div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">✦</div><div><strong>AI Assistant</strong><span>Ask, learn, improve</span></div><div class="feature-check-v3">✓</div></div>
+                <div class="plan-feature-v3"><div class="feature-icon-v3">↗</div><div><strong>Link</strong><span>Sync plugin &amp; web</span></div><div class="feature-check-v3">✓</div></div>
+            </div>
+            <button class="plan-action-v3" onclick="startStripeCheckout('studio')">Start Studio</button>
+        </section>
+    </div>
+    <div class="plans-trust">
+        <div class="trust-item"><strong>Cancel anytime</strong><span>No long-term contracts</span></div>
+        <div class="trust-item"><strong>Secure payments</strong><span>Powered by Stripe</span></div>
+        <div class="trust-item"><strong>Instant access</strong><span>Start in seconds</span></div>
+        <div class="trust-item"><strong>Upgrade anytime</strong><span>Prorated automatically</span></div>
+    </div>
+</div>
+
 <div id="termsPage" class="page legal-page"><div class="card"><div class="eyebrow">Effective July 31, 2026</div><h1>Terms of Service</h1><p>These Terms govern access to and use of SoundLens, including its website, audio-analysis tools, artist-comparison features, accounts, saved reports, and paid plans. By creating an account or using SoundLens, you agree to these Terms.</p><h2>1. Eligibility and accounts</h2><p>You must provide accurate account information, protect your login credentials, and notify SoundLens of suspected unauthorized access. You are responsible for activity performed through your account.</p><h2>2. Uploaded audio and permissions</h2><p>You retain ownership of audio you upload. You grant SoundLens a limited permission to receive, process, temporarily store, and analyze that audio solely to operate, secure, maintain, and improve the service. You must have the legal right to upload and analyze the material. Do not upload content that infringes copyright, privacy, contractual, or other rights.</p><h2>3. Analysis results</h2><p>SoundLens provides automated estimates and creative-production guidance. BPM, key, mix, arrangement, release, energy, artist-match, and related outputs may be incomplete or inaccurate and are not guarantees of commercial performance, release quality, similarity, ownership, or legal clearance. Use professional judgment and reference listening before making release, business, or technical decisions.</p><h2>4. Acceptable use</h2><p>You may not misuse the service, attempt unauthorized access, interfere with infrastructure, evade limits, reverse engineer protected components, upload malicious files, scrape at unreasonable volume, impersonate others, or use SoundLens to violate applicable law or third-party rights.</p><h2>5. Paid plans and billing</h2><p>Paid plans are billed through the payment provider shown at checkout. Prices, billing intervals, included features, and applicable taxes are displayed before purchase. Subscriptions renew until cancelled through the available billing method. SoundLens may change future pricing or plan features with reasonable notice; changes do not retroactively alter completed billing periods.</p><h2>6. Availability and changes</h2><p>SoundLens may add, change, suspend, or discontinue features to maintain security, reliability, legal compliance, or product quality. Continuous or error-free availability is not guaranteed.</p><h2>7. Suspension and termination</h2><p>Access may be limited or terminated for material violations, fraud, abuse, security risk, non-payment, or conduct that harms SoundLens or other users. You may stop using the service and request account deletion at any time.</p><h2>8. Disclaimers and limitation</h2><p>To the maximum extent permitted by law, SoundLens is provided “as is” and “as available,” without warranties of accuracy, fitness for a particular purpose, non-infringement, uninterrupted access, or specific results. SoundLens is not liable for indirect, incidental, special, consequential, or lost-profit damages arising from use of the service. Where liability cannot be excluded, total liability is limited to the amount you paid to SoundLens during the twelve months before the event giving rise to the claim.</p><h2>9. Governing law</h2><p>These Terms are governed by the laws of Alberta and the federal laws of Canada applicable there, without regard to conflict-of-law rules. Courts located in Alberta will have jurisdiction, subject to any consumer rights that cannot legally be waived.</p><h2>10. Contact</h2><p>Questions about these Terms can be submitted through the Contact page.</p></div></div>
 <div id="privacyPage" class="page legal-page"><div class="card"><div class="eyebrow">Effective July 31, 2026</div><h1>Privacy Policy</h1><p>This Policy explains how SoundLens handles information when you use the service.</p><h2>Information collected</h2><ul><li>Account details such as email, display name, plan, verification status, and login timestamps.</li><li>Audio files and technical analysis data needed to generate reports and artist comparisons.</li><li>Saved reports, feedback, contact messages, and support correspondence.</li><li>Usage events such as pages viewed, buttons clicked, upload status, session activity, device/browser details supplied by the browser, and basic security events.</li><li>Billing identifiers and subscription status received from Stripe. SoundLens does not store full payment-card numbers.</li></ul><h2>How information is used</h2><p>Information is used to provide analysis, authenticate accounts, enforce usage limits, save reports, process subscriptions, support users, detect misuse, understand product performance, and improve SoundLens.</p><h2>Audio handling</h2><p>Uploaded audio is processed to generate requested analysis. Temporary uploads may remain on the server as required for processing and operational troubleshooting. Saved report data remains connected to the account until deleted. Users should not upload confidential audio unless they accept this processing.</p><h2>Service providers</h2><p>Information may be processed by hosting, email, payment, analytics, and AI service providers only as needed to operate SoundLens. Their own terms and privacy practices may apply.</p><h2>Retention and deletion</h2><p>Information is kept only as long as reasonably required for the purposes described, legal obligations, dispute resolution, security, and backups. Account deletion removes the active account and saved reports from the application. Limited records may remain in backups or logs for a reasonable period.</p><h2>Security</h2><p>SoundLens uses reasonable safeguards, including password hashing and access controls. No internet service can guarantee absolute security.</p><h2>Your choices</h2><p>You may request support, correct account information, delete individual saved reports, or permanently delete your account from the Account section. Marketing emails, when introduced, will include an unsubscribe method.</p><h2>Contact</h2><p>Privacy questions can be submitted through the Contact page.</p></div></div>
 <div id="refundPage" class="page legal-page"><div class="card"><div class="eyebrow">Billing</div><h1>Refund Policy</h1><p>SoundLens subscriptions provide immediate access to digital features. Except where required by law, subscription charges are generally non-refundable after access has been provided.</p><h2>Duplicate or incorrect charges</h2><p>Contact SoundLens promptly if you believe you were charged more than once, charged after a confirmed cancellation, or billed an incorrect amount. Verified billing errors will be corrected.</p><h2>Technical failure</h2><p>When a prolonged technical problem materially prevents use of paid features and SoundLens cannot restore access within a reasonable period, SoundLens may provide a proportional refund or account credit at its discretion.</p><h2>Cancellation</h2><p>Cancellation stops future renewals. Access normally continues through the already-paid billing period. Not using the service does not by itself create a refund right.</p><h2>Requests</h2><p>Submit requests through the Contact page with the account email, charge date, amount, and reason. Nothing in this Policy limits non-waivable consumer rights under applicable law.</p></div></div>
