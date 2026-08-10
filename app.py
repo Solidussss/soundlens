@@ -475,6 +475,7 @@ def public_user(user: dict) -> dict:
         "display_name": user.get("display_name") or user.get("email"),
         "plan": plan,
         "is_pro": plan in {"pro", "studio", "lifetime"},
+        "is_studio": plan == "studio",
         "daily_limit": None if plan in {"pro", "studio", "lifetime"} else FREE_DAILY_UPLOAD_LIMIT,
         "uploads_today": int(usage.get("count", 0) or 0),
         "uploads_remaining": None if plan in {"pro", "studio", "lifetime"} else max(0, FREE_DAILY_UPLOAD_LIMIT - int(usage.get("count", 0) or 0)),
@@ -1093,6 +1094,8 @@ def set_user_plan_by_email(email: str, plan: str, stripe_customer_id: str | None
     user["plan"] = plan
     if plan in {"pro", "studio"}:
         user["upgraded_at"] = now_iso()
+    if plan == "studio":
+        user["studio_revoked_by_admin"] = False
     user["stripe_customer_id"] = stripe_customer_id or user.get("stripe_customer_id")
     user["stripe_subscription_id"] = stripe_subscription_id or user.get("stripe_subscription_id")
     save_users_db(db)
@@ -1121,7 +1124,7 @@ def create_checkout_session(payload: dict, authorization: str | None = Header(de
             line_items=[{"price": price_id, "quantity": 1}],
             customer_email=user.get("email"),
             client_reference_id=user.get("id"),
-            success_url=f"{SOUNDLENS_PUBLIC_URL}/?checkout=success&plan={plan_name}",
+            success_url=f"{SOUNDLENS_PUBLIC_URL}/?checkout=success&plan={plan_name}&session_id={{CHECKOUT_SESSION_ID}}",
             cancel_url=f"{SOUNDLENS_PUBLIC_URL}/?checkout=cancelled",
             metadata={"user_id": user.get("id"), "email": user.get("email"), "plan": plan_name},
             subscription_data={"metadata": {"user_id": user.get("id"), "email": user.get("email"), "plan": plan_name}},
@@ -1129,6 +1132,42 @@ def create_checkout_session(payload: dict, authorization: str | None = Header(de
         return {"checkout_url": session.url}
     except Exception as error:
         raise HTTPException(status_code=500, detail=f"Stripe checkout failed: {error}")
+
+
+@app.get("/stripe/confirm-checkout")
+def confirm_checkout(session_id: str, authorization: str | None = Header(default=None)):
+    """Confirm a completed Checkout Session immediately after Stripe redirects back."""
+    if not STRIPE_SECRET_KEY:
+        raise HTTPException(status_code=500, detail="Stripe is not configured yet.")
+
+    db, user = get_current_user(authorization)
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
+    except Exception as error:
+        raise HTTPException(status_code=400, detail=f"Could not verify Stripe checkout: {error}")
+
+    metadata = session.get("metadata", {}) or {}
+    session_user_id = session.get("client_reference_id") or metadata.get("user_id")
+    if session_user_id != user.get("id"):
+        raise HTTPException(status_code=403, detail="This checkout does not belong to your SoundLens account.")
+
+    if session.get("payment_status") not in {"paid", "no_payment_required"}:
+        raise HTTPException(status_code=409, detail="Stripe payment is not complete yet.")
+
+    plan = str(metadata.get("plan", "pro")).lower().strip()
+    if plan not in {"pro", "studio"}:
+        plan = "pro"
+
+    user["plan"] = plan
+    user["upgraded_at"] = now_iso()
+    user["stripe_customer_id"] = session.get("customer") or user.get("stripe_customer_id")
+    user["stripe_subscription_id"] = session.get("subscription") or user.get("stripe_subscription_id")
+    user.pop("admin_pro_granted", None)
+    user.pop("admin_studio_granted", None)
+    user["studio_revoked_by_admin"] = False
+    save_users_db(db)
+    track_event("stripe_checkout_confirmed", user, {"plan": plan, "session_id": session_id})
+    return {"ok": True, "user": public_user(user)}
 
 
 @app.post("/stripe/webhook")
@@ -1159,14 +1198,26 @@ async def stripe_webhook(request: Request):
         if email:
             set_user_plan_by_email(email, plan, obj.get("customer"), obj.get("subscription"))
 
-    elif event_type in {"customer.subscription.deleted", "customer.subscription.paused"}:
+    elif event_type in {"customer.subscription.updated", "customer.subscription.deleted", "customer.subscription.paused"}:
         customer_id = obj.get("customer")
+        subscription_id = obj.get("id")
+        metadata = obj.get("metadata", {}) or {}
+        status = str(obj.get("status", "")).lower()
+        paid_active = status in {"active", "trialing"}
         db = load_users_db()
         changed = False
         for user in db.get("users", {}).values():
-            if user.get("stripe_customer_id") == customer_id:
-                user["plan"] = "free"
-                user["downgraded_at"] = now_iso()
+            if user.get("stripe_customer_id") == customer_id or (subscription_id and user.get("stripe_subscription_id") == subscription_id):
+                if paid_active:
+                    plan = str(metadata.get("plan") or user.get("plan") or "pro").lower()
+                    if plan == "studio" and user.get("studio_revoked_by_admin"):
+                        user["plan"] = "pro"
+                    else:
+                        user["plan"] = plan if plan in {"pro", "studio"} else "pro"
+                    user["upgraded_at"] = now_iso()
+                else:
+                    user["plan"] = "free"
+                    user["downgraded_at"] = now_iso()
                 changed = True
         if changed:
             save_users_db(db)
@@ -1601,6 +1652,48 @@ def grant_pro(payload: AdminEmailPayload, authorization: str | None = Header(def
     if created:
         return {"ok": True, "message": f"Pro restored for {email}. The user can use Forgot Password to set a new password.", "user": public_user(user)}
     return {"ok": True, "message": f"Pro access granted to {email}.", "user": public_user(user)}
+
+
+@app.post("/admin/grant-studio")
+def grant_studio(payload: AdminEmailPayload, authorization: str | None = Header(default=None)):
+    db, admin = get_admin_user(authorization)
+    email = normalize_email(payload.email)
+    if not email or "@" not in email:
+        raise HTTPException(status_code=400, detail="Enter a valid email.")
+    user = find_user_by_email(db, email)
+    if not user:
+        raise HTTPException(status_code=404, detail="Account not found.")
+    if user.get("plan") == "lifetime":
+        raise HTTPException(status_code=400, detail="This account has Lifetime access.")
+    user["plan"] = "studio"
+    user["admin_studio_granted"] = True
+    user["studio_revoked_by_admin"] = False
+    user["admin_studio_granted_at"] = now_iso()
+    user["admin_studio_granted_by"] = admin.get("email")
+    save_users_db(db)
+    track_event("studio_access_granted", user, {"admin_email": admin.get("email")})
+    return {"ok": True, "message": f"Studio access granted to {email}.", "user": public_user(user)}
+
+
+@app.post("/admin/remove-studio")
+def remove_studio(payload: AdminEmailPayload, authorization: str | None = Header(default=None)):
+    db, admin = get_admin_user(authorization)
+    user = find_user_by_email(db, payload.email)
+    if not user:
+        raise HTTPException(status_code=404, detail="Account not found.")
+    if user.get("plan") != "studio":
+        raise HTTPException(status_code=400, detail="This account is not currently on Studio.")
+
+    # Manual removal is immediate. If Stripe still has an active Studio subscription,
+    # cancel it in Stripe first or a later Stripe event can restore paid access.
+    user["plan"] = "pro" if user.get("stripe_subscription_id") else "free"
+    user["admin_studio_granted"] = False
+    user["studio_revoked_by_admin"] = True
+    user["admin_studio_removed_at"] = now_iso()
+    user["admin_studio_removed_by"] = admin.get("email")
+    save_users_db(db)
+    track_event("studio_access_removed", user, {"admin_email": admin.get("email")})
+    return {"ok": True, "message": f"Studio access removed from {user.get('email')}.", "user": public_user(user)}
 
 
 @app.post("/admin/set-password")

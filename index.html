@@ -1567,10 +1567,15 @@
             font-weight:800;
         }
         .plan-pill.plan-pro,
-        .plan-pill.plan-studio,
         .plan-pill.plan-lifetime{
             background:linear-gradient(135deg,#6d5dfc,#4f46c8);
             box-shadow:0 0 16px rgba(99,102,241,0.32);
+        }
+        .plan-pill.plan-studio{
+            background:rgba(41,227,212,0.14);
+            color:#29e3d4;
+            border:1px solid #087f89;
+            box-shadow:0 0 16px rgba(41,227,212,0.22);
         }
         @media(max-width:768px){
             .premium-lock-host.pro-locked{ min-height:0; }
@@ -2850,6 +2855,17 @@
             </div>
 
             <div class="card">
+                <h2>Manage Existing User Studio</h2>
+                <p class="admin-note">Grant or remove Studio plugin access for an existing SoundLens account.</p>
+                <div class="admin-form">
+                    <input id="adminStudioEmail" type="email" placeholder="Existing user email">
+                    <button onclick="grantStudioAccess()">Grant Studio</button>
+                    <button onclick="removeStudioAccess()" style="background:#b91c1c;">Remove Studio</button>
+                </div>
+                <p id="adminStudioStatus" class="admin-status"></p>
+            </div>
+
+            <div class="card">
                 <h2>Reset User Password</h2>
                 <p class="admin-note">Set a temporary password for an existing account. This does not change Free, Pro, Studio, or Lifetime status. The user will be signed out of old sessions and can log in with the new password.</p>
                 <div class="admin-form">
@@ -3892,6 +3908,7 @@ function renderAdminUsers(){
             <div><div class="admin-user-sub">Reports</div><strong>${user.reports_saved ?? 0}</strong></div>
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
                 <button class="small-btn" onclick="prefillPro('${adminEscape(user.email)}')">Pro</button>
+                <button class="small-btn" onclick="prefillStudio('${adminEscape(user.email)}')">Studio</button>
                 <button class="small-btn" onclick="prefillPassword('${adminEscape(user.email)}')">Password</button>
                 <button class="small-btn" onclick="prefillLifetime('${adminEscape(user.email)}')">Lifetime</button>
             </div>
@@ -3931,6 +3948,11 @@ function prefillLifetime(email){
 
 function prefillPro(email){
     const input = document.getElementById("adminProEmail");
+    if(input){ input.value = email; input.focus(); }
+}
+
+function prefillStudio(email){
+    const input = document.getElementById("adminStudioEmail");
     if(input){ input.value = email; input.focus(); }
 }
 
@@ -3986,6 +4008,33 @@ async function removeProAccess(){
     }catch(error){ status.innerText = error.message; }
 }
 
+
+async function grantStudioAccess(){
+    const status = document.getElementById("adminStudioStatus");
+    const email = document.getElementById("adminStudioEmail").value.trim();
+    if(!email){ status.innerText = "Enter an existing user email first."; return; }
+    status.innerText = "Granting Studio...";
+    try{
+        const data = await apiJSON("/admin/grant-studio", {method:"POST",body:JSON.stringify({email})});
+        status.innerText = data.message || "Studio access granted.";
+        await loadAdminDashboard();
+        if(currentUser && String(currentUser.email).toLowerCase() === email.toLowerCase()){ await loadCurrentUser(); }
+    }catch(error){ status.innerText = error.message; }
+}
+
+async function removeStudioAccess(){
+    const status = document.getElementById("adminStudioStatus");
+    const email = document.getElementById("adminStudioEmail").value.trim();
+    if(!email){ status.innerText = "Enter an existing user email first."; return; }
+    if(!confirm(`Remove Studio access from ${email}?`)){ return; }
+    status.innerText = "Removing Studio...";
+    try{
+        const data = await apiJSON("/admin/remove-studio", {method:"POST",body:JSON.stringify({email})});
+        status.innerText = data.message || "Studio access removed.";
+        await loadAdminDashboard();
+        if(currentUser && String(currentUser.email).toLowerCase() === email.toLowerCase()){ await loadCurrentUser(); }
+    }catch(error){ status.innerText = error.message; }
+}
 
 async function setAdminUserPassword(){
     const status = document.getElementById("adminPasswordStatus");
@@ -4303,8 +4352,8 @@ async function loadDashboard(){
         updateAccountUI();
 
         document.getElementById("dashboardTitle").innerText = `${currentUser.display_name || "Your"} SoundLens`;
-        document.getElementById("dashboardPlan").innerText = currentUser.plan === "pro" ? "Pro" : "Free";
-        document.getElementById("dashPlan").innerText = currentUser.plan === "pro" ? "Pro" : "Free";
+        document.getElementById("dashboardPlan").innerText = currentUser.plan === "studio" ? "Studio" : (currentUser.plan === "pro" ? "Pro" : "Free");
+        document.getElementById("dashPlan").innerText = currentUser.plan === "studio" ? "Studio" : (currentUser.plan === "pro" ? "Pro" : "Free");
         document.getElementById("dashUploadsToday").innerText = currentUser.uploads_today;
         document.getElementById("dashUploadsRemaining").innerText = currentUser.uploads_remaining === null ? "Unlimited" : currentUser.uploads_remaining;
         document.getElementById("dashReportsSaved").innerText = savedReports.length;
@@ -5028,12 +5077,21 @@ async function startStripeCheckout(plan){
     }
 }
 
-function handleCheckoutStatus(){
+async function handleCheckoutStatus(){
     const params = new URLSearchParams(window.location.search);
     if(params.get("checkout") === "success"){
-        alert("Payment successful. Your SoundLens plan will update shortly.");
+        const sessionId = params.get("session_id");
+        try{
+            if(sessionId){
+                await apiJSON(`/stripe/confirm-checkout?session_id=${encodeURIComponent(sessionId)}`);
+            }
+            if(typeof loadCurrentUser === "function"){ await loadCurrentUser(); }
+            alert("Payment successful. Your SoundLens access is active now.");
+        }catch(error){
+            if(typeof loadCurrentUser === "function"){ await loadCurrentUser(); }
+            alert(error.message || "Payment succeeded, but SoundLens could not refresh your plan yet.");
+        }
         window.history.replaceState({}, document.title, "/");
-        if(typeof loadCurrentUser === "function"){ loadCurrentUser(); }
     }
     if(params.get("checkout") === "cancelled"){
         alert("Checkout cancelled.");
