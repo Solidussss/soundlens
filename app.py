@@ -1782,6 +1782,21 @@ def contact_page():
     return FileResponse("index.html")
 
 
+
+@app.get("/Analyze")
+@app.get("/Overview")
+@app.get("/ArtistMatch")
+@app.get("/Galaxy")
+@app.get("/Database")
+@app.get("/Pricing")
+@app.get("/Contact")
+@app.get("/Admin")
+@app.get("/Account")
+def soundlens_page_routes():
+    return FileResponse("index.html")
+
+
+
 def save_upload(file: UploadFile) -> Path:
     safe_name = Path(file.filename or "uploaded_audio.wav").name
     file_path = UPLOADS_DIR / safe_name
