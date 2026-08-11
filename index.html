@@ -2234,17 +2234,17 @@
 
 <div class="navbar">
     <div class="nav-links">
-        <a id="nav-analyzePage" class="active-nav" onclick="showPage('analyzePage')">Analyze</a>
-        <a id="nav-overviewPage" onclick="showPage('overviewPage')">Overview</a>
-        <a id="nav-artistPage" onclick="showPage('artistPage')">Artist Match</a>
-        <a id="nav-fixesPage" onclick="showPage('fixesPage')">Galaxy</a>
-        <a id="nav-databasePage" onclick="showPage('databasePage')">Database</a>
-        <a id="nav-pricingPage" onclick="showPage('pricingPage')">Pricing</a>
+        <a id="nav-analyzePage" class="active-nav" href="/Analyze">Analyze</a>
+        <a id="nav-overviewPage" href="/Overview">Overview</a>
+        <a id="nav-artistPage" href="/ArtistMatch">Artist Match</a>
+        <a id="nav-fixesPage" href="/Galaxy">Galaxy</a>
+        <a id="nav-databasePage" href="/Database">Database</a>
+        <a id="nav-pricingPage" href="/Pricing">Pricing</a>
         
         
-        <a id="nav-contactPage" onclick="showPage('contactPage')">Contact</a>
-        <a id="nav-adminPage" onclick="showPage('adminPage'); loadAdminDashboard();">Admin</a>
-        <a id="nav-authPage" onclick="showPage('authPage')">Login</a>
+        <a id="nav-contactPage" href="/Contact">Contact</a>
+        <a id="nav-adminPage" href="/Admin">Admin</a>
+        <a id="nav-authPage" href="/Account">Login</a>
     </div>
 </div>
 
@@ -3123,7 +3123,7 @@
 
 </div>
 
-<div class="legal-links"><a onclick="showPage('termsPage')">Terms</a><a onclick="showPage('privacyPage')">Privacy</a><a onclick="showPage('refundPage')">Refunds</a><a onclick="showPage('contactPage')">Contact</a><a onclick="showPage('accountPage')">Account</a></div>
+<div class="legal-links"><a onclick="showPage('termsPage')">Terms</a><a onclick="showPage('privacyPage')">Privacy</a><a onclick="showPage('refundPage')">Refunds</a><a href="/Contact">Contact</a><a onclick="showPage('accountPage')">Account</a></div>
 
 <script>
 
@@ -5042,6 +5042,24 @@ function setupSafeAnalytics(){
 }
 window.addEventListener("load", async ()=>{
     setupSafeAnalytics();
+    const normalizedPath = (location.pathname.replace(/\/+$/, "") || "/").toLowerCase();
+    const directPageByPath = {
+        "/analyze": "analyzePage",
+        "/overview": "overviewPage",
+        "/artistmatch": "artistPage",
+        "/artist-match": "artistPage",
+        "/galaxy": "fixesPage",
+        "/database": "databasePage",
+        "/pricing": "pricingPage",
+        "/contact": "contactPage",
+        "/admin": "adminPage",
+        "/account": "authPage"
+    };
+    const directPage = directPageByPath[normalizedPath];
+    if(directPage){
+        showPage(directPage);
+        if(directPage === "adminPage"){ loadAdminDashboard(); }
+    }
     const params=new URLSearchParams(location.search);
     if(params.get("reset_token")){ showPage("resetPage"); }
     if(params.get("plugin_link")){
