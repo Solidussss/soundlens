@@ -3161,7 +3161,19 @@ function updatePremiumAccessUI(){
     if(reportSearch){ reportSearch.style.display = (!!currentUser && !unlocked) ? "none" : "block"; }
 }
 
-function showPage(pageId){
+const SOUNDLENS_PAGE_PATHS = {
+    analyzePage: "/Analyze",
+    overviewPage: "/Overview",
+    artistPage: "/ArtistMatch",
+    fixesPage: "/Galaxy",
+    databasePage: "/Database",
+    pricingPage: "/Pricing",
+    contactPage: "/Contact",
+    adminPage: "/Admin",
+    authPage: "/Account"
+};
+
+function showPage(pageId, updateUrl = true){
     updatePremiumAccessUI();
     document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
     document.querySelectorAll(".nav-links a").forEach(link => link.classList.remove("active-nav"));
@@ -3172,11 +3184,41 @@ function showPage(pageId){
     if(page){ page.classList.add("active"); }
     if(nav){ nav.classList.add("active-nav"); }
 
+    const targetPath = SOUNDLENS_PAGE_PATHS[pageId];
+    if(updateUrl && targetPath && window.location.pathname !== targetPath){
+        window.history.pushState({soundlensPage:pageId}, "", targetPath);
+    }
+
     window.scrollTo({ top:0, behavior:"smooth" });
     if(typeof trackClientEvent === "function"){
         trackClientEvent("page_view", {page:pageId});
     }
 }
+
+function pageIdFromPath(pathname){
+    const normalized = (String(pathname || "/").replace(/\/+$/, "") || "/").toLowerCase();
+    const directPageByPath = {
+        "/analyze": "analyzePage",
+        "/overview": "overviewPage",
+        "/artistmatch": "artistPage",
+        "/artist-match": "artistPage",
+        "/galaxy": "fixesPage",
+        "/database": "databasePage",
+        "/pricing": "pricingPage",
+        "/contact": "contactPage",
+        "/admin": "adminPage",
+        "/account": "authPage"
+    };
+    return directPageByPath[normalized] || null;
+}
+
+window.addEventListener("popstate", ()=>{
+    const pageId = pageIdFromPath(window.location.pathname);
+    if(pageId){
+        showPage(pageId, false);
+        if(pageId === "adminPage"){ loadAdminDashboard(); }
+    }
+});
 
 
 function openAudioPicker(){
@@ -5040,24 +5082,23 @@ function setupSafeAnalytics(){
         }
     });
 }
+document.querySelectorAll(".nav-links a[href]").forEach(link => {
+    link.addEventListener("click", event => {
+        if(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0){ return; }
+        const pageId = link.id && link.id.startsWith("nav-") ? link.id.slice(4) : null;
+        if(pageId && SOUNDLENS_PAGE_PATHS[pageId]){
+            event.preventDefault();
+            showPage(pageId, true);
+            if(pageId === "adminPage"){ loadAdminDashboard(); }
+        }
+    });
+});
+
 window.addEventListener("load", async ()=>{
     setupSafeAnalytics();
-    const normalizedPath = (location.pathname.replace(/\/+$/, "") || "/").toLowerCase();
-    const directPageByPath = {
-        "/analyze": "analyzePage",
-        "/overview": "overviewPage",
-        "/artistmatch": "artistPage",
-        "/artist-match": "artistPage",
-        "/galaxy": "fixesPage",
-        "/database": "databasePage",
-        "/pricing": "pricingPage",
-        "/contact": "contactPage",
-        "/admin": "adminPage",
-        "/account": "authPage"
-    };
-    const directPage = directPageByPath[normalizedPath];
+    const directPage = pageIdFromPath(location.pathname);
     if(directPage){
-        showPage(directPage);
+        showPage(directPage, false);
         if(directPage === "adminPage"){ loadAdminDashboard(); }
     }
     const params=new URLSearchParams(location.search);

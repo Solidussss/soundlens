@@ -1772,59 +1772,13 @@ def home():
     return FileResponse("index.html")
 
 
-# Frontend page routes. These all serve the same SoundLens single-page UI;
-# index.html selects the correct existing page from the URL on load.
-@app.get("/Analyze")
 @app.get("/analyze")
 def analyze_page():
     return FileResponse("index.html")
 
 
-@app.get("/Overview")
-@app.get("/overview")
-def overview_page():
-    return FileResponse("index.html")
-
-
-@app.get("/ArtistMatch")
-@app.get("/artist-match")
-def artist_match_page():
-    return FileResponse("index.html")
-
-
-@app.get("/Galaxy")
-@app.get("/galaxy")
-def galaxy_page():
-    return FileResponse("index.html")
-
-
-@app.get("/Database")
-@app.get("/database")
-def database_page():
-    return FileResponse("index.html")
-
-
-@app.get("/Pricing")
-@app.get("/pricing")
-def pricing_page():
-    return FileResponse("index.html")
-
-
-@app.get("/Contact")
 @app.get("/contact")
 def contact_page():
-    return FileResponse("index.html")
-
-
-@app.get("/Admin")
-@app.get("/admin")
-def admin_page():
-    return FileResponse("index.html")
-
-
-@app.get("/Account")
-@app.get("/account")
-def account_page():
     return FileResponse("index.html")
 
 
