@@ -1782,21 +1782,6 @@ def contact_page():
     return FileResponse("index.html")
 
 
-
-@app.get("/Analyze")
-@app.get("/Overview")
-@app.get("/ArtistMatch")
-@app.get("/Galaxy")
-@app.get("/Database")
-@app.get("/Pricing")
-@app.get("/Contact")
-@app.get("/Admin")
-@app.get("/Account")
-def soundlens_page_routes():
-    return FileResponse("index.html")
-
-
-
 def save_upload(file: UploadFile) -> Path:
     safe_name = Path(file.filename or "uploaded_audio.wav").name
     file_path = UPLOADS_DIR / safe_name
@@ -1805,6 +1790,62 @@ def save_upload(file: UploadFile) -> Path:
         shutil.copyfileobj(file.file, buffer)
 
     return file_path
+
+
+@app.post("/plugin/transcribe")
+def plugin_transcribe(
+    file: UploadFile = File(...),
+    authorization: str | None = Header(default=None),
+):
+    """Transcribe a short voice clip recorded by SoundLens Studio."""
+    _, user = get_current_user(authorization)
+
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        raise HTTPException(status_code=503, detail="Voice transcription is not configured.")
+
+    suffix = Path(file.filename or "voice.wav").suffix.lower()
+    if suffix not in {".wav", ".mp3", ".m4a", ".mp4", ".webm"}:
+        suffix = ".wav"
+
+    temp_path = UPLOADS_DIR / f"voice_{secrets.token_hex(8)}{suffix}"
+
+    try:
+        with temp_path.open("wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        if not temp_path.exists() or temp_path.stat().st_size <= 44:
+            raise HTTPException(status_code=400, detail="The voice recording is empty.")
+
+        from openai import OpenAI
+
+        client = OpenAI(api_key=api_key)
+        model = os.getenv("OPENAI_TRANSCRIBE_MODEL", "gpt-4o-mini-transcribe").strip()
+
+        with temp_path.open("rb") as audio_file:
+            transcription = client.audio.transcriptions.create(
+                model=model,
+                file=audio_file,
+            )
+
+        text = str(getattr(transcription, "text", "") or "").strip()
+        if not text:
+            raise HTTPException(status_code=422, detail="No speech was detected.")
+
+        try:
+            track_event("plugin_voice_transcribed", user, {"characters": len(text)})
+        except Exception:
+            pass
+
+        return {"ok": True, "text": text}
+
+    except HTTPException:
+        raise
+    except Exception as error:
+        print(f"PLUGIN TRANSCRIBE ERROR: {error}")
+        raise HTTPException(status_code=500, detail="Voice transcription failed.")
+    finally:
+        temp_path.unlink(missing_ok=True)
 
 
 def generate_ai_feedback(report_dict):
