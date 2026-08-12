@@ -1772,13 +1772,29 @@ def home():
     return FileResponse("index.html")
 
 
+# These are front-end pages rendered from index.html. Because the browser
+# uses history.pushState for clean URLs, each URL must return index.html
+# when opened directly or refreshed.
+@app.get("/Analyze")
 @app.get("/analyze")
-def analyze_page():
-    return FileResponse("index.html")
-
-
+@app.get("/Overview")
+@app.get("/overview")
+@app.get("/ArtistMatch")
+@app.get("/artistmatch")
+@app.get("/artist-match")
+@app.get("/Galaxy")
+@app.get("/galaxy")
+@app.get("/Database")
+@app.get("/database")
+@app.get("/Pricing")
+@app.get("/pricing")
+@app.get("/Contact")
 @app.get("/contact")
-def contact_page():
+@app.get("/Admin")
+@app.get("/admin")
+@app.get("/Account")
+@app.get("/account")
+def frontend_page():
     return FileResponse("index.html")
 
 
