@@ -1483,7 +1483,22 @@ def calculate_scores(
         release_score = min(release_score, weakest_public_score + 12)
     release_score = int(round(clamp(release_score, 30, 95)))
 
-    energy_score = clamp((loudness.rms_db + 24.0) / 1.6, 0, 10)
+    # Energy should describe how active/punchy the beat feels, not simply how
+    # loud the uploaded file was recorded. This is especially important for
+    # SoundLens plugin captures, which can arrive well below mastered loudness.
+    loudness_energy = clamp((loudness.rms_db + 32.0) / 2.4, 0, 10)
+    rhythm_energy = clamp((rhythm.onset_density - 0.35) * 2.15, 0, 10)
+    dynamics_energy = clamp((18.0 - loudness.dynamic_range_db) / 1.35, 0, 10)
+
+    # Rhythm carries the most weight; loudness still contributes, but a quiet
+    # capture can no longer collapse an otherwise energetic beat to 0/10.
+    energy_score = clamp(
+        (rhythm_energy * 0.50)
+        + (loudness_energy * 0.30)
+        + (dynamics_energy * 0.20),
+        0,
+        10,
+    )
     bass_strength = clamp(frequency.low_end_total_percent / 4.5, 0, 10)
     brightness_score = clamp(frequency.brightness_centroid_hz / 500, 0, 10)
     darkness_score = clamp(10 - brightness_score, 0, 10)
