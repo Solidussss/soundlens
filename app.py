@@ -7,6 +7,8 @@ import json
 import os
 import shutil
 import traceback
+import urllib.request
+import urllib.error
 import uuid
 import librosa
 import resend
@@ -306,37 +308,129 @@ def _send_resend_email(
     body: str,
     html_body: str | None = None,
 ) -> bool:
+    """Send through Resend's HTTPS API directly.
+
+    This deliberately bypasses the Resend Python SDK so deployment behavior does
+    not depend on an SDK version mismatch. Any provider response is printed to
+    Railway logs and also recorded in Admin activity.
+    """
+    to_email = normalize_email(to_email)
     if not to_email:
-        return False
-    if not RESEND_API_KEY:
-        track_event("email_failed", None, {
-            "to": to_email,
-            "subject": subject,
-            "error": "RESEND_API_KEY is not configured.",
-        })
+        print("[email] missing recipient", flush=True)
         return False
 
-    params = {
+    if not RESEND_API_KEY:
+        msg = "RESEND_API_KEY is not configured."
+        print(f"[email] {msg}", flush=True)
+        track_event("email_failed", None, {"to": to_email, "subject": subject, "error": msg})
+        return False
+
+    if not RESEND_FROM_EMAIL:
+        msg = "RESEND_FROM_EMAIL is not configured."
+        print(f"[email] {msg}", flush=True)
+        track_event("email_failed", None, {"to": to_email, "subject": subject, "error": msg})
+        return False
+
+    payload = {
         "from": RESEND_FROM_EMAIL,
-        "to": [str(to_email)],
+        "to": [to_email],
         "subject": subject,
         "text": body,
     }
     if html_body:
-        params["html"] = html_body
+        payload["html"] = html_body
     if RESEND_REPLY_TO:
-        params["reply_to"] = RESEND_REPLY_TO
+        payload["reply_to"] = RESEND_REPLY_TO
+
+    raw = json.dumps(payload).encode("utf-8")
+    request = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=raw,
+        method="POST",
+        headers={
+            "Authorization": f"Bearer {RESEND_API_KEY}",
+            "Content-Type": "application/json",
+            "User-Agent": "SoundLens/1.0",
+        },
+    )
 
     try:
-        resend.Emails.send(params)
-        return True
+        with urllib.request.urlopen(request, timeout=20) as response:
+            response_body = response.read().decode("utf-8", errors="replace")
+            status = int(getattr(response, "status", 200) or 200)
+
+        if 200 <= status < 300:
+            print(
+                f"[email] RESEND ACCEPTED status={status} to={to_email} "
+                f"subject={subject!r} response={response_body}",
+                flush=True,
+            )
+            track_event(
+                "email_sent",
+                None,
+                {
+                    "to": to_email,
+                    "subject": subject,
+                    "provider": "resend",
+                    "status": status,
+                    "response": response_body[:1000],
+                },
+            )
+            return True
+
+        print(
+            f"[email] RESEND REJECTED status={status} to={to_email} response={response_body}",
+            flush=True,
+        )
+        track_event(
+            "email_failed",
+            None,
+            {
+                "to": to_email,
+                "subject": subject,
+                "provider": "resend",
+                "status": status,
+                "error": response_body[:2000],
+            },
+        )
+        return False
+
+    except urllib.error.HTTPError as error:
+        try:
+            response_body = error.read().decode("utf-8", errors="replace")
+        except Exception:
+            response_body = str(error)
+        print(
+            f"[email] RESEND HTTP ERROR status={error.code} to={to_email} "
+            f"response={response_body}",
+            flush=True,
+        )
+        track_event(
+            "email_failed",
+            None,
+            {
+                "to": to_email,
+                "subject": subject,
+                "provider": "resend",
+                "status": int(error.code),
+                "error": response_body[:2000],
+            },
+        )
+        return False
+
     except Exception as error:
-        track_event("email_failed", None, {
-            "to": to_email,
-            "subject": subject,
-            "error": f"{type(error).__name__}: {error}",
-            "provider": "resend",
-        })
+        detail = f"{type(error).__name__}: {error}"
+        print(f"[email] RESEND ERROR to={to_email}: {detail}", flush=True)
+        track_event(
+            "email_failed",
+            None,
+            {
+                "to": to_email,
+                "subject": subject,
+                "provider": "resend",
+                "error": detail,
+            },
+        )
         return False
 
 
@@ -346,40 +440,13 @@ def send_notification_email(subject: str, body: str) -> bool:
     return _send_resend_email(SOUNDLENS_NOTIFY_EMAIL, subject, body)
 
 
-def send_notification_email_to(to_email: str, subject: str, text_body: str, html_body: str | None = None) -> bool:
-    """Send email through Resend and surface useful diagnostics in Railway logs."""
-    to_email = normalize_email(to_email)
-    if not to_email:
-        print("[email] missing recipient")
-        return False
-
-    if not RESEND_API_KEY:
-        print("[email] RESEND_API_KEY missing")
-        return False
-
-    if not RESEND_FROM_EMAIL:
-        print("[email] RESEND_FROM_EMAIL missing")
-        return False
-
-    try:
-        resend.api_key = RESEND_API_KEY
-        payload = {
-            "from": RESEND_FROM_EMAIL,
-            "to": [to_email],
-            "subject": subject,
-            "text": text_body,
-        }
-        if html_body:
-            payload["html"] = html_body
-        if RESEND_REPLY_TO:
-            payload["reply_to"] = RESEND_REPLY_TO
-
-        result = resend.Emails.send(payload)
-        print(f"[email] sent via Resend to={to_email} subject={subject!r} result={result}")
-        return True
-    except Exception as exc:
-        print(f"[email] Resend send failed to={to_email} subject={subject!r}: {type(exc).__name__}: {exc}")
-        return False
+def send_notification_email_to(
+    to_email: str,
+    subject: str,
+    text_body: str,
+    html_body: str | None = None,
+) -> bool:
+    return _send_resend_email(to_email, subject, text_body, html_body)
 
 
 def build_branded_email(
@@ -1118,7 +1185,7 @@ def admin_test_email(authorization: str | None = Header(default=None)):
     body = "Your SoundLens Resend email system is working correctly."
     sent = send_notification_email_to(target, subject, body)
     if not sent:
-        raise HTTPException(status_code=502, detail="Resend send failed. Check Admin activity for the exact email_failed error.")
+        raise HTTPException(status_code=503, detail="Resend rejected the test email. Check Railway logs for the exact provider response.")
     track_event("admin_test_email_sent", admin, {"to": target})
     return {"ok": True, "message": f"Test email sent to {target}."}
 
@@ -1385,7 +1452,10 @@ async def resend_verification(payload: ResendVerificationPayload):
     track_event("verification_resent", user, {"sent": sent})
 
     if not sent:
-        return {"ok": False, "message": "Verification link was created, but Resend email delivery is not configured yet."}
+        raise HTTPException(
+            status_code=503,
+            detail="Verification email could not be delivered. Check Railway logs for the exact Resend response.",
+        )
 
     return {"ok": True, "message": "Verification email sent."}
 
