@@ -2543,6 +2543,148 @@ def analyze(
         }
 
 
+
+def _soundlens_ai_track_summary(report: dict) -> dict:
+    report = report if isinstance(report, dict) else {}
+    basic = report.get("basic", {}) or {}
+    loudness = report.get("loudness", {}) or {}
+    frequency = report.get("frequency", {}) or {}
+    rhythm = report.get("rhythm", {}) or {}
+    scores = report.get("scores", {}) or {}
+    visual = report.get("visual_map", {}) or {}
+
+    return {
+        "file_name": basic.get("file_name"),
+        "bpm": basic.get("bpm"),
+        "key": basic.get("key"),
+        "duration_seconds": basic.get("duration_seconds"),
+        "peak_db": loudness.get("peak_db"),
+        "rms_db": loudness.get("rms_db"),
+        "dynamic_range_db": loudness.get("dynamic_range_db"),
+        "clipping_percent": loudness.get("clipping_percent"),
+        "low_end_total_percent": frequency.get("low_end_total_percent"),
+        "mid_total_percent": frequency.get("mid_total_percent"),
+        "top_total_percent": frequency.get("top_total_percent"),
+        "brightness_centroid_hz": frequency.get("brightness_centroid_hz"),
+        "dominant_band": frequency.get("dominant_band"),
+        "onset_density": rhythm.get("onset_density"),
+        "drum_activity": rhythm.get("drum_activity"),
+        "energy": scores.get("energy"),
+        "bass_strength": scores.get("bass_strength"),
+        "darkness": scores.get("darkness"),
+        "brightness": scores.get("brightness"),
+        "drum_bounce": scores.get("drum_bounce"),
+        "vocal_space": scores.get("vocal_space"),
+        "pin_count": len(visual.get("pins", []) or []) if isinstance(visual, dict) else 0,
+        "important_pins": [
+            {
+                "time": p.get("time", p.get("timestamp")),
+                "kind": p.get("kind", p.get("type")),
+                "title": p.get("title"),
+                "detail": p.get("detail"),
+            }
+            for p in (visual.get("pins", []) or [])[:12]
+            if isinstance(p, dict)
+        ] if isinstance(visual, dict) else [],
+    }
+
+
+def _soundlens_ai_reference_context(question: str, compact: dict) -> dict:
+    result = {
+        "available_artist_names": [],
+        "named_artist_references": [],
+        "measured_reference_note": (
+            "Only entries inside named_artist_references have track-level SoundLens measurements. "
+            "Artist names without reference tracks may still be discussed using broader music knowledge, "
+            "but that must be labeled as interpretation rather than a SoundLens measurement."
+        ),
+    }
+
+    try:
+        library = load_reference_library()
+    except Exception:
+        return result
+
+    artists = list((library.get("artists") or {}).values())
+    result["available_artist_names"] = [
+        str(a.get("name") or "").strip()
+        for a in artists
+        if str(a.get("name") or "").strip()
+    ]
+
+    q = str(question or "").lower()
+    named = []
+    for artist in artists:
+        name = str(artist.get("name") or "").strip()
+        if name and name.lower() in q:
+            named.append(artist)
+
+    ranked = ((compact.get("artist_comparison") or {}).get("ranked_profiles") or [])
+    ranked_names = []
+    for row in ranked[:8]:
+        if not isinstance(row, dict):
+            continue
+        name = str(row.get("profile_name") or row.get("artist") or "").strip()
+        if name:
+            ranked_names.append(name.lower())
+
+    for artist in artists:
+        name = str(artist.get("name") or "").strip()
+        if name.lower() in ranked_names and artist not in named:
+            named.append(artist)
+
+    for artist in named[:8]:
+        artist_payload = {"artist": artist.get("name"), "projects": []}
+        track_budget = 8
+        for project in (artist.get("projects") or {}).values():
+            if track_budget <= 0:
+                break
+            project_payload = {
+                "title": project.get("title"),
+                "type": project.get("type"),
+                "year": project.get("year"),
+                "tracks": [],
+            }
+            for track in (project.get("tracks") or []):
+                if track_budget <= 0:
+                    break
+                track_id = track.get("id")
+                path = REFERENCE_REPORTS_DIR / f"{track_id}.json"
+                saved = read_json_file(path, {}) if path.exists() else {}
+                report = saved.get("report", {}) if isinstance(saved, dict) else {}
+                project_payload["tracks"].append({
+                    "title": track.get("title"),
+                    "summary": _soundlens_ai_track_summary(report),
+                })
+                track_budget -= 1
+            if project_payload["tracks"]:
+                artist_payload["projects"].append(project_payload)
+
+        if artist_payload["projects"]:
+            result["named_artist_references"].append(artist_payload)
+
+    return result
+
+
+def _soundlens_ai_history(user: dict) -> list[dict]:
+    history = user.get("soundlens_ai_history")
+    return history[-8:] if isinstance(history, list) else []
+
+
+def _save_soundlens_ai_turn(db: dict, user: dict, question: str, answer: str) -> None:
+    history = user.setdefault("soundlens_ai_history", [])
+    if not isinstance(history, list):
+        history = []
+        user["soundlens_ai_history"] = history
+    history.append({
+        "question": str(question or "")[:1200],
+        "answer": str(answer or "")[:3000],
+        "created_at": now_iso(),
+    })
+    del history[:-8]
+    save_users_db(db)
+
+
 @app.post("/lab/ask")
 def lab_ask(payload: LabQuestionPayload, authorization: str | None = Header(default=None)):
     db, user = get_current_user(authorization)
@@ -2558,7 +2700,7 @@ def lab_ask(payload: LabQuestionPayload, authorization: str | None = Header(defa
             ai_usage["date"] = today
             ai_usage["count"] = 0
         if int(ai_usage.get("count", 0) or 0) >= FREE_DAILY_AI_LIMIT:
-            raise HTTPException(status_code=429, detail=f"Free AI limit reached. Upgrade to Pro for unlimited Ask SoundLens questions.")
+            raise HTTPException(status_code=429, detail="Free AI limit reached. Upgrade to Pro for unlimited Ask SoundLens questions.")
         ai_usage["count"] = int(ai_usage.get("count", 0) or 0) + 1
         save_users_db(db)
 
@@ -2566,7 +2708,6 @@ def lab_ask(payload: LabQuestionPayload, authorization: str | None = Header(defa
     if not api_key:
         raise HTTPException(status_code=503, detail="SoundLens AI is not configured.")
 
-    # The browser sends only the compact analysis context, never arbitrary server files.
     context = payload.context if isinstance(payload.context, dict) else {}
     selected = payload.selected_pin if isinstance(payload.selected_pin, dict) else None
     compact = {
@@ -2574,7 +2715,11 @@ def lab_ask(payload: LabQuestionPayload, authorization: str | None = Header(defa
         "loudness": context.get("loudness", {}),
         "frequency": context.get("frequency", {}),
         "rhythm": context.get("rhythm", {}),
-        "sections": (context.get("sections") or [])[:12],
+        "scores": context.get("scores", {}),
+        "stem_balance": context.get("stem_balance", {}),
+        "sections": (context.get("sections") or [])[:16],
+        "top_problems": (context.get("top_problems") or [])[:8],
+        "next_steps": (context.get("next_steps") or [])[:8],
         "artist_comparison": context.get("artist_comparison", {}),
         "visual_map": {
             "duration": (context.get("visual_map") or {}).get("duration"),
@@ -2583,35 +2728,103 @@ def lab_ask(payload: LabQuestionPayload, authorization: str | None = Header(defa
         },
     }
 
+    reference_context = _soundlens_ai_reference_context(question, compact)
+    conversation = _soundlens_ai_history(user)
+
     try:
         from openai import OpenAI
         client = OpenAI(api_key=api_key)
-        prompt = f"""
-You are SoundLens inside an interactive 3D music analysis view.
-Answer the producer's question using ONLY the measured context below.
-Music is subjective. Never pretend there is one objectively correct mix.
-If the user asks where something happens, name the timestamp(s) supported by pins/sections.
-If a selected 3D pin is provided, prioritize that exact location.
-Keep the response conversational and short: usually 2-5 sentences.
-Do not dump metrics unless they explain what the user is seeing.
 
-Selected pin:
+        prompt = f"""
+You are SoundLens AI, the conversational intelligence inside an interactive 3D music-analysis system.
+
+ROLE
+You are not a generic chatbot pasted into a music website.
+Act like a fast, perceptive studio copilot: calm, concise, specific, musically literate, and aware of the track currently on screen.
+The producer should feel like they can point at the song and ask natural questions about it.
+
+YOUR THREE SOURCES OF KNOWLEDGE
+1. MEASURED TRACK DATA: factual SoundLens analysis of the uploaded audio. Treat it as ground truth for claims about THIS file.
+2. SOUNDLENS REFERENCE LIBRARY: when reference-track measurements are supplied, use them as factual comparison data.
+3. BROADER MUSIC KNOWLEDGE: you MAY use broader knowledge of artists, production, vocal styles, genre conventions, arrangement, sound design, mixing, and songwriting to interpret the data and answer questions beyond raw metrics.
+
+CRITICAL HONESTY RULE
+Never blur those three sources together.
+- If SoundLens measured it, state it directly.
+- If the reference library measured it, make clear the comparison comes from SoundLens reference data.
+- If you are using broader music knowledge or making a creative judgment, signal that naturally with language such as "stylistically," "I'd expect," "based on their usual sound," or "my read is."
+Never invent a measurement, timestamp, plugin, stem, instrument, artist match, or production technique that is not supported by supplied data.
+
+HOW TO THINK
+- Answer the user's actual intent, not just the literal wording.
+- For "who fits / who doesn't fit / who would sound good on this?" combine measured track character + Artist Match/reference data + broader artist knowledge.
+- For "why?" explain the musical reason, not just numbers.
+- For "what should I change?" turn measurements into concrete production moves.
+- For "where?" use exact timestamps from pins/sections whenever possible.
+- For "show me / where is it?" identify 1-4 useful timestamps and explain what the user should hear there.
+- For subjective questions, give a confident recommendation while acknowledging it is an interpretation.
+- If an artist exists in the SoundLens roster but has no imported per-song reference yet, you can still reason stylistically, but do NOT pretend SoundLens measured that artist.
+- If evidence is weak or conflicting, say that briefly instead of forcing certainty.
+- Do not treat old numeric mix/release scores as objective truth.
+- Do not lecture. Do not sound like a technical report unless asked.
+
+VOICE
+Usually 2-5 sentences.
+Direct producer language.
+No giant metric dumps.
+Use timestamps when useful.
+Do not start every answer with "Based on the analysis."
+Do not constantly say "I can't know." Give the best grounded musical read you can.
+Do not mention OpenAI, prompts, tokens, or implementation details.
+
+OPTIONAL JARVIS-LIKE BEHAVIOR
+When useful, end with one short next action or one natural follow-up suggestion such as:
+"Want me to show you the 3 spots causing that?"
+"Compare it against Hardrock next."
+Only do this when it genuinely helps.
+
+RECENT CONVERSATION
+{json.dumps(conversation, indent=2)}
+
+SELECTED 3D PIN
 {json.dumps(selected, indent=2)}
 
-Measured context:
+CURRENT TRACK — MEASURED SOUNDLENS DATA
 {json.dumps(compact, indent=2)}
 
-Producer question: {question}
+SOUNDLENS REFERENCE CONTEXT
+{json.dumps(reference_context, indent=2)}
+
+PRODUCER QUESTION
+{question}
 """
+
+        model = os.getenv("SOUNDLENS_AI_MODEL", "gpt-5.4-mini").strip() or "gpt-5.4-mini"
         response = client.responses.create(
-            model=os.getenv("OPENAI_MODEL", "gpt-5-nano"),
+            model=model,
             input=prompt,
         )
         answer = str(getattr(response, "output_text", "") or "").strip()
-        track_event("lab_ai_question", user, {"characters": len(question), "selected_pin": (selected or {}).get("kind")})
-        return {"ok": True, "answer": answer}
+        if not answer:
+            raise RuntimeError("AI returned an empty answer.")
+
+        _save_soundlens_ai_turn(db, user, question, answer)
+        track_event(
+            "lab_ai_question",
+            user,
+            {
+                "characters": len(question),
+                "selected_pin": (selected or {}).get("kind"),
+                "model": model,
+                "reference_artists_used": [
+                    a.get("artist") for a in reference_context.get("named_artist_references", [])
+                ],
+            },
+        )
+        return {"ok": True, "answer": answer, "model": model}
+
     except Exception as error:
-        print(f"LAB AI ERROR: {error}")
+        print(f"LAB AI ERROR: {type(error).__name__}: {error}")
         raise HTTPException(status_code=500, detail="SoundLens AI could not answer that question.")
 
 
