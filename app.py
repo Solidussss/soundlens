@@ -277,7 +277,9 @@ def write_json_file(path: Path, data) -> None:
         os.replace(temp_path, path)
     finally:
         if temp_path.exists():
-            temp_pa
+            temp_path.unlink(missing_ok=True)
+
+
 REFERENCE_ARTIST_SEED = ["1oneam", "Autumn", "Bktharula", "BoofPaxkMooky", "Cheromani", "D Savage", "Destroy Lonely", "Dom Corleo", "Duwap Kaine", "Eem Triplin", "Eskdeekid", "Fakemink", "Feng", "Fimiguerrero", "Glokk40Spaz", "Hardrock", "Homixide Gang", "Izaya Tiji", "Jaydes", "Kankan", "Ken Carson", "Lazer Dim 700", "Lelo", "Lil Tony", "Midwxst", "Molly Santana", "Nettspend", "Nine Vicious", "Nino Paid", "OhSxnta", "Osamason", "Prettifun", "Protect", "Rekover Jet", "Rexv2", "Rich Amiri", "Slayr", "SoFaygo", "Sosocamo", "Southsidesilhouette", "Summrs", "Tana", "UntilJapan", "Xaviersobased", "Yeat", "Yung Fazo"]
 
 def reference_slug(value: str) -> str:
@@ -354,8 +356,6 @@ def find_reference_track(data: dict, track_id: str):
     return None, None, None
 
 load_reference_library()
-
-th.unlink(missing_ok=True)
 
 
 def append_json_list(path: Path, item: dict) -> None:
