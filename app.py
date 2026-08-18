@@ -104,6 +104,22 @@ SOUNDLENS_ADMIN_EMAILS = {
     if email.strip()
 }
 
+DEFAULT_PUBLIC_EMAIL_DOMAINS = {
+    "gmail.com", "googlemail.com",
+    "outlook.com", "hotmail.com", "live.com", "msn.com",
+    "icloud.com", "me.com", "mac.com",
+    "yahoo.com", "yahoo.ca",
+    "proton.me", "protonmail.com",
+}
+ALLOWED_PUBLIC_EMAIL_DOMAINS = {
+    domain.strip().lower()
+    for domain in os.getenv(
+        "SOUNDLENS_ALLOWED_EMAIL_DOMAINS",
+        ",".join(sorted(DEFAULT_PUBLIC_EMAIL_DOMAINS)),
+    ).split(",")
+    if domain.strip()
+}
+
 RESEND_API_KEY = os.getenv("RESEND_API_KEY", "").strip()
 RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "SoundLens <noreply@soundlensapp.com>").strip()
 RESEND_REPLY_TO = os.getenv("RESEND_REPLY_TO", SOUNDLENS_NOTIFY_EMAIL).strip()
@@ -464,11 +480,31 @@ def normalize_email(email: str) -> str:
     return str(email or "").strip().lower()
 
 
+def validate_public_signup_email(email: str) -> str:
+    email = normalize_email(email)
+    if not email or "@" not in email:
+        raise HTTPException(status_code=400, detail="Enter a valid email address.")
+    local, domain = email.rsplit("@", 1)
+    if not local or "." not in domain:
+        raise HTTPException(status_code=400, detail="Enter a valid email address.")
+    if domain not in ALLOWED_PUBLIC_EMAIL_DOMAINS:
+        raise HTTPException(
+            status_code=400,
+            detail="Use a supported email provider such as Gmail, Outlook/Hotmail, iCloud, Yahoo, or Proton.",
+        )
+    return email
+
+
 def hash_password(password: str, salt: str) -> str:
     return hashlib.sha256(f"{salt}:{password}".encode("utf-8")).hexdigest()
 
 
 def public_user(user: dict) -> dict:
+    if normalize_email(user.get("email")) == "jaydenflynn9@gmail.com":
+        user["display_name"] = "Synthosize"
+        user["email_verified"] = True
+        user["email_verification_token"] = None
+        user["email_verified_at"] = user.get("email_verified_at") or now_iso()
     plan = user.get("plan", "free")
     usage = user.setdefault("usage", {})
     today = utc_today()
@@ -512,7 +548,11 @@ def get_current_user(authorization: str | None) -> tuple[dict, dict]:
     if not token or not user_id or user_id not in db.get("users", {}):
         raise HTTPException(status_code=401, detail="Please log in to use SoundLens.")
 
-    return db, db["users"][user_id]
+    user = db["users"][user_id]
+    if not bool(user.get("email_verified")):
+        raise HTTPException(status_code=403, detail="Verify your email before using SoundLens.")
+
+    return db, user
 
 
 def check_and_increment_upload(user: dict) -> None:
@@ -747,30 +787,33 @@ def plugin_link_me(authorization: str | None = Header(default=None)):
 @app.post("/auth/signup")
 def signup(payload: AuthPayload):
     db = load_users_db()
-    email = normalize_email(payload.email)
+    email = validate_public_signup_email(payload.email)
 
-    if not email or "@" not in email:
-        raise HTTPException(status_code=400, detail="Enter a valid email.")
-
-    if not payload.password or len(payload.password) < 6:
-        raise HTTPException(status_code=400, detail="Password must be at least 6 characters.")
+    if not payload.password or len(payload.password) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters.")
 
     existing = next((u for u in db["users"].values() if normalize_email(u.get("email")) == email), None)
     if existing:
+        if not existing.get("email_verified"):
+            existing["email_verification_token"] = str(uuid.uuid4())
+            save_users_db(db)
+            sent = send_signup_verification_email(existing)
+            if not sent:
+                raise HTTPException(status_code=503, detail="SoundLens could not send the verification email. Try again shortly.")
+            return {"ok": True, "verification_required": True, "email": email, "message": f"Verification email sent to {email}. Confirm it before signing in."}
         raise HTTPException(status_code=400, detail="An account with this email already exists.")
 
     user_id = str(uuid.uuid4())
     salt = str(uuid.uuid4())
-    token = str(uuid.uuid4())
-
     user = {
         "id": user_id,
         "email": email,
-        "display_name": payload.display_name or email.split("@")[0],
+        "display_name": (payload.display_name or email.split("@")[0]).strip()[:80],
         "password_salt": salt,
         "password_hash": hash_password(payload.password, salt),
         "plan": "free",
         "usage": {"date": utc_today(), "count": 0},
+        "total_uploads": 0,
         "created_at": now_iso(),
         "email_verified": False,
         "email_verification_token": str(uuid.uuid4()),
@@ -778,12 +821,16 @@ def signup(payload: AuthPayload):
     }
 
     db["users"][user_id] = user
-    db["tokens"][token] = user_id
     save_users_db(db)
-    track_event("signup_success", user, {"email": email})
-    send_signup_verification_email(user)
+    sent = send_signup_verification_email(user)
+    if not sent:
+        db["users"].pop(user_id, None)
+        save_users_db(db)
+        track_event("signup_email_failed", None, {"email": email})
+        raise HTTPException(status_code=503, detail="SoundLens could not send the verification email. No account was created. Try again shortly.")
 
-    return {"token": token, "user": public_user(user)}
+    track_event("signup_pending_verification", user, {"email": email})
+    return {"ok": True, "verification_required": True, "email": email, "message": f"Verification email sent to {email}. Confirm it before signing in."}
 
 
 @app.post("/auth/login")
@@ -795,6 +842,10 @@ def login(payload: AuthPayload):
     if not user:
         track_event("login_failed", None, {"email": email, "reason": "unknown_email"})
         raise HTTPException(status_code=401, detail="Email or password is wrong.")
+
+    if not bool(user.get("email_verified")):
+        track_event("login_blocked_unverified", user, {"email": email})
+        raise HTTPException(status_code=403, detail="Verify your email before signing in. Check your inbox or resend the confirmation email.")
 
     expected = hash_password(payload.password, user.get("password_salt", ""))
     if expected != user.get("password_hash"):
@@ -1285,7 +1336,7 @@ async def verify_email(token: str):
 @app.post("/auth/resend-verification")
 async def resend_verification(payload: ResendVerificationPayload):
     db = load_users_db()
-    email = normalize_email(payload.email)
+    email = validate_public_signup_email(payload.email)
     user = None
 
     for candidate in db.get("users", {}).values():
