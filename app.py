@@ -587,18 +587,28 @@ def list_reports_for_user(user: dict) -> list[dict]:
         if not closest_artist:
             closest_artist = report_body.get("closest_artist") or report_body.get("closest_style")
 
+        basic = report_body.get("basic", {}) or {}
+        visual = report_body.get("visual_map", {}) or {}
+        pins = visual.get("pins", []) if isinstance(visual, dict) else []
+        top_event = None
+        if isinstance(pins, list) and pins:
+            first_pin = pins[0] if isinstance(pins[0], dict) else {}
+            top_event = first_pin.get("title") or first_pin.get("kind")
+
         reports.append({
             "id": data.get("id"),
             "created_at": data.get("created_at"),
             "title": data.get("title"),
             "original_filename": data.get("original_filename"),
-            "release_score": data.get("release_score"),
-            "mix_score": data.get("mix_score"),
-            "energy_score": data.get("energy_score"),
-            "arrangement_score": data.get("arrangement_score"),
+            "bpm": basic.get("bpm"),
+            "key": basic.get("key"),
+            "duration_seconds": basic.get("duration_seconds"),
             "closest_artist": closest_artist,
+            "pin_count": len(pins) if isinstance(pins, list) else 0,
+            "top_event": top_event,
         })
 
+    reports.sort(key=lambda item: str(item.get("created_at") or ""), reverse=True)
     return reports
 
 
@@ -2051,20 +2061,21 @@ def analyze(
         text_report = render_report(report)
         track_event("analysis_completed", user, {"filename": file.filename, "release_score": report_dict.get("scores", {}).get("release")})
 
-        saved_report_payload = None
-        if user.get("plan", "free") in {"pro", "studio", "lifetime"}:
-            saved_report = save_report_for_user(
-                user=user,
-                report_dict=report_dict,
-                text_report=text_report,
-                original_filename=file.filename or file_path.name,
-                report_title=report_title,
-            )
-            saved_report_payload = {
-                "id": saved_report["id"],
-                "created_at": saved_report["created_at"],
-                "title": saved_report["title"],
-            }
+        # Keep an analysis history for every signed-in account. The dashboard
+        # limits Free accounts to their five most recent entries; paid plans can
+        # browse the full history.
+        saved_report = save_report_for_user(
+            user=user,
+            report_dict=report_dict,
+            text_report=text_report,
+            original_filename=file.filename or file_path.name,
+            report_title=report_title,
+        )
+        saved_report_payload = {
+            "id": saved_report["id"],
+            "created_at": saved_report["created_at"],
+            "title": saved_report["title"],
+        }
 
         return {
             "report": report_dict,
