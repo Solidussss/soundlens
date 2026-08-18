@@ -2105,7 +2105,7 @@ def lab_ask(payload: LabQuestionPayload, authorization: str | None = Header(defa
         "artist_comparison": context.get("artist_comparison", {}),
         "visual_map": {
             "duration": (context.get("visual_map") or {}).get("duration"),
-            "pins": (context.get("visual_map") or {}).get("pins", [])[:10],
+            "pins": (context.get("visual_map") or {}).get("pins", [])[:30],
             "legend": (context.get("visual_map") or {}).get("legend", {}),
         },
     }
