@@ -83,6 +83,25 @@ body:before{content:"";position:fixed;inset:0;background:
 .history-note{font-size:10px;color:#777f94;margin-top:12px;line-height:1.5}
 .account-actions-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
 
+
+.report-item{cursor:pointer;transition:.2s ease}
+.report-item:hover{border-color:rgba(139,142,255,.24);background:rgba(255,255,255,.04)}
+.report-item.open{border-color:rgba(139,142,255,.25);background:rgba(255,255,255,.042)}
+.report-expand{display:none;margin-top:12px;border-top:1px solid rgba(255,255,255,.06);padding-top:12px}
+.report-item.open .report-expand{display:block}
+.report-preview{position:relative;height:170px;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:
+radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,0,.18);overflow:hidden}
+.report-preview canvas{display:block;width:100%;height:100%}
+.report-preview-loading{position:absolute;inset:0;display:grid;place-items:center;color:#70788e;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.report-details-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:10px}
+.report-detail-card{border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.022);border-radius:12px;padding:9px 10px}
+.report-detail-card span{display:block;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#747c90;margin-bottom:4px}
+.report-detail-card strong{font-size:10px;color:#d9dcea;font-weight:700}
+.report-pin-list{display:flex;gap:6px;overflow:auto;padding:10px 0 2px}
+.report-pin-pill{flex:0 0 auto;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:999px;padding:6px 8px;font-size:8px;color:#aeb4c5}
+.report-open-hint{font-size:8px;color:#626a7d;margin-left:auto;white-space:nowrap}
+@media(max-width:560px){.report-preview{height:145px}.report-details-grid{grid-template-columns:1fr}}
+
 @media(max-width:900px){.topbar .hide-mobile{display:none}.track-meta{display:none}}
 </style>
 <script type="importmap">
@@ -294,18 +313,183 @@ function renderDashboardReports(reports,plan){
     if(r.closest_artist)chips.push(`Closest: ${esc(r.closest_artist)}`);
     if(r.pin_count!=null)chips.push(`${Number(r.pin_count)||0} points`);
     if(r.top_event)chips.push(esc(r.top_event));
-    return `<div class="report-item">
+    return `<div class="report-item" id="report-${esc(r.id)}" onclick="toggleReportPreview('${esc(r.id)}',event)">
       <div class="report-top">
         <div class="report-title">${esc(r.title||r.original_filename||'Untitled track')}</div>
         <div class="report-date">${esc(dt)}</div>
       </div>
-      <div class="report-meta">${chips.map(c=>`<span class="report-chip">${c}</span>`).join('')}</div>
+      <div class="report-meta">${chips.map(c=>`<span class="report-chip">${c}</span>`).join('')}<span class="report-open-hint">CLICK TO EXPAND</span></div>
+      <div class="report-expand" id="report-expand-${esc(r.id)}">
+        <div class="report-preview" id="report-preview-${esc(r.id)}">
+          <canvas id="report-canvas-${esc(r.id)}"></canvas>
+          <div class="report-preview-loading" id="report-loading-${esc(r.id)}">Loading analysis…</div>
+        </div>
+        <div class="report-pin-list" id="report-pins-${esc(r.id)}"></div>
+        <div class="report-details-grid" id="report-details-${esc(r.id)}"></div>
+      </div>
     </div>`;
   }).join('');
   if(note){
     note.textContent=!paid&&reports.length>5
       ? `Showing your 5 most recent analyses. Pro unlocks your full history (${reports.length} saved).`
       : `${reports.length} saved ${reports.length===1?'analysis':'analyses'}.`;
+  }
+}
+
+const reportPreviewCache={};
+
+async function toggleReportPreview(id,event){
+  if(event?.target?.closest('button,input,a'))return;
+  const card=document.getElementById('report-'+id);
+  if(!card)return;
+  const opening=!card.classList.contains('open');
+  card.classList.toggle('open',opening);
+  const hint=card.querySelector('.report-open-hint');
+  if(hint)hint.textContent=opening?'CLICK TO CLOSE':'CLICK TO EXPAND';
+  if(!opening)return;
+  if(reportPreviewCache[id]){
+    drawSavedReportPreview(id,reportPreviewCache[id]);
+    return;
+  }
+  try{
+    const d=await jsonReq('/reports/'+encodeURIComponent(id));
+    reportPreviewCache[id]=d;
+    drawSavedReportPreview(id,d);
+  }catch(e){
+    const l=document.getElementById('report-loading-'+id);
+    if(l)l.textContent=e.message||'Could not load analysis';
+  }
+}
+
+function drawSavedReportPreview(id,data){
+  const report=data?.report||{};
+  const visual=report.visual_map||{};
+  const slices=Array.isArray(visual.slices)?visual.slices:[];
+  const pins=Array.isArray(visual.pins)?visual.pins:[];
+  const canvas=document.getElementById('report-canvas-'+id);
+  const loading=document.getElementById('report-loading-'+id);
+  const pinBox=document.getElementById('report-pins-'+id);
+  const details=document.getElementById('report-details-'+id);
+  if(!canvas)return;
+
+  const rect=canvas.getBoundingClientRect();
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  canvas.width=Math.max(1,Math.floor(rect.width*dpr));
+  canvas.height=Math.max(1,Math.floor(rect.height*dpr));
+  const ctx=canvas.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+
+  const w=rect.width,h=rect.height;
+  ctx.clearRect(0,0,w,h);
+
+  if(!slices.length){
+    if(loading)loading.textContent='No visual map saved for this report';
+  }else{
+    if(loading)loading.style.display='none';
+
+    const bandKeys=['sub','bass','low_mid','mid','high','air'];
+    const colors=['#695cff','#8174ff','#b368ff','#dd6fff','#56c8ff','#bceaff'];
+    const maxByBand={};
+    bandKeys.forEach(k=>{
+      maxByBand[k]=Math.max(.0001,...slices.map(s=>Number(s?.bands?.[k]||0)));
+    });
+
+    const padX=12;
+    const usableW=w-padX*2;
+    const centerY=h/2;
+
+    // translucent overall "body" so the mini report resembles the main 3D object
+    ctx.beginPath();
+    slices.forEach((s,i)=>{
+      const x=padX+(i/Math.max(1,slices.length-1))*usableW;
+      const e=Math.max(0,Math.min(1,Number(s.energy||0)));
+      const y=centerY-e*45;
+      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    });
+    for(let i=slices.length-1;i>=0;i--){
+      const s=slices[i];
+      const x=padX+(i/Math.max(1,slices.length-1))*usableW;
+      const e=Math.max(0,Math.min(1,Number(s.energy||0)));
+      ctx.lineTo(x,centerY+e*31);
+    }
+    ctx.closePath();
+    ctx.fillStyle='rgba(125,128,255,.055)';
+    ctx.fill();
+
+    bandKeys.forEach((band,bi)=>{
+      const base=((bi+1)/(bandKeys.length+1))*h;
+      const max=maxByBand[band];
+      ctx.beginPath();
+      slices.forEach((s,i)=>{
+        const x=padX+(i/Math.max(1,slices.length-1))*usableW;
+        const v=Math.min(1,Number(s?.bands?.[band]||0)/max);
+        const energy=Math.max(0,Math.min(1,Number(s.energy||0)));
+        const y=base-(v*18+energy*5);
+        if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+      });
+      ctx.strokeStyle=colors[bi];
+      ctx.globalAlpha=.72;
+      ctx.lineWidth=1.2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      slices.forEach((s,i)=>{
+        const x=padX+(i/Math.max(1,slices.length-1))*usableW;
+        const v=Math.min(1,Number(s?.bands?.[band]||0)/max);
+        const energy=Math.max(0,Math.min(1,Number(s.energy||0)));
+        const y=base+(v*12+energy*3);
+        if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+      });
+      ctx.globalAlpha=.24;
+      ctx.stroke();
+    });
+    ctx.globalAlpha=1;
+
+    const duration=Number(visual.duration||report?.basic?.duration_seconds||0);
+    pins.slice(0,30).forEach((p,pi)=>{
+      const t=Number(p.time??p.timestamp??p.seconds??0);
+      const frac=duration>0?Math.max(0,Math.min(1,t/duration)):(pi/Math.max(1,pins.length-1));
+      const x=padX+frac*usableW;
+      const y=18+(pi%4)*6;
+      ctx.beginPath();
+      ctx.moveTo(x,y+5);
+      ctx.lineTo(x,h-10);
+      ctx.strokeStyle='rgba(255,255,255,.075)';
+      ctx.lineWidth=.7;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(x,y,3,0,Math.PI*2);
+      ctx.fillStyle=colors[pi%colors.length];
+      ctx.globalAlpha=.85;
+      ctx.fill();
+      ctx.globalAlpha=1;
+    });
+  }
+
+  if(pinBox){
+    pinBox.innerHTML=pins.slice(0,12).map(p=>{
+      const t=Number(p.time??p.timestamp??p.seconds??0);
+      const label=p.title||p.kind||p.type||'Detected point';
+      return `<span class="report-pin-pill">${esc(formatDuration(t))} · ${esc(label)}</span>`;
+    }).join('') || '<span class="report-pin-pill">No saved pins</span>';
+  }
+
+  if(details){
+    const basic=report.basic||{};
+    const comparison=report.artist_comparison||{};
+    let closest='';
+    const ranked=Array.isArray(comparison.ranked_profiles)?comparison.ranked_profiles:[];
+    if(ranked.length)closest=ranked[0].profile_name||ranked[0].artist||'';
+    const strongest=pins[0]||{};
+    const rows=[
+      ['BPM',basic.bpm?Math.round(Number(basic.bpm)):'—'],
+      ['Key',basic.key||'—'],
+      ['Detected points',pins.length],
+      ['Closest artist',closest||report.closest_artist||report.closest_style||'—'],
+      ['Standout point',strongest.title||strongest.kind||strongest.type||'—'],
+      ['Duration',formatDuration(basic.duration_seconds||visual.duration||0)]
+    ];
+    details.innerHTML=rows.map(([a,b])=>`<div class="report-detail-card"><span>${esc(a)}</span><strong>${esc(b)}</strong></div>`).join('');
   }
 }
 async function logoutSL(){try{await jsonReq('/auth/logout',{method:'POST'})}catch{}localStorage.removeItem(SL_TOKEN);slUser=null;renderUser();closeModal('accountModal')}
