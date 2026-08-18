@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SoundLens 3D Lab</title>
+<style>
+:root{
+  --bg:#05060a;--glass:rgba(18,20,30,.46);--glass2:rgba(12,14,23,.66);
+  --line:rgba(255,255,255,.12);--text:#f7f8ff;--muted:#9fa6bb;--purple:#7275ff;
+}
+*{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body:before{content:"";position:fixed;inset:0;background:
+ radial-gradient(circle at 50% 20%,rgba(96,85,255,.13),transparent 31%),
+ radial-gradient(circle at 82% 72%,rgba(0,182,255,.08),transparent 28%),
+ linear-gradient(#070810,#030407);pointer-events:none}
+#scene{position:fixed;inset:0;z-index:1}
+.glass{background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.018));border:1px solid var(--line);box-shadow:0 18px 80px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(24px) saturate(135%);-webkit-backdrop-filter:blur(24px) saturate(135%)}
+.topbar{position:fixed;z-index:20;top:18px;left:22px;right:22px;height:62px;border-radius:22px;display:flex;align-items:center;padding:0 18px;gap:16px}
+.brand{font-weight:850;letter-spacing:-.04em;font-size:20px}.labtag{font-size:10px;letter-spacing:.18em;color:#b9bcff;border:1px solid rgba(147,151,255,.25);padding:5px 8px;border-radius:999px;background:rgba(95,99,255,.09)}
+.track-meta{display:flex;gap:14px;align-items:center;margin-left:auto;color:var(--muted);font-size:12px}.metric strong{color:white;font-weight:700}.back{color:var(--muted);text-decoration:none;font-size:12px}.back:hover{color:white}
+.upload-stage{position:fixed;z-index:15;inset:0;display:grid;place-items:center;pointer-events:none;transition:opacity .5s ease}.upload-stage.hidden{opacity:0;visibility:hidden}
+.upload-card{pointer-events:auto;width:min(690px,calc(100vw - 40px));border-radius:34px;padding:42px;text-align:center}.upload-orb{width:86px;height:86px;margin:0 auto 24px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.44),rgba(114,117,255,.22) 35%,rgba(114,117,255,.05) 70%);box-shadow:0 0 70px rgba(114,117,255,.25)}
+.upload-card h1{font-size:42px;letter-spacing:-.055em;margin:0 0 12px}.upload-card p{color:var(--muted);max-width:500px;margin:0 auto 24px;line-height:1.55}.upload-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:15px;background:#f4f5ff;color:#090a10;padding:14px 22px;font-weight:800;cursor:pointer}.upload-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}.auth-note{font-size:11px;color:#71798e;margin-top:16px}
+.loading{display:none;margin-top:18px}.loading.on{display:block}.loader-line{height:2px;overflow:hidden;background:rgba(255,255,255,.08);border-radius:99px}.loader-line:before{content:"";display:block;height:100%;width:35%;background:linear-gradient(90deg,transparent,#8f92ff,transparent);animation:scan 1.2s linear infinite}@keyframes scan{from{transform:translateX(-120%)}to{transform:translateX(360%)}}
+.controls{position:fixed;z-index:20;left:22px;bottom:20px;display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:18px}.iconbtn{height:38px;min-width:38px;padding:0 12px;border:1px solid rgba(255,255,255,.11);border-radius:12px;background:rgba(255,255,255,.055);color:white;cursor:pointer}.iconbtn:hover{background:rgba(255,255,255,.1)}
+.time{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:78px}.scrub{width:min(330px,30vw);accent-color:#898cff}
+.legend{position:fixed;z-index:18;left:22px;top:96px;padding:12px 14px;border-radius:18px;width:180px}.legend-title{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:8px}.legend-row{display:flex;align-items:center;gap:8px;font-size:11px;color:#cdd1e1;margin:6px 0}.dot{width:7px;height:7px;border-radius:50%;box-shadow:0 0 12px currentColor}
+.pin-card{position:fixed;z-index:25;right:22px;top:96px;width:min(360px,calc(100vw - 44px));padding:18px;border-radius:22px;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.25s ease}.pin-card.on{opacity:1;transform:none;pointer-events:auto}.pin-kicker{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#a8adff}.pin-title{font-size:22px;letter-spacing:-.035em;margin:5px 0 7px}.pin-detail{font-size:12px;line-height:1.55;color:#b7bed1}.pin-time{margin-top:12px;font-size:11px;color:#7f879c}
+.ai{position:fixed;z-index:24;right:22px;bottom:20px;width:min(410px,calc(100vw - 44px));border-radius:24px;padding:14px}.ai-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.ai-title{font-size:12px;font-weight:800}.ai-state{font-size:10px;color:#8d94aa}.ai-log{max-height:190px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}.bubble{font-size:12px;line-height:1.5;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.045);color:#d5d9e7}.bubble.you{align-self:flex-end;background:rgba(114,117,255,.16);max-width:88%}.ai-form{display:flex;gap:8px}.ai-form input{flex:1;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:rgba(0,0,0,.22);color:white;padding:11px 12px;outline:none}.ai-form input:focus{border-color:rgba(137,140,255,.55)}.send{border:0;border-radius:13px;background:#777aff;color:white;font-weight:800;padding:0 15px;cursor:pointer}
+.modebar{position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:20px;padding:7px;border-radius:16px;display:flex;gap:5px}.mode{font-size:10px;color:#8e95aa;border:0;background:transparent;border-radius:10px;padding:9px 11px;cursor:pointer}.mode.on,.mode:hover{color:white;background:rgba(255,255,255,.08)}
+.tip{position:fixed;z-index:10;left:50%;transform:translateX(-50%);top:100px;font-size:10px;color:rgba(216,220,235,.55);letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+@media(max-width:800px){.legend,.modebar{display:none}.topbar{left:10px;right:10px;top:10px}.track-meta .metric:nth-child(n+3){display:none}.controls{left:10px;bottom:10px}.ai{right:10px;bottom:64px;width:calc(100vw - 20px)}.pin-card{right:10px;top:84px}.scrub{width:36vw}.upload-card{padding:30px 22px}.upload-card h1{font-size:34px}}
+</style>
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.179.1/build/three.module.js","three/addons/":"https://unpkg.com/three@0.179.1/examples/jsm/"}}
+</script>
+</head>
+<body>
+<div id="scene"></div>
+<div class="topbar glass">
+  <div class="brand">SoundLens</div><div class="labtag">3D LAB</div>
+  <a class="back" href="/Analyze">Current analyzer</a>
+  <div class="track-meta" id="trackMeta"><span>Waiting for audio</span></div>
+</div>
+<div class="upload-stage" id="uploadStage">
+  <div class="upload-card glass">
+    <div class="upload-orb"></div>
+    <h1>See the track.</h1>
+    <p>SoundLens reconstructs measurable energy, frequency, stereo width and transients through time, then pins what it finds directly onto the music.</p>
+    <label class="upload-btn">Choose audio<input id="fileInput" type="file" accept="audio/*,.wav,.mp3,.flac,.m4a,.aac,.ogg,.aiff,.aif"></label>
+    <div class="loading" id="loading"><div class="loader-line"></div><div class="auth-note" id="status">Analyzing track…</div></div>
+    <div class="auth-note">Uses your existing SoundLens account and upload limit.</div>
+  </div>
+</div>
+<div class="legend glass" id="legend" style="display:none">
+  <div class="legend-title">Audio layers</div>
+  <div class="legend-row"><i class="dot" style="color:#695cff;background:#695cff"></i>Sub</div>
+  <div class="legend-row"><i class="dot" style="color:#7e72ff;background:#7e72ff"></i>808 / Bass</div>
+  <div class="legend-row"><i class="dot" style="color:#b368ff;background:#b368ff"></i>Low mids</div>
+  <div class="legend-row"><i class="dot" style="color:#dd6fff;background:#dd6fff"></i>Mids</div>
+  <div class="legend-row"><i class="dot" style="color:#56c8ff;background:#56c8ff"></i>Highs</div>
+  <div class="legend-row"><i class="dot" style="color:#bceaff;background:#bceaff"></i>Air</div>
+</div>
+<div class="tip" id="tip" style="display:none">drag to orbit · scroll to zoom · click a pin</div>
+<div class="pin-card glass" id="pinCard"><div class="pin-kicker" id="pinKind"></div><div class="pin-title" id="pinTitle"></div><div class="pin-detail" id="pinDetail"></div><div class="pin-time" id="pinTime"></div></div>
+<div class="controls glass" id="controls" style="display:none"><button class="iconbtn" id="play">▶</button><span class="time" id="time">0:00 / 0:00</span><input class="scrub" id="scrub" type="range" min="0" max="1000" value="0"><button class="iconbtn" id="reset">Reset view</button></div>
+<div class="modebar glass" id="modebar" style="display:none"><button class="mode on" data-mode="full">FULL TRACK</button><button class="mode" data-mode="bass">LOW END</button><button class="mode" data-mode="stereo">STEREO</button><button class="mode" data-mode="transient">TRANSIENTS</button></div>
+<div class="ai glass" id="ai" style="display:none"><div class="ai-head"><div class="ai-title">Ask SoundLens</div><div class="ai-state" id="aiState">track context loaded</div></div><div class="ai-log" id="aiLog"><div class="bubble">Click a pin or ask about what SoundLens measured in this track.</div></div><form class="ai-form" id="aiForm"><input id="question" placeholder="Where is the low end strongest?" autocomplete="off"><button class="send">↑</button></form></div>
+<audio id="audio"></audio>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const AUTH_TOKEN_KEY='soundlens_auth_token';
+const container=document.getElementById('scene');
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;container.appendChild(renderer.domElement);
+const scene=new THREE.Scene(); scene.fog=new THREE.FogExp2(0x05060a,.014);
+const camera=new THREE.PerspectiveCamera(44,innerWidth/innerHeight,.1,1000);camera.position.set(0,14,36);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.06;controls.target.set(0,0,0);controls.minDistance=8;controls.maxDistance=90;
+scene.add(new THREE.AmbientLight(0x9297ff,.7));const key=new THREE.DirectionalLight(0xcfd2ff,2.2);key.position.set(-8,16,12);scene.add(key);const rim=new THREE.PointLight(0x5b53ff,50,80);rim.position.set(12,4,-12);scene.add(rim);const cyan=new THREE.PointLight(0x49c7ff,25,70);cyan.position.set(-18,-3,8);scene.add(cyan);
+const grid=new THREE.GridHelper(140,70,0x262946,0x121426);grid.position.y=-7;grid.material.transparent=true;grid.material.opacity=.23;scene.add(grid);
+
+let sculpture=new THREE.Group(); scene.add(sculpture);let pinGroup=new THREE.Group();scene.add(pinGroup);let playhead=null;let report=null;let visual=null;let selectedPin=null;let pinMeshes=[];let audioURL=null;let trackLength=48;let focusTween=null;let currentMode='full';
+const palette=[0x695cff,0x8174ff,0xb368ff,0xdd6fff,0x56c8ff,0xbceaff];
+
+function clearGroup(group){while(group.children.length){const c=group.children.pop();if(c.geometry)c.geometry.dispose();if(c.material)c.material.dispose?.();}}
+function valAt(s,key){return Number(s?.bands?.[key]||0)}
+function bandNorm(key){const vals=visual.slices.map(s=>valAt(s,key));const max=Math.max(...vals,.0001);return vals.map(v=>Math.min(1,v/max));}
+function buildSculpture(){clearGroup(sculpture);clearGroup(pinGroup);pinMeshes=[];const slices=visual.slices;if(!slices?.length)return;trackLength=Math.min(70,Math.max(38,visual.duration/3.7));
+ const bandKeys=['sub','bass','low_mid','mid','high','air'];const norms=Object.fromEntries(bandKeys.map(k=>[k,bandNorm(k)]));
+ bandKeys.forEach((band,bi)=>{const points=[];const mirror=[];for(let i=0;i<slices.length;i++){const s=slices[i],x=(i/(slices.length-1)-.5)*trackLength;const e=norms[band][i];const energy=Number(s.energy||0),stereo=Number(s.stereo||0),trans=Number(s.transient||0);const baseY=(bi-2.5)*1.35;const lift=e*3.1+energy*.7;const z=(bi-2.5)*1.2 + stereo*(bi%2?2.1:-2.1);points.push(new THREE.Vector3(x,baseY+lift,z));mirror.push(new THREE.Vector3(x,baseY-lift*.66,-z));}
+  [points,mirror].forEach((pts,mi)=>{const curve=new THREE.CatmullRomCurve3(pts,false,'catmullrom',.12);const radius=.055+bi*.008;const geo=new THREE.TubeGeometry(curve,Math.min(500,slices.length*2),radius,6,false);const mat=new THREE.MeshPhysicalMaterial({color:palette[bi],emissive:palette[bi],emissiveIntensity:.36,transparent:true,opacity:mi?.28:.64,roughness:.22,metalness:.05,transmission:.42,thickness:.8,depthWrite:false});const mesh=new THREE.Mesh(geo,mat);mesh.userData={band};sculpture.add(mesh);});
+ });
+ // translucent skin joining overall energy / stereo width
+ const positions=[];const indices=[];for(let i=0;i<slices.length;i++){const s=slices[i],x=(i/(slices.length-1)-.5)*trackLength,y=(Number(s.energy||0)-.32)*5.4,w=1.1+Number(s.stereo||0)*5.4;positions.push(x,y,w,x,-y*.72,-w);if(i<slices.length-1){const a=i*2,b=a+1,c=a+2,d=a+3;indices.push(a,c,b,b,c,d)}}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));g.setIndex(indices);g.computeVertexNormals();const skin=new THREE.Mesh(g,new THREE.MeshPhysicalMaterial({color:0x8f91ff,transparent:true,opacity:.075,side:THREE.DoubleSide,roughness:.12,metalness:.1,transmission:.78,depthWrite:false}));skin.userData={band:'skin'};sculpture.add(skin);
+ // playhead
+ const pg=new THREE.PlaneGeometry(.08,19);const pm=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.22,side:THREE.DoubleSide});playhead=new THREE.Mesh(pg,pm);playhead.rotation.y=Math.PI/2;playhead.position.x=-trackLength/2;sculpture.add(playhead);
+ buildPins();
+}
+function pointForPin(pin){const i=Math.max(0,Math.min(visual.slices.length-1,pin.index||0));const s=visual.slices[i];const x=(i/(visual.slices.length-1)-.5)*trackLength;let y=(Number(s.energy||0)-.1)*5.2;let z=0;if(pin.kind==='bass'){y=-1.5+valAt(s,'bass')*7;z=-2.8}else if(pin.kind==='stereo'){z=Number(s.stereo||0)*7;y=1}else if(pin.kind==='resonance'){y=4;z=1.7}else if(pin.kind==='transient'){y=Number(s.transient||0)*6;z=-.5}else if(pin.kind==='brightness'){y=3;z=3.4}return new THREE.Vector3(x,y,z)}
+function buildPins(){const colors={energy:0xffffff,bass:0x8174ff,transient:0xffcf72,stereo:0x58d7ff,clip:0xff647c,resonance:0xff79db,brightness:0xa8efff};(visual.pins||[]).forEach((pin,idx)=>{const p=pointForPin(pin);const sphere=new THREE.Mesh(new THREE.SphereGeometry(.19,20,20),new THREE.MeshBasicMaterial({color:colors[pin.kind]||0xffffff}));sphere.position.copy(p);sphere.userData={pin,index:idx};pinGroup.add(sphere);pinMeshes.push(sphere);const lineGeo=new THREE.BufferGeometry().setFromPoints([p,new THREE.Vector3(p.x,p.y+1.8,p.z)]);const line=new THREE.Line(lineGeo,new THREE.LineBasicMaterial({color:colors[pin.kind]||0xffffff,transparent:true,opacity:.34}));pinGroup.add(line);});}
+function setMode(mode){currentMode=mode;document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('on',b.dataset.mode===mode));sculpture.children.forEach(m=>{if(!m.material||!m.userData.band)return;const b=m.userData.band;let op=b==='skin'?.075:.55;if(mode==='bass')op=['sub','bass'].includes(b)?.85:(b==='skin'?.025:.055);if(mode==='stereo')op=b==='skin'?.28:.16;if(mode==='transient')op=b==='skin'?.04:.31;m.material.opacity=op;});}
+function showPin(pin){selectedPin=pin;document.getElementById('pinKind').textContent=pin.kind;document.getElementById('pinTitle').textContent=pin.title;document.getElementById('pinDetail').textContent=pin.detail;document.getElementById('pinTime').textContent=`${fmt(pin.time)} · click play to hear this point`;document.getElementById('pinCard').classList.add('on');const p=pointForPin(pin);focusCamera(p);audio.currentTime=Math.min(audio.duration||pin.time,pin.time);updatePlayhead();}
+function focusCamera(p){const start=camera.position.clone(),targetStart=controls.target.clone(),endTarget=p.clone(),end=p.clone().add(new THREE.Vector3(6,7,13));focusTween={t:0,start,targetStart,endTarget,end};}
+function resetView(){focusTween=null;camera.position.set(0,14,36);controls.target.set(0,0,0);controls.update();}
+function fmt(sec){if(!Number.isFinite(Number(sec)))return'0:00';const s=Math.max(0,Math.floor(Number(sec)));return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`}
+
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('pointerdown',e=>{if(!visual)return;mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);const hit=ray.intersectObjects(pinMeshes,false)[0];if(hit)showPin(hit.object.userData.pin)});
+const audio=document.getElementById('audio');
+function updatePlayhead(){if(!playhead||!audio.duration)return;const progress=Math.max(0,Math.min(1,audio.currentTime/audio.duration));playhead.position.x=-trackLength/2+progress*trackLength;document.getElementById('scrub').value=Math.round(progress*1000);document.getElementById('time').textContent=`${fmt(audio.currentTime)} / ${fmt(audio.duration)}`}
+audio.addEventListener('timeupdate',updatePlayhead);audio.addEventListener('play',()=>document.getElementById('play').textContent='❚❚');audio.addEventListener('pause',()=>document.getElementById('play').textContent='▶');
+document.getElementById('play').onclick=()=>audio.paused?audio.play():audio.pause();document.getElementById('reset').onclick=resetView;document.getElementById('scrub').oninput=e=>{if(audio.duration)audio.currentTime=audio.duration*Number(e.target.value)/1000};document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+
+async function analyzeFile(file){const token=localStorage.getItem(AUTH_TOKEN_KEY);if(!token){throw new Error('Sign in to SoundLens on the main site first, then return to /Lab.');}document.getElementById('loading').classList.add('on');document.getElementById('status').textContent='Reading audio and constructing the track…';const fd=new FormData();fd.append('file',file);const res=await fetch('/analyze',{method:'POST',headers:{Authorization:`Bearer ${token}`},body:fd});const data=await res.json();if(!res.ok||data.error||!data.report)throw new Error(data.error||data.detail||'Analysis failed.');report=data.report;visual=report.visual_map;if(!visual?.slices?.length)throw new Error(visual?.error||'The 3D data was not generated.');if(audioURL)URL.revokeObjectURL(audioURL);audioURL=URL.createObjectURL(file);audio.src=audioURL;audio.load();buildSculpture();setMode('full');const basic=report.basic||{},ranked=(report.artist_comparison?.ranked_profiles||[]),best=ranked[0];document.getElementById('trackMeta').innerHTML=`<span class="metric"><strong>${escapeHTML(file.name)}</strong></span><span class="metric">${Math.round(basic.bpm||0)} BPM</span><span class="metric">${escapeHTML(basic.key||'')}</span><span class="metric">${best?`Closest: <strong>${escapeHTML(best.profile_name||best.artist||'')}</strong>`:''}</span>`;document.getElementById('uploadStage').classList.add('hidden');['legend','tip','controls','modebar','ai'].forEach(id=>document.getElementById(id).style.display='');resetView();}
+function escapeHTML(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+document.getElementById('fileInput').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{await analyzeFile(file)}catch(err){document.getElementById('loading').classList.add('on');document.getElementById('status').textContent=err.message||String(err)}});
+
+const aiForm=document.getElementById('aiForm');aiForm.addEventListener('submit',async e=>{e.preventDefault();const q=document.getElementById('question');const text=q.value.trim();if(!text||!report)return;q.value='';const log=document.getElementById('aiLog');log.insertAdjacentHTML('beforeend',`<div class="bubble you">${escapeHTML(text)}</div>`);document.getElementById('aiState').textContent='thinking…';try{const token=localStorage.getItem(AUTH_TOKEN_KEY);const compact={basic:report.basic,loudness:report.loudness,frequency:report.frequency,rhythm:report.rhythm,sections:report.sections,artist_comparison:report.artist_comparison,visual_map:{duration:visual.duration,pins:visual.pins,legend:visual.legend}};const res=await fetch('/lab/ask',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`},body:JSON.stringify({question:text,context:compact,selected_pin:selectedPin})});const data=await res.json();if(!res.ok)throw new Error(data.detail||'AI failed');log.insertAdjacentHTML('beforeend',`<div class="bubble">${escapeHTML(data.answer||'No answer returned.')}</div>`)}catch(err){log.insertAdjacentHTML('beforeend',`<div class="bubble">${escapeHTML(err.message||String(err))}</div>`)}finally{document.getElementById('aiState').textContent=selectedPin?`focused on ${selectedPin.kind}`:'track context loaded';log.scrollTop=log.scrollHeight}});
+
+function animate(){requestAnimationFrame(animate);controls.update();if(focusTween){focusTween.t=Math.min(1,focusTween.t+.035);const t=1-Math.pow(1-focusTween.t,3);camera.position.lerpVectors(focusTween.start,focusTween.end,t);controls.target.lerpVectors(focusTween.targetStart,focusTween.endTarget,t);if(focusTween.t>=1)focusTween=null}const time=performance.now()*.001;pinMeshes.forEach((m,i)=>{const s=1+Math.sin(time*2.2+i)*.13;m.scale.setScalar(s)});renderer.render(scene,camera)}animate();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+</script>
+</body>
+</html>

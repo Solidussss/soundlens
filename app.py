@@ -24,6 +24,7 @@ from fastapi.staticfiles import StaticFiles
 from soundlens_pro import analyze_audio, render_report
 from compare_to_profile_pro import compare_audio_to_profiles
 from ai_feedback import generate_soundlens_ai_feedback
+from soundlens_3d import build_visual_map
 
 app = FastAPI()
 
@@ -196,6 +197,11 @@ class DeleteAccountPayload(BaseModel):
 class PluginLinkClaimPayload(BaseModel):
     code: str
 
+
+class LabQuestionPayload(BaseModel):
+    question: str
+    context: dict
+    selected_pin: dict | None = None
 
 
 def utc_today() -> str:
@@ -1772,6 +1778,12 @@ def home():
     return FileResponse("index.html")
 
 
+@app.get("/Lab")
+@app.get("/lab")
+def soundlens_lab():
+    return FileResponse("soundlens_lab.html")
+
+
 # These are front-end pages rendered from index.html. Because the browser
 # uses history.pushState for clean URLs, each URL must return index.html
 # when opened directly or refreshed.
@@ -1973,6 +1985,15 @@ def analyze(
 
         report_dict = asdict(report)
 
+        # SoundLens 3D Lab: time-resolved measurable structure used to build
+        # the track itself in 3D. Kept inside the normal analyze response so
+        # Railway still receives one upload / one analysis request.
+        try:
+            report_dict["visual_map"] = build_visual_map(file_path)
+        except Exception as visual_error:
+            print(f"3D VISUAL MAP ERROR: {visual_error}")
+            report_dict["visual_map"] = {"error": str(visual_error), "slices": [], "pins": []}
+
         artist_comparison = {}
         try:
             artist_comparison = compare_audio_to_profiles(
@@ -2059,6 +2080,66 @@ def analyze(
             "text_report": "",
             "ai_feedback": {},
         }
+
+
+@app.post("/lab/ask")
+def lab_ask(payload: LabQuestionPayload, authorization: str | None = Header(default=None)):
+    _, user = get_current_user(authorization)
+    question = str(payload.question or "").strip()
+    if not question:
+        raise HTTPException(status_code=400, detail="Ask SoundLens a question.")
+
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        raise HTTPException(status_code=503, detail="SoundLens AI is not configured.")
+
+    # The browser sends only the compact analysis context, never arbitrary server files.
+    context = payload.context if isinstance(payload.context, dict) else {}
+    selected = payload.selected_pin if isinstance(payload.selected_pin, dict) else None
+    compact = {
+        "basic": context.get("basic", {}),
+        "loudness": context.get("loudness", {}),
+        "frequency": context.get("frequency", {}),
+        "rhythm": context.get("rhythm", {}),
+        "sections": (context.get("sections") or [])[:12],
+        "artist_comparison": context.get("artist_comparison", {}),
+        "visual_map": {
+            "duration": (context.get("visual_map") or {}).get("duration"),
+            "pins": (context.get("visual_map") or {}).get("pins", [])[:10],
+            "legend": (context.get("visual_map") or {}).get("legend", {}),
+        },
+    }
+
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=api_key)
+        prompt = f"""
+You are SoundLens inside an interactive 3D music analysis view.
+Answer the producer's question using ONLY the measured context below.
+Music is subjective. Never pretend there is one objectively correct mix.
+If the user asks where something happens, name the timestamp(s) supported by pins/sections.
+If a selected 3D pin is provided, prioritize that exact location.
+Keep the response conversational and short: usually 2-5 sentences.
+Do not dump metrics unless they explain what the user is seeing.
+
+Selected pin:
+{json.dumps(selected, indent=2)}
+
+Measured context:
+{json.dumps(compact, indent=2)}
+
+Producer question: {question}
+"""
+        response = client.responses.create(
+            model=os.getenv("OPENAI_MODEL", "gpt-5-nano"),
+            input=prompt,
+        )
+        answer = str(getattr(response, "output_text", "") or "").strip()
+        track_event("lab_ai_question", user, {"characters": len(question), "selected_pin": (selected or {}).get("kind")})
+        return {"ok": True, "answer": answer}
+    except Exception as error:
+        print(f"LAB AI ERROR: {error}")
+        raise HTTPException(status_code=500, detail="SoundLens AI could not answer that question.")
 
 
 @app.post("/compare-profile")
