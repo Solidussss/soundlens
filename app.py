@@ -346,13 +346,41 @@ def send_notification_email(subject: str, body: str) -> bool:
     return _send_resend_email(SOUNDLENS_NOTIFY_EMAIL, subject, body)
 
 
-def send_notification_email_to(
-    to_email: str | None,
-    subject: str,
-    body: str,
-    html_body: str | None = None,
-) -> bool:
-    return _send_resend_email(to_email, subject, body, html_body)
+def send_notification_email_to(to_email: str, subject: str, text_body: str, html_body: str | None = None) -> bool:
+    """Send email through Resend and surface useful diagnostics in Railway logs."""
+    to_email = normalize_email(to_email)
+    if not to_email:
+        print("[email] missing recipient")
+        return False
+
+    if not RESEND_API_KEY:
+        print("[email] RESEND_API_KEY missing")
+        return False
+
+    if not RESEND_FROM_EMAIL:
+        print("[email] RESEND_FROM_EMAIL missing")
+        return False
+
+    try:
+        resend.api_key = RESEND_API_KEY
+        payload = {
+            "from": RESEND_FROM_EMAIL,
+            "to": [to_email],
+            "subject": subject,
+            "text": text_body,
+        }
+        if html_body:
+            payload["html"] = html_body
+        if RESEND_REPLY_TO:
+            payload["reply_to"] = RESEND_REPLY_TO
+
+        result = resend.Emails.send(payload)
+        print(f"[email] sent via Resend to={to_email} subject={subject!r} result={result}")
+        return True
+    except Exception as exc:
+        print(f"[email] Resend send failed to={to_email} subject={subject!r}: {type(exc).__name__}: {exc}")
+        return False
+
 
 def build_branded_email(
     title: str,
@@ -799,7 +827,7 @@ def signup(payload: AuthPayload):
             save_users_db(db)
             sent = send_signup_verification_email(existing)
             if not sent:
-                raise HTTPException(status_code=503, detail="SoundLens could not send the verification email. Try again shortly.")
+                raise HTTPException(status_code=503, detail="SoundLens could not send the verification email. Check Railway logs for the Resend error.")
             return {"ok": True, "verification_required": True, "email": email, "message": f"Verification email sent to {email}. Confirm it before signing in."}
         raise HTTPException(status_code=400, detail="An account with this email already exists.")
 
@@ -827,7 +855,7 @@ def signup(payload: AuthPayload):
         db["users"].pop(user_id, None)
         save_users_db(db)
         track_event("signup_email_failed", None, {"email": email})
-        raise HTTPException(status_code=503, detail="SoundLens could not send the verification email. No account was created. Try again shortly.")
+        raise HTTPException(status_code=503, detail="SoundLens could not send the verification email. No account was created. Check Railway logs for the Resend error.")
 
     track_event("signup_pending_verification", user, {"email": email})
     return {"ok": True, "verification_required": True, "email": email, "message": f"Verification email sent to {email}. Confirm it before signing in."}
