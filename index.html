@@ -73,6 +73,7 @@ body:before{content:"";position:fixed;inset:0;background:
   <button class="navbtn hide-mobile" onclick="openModal('studioModal')">Studio</button>
   <button class="navbtn hide-mobile" onclick="openModal('pricingModal')">Pricing</button>
   <button class="navbtn hide-mobile" onclick="openModal('contactModal')">Contact</button>
+  <button class="navbtn hide-mobile" onclick="openDashboardMenu()">Dashboard</button>
   <div class="track-meta" id="trackMeta"><span>Waiting for audio</span></div>
   <span class="status-badge" id="planBadge" style="display:none">FREE</span>
   <button class="navpill" id="accountButton" onclick="openAccount()">Sign in</button>
@@ -130,6 +131,10 @@ function renderUser(){
   }
 }
 async function submitAuth(){const st=document.getElementById('authStatus');st.textContent=authMode==='signup'?'Creating account…':'Signing in…';try{const body={email:document.getElementById('authEmail').value,password:document.getElementById('authPassword').value,display_name:document.getElementById('authName').value};const d=await jsonReq(authMode==='signup'?'/auth/signup':'/auth/login',{method:'POST',body:JSON.stringify(body)});localStorage.setItem(SL_TOKEN,d.token);slUser=d.user;renderUser();closeModal('authModal');if(pendingFile){const f=pendingFile;pendingFile=null;enterAnalyzer(f)}}catch(e){st.textContent=e.message}}
+async function openDashboardMenu(){
+  if(!slUser){openModal('authModal');return}
+  await openAccount();
+}
 async function openAccount(){
   if(!slUser){openModal('authModal');return}
   const box=document.getElementById('accountContent');
