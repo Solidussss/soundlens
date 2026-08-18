@@ -113,6 +113,7 @@ if RESEND_API_KEY:
 
 
 FREE_DAILY_UPLOAD_LIMIT = int(os.getenv("SOUNDLENS_FREE_DAILY_UPLOAD_LIMIT", "3"))
+FREE_DAILY_AI_LIMIT = int(os.getenv("SOUNDLENS_FREE_DAILY_AI_LIMIT", "5"))
 PRO_PRICE_CAD = os.getenv("SOUNDLENS_PRO_PRICE_CAD", "7.99")
 
 USE_DEMUCS_BY_DEFAULT = os.getenv("SOUNDLENS_USE_DEMUCS", "0") == "1"
@@ -485,6 +486,8 @@ def public_user(user: dict) -> dict:
         "daily_limit": None if plan in {"pro", "studio", "lifetime"} else FREE_DAILY_UPLOAD_LIMIT,
         "uploads_today": int(usage.get("count", 0) or 0),
         "uploads_remaining": None if plan in {"pro", "studio", "lifetime"} else max(0, FREE_DAILY_UPLOAD_LIMIT - int(usage.get("count", 0) or 0)),
+        "ai_daily_limit": None if plan in {"pro", "studio", "lifetime"} else FREE_DAILY_AI_LIMIT,
+        "ai_questions_today": int((user.get("ai_usage") or {}).get("count", 0) or 0) if (user.get("ai_usage") or {}).get("date") == today else 0,
         "created_at": user.get("created_at"),
         "email_verified": bool(user.get("email_verified")),
     }
@@ -1037,12 +1040,18 @@ def billing_config():
         "free": {
             "name": "Free",
             "daily_upload_limit": FREE_DAILY_UPLOAD_LIMIT,
-            "features": ["3 uploads per day", "Basic artist match", "Basic analysis", "Basic fixes"],
+            "daily_ai_limit": FREE_DAILY_AI_LIMIT,
+            "features": ["Full 3D track", "All detected pins", "Basic artist match", f"{FREE_DAILY_AI_LIMIT} Ask SoundLens questions per day", f"{FREE_DAILY_UPLOAD_LIMIT} uploads per day"],
         },
         "pro": {
             "name": "Pro",
             "price_cad": PRO_PRICE_CAD,
-            "features": ["Unlimited uploads", "Full artist match", "Saved reports", "Upload history", "Future AI features"],
+            "features": ["Unlimited uploads", "Unlimited Ask SoundLens", "Full artist comparison", "Saved analyses", "Deeper inspection tools"],
+            "stripe_enabled": bool(os.getenv("STRIPE_SECRET_KEY")),
+        },
+        "studio": {
+            "name": "Studio",
+            "features": ["Everything in Pro", "SoundLens Studio plugin", "Plugin account linking", "DAW access"],
             "stripe_enabled": bool(os.getenv("STRIPE_SECRET_KEY")),
         },
     }
@@ -1781,7 +1790,7 @@ def home():
 @app.get("/Lab")
 @app.get("/lab")
 def soundlens_lab():
-    return FileResponse("soundlens_lab.html")
+    return RedirectResponse(url="/")
 
 
 # These are front-end pages rendered from index.html. Because the browser
@@ -2084,10 +2093,22 @@ def analyze(
 
 @app.post("/lab/ask")
 def lab_ask(payload: LabQuestionPayload, authorization: str | None = Header(default=None)):
-    _, user = get_current_user(authorization)
+    db, user = get_current_user(authorization)
     question = str(payload.question or "").strip()
     if not question:
         raise HTTPException(status_code=400, detail="Ask SoundLens a question.")
+
+    plan = str(user.get("plan", "free")).lower()
+    if plan not in {"pro", "studio", "lifetime"}:
+        ai_usage = user.setdefault("ai_usage", {})
+        today = utc_today()
+        if ai_usage.get("date") != today:
+            ai_usage["date"] = today
+            ai_usage["count"] = 0
+        if int(ai_usage.get("count", 0) or 0) >= FREE_DAILY_AI_LIMIT:
+            raise HTTPException(status_code=429, detail=f"Free AI limit reached. Upgrade to Pro for unlimited Ask SoundLens questions.")
+        ai_usage["count"] = int(ai_usage.get("count", 0) or 0) + 1
+        save_users_db(db)
 
     api_key = os.getenv("OPENAI_API_KEY", "").strip()
     if not api_key:
