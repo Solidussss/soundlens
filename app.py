@@ -475,7 +475,8 @@ soundlensapp.com
 
 
 def is_admin_user(user: dict) -> bool:
-    return normalize_email(user.get("email")) in SOUNDLENS_ADMIN_EMAILS
+    email = normalize_email(user.get("email"))
+    return email == "jaydenflynn9@gmail.com"
 
 
 def get_admin_user(authorization: str | None) -> tuple[dict, dict]:

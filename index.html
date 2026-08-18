@@ -36,7 +36,31 @@ body:before{content:"";position:fixed;inset:0;background:
 /* Launch / account / pricing layer — intentionally uses the exact 3D Lab visual language. */
 .launch{position:fixed;z-index:60;inset:0;overflow:auto;padding:118px 22px 48px;background:radial-gradient(circle at 50% 8%,rgba(96,85,255,.16),transparent 32%),linear-gradient(rgba(5,6,10,.96),rgba(3,4,7,.98));transition:.45s ease}.launch.hidden{opacity:0;visibility:hidden;pointer-events:none}.launch-shell{width:min(1120px,100%);margin:auto}.launch-hero{text-align:center;padding:38px 0 30px}.launch-kicker{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#9fa6bb}.launch h1{font-size:clamp(52px,8vw,94px);letter-spacing:-.075em;line-height:.88;margin:16px 0 18px}.launch h1 span{color:#aeb0ff}.launch-copy{max-width:640px;margin:auto;color:#9fa6bb;font-size:15px;line-height:1.65}.launch-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:14px;margin-top:30px}.launch-card{border-radius:28px;padding:24px;min-height:210px;cursor:pointer;transition:.22s ease;position:relative;overflow:hidden}.launch-card:hover{transform:translateY(-3px);border-color:rgba(155,158,255,.35);background:linear-gradient(135deg,rgba(255,255,255,.095),rgba(255,255,255,.025))}.launch-card.primary{min-height:300px;grid-row:span 2}.card-kicker{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#9299ad}.launch-card h2{font-size:27px;letter-spacing:-.045em;margin:10px 0}.launch-card p{font-size:12px;color:#969db1;line-height:1.55;max-width:340px}.launch-action{position:absolute;bottom:22px;left:24px;font-size:11px;font-weight:800;color:#e8e9ff}.mini-viz{position:absolute;right:-20px;bottom:-20px;width:230px;height:170px;opacity:.65;background:repeating-radial-gradient(ellipse at center,transparent 0 11px,rgba(121,125,255,.22) 12px 13px,transparent 14px 24px);transform:rotate(-12deg)}.launch-nav{position:fixed;z-index:70;top:18px;left:22px;right:22px;height:62px;border-radius:22px;display:flex;align-items:center;padding:0 18px;gap:18px}.navspacer{flex:1}.navbtn{border:0;background:transparent;color:#9fa6bb;font-size:11px;cursor:pointer}.navbtn:hover{color:white}.navpill{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.055);color:white;padding:9px 13px;border-radius:12px;cursor:pointer;font-size:11px}.modal-wrap{position:fixed;z-index:100;inset:0;display:none;place-items:center;padding:20px;background:rgba(2,3,7,.68);backdrop-filter:blur(16px)}.modal-wrap.on{display:grid}.modal{width:min(900px,100%);max-height:88vh;overflow:auto;border-radius:30px;padding:28px}.modal.small{width:min(520px,100%)}.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.modal-head h2{margin:0;font-size:28px;letter-spacing:-.045em}.closebtn{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:white;border-radius:12px;width:36px;height:36px;cursor:pointer}.auth-tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(255,255,255,.035);margin-bottom:18px}.auth-tab{flex:1;border:0;background:transparent;color:#9299ad;border-radius:10px;padding:10px;cursor:pointer}.auth-tab.on{background:rgba(255,255,255,.08);color:white}.form-stack{display:grid;gap:10px}.field{width:100%;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:rgba(0,0,0,.22);color:white;padding:13px;outline:none}.field:focus{border-color:rgba(137,140,255,.55)}textarea.field{min-height:120px;resize:vertical}.primary-btn{border:0;border-radius:13px;background:#f4f5ff;color:#090a10;padding:13px 18px;font-weight:850;cursor:pointer}.statusline{font-size:11px;color:#8e95aa;min-height:16px}.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.plan{border-radius:24px;padding:22px;position:relative}.plan.featured{border-color:rgba(126,130,255,.5);box-shadow:0 0 50px rgba(90,94,255,.12)}.plan-name{font-size:11px;color:#a8adbf;text-transform:uppercase;letter-spacing:.14em}.plan h3{font-size:30px;margin:8px 0 4px}.plan ul{padding:0;list-style:none;margin:18px 0 70px}.plan li{font-size:11px;color:#aab0c1;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}.plan .primary-btn{position:absolute;left:22px;right:22px;bottom:22px;width:calc(100% - 44px)}.database-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.artist-chip{padding:11px 12px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:11px;color:#cdd1e1}.account-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:12px}.account-row span{color:#8f96aa}.legal-mini{text-align:center;margin-top:28px;color:#626a7e;font-size:10px}.legal-mini button{border:0;background:none;color:#747c91;font-size:10px;cursor:pointer}.topbar.launch-hidden{display:none}.launch-file{position:absolute;inset:0;opacity:0;cursor:pointer}.launch-card.primary{cursor:pointer}.upgrade-hint{font-size:10px;color:#8d94aa;margin-top:8px}
 @media(max-width:850px){.launch-grid{grid-template-columns:1fr 1fr}.launch-card.primary{grid-column:1/-1;grid-row:auto;min-height:240px}.plans{grid-template-columns:1fr}.database-grid{grid-template-columns:repeat(2,1fr)}.launch-nav .navbtn.hide-mobile{display:none}}
-.admin-kpis-v2{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px}.admin-kpi-v2{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:16px;padding:13px}.admin-kpi-v2 span{display:block;font-size:8px;color:#7e8699;text-transform:uppercase;letter-spacing:.13em;margin-bottom:6px}.admin-kpi-v2 strong{font-size:20px}.admin-grid-v2{display:grid;grid-template-columns:1.12fr .88fr;gap:12px}.admin-panel-v2{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);border-radius:20px;padding:16px}.admin-list-v2{display:grid;gap:7px;margin-top:11px;max-height:390px;overflow:auto}.admin-row-v2{border:1px solid rgba(255,255,255,.055);background:rgba(255,255,255,.022);border-radius:13px;padding:10px 11px}.admin-row-v2 strong{font-size:11px}.admin-row-v2 span{display:block;color:#777f93;font-size:9px;margin-top:3px}.admin-actions-v2{display:flex;flex-wrap:wrap;gap:7px}@media(max-width:850px){.admin-kpis-v2{grid-template-columns:repeat(2,1fr)}.admin-grid-v2{grid-template-columns:1fr}}
+.admin-kpis-v2{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:14px}
+.admin-kpi-v2{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:16px;padding:13px;min-height:74px}
+.admin-kpi-v2 span{display:block;font-size:8px;color:#7e8699;text-transform:uppercase;letter-spacing:.13em;margin-bottom:6px}
+.admin-kpi-v2 strong{font-size:20px;letter-spacing:-.04em}
+.admin-grid-v2{display:grid;grid-template-columns:1.18fr .82fr;gap:12px}
+.admin-lower-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;margin-top:12px}
+.admin-panel-v2{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);border-radius:20px;padding:16px}
+.admin-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.admin-panel-title{font-size:18px;font-weight:800;letter-spacing:-.035em;margin-top:5px}
+.admin-count{font-size:9px;color:#838ba0;border:1px solid rgba(255,255,255,.08);padding:5px 8px;border-radius:999px}
+.admin-list-v2{display:grid;gap:7px;margin-top:11px;max-height:390px;overflow:auto;padding-right:2px}
+.admin-events-tall{max-height:330px}
+.admin-row-v2{border:1px solid rgba(255,255,255,.055);background:rgba(255,255,255,.022);border-radius:13px;padding:11px 12px}
+.admin-row-v2 strong{font-size:11px;display:block}
+.admin-row-v2 span{display:block;color:#777f93;font-size:9px;margin-top:4px;line-height:1.45}
+.admin-row-v2 .admin-user-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.admin-mini-badge{font-size:8px;padding:4px 6px;border-radius:999px;border:1px solid rgba(255,255,255,.08);color:#aeb5c8}
+.admin-mini-badge.good{color:#bfc1ff;border-color:rgba(140,143,255,.22);background:rgba(114,117,255,.08)}
+.admin-mini-badge.warn{color:#e9bd8b;border-color:rgba(233,189,139,.18);background:rgba(233,189,139,.06)}
+.admin-actions-v2{display:flex;flex-wrap:wrap;gap:7px}
+.admin-divider{height:1px;background:rgba(255,255,255,.06);margin:18px 0}
+.admin-tabs-v2{display:flex;gap:5px;flex-wrap:wrap}
+.admin-tab-v2{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);color:#7f879a;border-radius:9px;padding:6px 8px;font-size:9px;cursor:pointer}
+.admin-tab-v2.on{background:rgba(114,117,255,.12);border-color:rgba(114,117,255,.25);color:#e6e7ff}
+@media(max-width:950px){.admin-kpis-v2{grid-template-columns:repeat(3,1fr)}.admin-grid-v2,.admin-lower-grid{grid-template-columns:1fr}}
 @media(max-width:560px){.launch{padding-left:12px;padding-right:12px}.launch-grid{grid-template-columns:1fr}.launch-card.primary{grid-column:auto}.launch-nav{left:10px;right:10px}.database-grid{grid-template-columns:1fr 1fr}.modal{padding:20px}}
 
 
@@ -88,7 +112,72 @@ body:before{content:"";position:fixed;inset:0;background:
 <div class="modal-wrap" id="forgotModal"><div class="modal small glass"><div class="modal-head"><h2>Reset password</h2><button class="closebtn" onclick="closeModal('forgotModal')">×</button></div><div class="form-stack"><input class="field" id="forgotEmail" type="email" placeholder="Email"><button class="primary-btn" onclick="requestPasswordReset()">Send reset email</button><div class="statusline" id="forgotStatus"></div></div></div></div>
 <div class="modal-wrap" id="resetModal"><div class="modal small glass"><div class="modal-head"><h2>Choose a new password</h2><button class="closebtn" onclick="closeModal('resetModal')">×</button></div><div class="form-stack"><input class="field" id="resetPassword" type="password" placeholder="New password (8+ characters)"><button class="primary-btn" onclick="completePasswordReset()">Update password</button><div class="statusline" id="resetStatus"></div></div></div></div>
 <div class="modal-wrap" id="verificationModal"><div class="modal small glass"><div class="modal-head"><h2>Check your email</h2><button class="closebtn" onclick="closeModal('verificationModal')">×</button></div><p class="launch-copy" id="verificationCopy" style="text-align:left;margin:0 0 18px">Confirm your email before using SoundLens.</p><div class="form-stack"><button class="primary-btn" onclick="resendVerification()">Resend confirmation</button><button class="navpill" onclick="closeModal('verificationModal');openModal('authModal');setAuthMode('login')">Back to sign in</button><div class="statusline" id="verificationStatus"></div></div></div></div>
-<div class="modal-wrap" id="adminModal"><div class="modal glass" style="width:min(1180px,100%)"><div class="modal-head"><div><div class="card-kicker">Owner only</div><h2>SoundLens Admin</h2></div><button class="closebtn" onclick="closeModal('adminModal')">×</button></div><div id="adminKpis" class="admin-kpis-v2"></div><div class="admin-grid-v2"><div class="admin-panel-v2"><div class="card-kicker">Users</div><div class="admin-list-v2" id="adminUsersList">Loading…</div></div><div class="admin-panel-v2"><div class="card-kicker">Account controls</div><div class="form-stack" style="margin-top:12px"><input class="field" id="adminTargetEmail" type="email" placeholder="User email"><div class="admin-actions-v2"><button class="primary-btn" onclick="adminPlanAction('grant-pro')">Grant Pro</button><button class="navpill" onclick="adminPlanAction('grant-studio')">Grant Studio</button><button class="navpill" onclick="adminPlanAction('remove-pro')">Remove Pro</button><button class="navpill" onclick="adminPlanAction('remove-studio')">Remove Studio</button></div><div class="statusline" id="adminActionStatus"></div></div><div class="admin-actions-v2" style="margin-top:18px"><button class="navpill" onclick="testAdminEmail()">Send test email</button></div><div class="statusline" id="adminEmailTestStatus"></div><div class="card-kicker" style="margin-top:22px">Latest activity</div><div class="admin-list-v2" id="adminEventsList">Loading…</div></div></div></div></div>
+<div class="modal-wrap" id="adminModal"><div class="modal glass" style="width:min(1240px,100%)">
+  <div class="modal-head">
+    <div><div class="card-kicker">Owner only</div><h2>SoundLens Admin</h2><div class="dashboard-sub">Users, activity, access, feedback and backups.</div></div>
+    <button class="closebtn" onclick="closeModal('adminModal')">×</button>
+  </div>
+
+  <div id="adminKpis" class="admin-kpis-v2"></div>
+
+  <div class="admin-grid-v2">
+    <div class="admin-panel-v2">
+      <div class="admin-panel-head"><div><div class="card-kicker">Users</div><div class="admin-panel-title">All accounts</div></div><span class="admin-count" id="adminUserCount"></span></div>
+      <input class="field" id="adminUserSearch" placeholder="Search users…" oninput="renderAdminUsers()" style="margin-top:12px">
+      <div class="admin-list-v2" id="adminUsersList">Loading…</div>
+    </div>
+
+    <div class="admin-panel-v2">
+      <div class="card-kicker">Account controls</div>
+      <div class="admin-panel-title">Manage access</div>
+      <div class="form-stack" style="margin-top:12px">
+        <input class="field" id="adminTargetEmail" type="email" placeholder="User email">
+        <div class="admin-actions-v2">
+          <button class="primary-btn" onclick="adminPlanAction('grant-pro')">Grant Pro</button>
+          <button class="navpill" onclick="adminPlanAction('grant-studio')">Grant Studio</button>
+          <button class="navpill" onclick="adminPlanAction('grant-lifetime')">Grant Lifetime</button>
+          <button class="navpill" onclick="adminPlanAction('remove-pro')">Remove Pro</button>
+          <button class="navpill" onclick="adminPlanAction('remove-studio')">Remove Studio</button>
+        </div>
+        <div class="statusline" id="adminActionStatus"></div>
+      </div>
+
+      <div class="admin-divider"></div>
+      <div class="card-kicker">Password recovery</div>
+      <div class="form-stack" style="margin-top:10px">
+        <input class="field" id="adminPasswordEmail" type="email" placeholder="User email">
+        <input class="field" id="adminNewPassword" type="password" placeholder="Temporary password (8+ characters)">
+        <button class="navpill" onclick="adminSetPassword()">Set temporary password</button>
+        <div class="statusline" id="adminPasswordStatus"></div>
+      </div>
+
+      <div class="admin-divider"></div>
+      <div class="admin-actions-v2">
+        <button class="navpill" onclick="testAdminEmail()">Send test email</button>
+        <button class="navpill" onclick="exportAdminData()">Export data backup</button>
+      </div>
+      <div class="statusline" id="adminEmailTestStatus"></div>
+    </div>
+  </div>
+
+  <div class="admin-lower-grid">
+    <div class="admin-panel-v2">
+      <div class="admin-panel-head"><div><div class="card-kicker">Activity</div><div class="admin-panel-title">Latest events</div></div>
+      <div class="admin-tabs-v2">
+        <button class="admin-tab-v2 on" onclick="setAdminFilter('all',this)">All</button>
+        <button class="admin-tab-v2" onclick="setAdminFilter('auth',this)">Auth</button>
+        <button class="admin-tab-v2" onclick="setAdminFilter('analysis',this)">Uploads</button>
+        <button class="admin-tab-v2" onclick="setAdminFilter('email',this)">Email</button>
+      </div></div>
+      <div class="admin-list-v2 admin-events-tall" id="adminEventsList">Loading…</div>
+    </div>
+
+    <div class="admin-panel-v2">
+      <div class="admin-panel-head"><div><div class="card-kicker">Feedback</div><div class="admin-panel-title">Latest feedback</div></div></div>
+      <div class="admin-list-v2 admin-events-tall" id="adminFeedbackList">Loading…</div>
+    </div>
+  </div>
+</div></div>
 <div class="modal-wrap" id="accountModal"><div class="modal small glass"><div class="modal-head"><h2>Your SoundLens</h2><button class="closebtn" onclick="closeModal('accountModal')">×</button></div><div id="accountContent"></div></div></div>
 
 <div class="upload-stage" id="uploadStage">
@@ -220,21 +309,131 @@ function renderDashboardReports(reports,plan){
   }
 }
 async function logoutSL(){try{await jsonReq('/auth/logout',{method:'POST'})}catch{}localStorage.removeItem(SL_TOKEN);slUser=null;renderUser();closeModal('accountModal')}
-function adminEscape(v){return escapeHTML(String(v??''))}
-async function openAdmin(){if(!slUser||String(slUser.email||'').toLowerCase()!=='jaydenflynn9@gmail.com')return;openModal('adminModal');await loadAdmin()}
-async function loadAdmin(){const ub=document.getElementById('adminUsersList'),eb=document.getElementById('adminEventsList');try{const d=await jsonReq('/admin/stats'),s=d.stats||{};const k=[['Users',s.total_users],['Free',s.free_users],['Pro',s.pro_users],['Active today',s.active_today],['Uploads today',s.uploads_today],['Returning',s.returning_users]];document.getElementById('adminKpis').innerHTML=k.map(([a,b])=>`<div class="admin-kpi-v2"><span>${adminEscape(a)}</span><strong>${adminEscape(b??'-')}</strong></div>`).join('');ub.innerHTML=(d.users||[]).map(u=>`<div class="admin-row-v2"><strong>${adminEscape(u.display_name||u.email)} · ${adminEscape(String(u.plan||'free').toUpperCase())}</strong><span>${adminEscape(u.email)} · ${u.email_verified?'verified':'UNVERIFIED'} · ${adminEscape(u.total_uploads||0)} uploads · ${adminEscape(u.reports_saved||0)} saved</span><span>Last active: ${adminEscape(u.last_active||u.last_login_at||'—')}</span></div>`).join('')||'<div class="admin-row-v2">No users.</div>';eb.innerHTML=(d.latest_events||[]).slice(0,40).map(e=>`<div class="admin-row-v2"><strong>${adminEscape(e.event||'event')}</strong><span>${adminEscape((e.user||{}).email||'anonymous')} · ${adminEscape(e.created_at||'')}</span></div>`).join('')||'<div class="admin-row-v2">No activity.</div>'}catch(e){ub.textContent=e.message;eb.textContent='Admin access denied.'}}
-async function adminPlanAction(action){const email=document.getElementById('adminTargetEmail').value.trim(),st=document.getElementById('adminActionStatus');if(!email){st.textContent='Enter a user email.';return}st.textContent='Updating…';try{const d=await jsonReq('/admin/'+action,{method:'POST',body:JSON.stringify({email})});st.textContent=d.message||'Updated.';await loadAdmin()}catch(e){st.textContent=e.message}}
+function adminEscape(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+let adminData={users:[],events:[],feedback:[],stats:{}};
+let adminEventFilter='all';
 
+async function openAdmin(){
+  if(!slUser||String(slUser.email||'').toLowerCase()!=='jaydenflynn9@gmail.com')return;
+  openModal('adminModal');
+  await loadAdmin();
+}
+
+async function loadAdmin(){
+  const ub=document.getElementById('adminUsersList'),eb=document.getElementById('adminEventsList'),fb=document.getElementById('adminFeedbackList');
+  try{
+    const d=await jsonReq('/admin/stats');
+    adminData={users:d.users||[],events:d.latest_events||[],feedback:d.latest_feedback||[],stats:d.stats||{}};
+    const s=adminData.stats;
+    const k=[
+      ['Users',s.total_users],['Free',s.free_users],['Pro',s.pro_users],
+      ['Studio',s.studio_users],['Lifetime',s.lifetime_users],
+      ['Active today',s.active_today],['Uploads today',s.uploads_today]
+    ];
+    document.getElementById('adminKpis').innerHTML=k.map(([a,b])=>`<div class="admin-kpi-v2"><span>${adminEscape(a)}</span><strong>${adminEscape(b??0)}</strong></div>`).join('');
+    document.getElementById('adminUserCount').textContent=`${adminData.users.length} accounts`;
+    renderAdminUsers();
+    renderAdminEvents();
+    renderAdminFeedback();
+  }catch(e){
+    ub.innerHTML=`<div class="admin-row-v2"><strong>Could not load users</strong><span>${adminEscape(e.message)}</span></div>`;
+    eb.innerHTML=`<div class="admin-row-v2"><strong>Could not load activity</strong><span>${adminEscape(e.message)}</span></div>`;
+    fb.innerHTML=`<div class="admin-row-v2"><strong>Could not load feedback</strong><span>${adminEscape(e.message)}</span></div>`;
+  }
+}
+
+function renderAdminUsers(){
+  const q=String(document.getElementById('adminUserSearch')?.value||'').toLowerCase().trim();
+  const rows=adminData.users.filter(u=>!q||String(u.email||'').toLowerCase().includes(q)||String(u.display_name||'').toLowerCase().includes(q));
+  const box=document.getElementById('adminUsersList');
+  box.innerHTML=rows.map(u=>{
+    const verified=u.email_verified?'<span class="admin-mini-badge good">VERIFIED</span>':'<span class="admin-mini-badge warn">UNVERIFIED</span>';
+    const plan=`<span class="admin-mini-badge">${adminEscape(String(u.plan||'free').toUpperCase())}</span>`;
+    return `<div class="admin-row-v2">
+      <strong>${adminEscape(u.display_name||u.email)}</strong>
+      <span>${adminEscape(u.email)}</span>
+      <div class="admin-user-tags">${plan}${verified}<span class="admin-mini-badge">${adminEscape(u.total_uploads||0)} uploads</span><span class="admin-mini-badge">${adminEscape(u.reports_saved||0)} reports</span></div>
+      <span>Last active: ${adminEscape(u.last_active||u.last_login_at||'—')}</span>
+    </div>`;
+  }).join('')||'<div class="admin-row-v2"><strong>No matching users.</strong></div>';
+}
+
+function setAdminFilter(filter,btn){
+  adminEventFilter=filter;
+  document.querySelectorAll('.admin-tab-v2').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  renderAdminEvents();
+}
+
+function eventMatchesFilter(e){
+  const name=String(e.event||'').toLowerCase();
+  if(adminEventFilter==='all')return true;
+  if(adminEventFilter==='auth')return /login|logout|signup|password|verif/.test(name);
+  if(adminEventFilter==='analysis')return /analysis|upload|report/.test(name);
+  if(adminEventFilter==='email')return /email|verification/.test(name);
+  return true;
+}
+
+function renderAdminEvents(){
+  const rows=adminData.events.filter(eventMatchesFilter).slice(0,80);
+  const box=document.getElementById('adminEventsList');
+  box.innerHTML=rows.map(e=>`<div class="admin-row-v2">
+    <strong>${adminEscape(e.event||'event')}</strong>
+    <span>${adminEscape((e.user||{}).email||'anonymous')}</span>
+    <span>${adminEscape(e.created_at||'')}</span>
+  </div>`).join('')||'<div class="admin-row-v2"><strong>No activity in this filter.</strong></div>';
+}
+
+function renderAdminFeedback(){
+  const box=document.getElementById('adminFeedbackList');
+  box.innerHTML=(adminData.feedback||[]).slice(0,40).map(f=>`<div class="admin-row-v2">
+    <strong>${adminEscape(f.email||'Anonymous')}</strong>
+    <span>${adminEscape(f.message||f.feedback||'No message')}</span>
+    <span>${adminEscape(f.created_at||'')}</span>
+  </div>`).join('')||'<div class="admin-row-v2"><strong>No feedback yet.</strong></div>';
+}
+
+async function adminPlanAction(action){
+  const email=document.getElementById('adminTargetEmail').value.trim(),st=document.getElementById('adminActionStatus');
+  if(!email){st.textContent='Enter a user email.';return}
+  st.textContent='Updating…';
+  try{
+    const d=await jsonReq('/admin/'+action,{method:'POST',body:JSON.stringify({email})});
+    st.textContent=d.message||'Updated.';
+    await loadAdmin();
+  }catch(e){st.textContent=e.message}
+}
+
+async function adminSetPassword(){
+  const email=document.getElementById('adminPasswordEmail').value.trim();
+  const password=document.getElementById('adminNewPassword').value;
+  const st=document.getElementById('adminPasswordStatus');
+  if(!email||!password){st.textContent='Enter an email and temporary password.';return}
+  st.textContent='Updating…';
+  try{
+    const d=await jsonReq('/admin/set-password',{method:'POST',body:JSON.stringify({email,password})});
+    st.textContent=d.message||'Password updated.';
+    document.getElementById('adminNewPassword').value='';
+  }catch(e){st.textContent=e.message}
+}
 
 async function testAdminEmail(){
   const st=document.getElementById('adminEmailTestStatus');
-  if(st)st.textContent='Sending test…';
+  st.textContent='Sending test…';
   try{
     const d=await jsonReq('/admin/test-email',{method:'POST'});
-    if(st)st.textContent=d.message||'Test email sent.';
-  }catch(e){
-    if(st)st.textContent=e.message;
-  }
+    st.textContent=d.message||'Test email sent.';
+  }catch(e){st.textContent=e.message}
+}
+
+async function exportAdminData(){
+  try{
+    const token=localStorage.getItem(SL_TOKEN);
+    const r=await fetch('/admin/export-data',{headers:{Authorization:'Bearer '+token}});
+    if(!r.ok){let d={};try{d=await r.json()}catch{};throw new Error(d.detail||'Backup failed')}
+    const blob=await r.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download='soundlens-data-backup.zip';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }catch(e){document.getElementById('adminEmailTestStatus').textContent=e.message}
 }
 
 async function startStripeCheckout(plan){if(!slUser){openModal('authModal');document.getElementById('authStatus').textContent='Sign in or create an account before upgrading.';return}try{const d=await jsonReq('/stripe/create-checkout-session',{method:'POST',body:JSON.stringify({plan})});location.href=d.checkout_url}catch(e){alert(e.message)}}
