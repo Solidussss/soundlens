@@ -35,6 +35,38 @@ body:before{content:"";position:fixed;inset:0;background:
 
 /* Launch / account / pricing layer — intentionally uses the exact 3D Lab visual language. */
 .launch{position:fixed;z-index:60;inset:0;overflow:auto;padding:118px 22px 48px;background:radial-gradient(circle at 50% 8%,rgba(96,85,255,.16),transparent 32%),linear-gradient(rgba(5,6,10,.96),rgba(3,4,7,.98));transition:.45s ease}.launch.hidden{opacity:0;visibility:hidden;pointer-events:none}.launch-shell{width:min(1120px,100%);margin:auto}.launch-hero{text-align:center;padding:38px 0 30px}.launch-kicker{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#9fa6bb}.launch h1{font-size:clamp(52px,8vw,94px);letter-spacing:-.075em;line-height:.88;margin:16px 0 18px}.launch h1 span{color:#aeb0ff}.launch-copy{max-width:640px;margin:auto;color:#9fa6bb;font-size:15px;line-height:1.65}.launch-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:14px;margin-top:30px}.launch-card{border-radius:28px;padding:24px;min-height:210px;cursor:pointer;transition:.22s ease;position:relative;overflow:hidden}.launch-card:hover{transform:translateY(-3px);border-color:rgba(155,158,255,.35);background:linear-gradient(135deg,rgba(255,255,255,.095),rgba(255,255,255,.025))}.launch-card.primary{min-height:300px;grid-row:span 2}.card-kicker{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#9299ad}.launch-card h2{font-size:27px;letter-spacing:-.045em;margin:10px 0}.launch-card p{font-size:12px;color:#969db1;line-height:1.55;max-width:340px}.launch-action{position:absolute;bottom:22px;left:24px;font-size:11px;font-weight:800;color:#e8e9ff}.mini-viz{position:absolute;right:-20px;bottom:-20px;width:230px;height:170px;opacity:.65;background:repeating-radial-gradient(ellipse at center,transparent 0 11px,rgba(121,125,255,.22) 12px 13px,transparent 14px 24px);transform:rotate(-12deg)}.launch-nav{position:fixed;z-index:70;top:18px;left:22px;right:22px;height:62px;border-radius:22px;display:flex;align-items:center;padding:0 18px;gap:18px}.navspacer{flex:1}.navbtn{border:0;background:transparent;color:#9fa6bb;font-size:11px;cursor:pointer}.navbtn:hover{color:white}.navpill{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.055);color:white;padding:9px 13px;border-radius:12px;cursor:pointer;font-size:11px}.modal-wrap{position:fixed;z-index:100;inset:0;display:none;place-items:center;padding:20px;background:rgba(2,3,7,.68);backdrop-filter:blur(16px)}.modal-wrap.on{display:grid}.modal{width:min(900px,100%);max-height:88vh;overflow:auto;border-radius:30px;padding:28px}.modal.small{width:min(520px,100%)}.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.modal-head h2{margin:0;font-size:28px;letter-spacing:-.045em}.closebtn{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:white;border-radius:12px;width:36px;height:36px;cursor:pointer}.auth-tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(255,255,255,.035);margin-bottom:18px}.auth-tab{flex:1;border:0;background:transparent;color:#9299ad;border-radius:10px;padding:10px;cursor:pointer}.auth-tab.on{background:rgba(255,255,255,.08);color:white}.form-stack{display:grid;gap:10px}.field{width:100%;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:rgba(0,0,0,.22);color:white;padding:13px;outline:none}.field:focus{border-color:rgba(137,140,255,.55)}textarea.field{min-height:120px;resize:vertical}.primary-btn{border:0;border-radius:13px;background:#f4f5ff;color:#090a10;padding:13px 18px;font-weight:850;cursor:pointer}.statusline{font-size:11px;color:#8e95aa;min-height:16px}.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.plan{border-radius:24px;padding:22px;position:relative}.plan.featured{border-color:rgba(126,130,255,.5);box-shadow:0 0 50px rgba(90,94,255,.12)}.plan-name{font-size:11px;color:#a8adbf;text-transform:uppercase;letter-spacing:.14em}.plan h3{font-size:30px;margin:8px 0 4px}.plan ul{padding:0;list-style:none;margin:18px 0 70px}.plan li{font-size:11px;color:#aab0c1;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}.plan .primary-btn{position:absolute;left:22px;right:22px;bottom:22px;width:calc(100% - 44px)}.database-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.artist-chip{padding:11px 12px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:11px;color:#cdd1e1}.account-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:12px}.account-row span{color:#8f96aa}.legal-mini{text-align:center;margin-top:28px;color:#626a7e;font-size:10px}.legal-mini button{border:0;background:none;color:#747c91;font-size:10px;cursor:pointer}.topbar.launch-hidden{display:none}.launch-file{position:absolute;inset:0;opacity:0;cursor:pointer}.launch-card.primary{cursor:pointer}.upgrade-hint{font-size:10px;color:#8d94aa;margin-top:8px}
+
+.artist-chip{cursor:pointer;transition:.2s ease}
+.artist-chip:hover{border-color:rgba(139,142,255,.28);background:rgba(114,117,255,.07);transform:translateY(-1px)}
+.artist-chip-meta{display:block;color:#6f778a;font-size:8px;margin-top:4px}
+.artist-dashboard-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.artist-projects{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.artist-project-card{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:18px;padding:14px;cursor:pointer;min-height:120px;transition:.2s ease;position:relative;overflow:hidden}
+.artist-project-card:hover{border-color:rgba(139,142,255,.28);transform:translateY(-2px)}
+.artist-project-card h3{font-size:17px;margin:6px 0 4px;letter-spacing:-.035em}
+.artist-project-card p{font-size:9px;color:#7c8498;margin:0}
+.project-type{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:#9299ad}
+.artist-track-list{display:grid;gap:7px;margin-top:12px}
+.artist-track-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.022);border-radius:13px;padding:11px 12px;cursor:pointer}
+.artist-track-row:hover{background:rgba(255,255,255,.04);border-color:rgba(139,142,255,.2)}
+.artist-track-title{font-size:11px;font-weight:800}
+.artist-track-meta{font-size:8px;color:#767e92;margin-top:4px}
+.reference-viewer{display:grid;grid-template-columns:1fr .78fr;gap:12px}
+.reference-visual{height:260px;border:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.18);border-radius:18px;overflow:hidden;position:relative}
+.reference-visual canvas{display:block;width:100%;height:100%}
+.reference-side{border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);border-radius:18px;padding:14px}
+.reference-compare{margin-top:12px;width:100%}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.compare-cell{border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:9px}
+.compare-cell span{display:block;font-size:8px;color:#737b90;text-transform:uppercase;letter-spacing:.1em}
+.compare-cell strong{display:block;font-size:10px;margin-top:4px}
+.reference-import-panel{margin-top:12px;border:1px solid rgba(114,117,255,.16);background:rgba(114,117,255,.035);border-radius:20px;padding:16px}
+.reference-import-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.reference-import-grid .wide{grid-column:1/-1}
+.reference-progress{font-size:10px;color:#8c94a8;min-height:18px;margin-top:10px}
+.reference-library-admin{margin-top:14px}
+.reference-admin-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:9px;color:#9299ad}
+@media(max-width:850px){.artist-projects{grid-template-columns:1fr 1fr}.reference-viewer{grid-template-columns:1fr}.reference-import-grid{grid-template-columns:1fr}.reference-import-grid .wide{grid-column:auto}}
 @media(max-width:850px){.launch-grid{grid-template-columns:1fr 1fr}.launch-card.primary{grid-column:1/-1;grid-row:auto;min-height:240px}.plans{grid-template-columns:1fr}.database-grid{grid-template-columns:repeat(2,1fr)}.launch-nav .navbtn.hide-mobile{display:none}}
 .admin-kpis-v2{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:14px}
 .admin-kpi-v2{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:16px;padding:13px;min-height:74px}
@@ -113,7 +145,7 @@ radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,
 
 <div class="topbar glass" id="mainTopbar">
   <div class="brand" onclick="returnHome()" style="cursor:pointer">SoundLens</div><div class="labtag">3D</div>
-  <button class="navbtn hide-mobile" onclick="openModal('databaseModal')">Artist Database</button>
+  <button class="navbtn hide-mobile" onclick="loadReferenceLibrary();openModal('databaseModal')">Artist Database</button>
   <button class="navbtn hide-mobile" onclick="openModal('studioModal')">Studio</button>
   <button class="navbtn hide-mobile" onclick="openModal('pricingModal')">Pricing</button>
   <button class="navbtn hide-mobile" onclick="openModal('contactModal')">Contact</button>
@@ -126,7 +158,14 @@ radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,
 <div class="modal-wrap" id="authModal"><div class="modal small glass"><div class="modal-head"><h2>SoundLens Account</h2><button class="closebtn" onclick="closeModal('authModal')">×</button></div><div class="auth-tabs"><button class="auth-tab on" id="loginTab" onclick="setAuthMode('login')">Sign in</button><button class="auth-tab" id="signupTab" onclick="setAuthMode('signup')">Create account</button></div><div class="form-stack"><input class="field" id="authName" placeholder="Name" style="display:none"><input class="field" id="authEmail" type="email" placeholder="Email"><input class="field" id="authPassword" type="password" placeholder="Password"><button class="primary-btn" id="authSubmit" onclick="submitAuth()">Sign in</button><button class="navbtn" id="forgotPasswordLink" style="text-align:left;padding:2px 0" onclick="openForgotPassword()">Forgot password?</button><div class="statusline" id="authStatus"></div></div></div></div>
 <div class="modal-wrap" id="pricingModal"><div class="modal glass"><div class="modal-head"><h2>Choose how deep you go.</h2><button class="closebtn" onclick="closeModal('pricingModal')">×</button></div><div class="plans"><div class="plan glass"><div class="plan-name">Free</div><h3>$0</h3><div class="upgrade-hint">See the full SoundLens experience.</div><ul><li>Full 3D track</li><li>All detected pins</li><li>Basic Artist Match</li><li>5 Ask SoundLens questions / day</li><li>3 uploads / day</li></ul><button class="primary-btn" onclick="closeModal('pricingModal')">Current / Start Free</button></div><div class="plan glass featured"><div class="plan-name">Pro</div><h3>Pro</h3><div class="upgrade-hint">Explore without limits.</div><ul><li>Everything in Free</li><li>Unlimited uploads</li><li>Unlimited Ask SoundLens</li><li>Full artist comparison</li><li>Saved analysis & history</li></ul><button class="primary-btn" onclick="startStripeCheckout('pro')">Upgrade to Pro</button></div><div class="plan glass"><div class="plan-name">Studio</div><h3>Studio</h3><div class="upgrade-hint">SoundLens + the plugin.</div><ul><li>Everything in Pro</li><li>SoundLens Studio plugin</li><li>Plugin account linking</li><li>DAW access</li><li>Future Studio tools</li></ul><button class="primary-btn" onclick="startStripeCheckout('studio')">Get Studio</button></div></div></div></div>
 <div class="modal-wrap" id="studioModal"><div class="modal small glass"><div class="modal-head"><h2>SoundLens Studio</h2><button class="closebtn" onclick="closeModal('studioModal')">×</button></div><p class="launch-copy" style="text-align:left;margin:0 0 20px">Studio is Pro plus the SoundLens plugin. The website lets you inspect finished audio; Studio brings SoundLens into the DAW.</p><button class="primary-btn" style="width:100%" onclick="startStripeCheckout('studio')">Get Studio</button></div></div>
-<div class="modal-wrap" id="databaseModal"><div class="modal glass"><div class="modal-head"><h2>Artist Database</h2><button class="closebtn" onclick="closeModal('databaseModal')">×</button></div><p class="launch-copy" style="text-align:left;margin:0 0 18px">SoundLens compares measurable characteristics from your track against its artist reference profiles. These artists power Artist Match.</p><div class="database-grid" id="databaseGrid"></div></div></div>
+<div class="modal-wrap" id="databaseModal"><div class="modal glass" style="width:min(1080px,100%)">
+  <div class="modal-head">
+    <div><div class="card-kicker">Reference intelligence</div><h2 id="databaseTitle">Artist Database</h2></div>
+    <button class="closebtn" onclick="closeModal('databaseModal')">×</button>
+  </div>
+  <div id="databaseBreadcrumb" class="dashboard-sub" style="margin-bottom:16px">Choose an artist to explore its SoundLens reference library.</div>
+  <div id="databaseView"><div class="database-grid" id="databaseGrid"></div></div>
+</div></div>
 <div class="modal-wrap" id="contactModal"><div class="modal small glass"><div class="modal-head"><h2>Contact SoundLens</h2><button class="closebtn" onclick="closeModal('contactModal')">×</button></div><div class="form-stack"><input class="field" id="contactName" placeholder="Name"><input class="field" id="contactEmail" type="email" placeholder="Email"><input class="field" id="contactSubject" placeholder="Subject"><textarea class="field" id="contactMessage" placeholder="How can SoundLens help?"></textarea><button class="primary-btn" onclick="submitContact()">Send message</button><div class="statusline" id="contactStatus"></div></div></div></div>
 <div class="modal-wrap" id="forgotModal"><div class="modal small glass"><div class="modal-head"><h2>Reset password</h2><button class="closebtn" onclick="closeModal('forgotModal')">×</button></div><div class="form-stack"><input class="field" id="forgotEmail" type="email" placeholder="Email"><button class="primary-btn" onclick="requestPasswordReset()">Send reset email</button><div class="statusline" id="forgotStatus"></div></div></div></div>
 <div class="modal-wrap" id="resetModal"><div class="modal small glass"><div class="modal-head"><h2>Choose a new password</h2><button class="closebtn" onclick="closeModal('resetModal')">×</button></div><div class="form-stack"><input class="field" id="resetPassword" type="password" placeholder="New password (8+ characters)"><button class="primary-btn" onclick="completePasswordReset()">Update password</button><div class="statusline" id="resetStatus"></div></div></div></div>
@@ -137,7 +176,23 @@ radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,
     <button class="closebtn" onclick="closeModal('adminModal')">×</button>
   </div>
 
-  <div id="adminKpis" class="admin-kpis-v2"></div>
+  <div id="adminKpis" class="admin-kpis-v2"></div><div class="reference-import-panel">
+    <div class="admin-panel-head">
+      <div><div class="card-kicker">Reference Library</div><div class="admin-panel-title">Analyze + add a reference track</div></div>
+      <span class="admin-count" id="referenceLibraryCount">Loading…</span>
+    </div>
+    <div class="reference-import-grid">
+      <div><div class="card-kicker" style="margin-bottom:6px">Artist</div><input class="field" id="refArtist" list="refArtistOptions" placeholder="Artist name"><datalist id="refArtistOptions"></datalist></div>
+      <div><div class="card-kicker" style="margin-bottom:6px">Project type</div><select class="field" id="refProjectType"><option value="album">Album</option><option value="mixtape">Mixtape</option><option value="ep">EP</option><option value="single">Single / loose track</option><option value="other">Other</option></select></div>
+      <div><div class="card-kicker" style="margin-bottom:6px">Album / project</div><input class="field" id="refProject" placeholder="Project title or Singles"></div>
+      <div><div class="card-kicker" style="margin-bottom:6px">Track title</div><input class="field" id="refTrackTitle" placeholder="Track title"></div>
+      <div><div class="card-kicker" style="margin-bottom:6px">Year</div><input class="field" id="refYear" placeholder="2026"></div>
+      <div><div class="card-kicker" style="margin-bottom:6px">Cover URL (optional)</div><input class="field" id="refCoverUrl" placeholder="https://…"></div>
+      <div class="wide"><div class="card-kicker" style="margin-bottom:6px">WAV / audio</div><input class="field" id="refAudioFile" type="file" accept="audio/*,.wav,.mp3,.flac,.m4a,.aac,.ogg,.aiff,.aif"></div>
+    </div>
+    <button class="primary-btn" style="margin-top:12px" onclick="importReferenceTrack()">Analyze + add to Artist Database</button>
+    <div class="reference-progress" id="referenceImportStatus"></div>
+  </div>
 
   <div class="admin-grid-v2">
     <div class="admin-panel-v2">
@@ -500,7 +555,7 @@ let adminEventFilter='all';
 async function openAdmin(){
   if(!slUser||String(slUser.email||'').toLowerCase()!=='jaydenflynn9@gmail.com')return;
   openModal('adminModal');
-  await loadAdmin();
+  await Promise.all([loadAdmin(),loadReferenceLibrary()]);
 }
 
 async function loadAdmin(){
@@ -626,7 +681,121 @@ async function submitContact(){const st=document.getElementById('contactStatus')
 function esc(v){return String(v??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]))}
 function returnHome(){try{document.getElementById('audio').pause()}catch(e){}document.getElementById('uploadStage').classList.remove('hidden','analyzing');document.getElementById('loading').classList.remove('on');document.getElementById('uploadTitle').textContent='See the track.';document.getElementById('uploadCopy').textContent='SoundLens reconstructs measurable energy, frequency, stereo width and transients through time, then pins what it finds directly onto the music.';document.getElementById('fileInput').value='';document.getElementById('trackMeta').innerHTML='<span>Waiting for audio</span>';document.getElementById('pinCard').classList.remove('on');['legend','tip','controls','modebar','ai'].forEach(id=>document.getElementById(id).style.display='none')}
 async function enterAnalyzer(file){if(!slUser){pendingFile=file;openModal('authModal');document.getElementById('authStatus').textContent='Sign in or create an account to analyze this track.';return}const stage=document.getElementById('uploadStage');stage.classList.remove('hidden');stage.classList.add('analyzing');document.getElementById('loading').classList.add('on');document.getElementById('uploadTitle').textContent='Building your track.';document.getElementById('uploadCopy').textContent=file.name;document.getElementById('status').textContent='Reading audio and constructing the 3D map…';document.getElementById('loadingStep').textContent='Dynamics · frequency · stereo · transients · artist match';try{await window.soundlensAnalyze(file)}catch(e){stage.classList.remove('analyzing');document.getElementById('uploadTitle').textContent='Couldn’t analyze that track.';document.getElementById('status').textContent=e.message||String(e);if(String(e.message).toLowerCase().includes('limit'))openModal('pricingModal')}}
-document.getElementById('databaseGrid').innerHTML=ARTISTS.sort().map(a=>`<div class="artist-chip">${esc(a)}</div>`).join('');loadUser().then(()=>{const p=new URLSearchParams(location.search);if(p.get('verified')==='1'){localStorage.removeItem(SL_TOKEN);slUser=null;renderUser();history.replaceState({},'', '/');openModal('authModal');setAuthMode('login');document.getElementById('authStatus').textContent='Email verified. Sign in to start using SoundLens.'}else if(p.get('reset_token')){openModal('resetModal')}handleCheckout()});
+let referenceLibrary={artists:[]};
+let currentReferenceArtist=null;
+let currentReferenceProject=null;
+let currentReferenceTrack=null;
+
+async function loadReferenceLibrary(){
+  try{
+    referenceLibrary=await jsonReq('/reference-library');
+  }catch(e){
+    referenceLibrary={artists:ARTISTS.slice().sort().map((name,i)=>({id:'fallback-'+i,name,project_count:0,track_count:0}))};
+  }
+  renderReferenceArtists();
+  const opts=document.getElementById('refArtistOptions');
+  if(opts)opts.innerHTML=(referenceLibrary.artists||[]).map(a=>`<option value="${esc(a.name)}"></option>`).join('');
+  const count=document.getElementById('referenceLibraryCount');
+  if(count){
+    const tracks=(referenceLibrary.artists||[]).reduce((n,a)=>n+Number(a.track_count||0),0);
+    count.textContent=`${referenceLibrary.artists.length} artists · ${tracks} tracks`;
+  }
+}
+
+function renderReferenceArtists(){
+  currentReferenceArtist=null;currentReferenceProject=null;currentReferenceTrack=null;
+  document.getElementById('databaseTitle').textContent='Artist Database';
+  document.getElementById('databaseBreadcrumb').textContent='Choose an artist to explore its SoundLens reference library.';
+  const view=document.getElementById('databaseView');
+  view.innerHTML='<div class="database-grid" id="databaseGrid"></div>';
+  document.getElementById('databaseGrid').innerHTML=(referenceLibrary.artists||[]).map(a=>`<div class="artist-chip" onclick="openReferenceArtist('${esc(a.id)}')">${esc(a.name)}<span class="artist-chip-meta">${Number(a.track_count||0)} analyzed tracks · ${Number(a.project_count||0)} projects</span></div>`).join('');
+}
+
+async function openReferenceArtist(artistId){
+  try{
+    const d=await jsonReq('/reference-library/artists/'+encodeURIComponent(artistId));
+    currentReferenceArtist=d.artist;
+    document.getElementById('databaseTitle').textContent=d.artist.name;
+    document.getElementById('databaseBreadcrumb').innerHTML=`<button class="navbtn" onclick="renderReferenceArtists()">Artist Database</button> → ${esc(d.artist.name)}`;
+    const projects=d.projects||[];
+    document.getElementById('databaseView').innerHTML=projects.length
+      ? `<div class="artist-projects">${projects.map(p=>`<div class="artist-project-card" onclick='openReferenceProject(${JSON.stringify(JSON.stringify(p))})'><div class="project-type">${esc(p.type||'album')}</div><h3>${esc(p.title)}</h3><p>${p.year?esc(p.year)+' · ':''}${(p.tracks||[]).length} analyzed tracks</p></div>`).join('')}</div>`
+      : `<div class="empty-history">No organized reference tracks yet. Add them from Admin → Reference Library.</div>`;
+  }catch(e){document.getElementById('databaseView').innerHTML=`<div class="empty-history">${esc(e.message)}</div>`}
+}
+
+function openReferenceProject(encoded){
+  const p=JSON.parse(encoded);
+  currentReferenceProject=p;
+  document.getElementById('databaseTitle').textContent=p.title;
+  document.getElementById('databaseBreadcrumb').innerHTML=`<button class="navbtn" onclick="renderReferenceArtists()">Artist Database</button> → <button class="navbtn" onclick="openReferenceArtist('${esc(currentReferenceArtist.id)}')">${esc(currentReferenceArtist.name)}</button> → ${esc(p.title)}`;
+  const tracks=p.tracks||[];
+  document.getElementById('databaseView').innerHTML=`<div class="artist-track-list">${tracks.map(t=>`<div class="artist-track-row" onclick="openReferenceTrack('${esc(t.id)}')"><div><div class="artist-track-title">${esc(t.title)}</div><div class="artist-track-meta">${t.bpm?Math.round(Number(t.bpm))+' BPM · ':''}${esc(t.key||'')}${t.duration_seconds?' · '+formatDuration(t.duration_seconds):''}</div></div><span class="admin-mini-badge">${Number(t.pin_count||0)} points</span></div>`).join('')||'<div class="empty-history">No analyzed tracks in this project.</div>'}</div>`;
+}
+
+async function openReferenceTrack(trackId){
+  try{
+    const d=await jsonReq('/reference-library/tracks/'+encodeURIComponent(trackId));
+    currentReferenceTrack=d;
+    const lib=d.library||{},r=d.report||{},basic=r.basic||{},visual=r.visual_map||{};
+    document.getElementById('databaseTitle').textContent=lib.track?.title||d.title||'Reference Track';
+    document.getElementById('databaseBreadcrumb').innerHTML=`<button class="navbtn" onclick="renderReferenceArtists()">Artist Database</button> → <button class="navbtn" onclick="openReferenceArtist('${esc(lib.artist?.id||currentReferenceArtist?.id||'')}')">${esc(lib.artist?.name||currentReferenceArtist?.name||'Artist')}</button> → <button class="navbtn" onclick='openReferenceProject(${JSON.stringify(JSON.stringify(currentReferenceProject||{}))})'>${esc(lib.project?.title||currentReferenceProject?.title||'Project')}</button>`;
+    document.getElementById('databaseView').innerHTML=`<div class="reference-viewer"><div class="reference-visual"><canvas id="referenceCanvas"></canvas></div><div class="reference-side"><div class="card-kicker">${esc(lib.artist?.name||'Reference')}</div><div class="admin-panel-title">${esc(lib.track?.title||d.title||'Track')}</div><div class="report-meta" style="margin-top:10px"><span class="report-chip">${basic.bpm?Math.round(Number(basic.bpm))+' BPM':'—'}</span><span class="report-chip">${esc(basic.key||'—')}</span><span class="report-chip">${formatDuration(basic.duration_seconds||visual.duration||0)}</span><span class="report-chip">${Array.isArray(visual.pins)?visual.pins.length:0} points</span></div><div id="referencePinSummary" class="report-pin-list"></div><button class="primary-btn reference-compare" onclick="compareReferenceToMine()">Compare with my current track</button><div id="referenceCompareResult"></div></div></div>`;
+    drawReferenceCanvas('referenceCanvas',r);
+    const pins=Array.isArray(visual.pins)?visual.pins:[];
+    document.getElementById('referencePinSummary').innerHTML=pins.slice(0,10).map(p=>`<span class="report-pin-pill">${formatDuration(Number(p.time??p.timestamp??0))} · ${esc(p.title||p.kind||'point')}</span>`).join('');
+  }catch(e){document.getElementById('databaseView').innerHTML=`<div class="empty-history">${esc(e.message)}</div>`}
+}
+
+function drawReferenceCanvas(canvasId,reportData){
+  const canvas=document.getElementById(canvasId);if(!canvas)return;
+  const visual=reportData?.visual_map||{},slices=Array.isArray(visual.slices)?visual.slices:[],pins=Array.isArray(visual.pins)?visual.pins:[];
+  const rect=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.max(1,rect.width*dpr);canvas.height=Math.max(1,rect.height*dpr);
+  const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,rect.width,rect.height);
+  if(!slices.length){ctx.fillStyle='#747c90';ctx.font='11px sans-serif';ctx.fillText('No 3D timeline saved for this reference yet.',18,30);return}
+  const bands=['sub','bass','low_mid','mid','high','air'],colors=['#695cff','#8174ff','#b368ff','#dd6fff','#56c8ff','#bceaff'],w=rect.width,h=rect.height,pad=14;
+  bands.forEach((b,bi)=>{const max=Math.max(.0001,...slices.map(s=>Number(s?.bands?.[b]||0)));ctx.beginPath();slices.forEach((s,i)=>{const x=pad+(i/Math.max(1,slices.length-1))*(w-pad*2),v=Math.min(1,Number(s?.bands?.[b]||0)/max),y=((bi+1)/(bands.length+1))*h-v*22;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.strokeStyle=colors[bi];ctx.globalAlpha=.65;ctx.lineWidth=1.25;ctx.stroke()});ctx.globalAlpha=1;
+  const duration=Number(visual.duration||reportData?.basic?.duration_seconds||0);pins.slice(0,30).forEach((p,i)=>{const t=Number(p.time??p.timestamp??0),x=pad+(duration>0?t/duration:0)*(w-pad*2),y=16+(i%4)*5;ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fillStyle=colors[i%colors.length];ctx.fill();ctx.beginPath();ctx.moveTo(x,y+4);ctx.lineTo(x,h-10);ctx.strokeStyle='rgba(255,255,255,.07)';ctx.lineWidth=.7;ctx.stroke()});
+}
+
+function metricPair(label,mine,ref,suffix=''){
+  const a=(mine===null||mine===undefined||mine==='')?'—':mine;
+  const b=(ref===null||ref===undefined||ref==='')?'—':ref;
+  return `<div class="compare-cell"><span>${esc(label)}</span><strong>Mine: ${esc(a)}${suffix} · Ref: ${esc(b)}${suffix}</strong></div>`;
+}
+
+function compareReferenceToMine(){
+  const out=document.getElementById('referenceCompareResult');
+  if(!report){out.innerHTML='<div class="statusline" style="margin-top:10px">Analyze your own track first, then come back and compare it.</div>';return}
+  const ref=currentReferenceTrack?.report||{},mFreq=report.frequency||{},rFreq=ref.frequency||{},mL=report.loudness||{},rL=ref.loudness||{},mRh=report.rhythm||{},rRh=ref.rhythm||{},mB=report.basic||{},rB=ref.basic||{};
+  const cells=[
+    metricPair('BPM',Math.round(Number(mB.bpm||0)),Math.round(Number(rB.bpm||0))),
+    metricPair('Key',mB.key||'—',rB.key||'—'),
+    metricPair('Low end',Number(mFreq.low_end_total_percent||0).toFixed(1),Number(rFreq.low_end_total_percent||0).toFixed(1),'%'),
+    metricPair('Brightness',Math.round(Number(mFreq.brightness_centroid_hz||0)),Math.round(Number(rFreq.brightness_centroid_hz||0)),' Hz'),
+    metricPair('Dynamic range',Number(mL.dynamic_range_db||0).toFixed(1),Number(rL.dynamic_range_db||0).toFixed(1),' dB'),
+    metricPair('Onset density',Number(mRh.onset_density||0).toFixed(2),Number(rRh.onset_density||0).toFixed(2),'/s')
+  ];
+  out.innerHTML=`<div class="card-kicker" style="margin-top:14px">Your track vs reference</div><div class="compare-grid">${cells.join('')}</div>`;
+}
+
+async function importReferenceTrack(){
+  const status=document.getElementById('referenceImportStatus'),file=document.getElementById('refAudioFile').files?.[0];
+  const artist=document.getElementById('refArtist').value.trim(),project=document.getElementById('refProject').value.trim()||'Singles',track=document.getElementById('refTrackTitle').value.trim();
+  if(!artist||!track||!file){status.textContent='Choose an artist, enter the track title, and choose the WAV/audio file.';return}
+  status.textContent='Analyzing reference audio · building 3D map · saving to Artist Database…';
+  const fd=new FormData();fd.append('artist_name',artist);fd.append('project_title',project);fd.append('project_type',document.getElementById('refProjectType').value);fd.append('track_title',track);fd.append('year',document.getElementById('refYear').value.trim());fd.append('cover_url',document.getElementById('refCoverUrl').value.trim());fd.append('file',file);
+  try{
+    const token=localStorage.getItem(SL_TOKEN);
+    const r=await fetch('/admin/reference-import',{method:'POST',headers:{Authorization:'Bearer '+token},body:fd});
+    const d=await r.json();if(!r.ok)throw new Error(d.detail||d.error||'Reference import failed.');
+    status.textContent='✓ '+d.message;
+    document.getElementById('refTrackTitle').value='';document.getElementById('refAudioFile').value='';
+    await loadReferenceLibrary();
+  }catch(e){status.textContent=e.message}
+}
+
+loadReferenceLibrary();loadUser().then(()=>{const p=new URLSearchParams(location.search);if(p.get('verified')==='1'){localStorage.removeItem(SL_TOKEN);slUser=null;renderUser();history.replaceState({},'', '/');openModal('authModal');setAuthMode('login');document.getElementById('authStatus').textContent='Email verified. Sign in to start using SoundLens.'}else if(p.get('reset_token')){openModal('resetModal')}handleCheckout()});
 </script>
 <script type="module">
 import * as THREE from 'three';

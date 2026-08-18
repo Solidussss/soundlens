@@ -5,8 +5,10 @@ import hashlib
 import html as html_lib
 import json
 import os
+import re
 import shutil
 import traceback
+import unicodedata
 import uuid
 import librosa
 import resend
@@ -15,7 +17,7 @@ import tempfile
 import zipfile
 import stripe
 
-from fastapi import FastAPI, UploadFile, File, Header, HTTPException, Request
+from fastapi import FastAPI, UploadFile, File, Form, Header, HTTPException, Request
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, RedirectResponse
@@ -66,6 +68,12 @@ CONTACT_MESSAGES_PATH = DATA_DIR / "soundlens_contact_messages.json"
 PLUGIN_LINKS_PATH = DATA_DIR / "soundlens_plugin_links.json"
 BACKUPS_DIR = DATA_DIR / "soundlens_backups"
 BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
+
+REFERENCE_LIBRARY_DIR = DATA_DIR / "reference_library"
+REFERENCE_REPORTS_DIR = REFERENCE_LIBRARY_DIR / "reports"
+REFERENCE_LIBRARY_INDEX = REFERENCE_LIBRARY_DIR / "library.json"
+REFERENCE_LIBRARY_DIR.mkdir(parents=True, exist_ok=True)
+REFERENCE_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def migrate_legacy_data_once() -> None:
@@ -269,7 +277,85 @@ def write_json_file(path: Path, data) -> None:
         os.replace(temp_path, path)
     finally:
         if temp_path.exists():
-            temp_path.unlink(missing_ok=True)
+            temp_pa
+REFERENCE_ARTIST_SEED = ["1oneam", "Autumn", "Bktharula", "BoofPaxkMooky", "Cheromani", "D Savage", "Destroy Lonely", "Dom Corleo", "Duwap Kaine", "Eem Triplin", "Eskdeekid", "Fakemink", "Feng", "Fimiguerrero", "Glokk40Spaz", "Hardrock", "Homixide Gang", "Izaya Tiji", "Jaydes", "Kankan", "Ken Carson", "Lazer Dim 700", "Lelo", "Lil Tony", "Midwxst", "Molly Santana", "Nettspend", "Nine Vicious", "Nino Paid", "OhSxnta", "Osamason", "Prettifun", "Protect", "Rekover Jet", "Rexv2", "Rich Amiri", "Slayr", "SoFaygo", "Sosocamo", "Southsidesilhouette", "Summrs", "Tana", "UntilJapan", "Xaviersobased", "Yeat", "Yung Fazo"]
+
+def reference_slug(value: str) -> str:
+    value = unicodedata.normalize("NFKD", str(value or "")).encode("ascii", "ignore").decode("ascii")
+    value = re.sub(r"[^a-zA-Z0-9]+", "-", value.strip().lower()).strip("-")
+    return value or uuid.uuid4().hex[:10]
+
+def load_reference_library() -> dict:
+    data = read_json_file(REFERENCE_LIBRARY_INDEX, {"artists": {}})
+    if not isinstance(data, dict):
+        data = {"artists": {}}
+    data.setdefault("artists", {})
+
+    # Seed the exact SoundLens artist roster without deleting anything already organized.
+    changed = False
+    existing_names = {str(a.get("name") or "").strip().lower() for a in data["artists"].values() if isinstance(a, dict)}
+    for artist_name in REFERENCE_ARTIST_SEED:
+        if artist_name.lower() in existing_names:
+            continue
+        artist_id = reference_slug(artist_name)
+        base_id = artist_id
+        n = 2
+        while artist_id in data["artists"]:
+            artist_id = f"{base_id}-{n}"
+            n += 1
+        data["artists"][artist_id] = {
+            "id": artist_id,
+            "name": artist_name,
+            "projects": {},
+            "created_at": now_iso(),
+            "updated_at": now_iso(),
+        }
+        existing_names.add(artist_name.lower())
+        changed = True
+
+    if changed or not REFERENCE_LIBRARY_INDEX.exists():
+        write_json_file(REFERENCE_LIBRARY_INDEX, data)
+    return data
+
+def save_reference_library(data: dict) -> None:
+    write_json_file(REFERENCE_LIBRARY_INDEX, data)
+
+def public_reference_report(payload: dict) -> dict:
+    """Remove machine-local paths while preserving analysis + visual_map."""
+    out = json.loads(json.dumps(payload))
+    report = out.get("report") if isinstance(out, dict) else None
+    if isinstance(report, dict):
+        basic = report.get("basic")
+        if isinstance(basic, dict):
+            basic.pop("file_path", None)
+    return out
+
+def reference_library_summary() -> dict:
+    data = load_reference_library()
+    artists_out = []
+    for artist in data.get("artists", {}).values():
+        projects = artist.get("projects", {}) or {}
+        track_count = sum(len((p or {}).get("tracks", []) or []) for p in projects.values())
+        artists_out.append({
+            "id": artist.get("id"),
+            "name": artist.get("name"),
+            "project_count": len(projects),
+            "track_count": track_count,
+        })
+    artists_out.sort(key=lambda a: str(a.get("name") or "").lower())
+    return {"artists": artists_out}
+
+def find_reference_track(data: dict, track_id: str):
+    for artist in data.get("artists", {}).values():
+        for project in (artist.get("projects", {}) or {}).values():
+            for track in project.get("tracks", []) or []:
+                if str(track.get("id")) == str(track_id):
+                    return artist, project, track
+    return None, None, None
+
+load_reference_library()
+
+th.unlink(missing_ok=True)
 
 
 def append_json_list(path: Path, item: dict) -> None:
@@ -1491,6 +1577,258 @@ async def track_client_event(payload: EventPayload, authorization: str | None = 
 
     track_event(event_name, user, {"page": payload.page, "details": payload.details or {}})
     return {"ok": True}
+
+
+
+@app.get("/reference-library")
+def get_reference_library():
+    return reference_library_summary()
+
+
+@app.get("/reference-library/artists/{artist_id}")
+def get_reference_artist(artist_id: str):
+    data = load_reference_library()
+    artist = data.get("artists", {}).get(artist_id)
+    if not artist:
+        raise HTTPException(status_code=404, detail="Artist not found.")
+
+    projects = []
+    for project in (artist.get("projects", {}) or {}).values():
+        tracks = []
+        for track in project.get("tracks", []) or []:
+            tracks.append({
+                "id": track.get("id"),
+                "title": track.get("title"),
+                "year": track.get("year"),
+                "bpm": track.get("bpm"),
+                "key": track.get("key"),
+                "duration_seconds": track.get("duration_seconds"),
+                "pin_count": track.get("pin_count", 0),
+                "created_at": track.get("created_at"),
+            })
+        projects.append({
+            "id": project.get("id"),
+            "title": project.get("title"),
+            "type": project.get("type", "album"),
+            "year": project.get("year"),
+            "cover_url": project.get("cover_url"),
+            "tracks": tracks,
+        })
+
+    projects.sort(key=lambda p: (str(p.get("year") or ""), str(p.get("title") or "").lower()), reverse=True)
+    return {
+        "artist": {"id": artist.get("id"), "name": artist.get("name")},
+        "projects": projects,
+    }
+
+
+@app.get("/reference-library/tracks/{track_id}")
+def get_reference_track(track_id: str):
+    data = load_reference_library()
+    artist, project, track = find_reference_track(data, track_id)
+    if not track:
+        raise HTTPException(status_code=404, detail="Reference track not found.")
+    report_path = REFERENCE_REPORTS_DIR / f"{track_id}.json"
+    if not report_path.exists():
+        raise HTTPException(status_code=404, detail="Reference analysis not found.")
+    payload = read_json_file(report_path, {})
+    payload = public_reference_report(payload)
+    payload["library"] = {
+        "artist": {"id": artist.get("id"), "name": artist.get("name")},
+        "project": {"id": project.get("id"), "title": project.get("title"), "type": project.get("type"), "year": project.get("year")},
+        "track": track,
+    }
+    return payload
+
+
+@app.get("/admin/reference-library")
+def admin_reference_library(authorization: str | None = Header(default=None)):
+    get_admin_user(authorization)
+    return load_reference_library()
+
+
+@app.post("/admin/reference-import")
+def admin_reference_import(
+    artist_name: str = Form(...),
+    project_title: str = Form(...),
+    project_type: str = Form("album"),
+    track_title: str = Form(...),
+    year: str | None = Form(default=None),
+    cover_url: str | None = Form(default=None),
+    file: UploadFile = File(...),
+    authorization: str | None = Header(default=None),
+):
+    _, admin = get_admin_user(authorization)
+
+    artist_name = str(artist_name or "").strip()
+    project_title = str(project_title or "").strip() or "Singles"
+    project_type = str(project_type or "album").strip().lower()
+    track_title = str(track_title or "").strip()
+    year_value = str(year or "").strip() or None
+    cover_value = str(cover_url or "").strip() or None
+
+    if not artist_name or not track_title:
+        raise HTTPException(status_code=400, detail="Artist and track title are required.")
+    if project_type not in {"album", "mixtape", "ep", "single", "other"}:
+        project_type = "other"
+
+    temp_path = save_upload(file)
+    try:
+        duration_seconds = float(librosa.get_duration(path=str(temp_path)))
+        if duration_seconds > 360:
+            raise HTTPException(status_code=400, detail="Reference audio must be 6 minutes or shorter.")
+
+        report = analyze_audio(
+            temp_path,
+            use_stems=USE_DEMUCS_BY_DEFAULT,
+            demucs_output_dir=STEMS_DIR,
+        )
+        report_dict = asdict(report)
+
+        try:
+            report_dict["visual_map"] = build_visual_map(temp_path)
+        except Exception as visual_error:
+            print(f"REFERENCE 3D MAP ERROR: {visual_error}")
+            report_dict["visual_map"] = {"error": str(visual_error), "slices": [], "pins": []}
+
+        # Keep the same current artist-comparison context in each reference report.
+        try:
+            report_dict["artist_comparison"] = compare_audio_to_profiles(
+                audio_file=temp_path,
+                profiles_folder=str(PROFILES_DIR),
+                top_n=10,
+                include_report=False,
+                use_stems=COMPARE_USE_STEMS,
+                demucs_output_dir=str(STEMS_DIR),
+            )
+        except Exception as compare_error:
+            report_dict["artist_comparison"] = {"error": str(compare_error), "ranked_profiles": [], "style_suggestions": []}
+
+        text_report = render_report(report)
+
+        library = load_reference_library()
+        artist = next(
+            (a for a in library["artists"].values() if str(a.get("name") or "").strip().lower() == artist_name.lower()),
+            None,
+        )
+        if not artist:
+            artist_id = reference_slug(artist_name)
+            base_id = artist_id
+            n = 2
+            while artist_id in library["artists"]:
+                artist_id = f"{base_id}-{n}"
+                n += 1
+            artist = {
+                "id": artist_id,
+                "name": artist_name,
+                "projects": {},
+                "created_at": now_iso(),
+                "updated_at": now_iso(),
+            }
+            library["artists"][artist_id] = artist
+
+        projects = artist.setdefault("projects", {})
+        project = next(
+            (p for p in projects.values()
+             if str(p.get("title") or "").strip().lower() == project_title.lower()
+             and str(p.get("type") or "album").lower() == project_type),
+            None,
+        )
+        if not project:
+            project_id = reference_slug(project_title)
+            base_id = project_id
+            n = 2
+            while project_id in projects:
+                project_id = f"{base_id}-{n}"
+                n += 1
+            project = {
+                "id": project_id,
+                "title": project_title,
+                "type": project_type,
+                "year": year_value,
+                "cover_url": cover_value,
+                "tracks": [],
+                "created_at": now_iso(),
+                "updated_at": now_iso(),
+            }
+            projects[project_id] = project
+        else:
+            if year_value:
+                project["year"] = year_value
+            if cover_value:
+                project["cover_url"] = cover_value
+            project["updated_at"] = now_iso()
+
+        # Avoid accidental duplicate imports of the same named track in one project.
+        existing = next(
+            (t for t in project.get("tracks", []) if str(t.get("title") or "").strip().lower() == track_title.lower()),
+            None,
+        )
+        if existing:
+            track_id = existing["id"]
+        else:
+            track_id = uuid.uuid4().hex
+
+        visual = report_dict.get("visual_map", {}) or {}
+        pins = visual.get("pins", []) if isinstance(visual, dict) else []
+        basic = report_dict.get("basic", {}) or {}
+
+        track_entry = {
+            "id": track_id,
+            "title": track_title,
+            "year": year_value,
+            "bpm": basic.get("bpm"),
+            "key": basic.get("key"),
+            "duration_seconds": basic.get("duration_seconds"),
+            "pin_count": len(pins) if isinstance(pins, list) else 0,
+            "created_at": existing.get("created_at") if existing else now_iso(),
+            "updated_at": now_iso(),
+        }
+
+        if existing:
+            existing.clear()
+            existing.update(track_entry)
+        else:
+            project.setdefault("tracks", []).append(track_entry)
+
+        artist["updated_at"] = now_iso()
+        save_reference_library(library)
+
+        report_payload = {
+            "id": track_id,
+            "artist_id": artist.get("id"),
+            "artist_name": artist.get("name"),
+            "project_id": project.get("id"),
+            "project_title": project.get("title"),
+            "project_type": project.get("type"),
+            "title": track_title,
+            "created_at": track_entry["created_at"],
+            "updated_at": track_entry["updated_at"],
+            "report": report_dict,
+            "text_report": text_report,
+        }
+        write_json_file(REFERENCE_REPORTS_DIR / f"{track_id}.json", report_payload)
+
+        track_event("reference_track_imported", admin, {
+            "artist": artist.get("name"),
+            "project": project.get("title"),
+            "project_type": project.get("type"),
+            "track": track_title,
+            "track_id": track_id,
+        })
+
+        return {
+            "ok": True,
+            "message": f"{track_title} added to {artist.get('name')} / {project.get('title')}.",
+            "artist": {"id": artist.get("id"), "name": artist.get("name")},
+            "project": {"id": project.get("id"), "title": project.get("title"), "type": project.get("type")},
+            "track": track_entry,
+        }
+    finally:
+        try:
+            temp_path.unlink(missing_ok=True)
+        except Exception:
+            pass
 
 
 @app.get("/admin/stats")
