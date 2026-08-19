@@ -1,6 +1,7 @@
 from dataclasses import asdict
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
+from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import html as html_lib
 import json
@@ -14,6 +15,7 @@ import librosa
 import resend
 import secrets
 import tempfile
+import threading
 import time
 import zipfile
 import stripe
@@ -30,6 +32,10 @@ from ai_feedback import generate_soundlens_ai_feedback
 from soundlens_3d import build_visual_map
 
 app = FastAPI()
+
+# Premium AI review is allowed to finish after the measured analyzer has opened.
+ASYNC_AI_RESULTS: dict[str, dict] = {}
+ASYNC_AI_LOCK = threading.Lock()
 
 app.mount("/static", StaticFiles(directory="."), name="static")
 
@@ -2411,6 +2417,20 @@ Analysis data:
         }
 
 
+
+def _generate_ai_feedback_after_analysis(report_dict: dict) -> dict:
+    try:
+        visual = report_dict.get("visual_map", {}) if isinstance(report_dict.get("visual_map"), dict) else {}
+        return generate_soundlens_ai_feedback(
+            report_dict,
+            audio_path=None,
+            precomputed_audio_summary=visual.get("ai_timeline_summary"),
+        )
+    except Exception as error:
+        print(f"ASYNC AI FEEDBACK ERROR: {type(error).__name__}: {error}")
+        return {}
+
+
 @app.post("/analyze")
 def analyze(
     stems: bool = None,
@@ -2439,26 +2459,40 @@ def analyze(
         save_users_db(db)
         track_event("analysis_started", user, {"filename": file.filename})
 
-        stage_started_at = time.perf_counter()
-        report = analyze_audio(
-            file_path,
-            use_stems=USE_DEMUCS_BY_DEFAULT if stems is None else stems,
-            demucs_output_dir=STEMS_DIR,
-        )
-        print(f"[TIMING] core_analysis={time.perf_counter() - stage_started_at:.2f}s")
+        # Core report and 3D map are independent reads of the same upload.
+        # Run them together so 3D does not add its full runtime after core analysis.
+        parallel_started_at = time.perf_counter()
+        use_stems_now = USE_DEMUCS_BY_DEFAULT if stems is None else stems
 
+        def _run_core():
+            t = time.perf_counter()
+            result = analyze_audio(
+                file_path,
+                use_stems=use_stems_now,
+                demucs_output_dir=STEMS_DIR,
+            )
+            print(f"[TIMING] core_analysis={time.perf_counter() - t:.2f}s")
+            return result
+
+        def _run_visual():
+            t = time.perf_counter()
+            result = build_visual_map(file_path)
+            print(f"[TIMING] visual_map={time.perf_counter() - t:.2f}s")
+            return result
+
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            core_future = executor.submit(_run_core)
+            visual_future = executor.submit(_run_visual)
+            report = core_future.result()
+            try:
+                visual_map = visual_future.result()
+            except Exception as visual_error:
+                print(f"3D VISUAL MAP ERROR: {visual_error}")
+                visual_map = {"error": str(visual_error), "slices": [], "pins": []}
+
+        print(f"[TIMING] core_plus_3d_wall={time.perf_counter() - parallel_started_at:.2f}s")
         report_dict = asdict(report)
-
-        # SoundLens 3D Lab: time-resolved measurable structure used to build
-        # the track itself in 3D. Kept inside the normal analyze response so
-        # Railway still receives one upload / one analysis request.
-        try:
-            stage_started_at = time.perf_counter()
-            report_dict["visual_map"] = build_visual_map(file_path)
-            print(f"[TIMING] visual_map={time.perf_counter() - stage_started_at:.2f}s")
-        except Exception as visual_error:
-            print(f"3D VISUAL MAP ERROR: {visual_error}")
-            report_dict["visual_map"] = {"error": str(visual_error), "slices": [], "pins": []}
+        report_dict["visual_map"] = visual_map
 
         artist_comparison = {}
         try:
@@ -2484,14 +2518,17 @@ def analyze(
             }
             report_dict["artist_comparison"] = artist_comparison
 
-        stage_started_at = time.perf_counter()
-        visual_for_ai = report_dict.get("visual_map", {}) if isinstance(report_dict.get("visual_map"), dict) else {}
-        ai_feedback = generate_soundlens_ai_feedback(
-            report_dict,
-            audio_path=None,
-            precomputed_audio_summary=visual_for_ai.get("ai_timeline_summary"),
-        )
-        print(f"[TIMING] ai_feedback={time.perf_counter() - stage_started_at:.2f}s")
+        # The measured SoundLens experience is complete at this point.
+        # Do not hold the 3D screen on an external model response.
+        ai_feedback = {
+            "ai_enabled": False,
+            "ai_pending": True,
+            "top_problems": report_dict.get("top_problems", []),
+            "next_steps": report_dict.get("next_steps", []),
+            "ai_review": {},
+            "ai_fixes": [],
+        }
+        print("[TIMING] ai_feedback=deferred")
 
         report_dict["top_problems"] = ai_feedback.get(
             "top_problems",
@@ -2531,11 +2568,43 @@ def analyze(
             "title": saved_report["title"],
         }
 
+        # Finish premium AI in the background. Ask SoundLens (/lab/ask) is separate
+        # and remains immediately available once the 3D screen opens.
+        def _finish_ai_review():
+            ai_started = time.perf_counter()
+            result = _generate_ai_feedback_after_analysis(report_dict)
+            print(f"[TIMING] async_ai_feedback={time.perf_counter() - ai_started:.2f}s")
+            if not result:
+                return
+
+            with ASYNC_AI_LOCK:
+                ASYNC_AI_RESULTS[str(saved_report["id"])] = result
+
+            try:
+                report_file = SAVED_REPORTS_DIR / user["id"] / f"{saved_report['id']}.json"
+                payload = read_json_file(report_file, {})
+                if isinstance(payload, dict):
+                    saved_report_dict = payload.get("report")
+                    if isinstance(saved_report_dict, dict):
+                        saved_report_dict["top_problems"] = result.get("top_problems", saved_report_dict.get("top_problems", []))
+                        saved_report_dict["next_steps"] = result.get("next_steps", saved_report_dict.get("next_steps", []))
+                        saved_report_dict["ai_suggested_direction"] = result.get("suggested_direction", [])
+                        saved_report_dict["ai_review"] = result.get("ai_review", {})
+                        saved_report_dict["ai_enabled"] = bool(result.get("ai_enabled", False))
+                        saved_report_dict["ai_model"] = result.get("model")
+                    payload["ai_feedback"] = result
+                    write_json_file(report_file, payload)
+            except Exception as persist_error:
+                print(f"ASYNC AI SAVE ERROR: {type(persist_error).__name__}: {persist_error}")
+
+        threading.Thread(target=_finish_ai_review, daemon=True).start()
+
         print(f"[TIMING] TOTAL_ANALYZE={time.perf_counter() - analysis_started_at:.2f}s")
         return {
             "report": report_dict,
             "text_report": text_report,
             "ai_feedback": ai_feedback,
+            "ai_pending": True,
             "artist_comparison": artist_comparison,
             "saved_report": saved_report_payload,
             "user": public_user(user),
@@ -2555,6 +2624,28 @@ def analyze(
             "text_report": "",
             "ai_feedback": {},
         }
+
+
+
+@app.get("/analysis-ai/{report_id}")
+def analysis_ai_status(report_id: str, authorization: str | None = Header(default=None)):
+    _, user = get_current_user(authorization)
+
+    with ASYNC_AI_LOCK:
+        cached = ASYNC_AI_RESULTS.get(str(report_id))
+    if isinstance(cached, dict):
+        return {"ok": True, "status": "ready", "ai_feedback": cached}
+
+    report_file = SAVED_REPORTS_DIR / user["id"] / f"{report_id}.json"
+    if not report_file.exists():
+        raise HTTPException(status_code=404, detail="Report not found.")
+
+    payload = read_json_file(report_file, {})
+    existing = payload.get("ai_feedback") if isinstance(payload, dict) else None
+    if isinstance(existing, dict) and existing.get("ai_enabled"):
+        return {"ok": True, "status": "ready", "ai_feedback": existing}
+
+    return {"ok": True, "status": "pending", "ai_feedback": None}
 
 
 

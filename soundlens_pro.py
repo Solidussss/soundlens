@@ -327,30 +327,6 @@ def load_audio(audio_file: Path) -> Tuple[np.ndarray, int]:
     y = y - float(np.mean(y))
     return y, int(sr)
 
-def prepare_analysis_audio(y: np.ndarray, sr: int) -> Tuple[np.ndarray, int, np.ndarray, int]:
-    """Create the two shared analysis-rate copies once per upload.
-
-    SoundLens' expensive analyzers repeatedly need 22.05 kHz and 16 kHz mono
-    audio. Preparing them once preserves the same sample-rate inputs while
-    avoiding several duplicate resample passes.
-    """
-    y32 = np.asarray(y, dtype=np.float32)
-    if sr == 22050:
-        y22 = y32
-    else:
-        y22 = librosa.resample(y32, orig_sr=sr, target_sr=22050).astype(np.float32)
-    if sr == 16000:
-        y16 = y32
-    elif sr == 22050:
-        y16 = librosa.resample(y22, orig_sr=22050, target_sr=16000).astype(np.float32)
-    else:
-        y16 = librosa.resample(y32, orig_sr=sr, target_sr=16000).astype(np.float32)
-
-    y22 = y22 - float(np.mean(y22))
-    y16 = y16 - float(np.mean(y16))
-    return y22.astype(np.float32), 22050, y16.astype(np.float32), 16000
-
-
 def memory_safe_audio(y: np.ndarray, sr: int, target_sr: int = 22050, max_seconds: int = 120) -> Tuple[np.ndarray, int]:
     """Downsample and trim an analysis-only copy so Railway does not run out of RAM."""
     y_work = y.astype(np.float32)
@@ -373,7 +349,7 @@ def memory_safe_audio(y: np.ndarray, sr: int, target_sr: int = 22050, max_second
     return y_work.astype(np.float32), work_sr
 
 
-def detect_bpm(y: np.ndarray, sr: int, prepared_16k: np.ndarray | None = None) -> float:
+def detect_bpm(y: np.ndarray, sr: int) -> float:
     """Estimate BPM from multi-window onset autocorrelation.
 
     This version was benchmarked on the SoundLens/TuneBat validation set. It
@@ -383,18 +359,14 @@ def detect_bpm(y: np.ndarray, sr: int, prepared_16k: np.ndarray | None = None) -
     """
     try:
         target_sr = 16000
-        if prepared_16k is not None:
-            y_work = np.asarray(prepared_16k, dtype=np.float32)
+        y_work = np.asarray(y, dtype=np.float32)
+        if y_work.ndim > 1:
+            y_work = np.mean(y_work, axis=1)
+        if sr != target_sr:
+            y_work = librosa.resample(y_work, orig_sr=sr, target_sr=target_sr)
             bpm_sr = target_sr
         else:
-            y_work = np.asarray(y, dtype=np.float32)
-            if y_work.ndim > 1:
-                y_work = np.mean(y_work, axis=1)
-            if sr != target_sr:
-                y_work = librosa.resample(y_work, orig_sr=sr, target_sr=target_sr)
-                bpm_sr = target_sr
-            else:
-                bpm_sr = sr
+            bpm_sr = sr
         y_work = y_work - float(np.mean(y_work))
         duration = len(y_work) / max(bpm_sr, 1)
         if duration < 4.0:
@@ -489,7 +461,7 @@ def detect_bpm(y: np.ndarray, sr: int, prepared_16k: np.ndarray | None = None) -
     except Exception:
         return 0.0
 
-def detect_key(y: np.ndarray, sr: int, prepared_16k: np.ndarray | None = None) -> Tuple[str, str, str, float]:
+def detect_key(y: np.ndarray, sr: int) -> Tuple[str, str, str, float]:
     """Estimate musical key with a genre-calibrated multi-window HPCP/chroma vote.
 
     The profiles below were calibrated from the SoundLens validation library and
@@ -566,18 +538,14 @@ def detect_key(y: np.ndarray, sr: int, prepared_16k: np.ndarray | None = None) -
 
     try:
         target_sr = 16000
-        if prepared_16k is not None:
-            y_work = np.asarray(prepared_16k, dtype=np.float32)
+        y_work = np.asarray(y, dtype=np.float32)
+        if y_work.ndim > 1:
+            y_work = np.mean(y_work, axis=1)
+        if sr != target_sr:
+            y_work = librosa.resample(y_work, orig_sr=sr, target_sr=target_sr)
             key_sr = target_sr
         else:
-            y_work = np.asarray(y, dtype=np.float32)
-            if y_work.ndim > 1:
-                y_work = np.mean(y_work, axis=1)
-            if sr != target_sr:
-                y_work = librosa.resample(y_work, orig_sr=sr, target_sr=target_sr)
-                key_sr = target_sr
-            else:
-                key_sr = sr
+            key_sr = sr
         y_work = y_work - float(np.mean(y_work))
         duration = len(y_work) / max(key_sr, 1)
         if duration < 4.0:
@@ -1711,7 +1679,7 @@ def build_feedback(
 def stem_metrics_from_file(stem_path: Path, name: str) -> StemMetrics:
     y, sr = load_audio(stem_path)
     loudness = analyze_loudness(y)
-    frequency = analyze_frequency(y22, sr22)
+    frequency = analyze_frequency(y, sr)
     return StemMetrics(
         name=name,
         file_path=str(stem_path.resolve()),
@@ -1863,17 +1831,12 @@ def analyze_audio(audio_file: Path, use_stems: bool = False, demucs_output_dir: 
     duration = float(librosa.get_duration(y=y, sr=sr))
     print("[1/8] Audio loaded")
 
-    print("[prep] Preparing shared analysis-rate audio...")
-    prep_started = time.perf_counter()
-    y22, sr22, y16, sr16 = prepare_analysis_audio(y, sr)
-    print(f"[TIMING] shared_resample={time.perf_counter() - prep_started:.2f}s")
-
     print("[2/8] Detecting BPM...")
-    bpm = detect_bpm(y, sr, prepared_16k=y16)
+    bpm = detect_bpm(y, sr)
     print("[2/8] BPM detected")
 
     print("[3/8] Detecting key...")
-    key, key_note, key_mode, key_confidence = detect_key(y, sr, prepared_16k=y16)
+    key, key_note, key_mode, key_confidence = detect_key(y, sr)
     print("[3/8] Key analysis complete")
 
     basic = BasicInfo(
@@ -1897,12 +1860,12 @@ def analyze_audio(audio_file: Path, use_stems: bool = False, demucs_output_dir: 
     print("[5/8] Frequency analysis complete")
 
     print("[6/8] Building audio fingerprint...")
-    fingerprint = analyze_audio_fingerprint(y22, sr22)
+    fingerprint = analyze_audio_fingerprint(y, sr)
     print("[6/8] Audio fingerprint built")
 
     print("[7/8] Analyzing rhythm and arrangement...")
-    rhythm = analyze_rhythm(y22, sr22, duration, bpm)
-    sections = estimate_arrangement(y22, sr22, duration, rhythm)
+    rhythm = analyze_rhythm(y, sr, duration, bpm)
+    sections = estimate_arrangement(y, sr, duration, rhythm)
     print("[7/8] Arrangement analysis complete")
 
     print("[8/8] Calculating scores and feedback...")
