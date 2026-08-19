@@ -2420,8 +2420,6 @@ def analyze(
 ):
     try:
         analysis_started_at = time.perf_counter()
-        stage_started_at = analysis_started_at
-
         db, user = get_current_user(authorization)
 
         file_path = save_upload(file)
@@ -2487,7 +2485,12 @@ def analyze(
             report_dict["artist_comparison"] = artist_comparison
 
         stage_started_at = time.perf_counter()
-        ai_feedback = generate_soundlens_ai_feedback(report_dict)
+        visual_for_ai = report_dict.get("visual_map", {}) if isinstance(report_dict.get("visual_map"), dict) else {}
+        ai_feedback = generate_soundlens_ai_feedback(
+            report_dict,
+            audio_path=None,
+            precomputed_audio_summary=visual_for_ai.get("ai_timeline_summary"),
+        )
         print(f"[TIMING] ai_feedback={time.perf_counter() - stage_started_at:.2f}s")
 
         report_dict["top_problems"] = ai_feedback.get(
@@ -2529,7 +2532,6 @@ def analyze(
         }
 
         print(f"[TIMING] TOTAL_ANALYZE={time.perf_counter() - analysis_started_at:.2f}s")
-
         return {
             "report": report_dict,
             "text_report": text_report,

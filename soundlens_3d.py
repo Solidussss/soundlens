@@ -100,6 +100,59 @@ def _candidate_changes(values: np.ndarray, min_delta: float, max_count: int, min
     return chosen
 
 
+
+def _build_ai_timeline_from_existing_3d(duration, sr, hop, rms, centroid, rolloff, onset, flatness):
+    times = librosa.frames_to_time(np.arange(len(rms)), sr=sr, hop_length=hop)
+    n = min(len(times), len(rms), len(centroid), len(rolloff), len(onset), len(flatness))
+    if n <= 0:
+        return {"enabled": False, "reason": "No aligned 3D frames."}
+    times = times[:n]
+    rms = np.asarray(rms[:n], dtype=float)
+    centroid = np.asarray(centroid[:n], dtype=float)
+    rolloff = np.asarray(rolloff[:n], dtype=float)
+    onset = np.asarray(onset[:n], dtype=float)
+    flatness = np.asarray(flatness[:n], dtype=float)
+
+    def seg(a, b):
+        idx = np.where((times >= duration*a) & (times <= duration*b))[0]
+        if idx.size == 0:
+            return {}
+        return {
+            "range_sec": [round(duration*a, 2), round(duration*b, 2)],
+            "avg_rms": round(float(np.mean(rms[idx])), 6),
+            "peak_rms": round(float(np.max(rms[idx])), 6),
+            "brightness_hz": round(float(np.mean(centroid[idx])), 2),
+            "rolloff_hz": round(float(np.mean(rolloff[idx])), 2),
+            "zero_crossing": round(float(np.mean(flatness[idx])), 6),
+            "onset_strength": round(float(np.mean(onset[idx])), 4),
+        }
+
+    loudest = int(np.argmax(rms))
+    quietest = int(np.argmin(rms))
+    return {
+        "enabled": True,
+        "duration_analyzed_sec": round(float(duration), 2),
+        "overall": {
+            "avg_rms": round(float(np.mean(rms)), 6),
+            "rms_variation": round(float(np.std(rms)), 6),
+            "avg_brightness_hz": round(float(np.mean(centroid)), 2),
+            "avg_rolloff_hz": round(float(np.mean(rolloff)), 2),
+            "avg_zero_crossing": round(float(np.mean(flatness)), 6),
+            "avg_onset_strength": round(float(np.mean(onset)), 4),
+        },
+        "segments": {
+            "intro": seg(0, .2),
+            "early_middle": seg(.2, .45),
+            "middle": seg(.45, .7),
+            "ending": seg(.7, 1),
+        },
+        "moments": {
+            "loudest_sec": round(float(times[loudest]), 2),
+            "quietest_sec": round(float(times[quietest]), 2),
+        },
+        "source": "visual_map_reuse",
+    }
+
 def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str, Any]:
     """Build dense, time-resolved data for the SoundLens 3D experience.
 
@@ -134,6 +187,7 @@ def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str,
 
     rms = librosa.feature.rms(S=stft, frame_length=n_fft, hop_length=hop)[0]
     centroid = librosa.feature.spectral_centroid(S=stft, sr=sr)[0]
+    rolloff = librosa.feature.spectral_rolloff(S=stft, sr=sr)[0]
     onset = librosa.onset.onset_strength(y=mono, sr=sr, hop_length=hop)
     flatness = librosa.feature.spectral_flatness(S=stft)[0]
 
@@ -391,7 +445,12 @@ def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str,
         item.pop("importance", None)
         pins.append(item)
 
+    ai_timeline_summary = _build_ai_timeline_from_existing_3d(
+        duration, sr, hop, rms, centroid, rolloff, onset, flatness
+    )
+
     return {
+        "ai_timeline_summary": ai_timeline_summary,
         "version": 2,
         "duration": _safe(duration, 3),
         "sample_rate": int(sr),

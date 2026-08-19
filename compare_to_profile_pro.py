@@ -1241,13 +1241,8 @@ def compare_audio_to_profiles(
     demucs_output_dir="stems",
     precomputed_report=None,
 ):
-    # /analyze already has a complete SoundLens report. Reuse it instead of
-    # decoding and analyzing the same upload a second time for Artist Match.
     if precomputed_report is not None:
-        if isinstance(precomputed_report, dict):
-            report_dict = precomputed_report
-        else:
-            report_dict = asdict(precomputed_report)
+        report_dict = precomputed_report if isinstance(precomputed_report, dict) else asdict(precomputed_report)
     else:
         if audio_file is None:
             raise ValueError("audio_file is required when precomputed_report is not supplied.")

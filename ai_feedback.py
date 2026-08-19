@@ -148,12 +148,12 @@ def _clean(data: Dict[str,Any], report: Dict[str,Any]) -> Dict[str,Any]:
     return {"ai_enabled": True, "model": AI_MODEL, "audio_model": OPENAI_AUDIO_MODEL or None, "top_problems": _take_list(data.get("top_problems"),5) or fb["top_problems"], "next_steps": _take_list(data.get("next_steps"),5) or fb["next_steps"], "ai_review": {"first_impression":s("first_impression"), "biggest_strengths":_take_list(r.get("biggest_strengths"),3) or fb["ai_review"]["biggest_strengths"], "biggest_weaknesses":_take_list(r.get("biggest_weaknesses"),3) or fb["ai_review"]["biggest_weaknesses"], "mix_advice":s("mix_advice"), "artist_direction":s("artist_direction"), "priority_fix":s("priority_fix",700), "release_verdict":s("release_verdict")}, "ai_fixes": fixes or fb["ai_fixes"]}
 
 
-def generate_soundlens_ai_feedback(report: Dict[str, Any], audio_path: str | Path | None = None) -> Dict[str, Any]:
+def generate_soundlens_ai_feedback(report: Dict[str, Any], audio_path: str | Path | None = None, precomputed_audio_summary: Dict[str, Any] | None = None) -> Dict[str, Any]:
     key = os.getenv("OPENAI_API_KEY", "").strip()
     if not key:
         return _fallback(report, "OPENAI_API_KEY is not configured.")
     compact = _compact_report(report)
-    audio_summary = extract_deep_audio_summary(audio_path)
+    audio_summary = precomputed_audio_summary if isinstance(precomputed_audio_summary, dict) else extract_deep_audio_summary(audio_path)
     audio = _audio_input(audio_path)
     system = """You are SoundLens AI, a producer and mix-engineer assistant for underground rap/trap/rage artists. Be specific, critical, useful, and grounded. Use the SoundLens report, deep audio timeline summary, and direct audio attachment if present. If no direct audio is attached, do not claim you personally listened; say what the analysis indicates. Never invent lyrics or instruments. Return JSON only."""
     prompt = f"""Create a premium AI-only Fixes page and review. Do not just repeat scores. Explain what is happening, why it matters, what to do, and how to check it. Use segment timing when useful.
