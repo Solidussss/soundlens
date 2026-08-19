@@ -253,6 +253,69 @@ canvas {
   overscroll-behavior: contain;
 }
 
+
+.pin-mobile-toggle{
+  display:none;
+  min-width:64px;
+  height:34px;
+  padding:0 10px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:10px;
+  background:rgba(255,255,255,.07);
+  color:#eef0f8;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+}
+.pin-card-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+@media(max-width:800px){
+  .pin-mobile-toggle{display:block!important;flex:0 0 auto}
+  .pin-card.pin-collapsed{
+    left:auto!important;
+    right:10px!important;
+    top:134px!important;
+    width:auto!important;
+    min-width:0!important;
+    max-width:none!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+  }
+  .pin-card.pin-collapsed .pin-kicker,
+  .pin-card.pin-collapsed .pin-title,
+  .pin-card.pin-collapsed .pin-detail,
+  .pin-card.pin-collapsed .pin-time{
+    display:none!important;
+  }
+  .pin-card.pin-collapsed .pin-card-head{
+    display:block!important;
+  }
+  .pin-card.pin-collapsed .pin-mobile-toggle{
+    display:block!important;
+    min-width:74px!important;
+    height:40px!important;
+    padding:0 14px!important;
+    border-radius:12px!important;
+    background:rgba(16,19,31,.95)!important;
+    border:1px solid rgba(255,255,255,.16)!important;
+    color:#fff!important;
+    box-shadow:0 8px 28px rgba(0,0,0,.3)!important;
+  }
+}
+
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.179.1/build/three.module.js","three/addons/":"https://unpkg.com/three@0.179.1/examples/jsm/"}}
@@ -401,7 +464,17 @@ canvas {
   <div class="legend-row"><i class="dot" style="color:#bceaff;background:#bceaff"></i>Air</div>
 </div>
 <div class="tip" id="tip" style="display:none">drag to orbit · scroll to zoom · click a pin</div>
-<div class="pin-card glass" id="pinCard"><div class="pin-kicker" id="pinKind"></div><div class="pin-title" id="pinTitle"></div><div class="pin-detail" id="pinDetail"></div><div class="pin-time" id="pinTime"></div></div>
+<div class="pin-card glass" id="pinCard">
+  <div class="pin-card-head">
+    <div>
+      <div class="pin-kicker" id="pinKind"></div>
+      <div class="pin-title" id="pinTitle"></div>
+    </div>
+    <button class="pin-mobile-toggle" id="pinMobileToggle" type="button" aria-label="Hide pin details" aria-expanded="true" onclick="toggleMobilePin()">HIDE</button>
+  </div>
+  <div class="pin-detail" id="pinDetail"></div>
+  <div class="pin-time" id="pinTime"></div>
+</div>
 <div class="controls glass" id="controls" style="display:none"><button class="iconbtn" id="play">▶</button><span class="time" id="time">0:00 / 0:00</span><input class="scrub" id="scrub" type="range" min="0" max="1000" value="0"><button class="iconbtn" id="reset">Reset view</button></div>
 <div class="viewbar glass" id="viewbar" style="display:none">
   <span class="viewhint">VIEW</span>
@@ -989,6 +1062,24 @@ async function importReferenceTrack(){
 loadReferenceLibrary();loadUser().then(async()=>{await claimPluginLinkIfPresent();const p=new URLSearchParams(location.search);if(p.get('verified')==='1'){localStorage.removeItem(SL_TOKEN);slUser=null;renderUser();history.replaceState({},'', '/');openModal('authModal');setAuthMode('login');document.getElementById('authStatus').textContent='Email verified. Sign in to start using SoundLens.'}else if(p.get('reset_token')){openModal('resetModal')}handleCheckout()});
 
 
+
+function toggleMobilePin(forceOpen){
+  const card=document.getElementById('pinCard');
+  const btn=document.getElementById('pinMobileToggle');
+  if(!card)return;
+
+  const currentlyCollapsed=card.classList.contains('pin-collapsed');
+  const shouldOpen=(typeof forceOpen==='boolean') ? forceOpen : currentlyCollapsed;
+
+  card.classList.toggle('pin-collapsed', !shouldOpen);
+
+  if(btn){
+    btn.textContent=shouldOpen ? 'HIDE' : 'SHOW';
+    btn.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+    btn.setAttribute('aria-label', shouldOpen ? 'Hide pin details' : 'Show pin details');
+  }
+}
+
 function toggleMobileAI(forceOpen){
   const panel=document.getElementById('ai');
   const btn=document.getElementById('aiMobileToggle');
@@ -1076,7 +1167,7 @@ function buildSculpture(){clearGroup(sculpture);clearGroup(pinGroup);pinMeshes=[
 function pointForPin(pin){const i=Math.max(0,Math.min(visual.slices.length-1,pin.index||0));const s=visual.slices[i];const x=(i/(visual.slices.length-1)-.5)*trackLength;let y=(Number(s.energy||0)-.1)*5.2;let z=0;if(pin.kind==='bass'){y=-1.5+valAt(s,'bass')*7;z=-2.8}else if(pin.kind==='stereo'){z=Number(s.stereo||0)*7;y=1}else if(pin.kind==='resonance'){y=4;z=1.7}else if(pin.kind==='transient'){y=Number(s.transient||0)*6;z=-.5}else if(pin.kind==='brightness'){y=3;z=3.4}return new THREE.Vector3(x,y,z)}
 function buildPins(){const colors={energy:0xffffff,bass:0x8174ff,transient:0xffcf72,stereo:0x58d7ff,clip:0xff647c,resonance:0xff79db,brightness:0xa8efff};(visual.pins||[]).forEach((pin,idx)=>{const p=pointForPin(pin);const sphere=new THREE.Mesh(new THREE.SphereGeometry(.19,20,20),new THREE.MeshBasicMaterial({color:colors[pin.kind]||0xffffff}));sphere.position.copy(p);sphere.userData={pin,index:idx};pinGroup.add(sphere);pinMeshes.push(sphere);const lineGeo=new THREE.BufferGeometry().setFromPoints([p,new THREE.Vector3(p.x,p.y+1.8,p.z)]);const line=new THREE.Line(lineGeo,new THREE.LineBasicMaterial({color:colors[pin.kind]||0xffffff,transparent:true,opacity:.34}));pinGroup.add(line);});}
 function setMode(mode){currentMode=mode;document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('on',b.dataset.mode===mode));sculpture.children.forEach(m=>{if(!m.material||!m.userData.band)return;const b=m.userData.band;let op=b==='skin'?.075:.55;if(mode==='bass')op=['sub','bass'].includes(b)?.85:(b==='skin'?.025:.055);if(mode==='stereo')op=b==='skin'?.28:.16;if(mode==='transient')op=b==='skin'?.04:.31;m.material.opacity=op;});}
-function showPin(pin){selectedPin=pin;document.getElementById('pinKind').textContent=pin.kind;document.getElementById('pinTitle').textContent=pin.title;document.getElementById('pinDetail').textContent=pin.detail;document.getElementById('pinTime').textContent=`${fmt(pin.time)} · click play to hear this point`;document.getElementById('pinCard').classList.add('on');const p=pointForPin(pin);focusCamera(p);audio.currentTime=Math.min(audio.duration||pin.time,pin.time);updatePlayhead();}
+function showPin(pin){selectedPin=pin;document.getElementById('pinKind').textContent=pin.kind;document.getElementById('pinTitle').textContent=pin.title;document.getElementById('pinDetail').textContent=pin.detail;document.getElementById('pinTime').textContent=`${fmt(pin.time)} · click play to hear this point`;document.getElementById('pinCard').classList.add('on');if(innerWidth<=800)toggleMobilePin(true);const p=pointForPin(pin);focusCamera(p);audio.currentTime=Math.min(audio.duration||pin.time,pin.time);updatePlayhead();}
 function focusCamera(p){const start=camera.position.clone(),targetStart=controls.target.clone(),endTarget=p.clone(),end=p.clone().add(new THREE.Vector3(6,7,13));focusTween={t:0,start,targetStart,endTarget,end};}
 function resetView(){focusTween=null;camera.position.set(0,14,36);controls.target.set(0,0,0);controls.update();}
 function nudgeView(theta=0,phi=0,zoom=1){
@@ -1113,7 +1204,7 @@ const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.ad
   ray.setFromCamera(mouse,camera);
   const hit=ray.intersectObjects(pinMeshes,false)[0];
   if(hit){
-    if(innerWidth<=800)toggleMobileAI(false);
+    if(innerWidth<=800){toggleMobileAI(false);toggleMobilePin(false);}
     showPin(hit.object.userData.pin);
   }
 });
