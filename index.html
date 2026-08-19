@@ -227,6 +227,32 @@ radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,
   }
 }
 
+
+/* Mobile 3D control interaction hardening */
+.viewbtn,
+.mode,
+.iconbtn,
+.send,
+.ai-mobile-toggle,
+.mobile-page-rail button,
+.navbtn,
+.navpill,
+#play,
+#reset {
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+#renderer,
+canvas {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  overscroll-behavior: contain;
+}
+
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.179.1/build/three.module.js","three/addons/":"https://unpkg.com/three@0.179.1/examples/jsm/"}}
@@ -979,6 +1005,30 @@ function toggleMobileAI(forceOpen){
     btn.setAttribute('aria-label', shouldOpen ? 'Hide Ask SoundLens' : 'Show Ask SoundLens');
   }
 }
+
+
+
+function suppressControlDoubleTapZoom(){
+  const selector='.viewbtn,.mode,.iconbtn,.send,.ai-mobile-toggle,.mobile-page-rail button,.navbtn,.navpill,#play,#reset';
+  let lastTap=0;
+
+  document.addEventListener('touchend',e=>{
+    const control=e.target.closest?.(selector);
+    if(!control)return;
+
+    const now=Date.now();
+    if(now-lastTap<320){
+      e.preventDefault();
+    }
+    lastTap=now;
+  },{passive:false});
+
+  document.addEventListener('gesturestart',e=>{
+    if(e.target.closest?.(selector))e.preventDefault();
+  },{passive:false});
+}
+
+window.addEventListener('DOMContentLoaded',suppressControlDoubleTapZoom);
 
 </script>
 <script type="module">
