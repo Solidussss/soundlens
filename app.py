@@ -14,6 +14,7 @@ import librosa
 import resend
 import secrets
 import tempfile
+import time
 import zipfile
 import stripe
 
@@ -2418,6 +2419,9 @@ def analyze(
     authorization: str | None = Header(default=None),
 ):
     try:
+        analysis_started_at = time.perf_counter()
+        stage_started_at = analysis_started_at
+
         db, user = get_current_user(authorization)
 
         file_path = save_upload(file)
@@ -2437,11 +2441,13 @@ def analyze(
         save_users_db(db)
         track_event("analysis_started", user, {"filename": file.filename})
 
+        stage_started_at = time.perf_counter()
         report = analyze_audio(
             file_path,
             use_stems=USE_DEMUCS_BY_DEFAULT if stems is None else stems,
             demucs_output_dir=STEMS_DIR,
         )
+        print(f"[TIMING] core_analysis={time.perf_counter() - stage_started_at:.2f}s")
 
         report_dict = asdict(report)
 
@@ -2449,21 +2455,23 @@ def analyze(
         # the track itself in 3D. Kept inside the normal analyze response so
         # Railway still receives one upload / one analysis request.
         try:
+            stage_started_at = time.perf_counter()
             report_dict["visual_map"] = build_visual_map(file_path)
+            print(f"[TIMING] visual_map={time.perf_counter() - stage_started_at:.2f}s")
         except Exception as visual_error:
             print(f"3D VISUAL MAP ERROR: {visual_error}")
             report_dict["visual_map"] = {"error": str(visual_error), "slices": [], "pins": []}
 
         artist_comparison = {}
         try:
+            stage_started_at = time.perf_counter()
             artist_comparison = compare_audio_to_profiles(
-                audio_file=file_path,
                 profiles_folder=str(PROFILES_DIR),
                 top_n=10,
                 include_report=False,
-                use_stems=COMPARE_USE_STEMS,
-                demucs_output_dir=str(STEMS_DIR),
+                precomputed_report=report_dict,
             )
+            print(f"[TIMING] artist_match={time.perf_counter() - stage_started_at:.2f}s")
             if "style_suggestions" not in artist_comparison:
                 artist_comparison["style_suggestions"] = []
             report_dict["artist_comparison"] = artist_comparison
@@ -2478,7 +2486,9 @@ def analyze(
             }
             report_dict["artist_comparison"] = artist_comparison
 
+        stage_started_at = time.perf_counter()
         ai_feedback = generate_soundlens_ai_feedback(report_dict)
+        print(f"[TIMING] ai_feedback={time.perf_counter() - stage_started_at:.2f}s")
 
         report_dict["top_problems"] = ai_feedback.get(
             "top_problems",
@@ -2517,6 +2527,8 @@ def analyze(
             "created_at": saved_report["created_at"],
             "title": saved_report["title"],
         }
+
+        print(f"[TIMING] TOTAL_ANALYZE={time.perf_counter() - analysis_started_at:.2f}s")
 
         return {
             "report": report_dict,

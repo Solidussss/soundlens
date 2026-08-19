@@ -1233,20 +1233,30 @@ def ensure_visible_components_only(item: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def compare_audio_to_profiles(
-    audio_file,
+    audio_file=None,
     profiles_folder="artist_profiles",
     top_n=10,
     include_report=False,
     use_stems=False,
     demucs_output_dir="stems",
+    precomputed_report=None,
 ):
-    report = analyze_audio(
-        Path(audio_file),
-        use_stems=use_stems,
-        demucs_output_dir=Path(demucs_output_dir),
-    )
-
-    report_dict = asdict(report)
+    # /analyze already has a complete SoundLens report. Reuse it instead of
+    # decoding and analyzing the same upload a second time for Artist Match.
+    if precomputed_report is not None:
+        if isinstance(precomputed_report, dict):
+            report_dict = precomputed_report
+        else:
+            report_dict = asdict(precomputed_report)
+    else:
+        if audio_file is None:
+            raise ValueError("audio_file is required when precomputed_report is not supplied.")
+        report = analyze_audio(
+            Path(audio_file),
+            use_stems=use_stems,
+            demucs_output_dir=Path(demucs_output_dir),
+        )
+        report_dict = asdict(report)
 
     profiles_path = Path(profiles_folder)
     profile_files = sorted(profiles_path.glob("*_profile.json"))
