@@ -18,6 +18,7 @@ body:before{content:"";position:fixed;inset:0;background:
 .glass{background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.018));border:1px solid var(--line);box-shadow:0 18px 80px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(24px) saturate(135%);-webkit-backdrop-filter:blur(24px) saturate(135%)}
 .topbar{position:fixed;z-index:20;top:18px;left:22px;right:22px;height:62px;border-radius:22px;display:flex;align-items:center;padding:0 18px;gap:16px}
 .brand{font-weight:850;letter-spacing:-.04em;font-size:20px}.labtag{font-size:10px;letter-spacing:.18em;color:#b9bcff;border:1px solid rgba(147,151,255,.25);padding:5px 8px;border-radius:999px;background:rgba(95,99,255,.09)}
+.mobile-nav-toggle{display:none;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#eef0f7;border-radius:10px;padding:8px 10px;font-size:9px;font-weight:800;letter-spacing:.08em}.mobile-nav-menu{display:none}
 .track-meta{display:flex;gap:14px;align-items:center;margin-left:auto;color:var(--muted);font-size:12px}.metric strong{color:white;font-weight:700}.back{color:var(--muted);text-decoration:none;font-size:12px}.back:hover{color:white}
 .upload-stage{position:fixed;z-index:15;inset:0;display:grid;place-items:center;pointer-events:none;transition:opacity .5s ease}.upload-stage.hidden{opacity:0;visibility:hidden}
 .upload-card{pointer-events:auto;width:min(690px,calc(100vw - 40px));border-radius:34px;padding:42px;text-align:center}.upload-orb{width:86px;height:86px;margin:0 auto 24px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.44),rgba(114,117,255,.22) 35%,rgba(114,117,255,.05) 70%);box-shadow:0 0 70px rgba(114,117,255,.25)}
@@ -28,31 +29,30 @@ body:before{content:"";position:fixed;inset:0;background:
 .time{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:78px}.scrub{width:min(330px,30vw);accent-color:#898cff}
 .legend{position:fixed;z-index:18;left:22px;top:96px;padding:12px 14px;border-radius:18px;width:180px}.legend-title{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:8px}.legend-row{display:flex;align-items:center;gap:8px;font-size:11px;color:#cdd1e1;margin:6px 0}.dot{width:7px;height:7px;border-radius:50%;box-shadow:0 0 12px currentColor}
 .pin-card{position:fixed;z-index:25;right:22px;top:96px;width:min(360px,calc(100vw - 44px));padding:18px;border-radius:22px;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.25s ease}.pin-card.on{opacity:1;transform:none;pointer-events:auto}.pin-kicker{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#a8adff}.pin-title{font-size:22px;letter-spacing:-.035em;margin:5px 0 7px}.pin-detail{font-size:12px;line-height:1.55;color:#b7bed1}.pin-time{margin-top:12px;font-size:11px;color:#7f879c}
-.ai{position:fixed;z-index:24;right:22px;bottom:20px;width:min(410px,calc(100vw - 44px));border-radius:24px;padding:14px}.ai-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.ai-title{font-size:12px;font-weight:800}.ai-head-right{display:flex;align-items:center;gap:8px}.ai-state{font-size:10px;color:#8d94aa}.ai-mobile-toggle{display:none;width:30px;height:30px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.045);color:#d9dbea;font-size:16px;line-height:1;cursor:pointer}.ai-log{max-height:190px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}.bubble{font-size:12px;line-height:1.5;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.045);color:#d5d9e7}.bubble.you{align-self:flex-end;background:rgba(114,117,255,.16);max-width:88%}.ai-form{display:flex;gap:8px}.ai-form input{flex:1;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:rgba(0,0,0,.22);color:white;padding:11px 12px;outline:none}.ai-form input:focus{border-color:rgba(137,140,255,.55)}.send{border:0;border-radius:13px;background:#777aff;color:white;font-weight:800;padding:0 15px;cursor:pointer}
+.ai{position:fixed;z-index:24;right:22px;bottom:20px;width:min(410px,calc(100vw - 44px));border-radius:24px;padding:14px}.ai-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.ai-title{font-size:12px;font-weight:800}.ai-head-right{display:flex;align-items:center;gap:8px}.ai-state{font-size:10px;color:#8d94aa}.ai-mobile-toggle{display:none;min-width:64px;height:34px;padding:0 10px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:rgba(255,255,255,.07);color:#eef0f8;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;line-height:1;cursor:pointer}.ai-log{max-height:190px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}.bubble{font-size:12px;line-height:1.5;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.045);color:#d5d9e7}.bubble.you{align-self:flex-end;background:rgba(114,117,255,.16);max-width:88%}.ai-form{display:flex;gap:8px}.ai-form input{flex:1;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:rgba(0,0,0,.22);color:white;padding:11px 12px;outline:none}.ai-form input:focus{border-color:rgba(137,140,255,.55)}.send{border:0;border-radius:13px;background:#777aff;color:white;font-weight:800;padding:0 15px;cursor:pointer}
 .modebar{position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:20px;padding:7px;border-radius:16px;display:flex;gap:5px}.mode{font-size:10px;color:#8e95aa;border:0;background:transparent;border-radius:10px;padding:9px 11px;cursor:pointer}.mode.on,.mode:hover{color:white;background:rgba(255,255,255,.08)}.viewbar{position:fixed;z-index:21;right:22px;bottom:86px;display:flex;align-items:center;gap:6px;padding:7px;border-radius:16px}.viewbtn{width:38px;height:38px;border:1px solid rgba(255,255,255,.1);border-radius:11px;background:rgba(255,255,255,.05);color:#dfe2ef;font-size:16px;cursor:pointer;display:grid;place-items:center}.viewbtn:hover{background:rgba(255,255,255,.1)}.viewbtn.wide{width:auto;padding:0 11px;font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}.viewhint{font-size:9px;color:#737b90;padding:0 5px;white-space:nowrap}
 .tip{position:fixed;z-index:10;left:50%;transform:translateX(-50%);top:100px;font-size:10px;color:rgba(216,220,235,.55);letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
 @media(max-width:800px){
 .legend{display:none}
 .topbar{left:10px;right:10px;top:10px;height:58px;padding:0 12px;gap:10px}
-.topbar .brand{font-size:18px}
+.topbar .brand{font-size:18px}.mobile-nav-toggle{display:block;margin-left:auto}.mobile-nav-menu{position:fixed;z-index:40;top:74px;right:10px;left:10px;display:none;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(10,12,20,.96);backdrop-filter:blur(20px)}.mobile-nav-menu.on{display:grid}.mobile-nav-menu button{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#e7e9f2;border-radius:11px;padding:12px;font-size:10px;font-weight:700}
 .track-meta{display:none}
 .pin-card{left:10px;right:10px;top:80px;width:auto;max-width:none;padding:17px 18px;border-radius:20px}
 .tip{display:none!important}
-.modebar{left:10px;right:10px;bottom:82px;transform:none;width:auto;display:flex!important;overflow-x:auto;gap:5px;padding:6px;border-radius:15px;scrollbar-width:none}
-.modebar::-webkit-scrollbar{display:none}
-.mode{flex:1 0 auto;min-width:76px;padding:10px 12px;font-size:9px;letter-spacing:.02em}
-.controls{left:10px;right:10px;bottom:10px;width:auto;display:grid!important;grid-template-columns:42px auto minmax(90px,1fr) auto;gap:8px;padding:8px;border-radius:17px}
+.modebar{left:10px!important;right:10px!important;bottom:72px!important;transform:none!important;width:auto!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:6px;border-radius:15px;overflow:visible;background:rgba(12,15,25,.82);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08)}
+.mode{min-width:0!important;width:100%;padding:10px 6px;font-size:9px;letter-spacing:.01em;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.controls{left:10px;right:10px;bottom:10px;width:auto;display:grid!important;grid-template-columns:42px 72px minmax(0,1fr) 86px;gap:7px;padding:8px;border-radius:17px}
 .controls .iconbtn{height:42px;padding:0 10px}
 .time{font-size:10px;white-space:nowrap}
 .scrub{width:100%;min-width:0}
 #reset{font-size:10px}
-.viewbar{left:10px;right:10px;bottom:136px;justify-content:center;width:auto;padding:6px;background:rgba(12,15,25,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08)}
+.viewbar{left:10px;right:10px;bottom:126px;justify-content:center;width:auto;padding:6px;background:rgba(12,15,25,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08);overflow-x:auto;scrollbar-width:none}.viewbar::-webkit-scrollbar{display:none}
 .viewbtn{width:40px;height:38px}
 .viewhint{display:none}
-.ai{right:10px;left:10px;bottom:190px;width:auto;max-height:48vh;padding:12px;transition:.2s ease}
-.ai-mobile-toggle{display:grid;place-items:center}
+.ai{right:10px;left:10px;bottom:180px;width:auto;max-height:42vh;padding:12px;transition:.2s ease}
+.ai-head{gap:10px}.ai-title{font-size:13px}.ai-head-right{margin-left:auto;min-width:0}.ai-state{max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ai-mobile-toggle{display:grid!important;place-items:center;flex:0 0 auto}
 .ai-log{max-height:25vh}
-.ai.ai-collapsed{left:auto;width:auto;min-width:158px;bottom:190px;padding:10px 12px}
+.ai.ai-collapsed{left:auto;right:10px;width:auto;min-width:154px;bottom:180px;padding:8px 10px;border-radius:15px}
 .ai.ai-collapsed .ai-head{margin-bottom:0}
 .ai.ai-collapsed .ai-state,.ai.ai-collapsed .ai-log,.ai.ai-collapsed .ai-form{display:none}
 .ai.ai-collapsed .ai-mobile-toggle{transform:rotate(180deg)}
@@ -182,7 +182,7 @@ radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,
 <div id="scene"></div>
 
 <div class="topbar glass" id="mainTopbar">
-  <div class="brand" onclick="returnHome()" style="cursor:pointer">SoundLens</div><div class="labtag">3D</div>
+  <div class="brand" onclick="returnHome()" style="cursor:pointer">SoundLens</div><button class="mobile-nav-toggle" id="mobileNavToggle" type="button" onclick="toggleMobileNav()">MENU</button><div class="mobile-nav-menu" id="mobileNavMenu"><button onclick="setMode('full');toggleMobileNav(false)">Full Track</button><button onclick="setMode('low');toggleMobileNav(false)">Low End</button><button onclick="setMode('stereo');toggleMobileNav(false)">Stereo</button><button onclick="setMode('transients');toggleMobileNav(false)">Transients</button></div><div class="labtag">3D</div>
   <button class="navbtn hide-mobile" onclick="loadReferenceLibrary();openModal('databaseModal')">Artist Database</button>
   <button class="navbtn hide-mobile" onclick="openModal('studioModal')">Studio</button>
   <button class="navbtn hide-mobile" onclick="openModal('pricingModal')">Pricing</button>
@@ -325,7 +325,7 @@ radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,
   <button class="viewbtn wide" id="viewFront" type="button">Front</button>
 </div>
 <div class="modebar glass" id="modebar" style="display:none"><button class="mode on" data-mode="full">FULL TRACK</button><button class="mode" data-mode="bass">LOW END</button><button class="mode" data-mode="stereo">STEREO</button><button class="mode" data-mode="transient">TRANSIENTS</button></div>
-<div class="ai glass" id="ai" style="display:none"><div class="ai-head"><div class="ai-title">Ask SoundLens</div><div class="ai-head-right"><div class="ai-state" id="aiState">track context loaded</div><button class="ai-mobile-toggle" id="aiMobileToggle" type="button" aria-label="Hide Ask SoundLens" aria-expanded="true" onclick="toggleMobileAI()">⌄</button></div></div><div class="ai-log" id="aiLog"><div class="bubble">Click a pin or ask about what SoundLens measured in this track.</div></div><form class="ai-form" id="aiForm"><input id="question" placeholder="Where is the low end strongest?" autocomplete="off"><button class="send">↑</button></form></div>
+<div class="ai glass" id="ai" style="display:none"><div class="ai-head"><div class="ai-title">Ask SoundLens</div><div class="ai-head-right"><div class="ai-state" id="aiState">track context loaded</div><button class="ai-mobile-toggle" id="aiMobileToggle" type="button" aria-label="Hide Ask SoundLens" aria-expanded="true" onclick="toggleMobileAI()">HIDE</button></div></div><div class="ai-log" id="aiLog"><div class="bubble">Click a pin or ask about what SoundLens measured in this track.</div></div><form class="ai-form" id="aiForm"><input id="question" placeholder="Where is the low end strongest?" autocomplete="off"><button class="send">↑</button></form></div>
 <audio id="audio"></audio>
 <script>
 const SL_TOKEN='soundlens_auth_token';let slUser=null;let authMode='login';let pendingFile=null;
