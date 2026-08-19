@@ -125,6 +125,9 @@ body:before{content:"";position:fixed;inset:0;background:
 radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,0,.18);overflow:hidden}
 .report-preview canvas{display:block;width:100%;height:100%}
 .report-preview-loading{position:absolute;inset:0;display:grid;place-items:center;color:#70788e;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.report-delete-btn{margin-left:10px;border:1px solid rgba(255,90,100,.24);background:rgba(255,70,80,.07);color:#ff8c94;border-radius:9px;padding:7px 10px;font:700 9px/1 inherit;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:.18s ease;white-space:nowrap}
+.report-delete-btn:hover{background:rgba(255,70,80,.14);border-color:rgba(255,100,110,.46);color:#ffb0b6}
+.report-date-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .report-details-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:10px}
 .report-detail-card{border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.022);border-radius:12px;padding:9px 10px}
 .report-detail-card span{display:block;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#747c90;margin-bottom:4px}
@@ -400,7 +403,10 @@ function renderDashboardReports(reports,plan){
     return `<div class="report-item" id="report-${esc(r.id)}" onclick="toggleReportPreview('${esc(r.id)}',event)">
       <div class="report-top">
         <div class="report-title">${esc(r.title||r.original_filename||'Untitled track')}</div>
-        <div class="report-date">${esc(dt)}</div>
+        <div class="report-date-actions">
+          <div class="report-date">${esc(dt)}</div>
+          <button class="report-delete-btn" type="button" onclick="deleteSavedReport('${esc(r.id)}',event)">Delete</button>
+        </div>
       </div>
       <div class="report-meta">${chips.map(c=>`<span class="report-chip">${c}</span>`).join('')}<span class="report-open-hint">CLICK TO EXPAND</span></div>
       <div class="report-expand" id="report-expand-${esc(r.id)}">
@@ -421,6 +427,28 @@ function renderDashboardReports(reports,plan){
 }
 
 const reportPreviewCache={};
+
+async function deleteSavedReport(id,event){
+  event?.stopPropagation();
+  if(!confirm('Delete this saved analysis? This cannot be undone.'))return;
+  const btn=event?.currentTarget;
+  const oldText=btn?.textContent;
+  if(btn){btn.disabled=true;btn.textContent='Deleting…';}
+  try{
+    await jsonReq('/reports/'+encodeURIComponent(id),{method:'DELETE'});
+    delete reportPreviewCache[id];
+    const card=document.getElementById('report-'+id);
+    if(card){
+      card.style.opacity='0';
+      card.style.transform='scale(.985)';
+      setTimeout(()=>card.remove(),160);
+    }
+    await loadDashboard();
+  }catch(e){
+    if(btn){btn.disabled=false;btn.textContent=oldText||'Delete';}
+    alert(e.message||'Could not delete report.');
+  }
+}
 
 async function toggleReportPreview(id,event){
   if(event?.target?.closest('button,input,a'))return;
