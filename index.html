@@ -18,7 +18,7 @@ body:before{content:"";position:fixed;inset:0;background:
 .glass{background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.018));border:1px solid var(--line);box-shadow:0 18px 80px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(24px) saturate(135%);-webkit-backdrop-filter:blur(24px) saturate(135%)}
 .topbar{position:fixed;z-index:20;top:18px;left:22px;right:22px;height:62px;border-radius:22px;display:flex;align-items:center;padding:0 18px;gap:16px}
 .brand{font-weight:850;letter-spacing:-.04em;font-size:20px}.labtag{font-size:10px;letter-spacing:.18em;color:#b9bcff;border:1px solid rgba(147,151,255,.25);padding:5px 8px;border-radius:999px;background:rgba(95,99,255,.09)}
-.mobile-nav-toggle{display:none;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#eef0f7;border-radius:10px;padding:8px 10px;font-size:9px;font-weight:800;letter-spacing:.08em}.mobile-nav-menu{display:none}
+.mobile-page-rail{display:none}
 .track-meta{display:flex;gap:14px;align-items:center;margin-left:auto;color:var(--muted);font-size:12px}.metric strong{color:white;font-weight:700}.back{color:var(--muted);text-decoration:none;font-size:12px}.back:hover{color:white}
 .upload-stage{position:fixed;z-index:15;inset:0;display:grid;place-items:center;pointer-events:none;transition:opacity .5s ease}.upload-stage.hidden{opacity:0;visibility:hidden}
 .upload-card{pointer-events:auto;width:min(690px,calc(100vw - 40px));border-radius:34px;padding:42px;text-align:center}.upload-orb{width:86px;height:86px;margin:0 auto 24px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.44),rgba(114,117,255,.22) 35%,rgba(114,117,255,.05) 70%);box-shadow:0 0 70px rgba(114,117,255,.25)}
@@ -35,9 +35,17 @@ body:before{content:"";position:fixed;inset:0;background:
 @media(max-width:800px){
 .legend{display:none}
 .topbar{left:10px;right:10px;top:10px;height:58px;padding:0 12px;gap:10px}
-.topbar .brand{font-size:18px}.mobile-nav-toggle{display:block;margin-left:auto}.mobile-nav-menu{position:fixed;z-index:40;top:74px;right:10px;left:10px;display:none;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(10,12,20,.96);backdrop-filter:blur(20px)}.mobile-nav-menu.on{display:grid}.mobile-nav-menu button{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#e7e9f2;border-radius:11px;padding:12px;font-size:10px;font-weight:700}
+.topbar .brand{font-size:18px;flex:0 0 auto}
+.topbar .labtag{flex:0 0 auto}
+.topbar .status-badge{margin-left:auto}
+.topbar #accountButton{flex:0 0 auto;padding:8px 10px;font-size:10px}
+.mobile-page-rail{display:flex!important;position:fixed;z-index:22;top:76px;left:10px;right:10px;height:48px;align-items:center;gap:6px;padding:6px;overflow-x:auto;overflow-y:hidden;border-radius:15px;scrollbar-width:none;white-space:nowrap}
+.mobile-page-rail::-webkit-scrollbar{display:none}
+.mobile-page-rail button{flex:0 0 auto;border:0;background:transparent;color:#aab0c2;border-radius:10px;padding:9px 11px;font-size:10px;font-weight:650;white-space:nowrap;cursor:pointer}
+.mobile-page-rail button:active,.mobile-page-rail button:hover{color:white;background:rgba(255,255,255,.075)}
+
 .track-meta{display:none}
-.pin-card{left:10px;right:10px;top:80px;width:auto;max-width:none;padding:17px 18px;border-radius:20px}
+.pin-card{left:10px;right:10px;top:134px;width:auto;max-width:none;padding:17px 18px;border-radius:20px}
 .tip{display:none!important}
 .modebar{left:10px!important;right:10px!important;bottom:72px!important;transform:none!important;width:auto!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:6px;border-radius:15px;overflow:visible;background:rgba(12,15,25,.82);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08)}
 .mode{min-width:0!important;width:100%;padding:10px 6px;font-size:9px;letter-spacing:.01em;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -173,6 +181,7 @@ radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,
 @media(max-width:560px){.report-preview{height:145px}.report-details-grid{grid-template-columns:1fr}}
 
 @media(max-width:900px){.topbar .hide-mobile{display:none}.track-meta{display:none}}
+@media(min-width:801px){.mobile-page-rail{display:none!important}}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.179.1/build/three.module.js","three/addons/":"https://unpkg.com/three@0.179.1/examples/jsm/"}}
@@ -182,16 +191,25 @@ radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,
 <div id="scene"></div>
 
 <div class="topbar glass" id="mainTopbar">
-  <div class="brand" onclick="returnHome()" style="cursor:pointer">SoundLens</div><button class="mobile-nav-toggle" id="mobileNavToggle" type="button" onclick="toggleMobileNav()">MENU</button><div class="mobile-nav-menu" id="mobileNavMenu"><button onclick="setMode('full');toggleMobileNav(false)">Full Track</button><button onclick="setMode('low');toggleMobileNav(false)">Low End</button><button onclick="setMode('stereo');toggleMobileNav(false)">Stereo</button><button onclick="setMode('transients');toggleMobileNav(false)">Transients</button></div><div class="labtag">3D</div>
-  <button class="navbtn hide-mobile" onclick="loadReferenceLibrary();openModal('databaseModal')">Artist Database</button>
-  <button class="navbtn hide-mobile" onclick="openModal('studioModal')">Studio</button>
-  <button class="navbtn hide-mobile" onclick="openModal('pricingModal')">Pricing</button>
-  <button class="navbtn hide-mobile" onclick="openModal('contactModal')">Contact</button>
-  <button class="navbtn hide-mobile" onclick="openDashboardMenu()">Dashboard</button>
-  <button class="navbtn hide-mobile" id="adminNavButton" style="display:none" onclick="openAdmin()">Admin</button>
+  <div class="brand" onclick="returnHome()" style="cursor:pointer">SoundLens</div><div class="labtag">3D</div>
+  <button class="navbtn hide-mobile mobile-page-link" onclick="loadReferenceLibrary();openModal('databaseModal')">Artist Database</button>
+  <button class="navbtn hide-mobile mobile-page-link" onclick="openModal('studioModal')">Studio</button>
+  <button class="navbtn hide-mobile mobile-page-link" onclick="openModal('pricingModal')">Pricing</button>
+  <button class="navbtn hide-mobile mobile-page-link" onclick="openModal('contactModal')">Contact</button>
+  <button class="navbtn hide-mobile mobile-page-link" onclick="openDashboardMenu()">Dashboard</button>
+  <button class="navbtn hide-mobile mobile-page-link" id="adminNavButton" style="display:none" onclick="openAdmin()">Admin</button>
   <div class="track-meta" id="trackMeta"><span>Waiting for audio</span></div>
   <span class="status-badge" id="planBadge" style="display:none">FREE</span>
   <button class="navpill" id="accountButton" onclick="openAccount()">Sign in</button>
+</div>
+<div class="mobile-page-rail glass" id="mobilePageRail">
+  <button onclick="loadReferenceLibrary();openModal('databaseModal')">Artist Database</button>
+  <button onclick="openModal('studioModal')">Studio</button>
+  <button onclick="openModal('pricingModal')">Pricing</button>
+  <button onclick="openModal('contactModal')">Contact</button>
+  <button onclick="openDashboardMenu()">Dashboard</button>
+  <button id="mobileAdminNavButton" style="display:none" onclick="openAdmin()">Admin</button>
+  <button onclick="openAccount()">Account</button>
 </div>
 <div class="modal-wrap" id="authModal"><div class="modal small glass"><div class="modal-head"><h2>SoundLens Account</h2><button class="closebtn" onclick="closeModal('authModal')">×</button></div><div class="auth-tabs"><button class="auth-tab on" id="loginTab" onclick="setAuthMode('login')">Sign in</button><button class="auth-tab" id="signupTab" onclick="setAuthMode('signup')">Create account</button></div><div class="form-stack"><input class="field" id="authName" placeholder="Name" style="display:none"><input class="field" id="authEmail" type="email" placeholder="Email"><input class="field" id="authPassword" type="password" placeholder="Password"><button class="primary-btn" id="authSubmit" onclick="submitAuth()">Sign in</button><button class="navbtn" id="forgotPasswordLink" style="text-align:left;padding:2px 0" onclick="openForgotPassword()">Forgot password?</button><div class="statusline" id="authStatus"></div></div></div></div>
 <div class="modal-wrap" id="pricingModal"><div class="modal glass"><div class="modal-head"><h2>Choose how deep you go.</h2><button class="closebtn" onclick="closeModal('pricingModal')">×</button></div><div class="plans"><div class="plan glass"><div class="plan-name">Free</div><h3>$0</h3><div class="upgrade-hint">See the full SoundLens experience.</div><ul><li>Full 3D track</li><li>All detected pins</li><li>Basic Artist Match</li><li>5 Ask SoundLens questions / day</li><li>3 uploads / day</li></ul><button class="primary-btn" onclick="closeModal('pricingModal')">Current / Start Free</button></div><div class="plan glass featured"><div class="plan-name">Pro</div><h3>Pro</h3><div class="upgrade-hint">Explore without limits.</div><ul><li>Everything in Free</li><li>Unlimited uploads</li><li>Unlimited Ask SoundLens</li><li>Full artist comparison</li><li>Saved analysis & history</li></ul><button class="primary-btn" onclick="startStripeCheckout('pro')">Upgrade to Pro</button></div><div class="plan glass"><div class="plan-name">Studio</div><h3>Studio</h3><div class="upgrade-hint">SoundLens + the plugin.</div><ul><li>Everything in Pro</li><li>SoundLens Studio plugin</li><li>Plugin account linking</li><li>DAW access</li><li>Future Studio tools</li></ul><button class="primary-btn" onclick="startStripeCheckout('studio')">Get Studio</button></div></div></div></div>
