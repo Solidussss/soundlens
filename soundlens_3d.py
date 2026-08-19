@@ -101,9 +101,9 @@ def _candidate_changes(values: np.ndarray, min_delta: float, max_count: int, min
 
 
 
-def _build_ai_timeline_from_existing_3d(duration, sr, hop, rms, centroid, rolloff, onset, flatness):
+def _build_ai_timeline_from_existing_3d(duration, sr, hop, rms, centroid, rolloff, onset, zcr):
     times = librosa.frames_to_time(np.arange(len(rms)), sr=sr, hop_length=hop)
-    n = min(len(times), len(rms), len(centroid), len(rolloff), len(onset), len(flatness))
+    n = min(len(times), len(rms), len(centroid), len(rolloff), len(onset), len(zcr))
     if n <= 0:
         return {"enabled": False, "reason": "No aligned 3D frames."}
     times = times[:n]
@@ -111,7 +111,7 @@ def _build_ai_timeline_from_existing_3d(duration, sr, hop, rms, centroid, rollof
     centroid = np.asarray(centroid[:n], dtype=float)
     rolloff = np.asarray(rolloff[:n], dtype=float)
     onset = np.asarray(onset[:n], dtype=float)
-    flatness = np.asarray(flatness[:n], dtype=float)
+    zcr = np.asarray(zcr[:n], dtype=float)
 
     def seg(a, b):
         idx = np.where((times >= duration*a) & (times <= duration*b))[0]
@@ -123,7 +123,7 @@ def _build_ai_timeline_from_existing_3d(duration, sr, hop, rms, centroid, rollof
             "peak_rms": round(float(np.max(rms[idx])), 6),
             "brightness_hz": round(float(np.mean(centroid[idx])), 2),
             "rolloff_hz": round(float(np.mean(rolloff[idx])), 2),
-            "zero_crossing": round(float(np.mean(flatness[idx])), 6),
+            "zero_crossing": round(float(np.mean(zcr[idx])), 6),
             "onset_strength": round(float(np.mean(onset[idx])), 4),
         }
 
@@ -137,7 +137,7 @@ def _build_ai_timeline_from_existing_3d(duration, sr, hop, rms, centroid, rollof
             "rms_variation": round(float(np.std(rms)), 6),
             "avg_brightness_hz": round(float(np.mean(centroid)), 2),
             "avg_rolloff_hz": round(float(np.mean(rolloff)), 2),
-            "avg_zero_crossing": round(float(np.mean(flatness)), 6),
+            "avg_zero_crossing": round(float(np.mean(zcr)), 6),
             "avg_onset_strength": round(float(np.mean(onset)), 4),
         },
         "segments": {
@@ -190,6 +190,7 @@ def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str,
     rolloff = librosa.feature.spectral_rolloff(S=stft, sr=sr)[0]
     onset = librosa.onset.onset_strength(y=mono, sr=sr, hop_length=hop)
     flatness = librosa.feature.spectral_flatness(S=stft)[0]
+    zcr = librosa.feature.zero_crossing_rate(mono, frame_length=n_fft, hop_length=hop)[0]
 
     side = (left - right) * 0.5
     mid = (left + right) * 0.5
@@ -446,7 +447,7 @@ def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str,
         pins.append(item)
 
     ai_timeline_summary = _build_ai_timeline_from_existing_3d(
-        duration, sr, hop, rms, centroid, rolloff, onset, flatness
+        duration, sr, hop, rms, centroid, rolloff, onset, zcr
     )
 
     return {
