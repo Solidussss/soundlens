@@ -29,9 +29,44 @@ body:before{content:"";position:fixed;inset:0;background:
 .legend{position:fixed;z-index:18;left:22px;top:96px;padding:12px 14px;border-radius:18px;width:180px}.legend-title{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:8px}.legend-row{display:flex;align-items:center;gap:8px;font-size:11px;color:#cdd1e1;margin:6px 0}.dot{width:7px;height:7px;border-radius:50%;box-shadow:0 0 12px currentColor}
 .pin-card{position:fixed;z-index:25;right:22px;top:96px;width:min(360px,calc(100vw - 44px));padding:18px;border-radius:22px;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.25s ease}.pin-card.on{opacity:1;transform:none;pointer-events:auto}.pin-kicker{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#a8adff}.pin-title{font-size:22px;letter-spacing:-.035em;margin:5px 0 7px}.pin-detail{font-size:12px;line-height:1.55;color:#b7bed1}.pin-time{margin-top:12px;font-size:11px;color:#7f879c}
 .ai{position:fixed;z-index:24;right:22px;bottom:20px;width:min(410px,calc(100vw - 44px));border-radius:24px;padding:14px}.ai-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.ai-title{font-size:12px;font-weight:800}.ai-head-right{display:flex;align-items:center;gap:8px}.ai-state{font-size:10px;color:#8d94aa}.ai-mobile-toggle{display:none;width:30px;height:30px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.045);color:#d9dbea;font-size:16px;line-height:1;cursor:pointer}.ai-log{max-height:190px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}.bubble{font-size:12px;line-height:1.5;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.045);color:#d5d9e7}.bubble.you{align-self:flex-end;background:rgba(114,117,255,.16);max-width:88%}.ai-form{display:flex;gap:8px}.ai-form input{flex:1;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:rgba(0,0,0,.22);color:white;padding:11px 12px;outline:none}.ai-form input:focus{border-color:rgba(137,140,255,.55)}.send{border:0;border-radius:13px;background:#777aff;color:white;font-weight:800;padding:0 15px;cursor:pointer}
-.modebar{position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:20px;padding:7px;border-radius:16px;display:flex;gap:5px}.mode{font-size:10px;color:#8e95aa;border:0;background:transparent;border-radius:10px;padding:9px 11px;cursor:pointer}.mode.on,.mode:hover{color:white;background:rgba(255,255,255,.08)}
+.modebar{position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:20px;padding:7px;border-radius:16px;display:flex;gap:5px}.mode{font-size:10px;color:#8e95aa;border:0;background:transparent;border-radius:10px;padding:9px 11px;cursor:pointer}.mode.on,.mode:hover{color:white;background:rgba(255,255,255,.08)}.viewbar{position:fixed;z-index:21;right:22px;bottom:86px;display:flex;align-items:center;gap:6px;padding:7px;border-radius:16px}.viewbtn{width:38px;height:38px;border:1px solid rgba(255,255,255,.1);border-radius:11px;background:rgba(255,255,255,.05);color:#dfe2ef;font-size:16px;cursor:pointer;display:grid;place-items:center}.viewbtn:hover{background:rgba(255,255,255,.1)}.viewbtn.wide{width:auto;padding:0 11px;font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}.viewhint{font-size:9px;color:#737b90;padding:0 5px;white-space:nowrap}
 .tip{position:fixed;z-index:10;left:50%;transform:translateX(-50%);top:100px;font-size:10px;color:rgba(216,220,235,.55);letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
-@media(max-width:800px){.legend,.modebar{display:none}.topbar{left:10px;right:10px;top:10px}.track-meta .metric:nth-child(n+3){display:none}.controls{left:10px;bottom:10px}.ai{right:10px;bottom:64px;width:calc(100vw - 20px);transition:.2s ease}.ai-mobile-toggle{display:grid;place-items:center}.ai.ai-collapsed{width:auto;min-width:158px;padding:10px 12px}.ai.ai-collapsed .ai-head{margin-bottom:0}.ai.ai-collapsed .ai-state,.ai.ai-collapsed .ai-log,.ai.ai-collapsed .ai-form{display:none}.ai.ai-collapsed .ai-mobile-toggle{transform:rotate(180deg)}.pin-card{right:10px;top:84px}.scrub{width:36vw}.upload-card{padding:30px 22px}.upload-card h1{font-size:34px}}
+@media(max-width:800px){
+.legend{display:none}
+.topbar{left:10px;right:10px;top:10px;height:58px;padding:0 12px;gap:10px}
+.topbar .brand{font-size:18px}
+.track-meta{display:none}
+.pin-card{left:10px;right:10px;top:80px;width:auto;max-width:none;padding:17px 18px;border-radius:20px}
+.tip{display:none!important}
+.modebar{left:10px;right:10px;bottom:82px;transform:none;width:auto;display:flex!important;overflow-x:auto;gap:5px;padding:6px;border-radius:15px;scrollbar-width:none}
+.modebar::-webkit-scrollbar{display:none}
+.mode{flex:1 0 auto;min-width:76px;padding:10px 12px;font-size:9px;letter-spacing:.02em}
+.controls{left:10px;right:10px;bottom:10px;width:auto;display:grid!important;grid-template-columns:42px auto minmax(90px,1fr) auto;gap:8px;padding:8px;border-radius:17px}
+.controls .iconbtn{height:42px;padding:0 10px}
+.time{font-size:10px;white-space:nowrap}
+.scrub{width:100%;min-width:0}
+#reset{font-size:10px}
+.viewbar{left:10px;right:10px;bottom:136px;justify-content:center;width:auto;padding:6px;background:rgba(12,15,25,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08)}
+.viewbtn{width:40px;height:38px}
+.viewhint{display:none}
+.ai{right:10px;left:10px;bottom:190px;width:auto;max-height:48vh;padding:12px;transition:.2s ease}
+.ai-mobile-toggle{display:grid;place-items:center}
+.ai-log{max-height:25vh}
+.ai.ai-collapsed{left:auto;width:auto;min-width:158px;bottom:190px;padding:10px 12px}
+.ai.ai-collapsed .ai-head{margin-bottom:0}
+.ai.ai-collapsed .ai-state,.ai.ai-collapsed .ai-log,.ai.ai-collapsed .ai-form{display:none}
+.ai.ai-collapsed .ai-mobile-toggle{transform:rotate(180deg)}
+.upload-card{padding:30px 22px}.upload-card h1{font-size:34px}
+}
+@media(max-width:430px){
+.topbar{height:56px}
+.mode{min-width:70px;padding:9px 10px}
+.controls{grid-template-columns:42px 82px minmax(70px,1fr) 82px}
+#reset{padding:0 8px}
+.viewbtn.wide{padding:0 9px}
+.ai{bottom:188px}
+.ai.ai-collapsed{bottom:188px}
+}
 
 /* Launch / account / pricing layer — intentionally uses the exact 3D Lab visual language. */
 .launch{position:fixed;z-index:60;inset:0;overflow:auto;padding:118px 22px 48px;background:radial-gradient(circle at 50% 8%,rgba(96,85,255,.16),transparent 32%),linear-gradient(rgba(5,6,10,.96),rgba(3,4,7,.98));transition:.45s ease}.launch.hidden{opacity:0;visibility:hidden;pointer-events:none}.launch-shell{width:min(1120px,100%);margin:auto}.launch-hero{text-align:center;padding:38px 0 30px}.launch-kicker{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#9fa6bb}.launch h1{font-size:clamp(52px,8vw,94px);letter-spacing:-.075em;line-height:.88;margin:16px 0 18px}.launch h1 span{color:#aeb0ff}.launch-copy{max-width:640px;margin:auto;color:#9fa6bb;font-size:15px;line-height:1.65}.launch-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:14px;margin-top:30px}.launch-card{border-radius:28px;padding:24px;min-height:210px;cursor:pointer;transition:.22s ease;position:relative;overflow:hidden}.launch-card:hover{transform:translateY(-3px);border-color:rgba(155,158,255,.35);background:linear-gradient(135deg,rgba(255,255,255,.095),rgba(255,255,255,.025))}.launch-card.primary{min-height:300px;grid-row:span 2}.card-kicker{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#9299ad}.launch-card h2{font-size:27px;letter-spacing:-.045em;margin:10px 0}.launch-card p{font-size:12px;color:#969db1;line-height:1.55;max-width:340px}.launch-action{position:absolute;bottom:22px;left:24px;font-size:11px;font-weight:800;color:#e8e9ff}.mini-viz{position:absolute;right:-20px;bottom:-20px;width:230px;height:170px;opacity:.65;background:repeating-radial-gradient(ellipse at center,transparent 0 11px,rgba(121,125,255,.22) 12px 13px,transparent 14px 24px);transform:rotate(-12deg)}.launch-nav{position:fixed;z-index:70;top:18px;left:22px;right:22px;height:62px;border-radius:22px;display:flex;align-items:center;padding:0 18px;gap:18px}.navspacer{flex:1}.navbtn{border:0;background:transparent;color:#9fa6bb;font-size:11px;cursor:pointer}.navbtn:hover{color:white}.navpill{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.055);color:white;padding:9px 13px;border-radius:12px;cursor:pointer;font-size:11px}.modal-wrap{position:fixed;z-index:100;inset:0;display:none;place-items:center;padding:20px;background:rgba(2,3,7,.68);backdrop-filter:blur(16px)}.modal-wrap.on{display:grid}.modal{width:min(900px,100%);max-height:88vh;overflow:auto;border-radius:30px;padding:28px}.modal.small{width:min(520px,100%)}.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.modal-head h2{margin:0;font-size:28px;letter-spacing:-.045em}.closebtn{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:white;border-radius:12px;width:36px;height:36px;cursor:pointer}.auth-tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(255,255,255,.035);margin-bottom:18px}.auth-tab{flex:1;border:0;background:transparent;color:#9299ad;border-radius:10px;padding:10px;cursor:pointer}.auth-tab.on{background:rgba(255,255,255,.08);color:white}.form-stack{display:grid;gap:10px}.field{width:100%;border:1px solid rgba(255,255,255,.1);border-radius:13px;background:rgba(0,0,0,.22);color:white;padding:13px;outline:none}.field:focus{border-color:rgba(137,140,255,.55)}textarea.field{min-height:120px;resize:vertical}.primary-btn{border:0;border-radius:13px;background:#f4f5ff;color:#090a10;padding:13px 18px;font-weight:850;cursor:pointer}.statusline{font-size:11px;color:#8e95aa;min-height:16px}.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.plan{border-radius:24px;padding:22px;position:relative}.plan.featured{border-color:rgba(126,130,255,.5);box-shadow:0 0 50px rgba(90,94,255,.12)}.plan-name{font-size:11px;color:#a8adbf;text-transform:uppercase;letter-spacing:.14em}.plan h3{font-size:30px;margin:8px 0 4px}.plan ul{padding:0;list-style:none;margin:18px 0 70px}.plan li{font-size:11px;color:#aab0c1;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}.plan .primary-btn{position:absolute;left:22px;right:22px;bottom:22px;width:calc(100% - 44px)}.database-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.artist-chip{padding:11px 12px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:11px;color:#cdd1e1}.account-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:12px}.account-row span{color:#8f96aa}.legal-mini{text-align:center;margin-top:28px;color:#626a7e;font-size:10px}.legal-mini button{border:0;background:none;color:#747c91;font-size:10px;cursor:pointer}.topbar.launch-hidden{display:none}.launch-file{position:absolute;inset:0;opacity:0;cursor:pointer}.launch-card.primary{cursor:pointer}.upgrade-hint{font-size:10px;color:#8d94aa;margin-top:8px}
@@ -279,6 +314,16 @@ radial-gradient(circle at 50% 20%,rgba(96,85,255,.08),transparent 35%),rgba(0,0,
 <div class="tip" id="tip" style="display:none">drag to orbit · scroll to zoom · click a pin</div>
 <div class="pin-card glass" id="pinCard"><div class="pin-kicker" id="pinKind"></div><div class="pin-title" id="pinTitle"></div><div class="pin-detail" id="pinDetail"></div><div class="pin-time" id="pinTime"></div></div>
 <div class="controls glass" id="controls" style="display:none"><button class="iconbtn" id="play">▶</button><span class="time" id="time">0:00 / 0:00</span><input class="scrub" id="scrub" type="range" min="0" max="1000" value="0"><button class="iconbtn" id="reset">Reset view</button></div>
+<div class="viewbar glass" id="viewbar" style="display:none">
+  <span class="viewhint">VIEW</span>
+  <button class="viewbtn" id="viewLeft" type="button" aria-label="Rotate view left">←</button>
+  <button class="viewbtn" id="viewRight" type="button" aria-label="Rotate view right">→</button>
+  <button class="viewbtn" id="viewUp" type="button" aria-label="Tilt view up">↑</button>
+  <button class="viewbtn" id="viewDown" type="button" aria-label="Tilt view down">↓</button>
+  <button class="viewbtn" id="viewZoomOut" type="button" aria-label="Zoom out">−</button>
+  <button class="viewbtn" id="viewZoomIn" type="button" aria-label="Zoom in">+</button>
+  <button class="viewbtn wide" id="viewFront" type="button">Front</button>
+</div>
 <div class="modebar glass" id="modebar" style="display:none"><button class="mode on" data-mode="full">FULL TRACK</button><button class="mode" data-mode="bass">LOW END</button><button class="mode" data-mode="stereo">STEREO</button><button class="mode" data-mode="transient">TRANSIENTS</button></div>
 <div class="ai glass" id="ai" style="display:none"><div class="ai-head"><div class="ai-title">Ask SoundLens</div><div class="ai-head-right"><div class="ai-state" id="aiState">track context loaded</div><button class="ai-mobile-toggle" id="aiMobileToggle" type="button" aria-label="Hide Ask SoundLens" aria-expanded="true" onclick="toggleMobileAI()">⌄</button></div></div><div class="ai-log" id="aiLog"><div class="bubble">Click a pin or ask about what SoundLens measured in this track.</div></div><form class="ai-form" id="aiForm"><input id="question" placeholder="Where is the low end strongest?" autocomplete="off"><button class="send">↑</button></form></div>
 <audio id="audio"></audio>
@@ -736,7 +781,7 @@ async function startStripeCheckout(plan){if(!slUser){openModal('authModal');docu
 async function handleCheckout(){const p=new URLSearchParams(location.search);if(p.get('checkout')==='success'&&p.get('session_id')){try{await jsonReq('/stripe/confirm-checkout?session_id='+encodeURIComponent(p.get('session_id')));await loadUser();openAccount()}catch(e){alert(e.message)}history.replaceState({},'', '/')}else if(p.get('checkout')==='cancelled'){history.replaceState({},'', '/')}}
 async function submitContact(){const st=document.getElementById('contactStatus');st.textContent='Sending…';try{const d=await jsonReq('/contact',{method:'POST',body:JSON.stringify({name:document.getElementById('contactName').value,email:document.getElementById('contactEmail').value,subject:document.getElementById('contactSubject').value,message:document.getElementById('contactMessage').value})});st.textContent=d.message||'Sent.'}catch(e){st.textContent=e.message}}
 function esc(v){return String(v??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]))}
-function returnHome(){try{document.getElementById('audio').pause()}catch(e){}document.getElementById('uploadStage').classList.remove('hidden','analyzing');document.getElementById('loading').classList.remove('on');document.getElementById('uploadTitle').textContent='See the track.';document.getElementById('uploadCopy').textContent='SoundLens reconstructs measurable energy, frequency, stereo width and transients through time, then pins what it finds directly onto the music.';document.getElementById('fileInput').value='';document.getElementById('trackMeta').innerHTML='<span>Waiting for audio</span>';document.getElementById('pinCard').classList.remove('on');['legend','tip','controls','modebar','ai'].forEach(id=>document.getElementById(id).style.display='none')}
+function returnHome(){try{document.getElementById('audio').pause()}catch(e){}document.getElementById('uploadStage').classList.remove('hidden','analyzing');document.getElementById('loading').classList.remove('on');document.getElementById('uploadTitle').textContent='See the track.';document.getElementById('uploadCopy').textContent='SoundLens reconstructs measurable energy, frequency, stereo width and transients through time, then pins what it finds directly onto the music.';document.getElementById('fileInput').value='';document.getElementById('trackMeta').innerHTML='<span>Waiting for audio</span>';document.getElementById('pinCard').classList.remove('on');['legend','tip','controls','viewbar','modebar','ai'].forEach(id=>document.getElementById(id).style.display='none')}
 async function enterAnalyzer(file){if(!slUser){pendingFile=file;openModal('authModal');document.getElementById('authStatus').textContent='Sign in or create an account to analyze this track.';return}const stage=document.getElementById('uploadStage');stage.classList.remove('hidden');stage.classList.add('analyzing');document.getElementById('loading').classList.add('on');document.getElementById('uploadTitle').textContent='Building your track.';document.getElementById('uploadCopy').textContent=file.name;document.getElementById('status').textContent='Reading audio and constructing the 3D map…';document.getElementById('loadingStep').textContent='Dynamics · frequency · stereo · transients · artist match';try{await window.soundlensAnalyze(file)}catch(e){stage.classList.remove('analyzing');document.getElementById('uploadTitle').textContent='Couldn’t analyze that track.';document.getElementById('status').textContent=e.message||String(e);if(String(e.message).toLowerCase().includes('limit'))openModal('pricingModal')}}
 let referenceLibrary={artists:[]};
 let currentReferenceArtist=null;
@@ -864,7 +909,17 @@ const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;container.appendChild(renderer.domElement);
 const scene=new THREE.Scene(); scene.fog=new THREE.FogExp2(0x05060a,.014);
 const camera=new THREE.PerspectiveCamera(44,innerWidth/innerHeight,.1,1000);camera.position.set(0,14,36);
-const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.06;controls.target.set(0,0,0);controls.minDistance=8;controls.maxDistance=90;
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true;
+controls.dampingFactor=.06;
+controls.target.set(0,0,0);
+controls.minDistance=8;
+controls.maxDistance=90;
+controls.enablePan=false;
+controls.rotateSpeed=.62;
+controls.zoomSpeed=.72;
+controls.touches.ONE=THREE.TOUCH.ROTATE;
+controls.touches.TWO=THREE.TOUCH.DOLLY_ROTATE;
 scene.add(new THREE.AmbientLight(0x9297ff,.7));const key=new THREE.DirectionalLight(0xcfd2ff,2.2);key.position.set(-8,16,12);scene.add(key);const rim=new THREE.PointLight(0x5b53ff,50,80);rim.position.set(12,4,-12);scene.add(rim);const cyan=new THREE.PointLight(0x49c7ff,25,70);cyan.position.set(-18,-3,8);scene.add(cyan);
 const grid=new THREE.GridHelper(140,70,0x262946,0x121426);grid.position.y=-7;grid.material.transparent=true;grid.material.opacity=.23;scene.add(grid);
 
@@ -892,15 +947,50 @@ function setMode(mode){currentMode=mode;document.querySelectorAll('.mode').forEa
 function showPin(pin){selectedPin=pin;document.getElementById('pinKind').textContent=pin.kind;document.getElementById('pinTitle').textContent=pin.title;document.getElementById('pinDetail').textContent=pin.detail;document.getElementById('pinTime').textContent=`${fmt(pin.time)} · click play to hear this point`;document.getElementById('pinCard').classList.add('on');const p=pointForPin(pin);focusCamera(p);audio.currentTime=Math.min(audio.duration||pin.time,pin.time);updatePlayhead();}
 function focusCamera(p){const start=camera.position.clone(),targetStart=controls.target.clone(),endTarget=p.clone(),end=p.clone().add(new THREE.Vector3(6,7,13));focusTween={t:0,start,targetStart,endTarget,end};}
 function resetView(){focusTween=null;camera.position.set(0,14,36);controls.target.set(0,0,0);controls.update();}
+function nudgeView(theta=0,phi=0,zoom=1){
+  focusTween=null;
+  const offset=camera.position.clone().sub(controls.target);
+  const spherical=new THREE.Spherical().setFromVector3(offset);
+  spherical.theta+=theta;
+  spherical.phi=THREE.MathUtils.clamp(spherical.phi+phi,.22,Math.PI-.22);
+  spherical.radius=THREE.MathUtils.clamp(spherical.radius*zoom,controls.minDistance,controls.maxDistance);
+  offset.setFromSpherical(spherical);
+  camera.position.copy(controls.target).add(offset);
+  controls.update();
+}
+function frontView(){
+  focusTween=null;
+  const d=THREE.MathUtils.clamp(camera.position.distanceTo(controls.target),14,52);
+  controls.target.set(0,0,0);
+  camera.position.set(0,9,d);
+  controls.update();
+}
+document.getElementById('viewLeft')?.addEventListener('click',()=>nudgeView(-.22,0,1));
+document.getElementById('viewRight')?.addEventListener('click',()=>nudgeView(.22,0,1));
+document.getElementById('viewUp')?.addEventListener('click',()=>nudgeView(0,-.16,1));
+document.getElementById('viewDown')?.addEventListener('click',()=>nudgeView(0,.16,1));
+document.getElementById('viewZoomIn')?.addEventListener('click',()=>nudgeView(0,0,.82));
+document.getElementById('viewZoomOut')?.addEventListener('click',()=>nudgeView(0,0,1.22));
+document.getElementById('viewFront')?.addEventListener('click',frontView);
 function fmt(sec){if(!Number.isFinite(Number(sec)))return'0:00';const s=Math.max(0,Math.floor(Number(sec)));return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`}
 
-const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('pointerdown',e=>{if(!visual)return;mouse.x=e.clientX/innerWidth*2-1;mouse.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(mouse,camera);const hit=ray.intersectObjects(pinMeshes,false)[0];if(hit)showPin(hit.object.userData.pin)});
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('pointerdown',e=>{
+  if(!visual)return;
+  mouse.x=e.clientX/innerWidth*2-1;
+  mouse.y=-(e.clientY/innerHeight)*2+1;
+  ray.setFromCamera(mouse,camera);
+  const hit=ray.intersectObjects(pinMeshes,false)[0];
+  if(hit){
+    if(innerWidth<=800)toggleMobileAI(false);
+    showPin(hit.object.userData.pin);
+  }
+});
 const audio=document.getElementById('audio');
 function updatePlayhead(){if(!playhead||!audio.duration)return;const progress=Math.max(0,Math.min(1,audio.currentTime/audio.duration));playhead.position.x=-trackLength/2+progress*trackLength;document.getElementById('scrub').value=Math.round(progress*1000);document.getElementById('time').textContent=`${fmt(audio.currentTime)} / ${fmt(audio.duration)}`}
 audio.addEventListener('timeupdate',updatePlayhead);audio.addEventListener('play',()=>document.getElementById('play').textContent='❚❚');audio.addEventListener('pause',()=>document.getElementById('play').textContent='▶');
 document.getElementById('play').onclick=()=>audio.paused?audio.play():audio.pause();document.getElementById('reset').onclick=resetView;document.getElementById('scrub').oninput=e=>{if(audio.duration)audio.currentTime=audio.duration*Number(e.target.value)/1000};document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
 
-async function analyzeFile(file){const token=localStorage.getItem(AUTH_TOKEN_KEY);if(!token){throw new Error('Sign in or create a SoundLens account to analyze.');}document.getElementById('loading').classList.add('on');document.getElementById('status').textContent='Reading audio and constructing the track…';const fd=new FormData();fd.append('file',file);const res=await fetch('/analyze',{method:'POST',headers:{Authorization:`Bearer ${token}`},body:fd});const data=await res.json();if(!res.ok||data.error||!data.report)throw new Error(data.error||data.detail||'Analysis failed.');report=data.report;visual=report.visual_map;if(!visual?.slices?.length)throw new Error(visual?.error||'The 3D data was not generated.');if(audioURL)URL.revokeObjectURL(audioURL);audioURL=URL.createObjectURL(file);audio.src=audioURL;audio.load();buildSculpture();setMode('full');const basic=report.basic||{},ranked=(report.artist_comparison?.ranked_profiles||[]),best=ranked[0];document.getElementById('trackMeta').innerHTML=`<span class="metric"><strong>${escapeHTML(file.name)}</strong></span><span class="metric">${Math.round(basic.bpm||0)} BPM</span><span class="metric">${escapeHTML(basic.key||'')}</span><span class="metric">${best?`Closest: <strong>${escapeHTML(best.profile_name||best.artist||'')}</strong>`:''}</span>`;document.getElementById('uploadStage').classList.remove('analyzing');document.getElementById('loading').classList.remove('on');document.getElementById('uploadStage').classList.add('hidden');['legend','tip','controls','modebar','ai'].forEach(id=>document.getElementById(id).style.display='');resetView();}
+async function analyzeFile(file){const token=localStorage.getItem(AUTH_TOKEN_KEY);if(!token){throw new Error('Sign in or create a SoundLens account to analyze.');}document.getElementById('loading').classList.add('on');document.getElementById('status').textContent='Reading audio and constructing the track…';const fd=new FormData();fd.append('file',file);const res=await fetch('/analyze',{method:'POST',headers:{Authorization:`Bearer ${token}`},body:fd});const data=await res.json();if(!res.ok||data.error||!data.report)throw new Error(data.error||data.detail||'Analysis failed.');report=data.report;visual=report.visual_map;if(!visual?.slices?.length)throw new Error(visual?.error||'The 3D data was not generated.');if(audioURL)URL.revokeObjectURL(audioURL);audioURL=URL.createObjectURL(file);audio.src=audioURL;audio.load();buildSculpture();setMode('full');const basic=report.basic||{},ranked=(report.artist_comparison?.ranked_profiles||[]),best=ranked[0];document.getElementById('trackMeta').innerHTML=`<span class="metric"><strong>${escapeHTML(file.name)}</strong></span><span class="metric">${Math.round(basic.bpm||0)} BPM</span><span class="metric">${escapeHTML(basic.key||'')}</span><span class="metric">${best?`Closest: <strong>${escapeHTML(best.profile_name||best.artist||'')}</strong>`:''}</span>`;document.getElementById('uploadStage').classList.remove('analyzing');document.getElementById('loading').classList.remove('on');document.getElementById('uploadStage').classList.add('hidden');['legend','tip','controls','viewbar','modebar','ai'].forEach(id=>document.getElementById(id).style.display='');resetView();}
 function escapeHTML(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 window.soundlensAnalyze=analyzeFile;
 document.getElementById('fileInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)enterAnalyzer(file)});
