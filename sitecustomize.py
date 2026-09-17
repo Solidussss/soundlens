@@ -10,6 +10,7 @@ from __future__ import annotations
 from typing import Any
 
 import soundlens_3d as event_model
+import accuracy_v2
 
 
 _base_fuse_candidates = event_model._fuse_candidates
@@ -119,4 +120,5 @@ def _quality_build_visual_map(audio_path, max_slices: int = 320):
 
 event_model._fuse_candidates = _quality_fuse_candidates
 event_model.build_visual_map = _quality_build_visual_map
+accuracy_v2.install()
 print("[soundlens] event quality model v3.2 startup hook loaded")
