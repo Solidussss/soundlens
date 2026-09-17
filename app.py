@@ -329,6 +329,95 @@ def load_reference_library() -> dict:
 def save_reference_library(data: dict) -> None:
     write_json_file(REFERENCE_LIBRARY_INDEX, data)
 
+TUNEBAT_CATALOG_FILES = [
+    "tunebat_catalog.json",
+    "tunebat_catalog_expansion.json",
+    "tunebat_catalog_expansion_2.json",
+    "tunebat_catalog_remaining.json",
+]
+TUNEBAT_DISPLAY_LABELS = {
+    "bpm": "Tempo",
+    "key": "Tonal Center",
+    "energy": "Intensity",
+    "danceability": "Groove",
+    "loudness_db": "Master Level",
+    "speechiness": "Vocal Density",
+    "acousticness": "Acoustic Character",
+    "instrumentalness": "Instrumental Lean",
+    "liveness": "Live Feel",
+    "happiness": "Mood Lift",
+    "popularity": "Catalog Reach",
+    "duration": "Length",
+}
+
+def _catalog_norm(value: str) -> str:
+    return "".join(ch for ch in str(value or "").lower() if ch.isalnum())
+
+def load_tunebat_catalog_metadata() -> dict:
+    """Merge TuneBat catalog files into one read-only metadata view for Artist Database."""
+    merged = {"artists": {}, "display_labels": dict(TUNEBAT_DISPLAY_LABELS)}
+    seen_by_artist: dict[str, set[tuple]] = {}
+
+    for filename in TUNEBAT_CATALOG_FILES:
+        path = Path(__file__).with_name(filename)
+        payload = read_json_file(path, {})
+        if not isinstance(payload, dict):
+            continue
+        labels = payload.get("display_labels")
+        if isinstance(labels, dict):
+            merged["display_labels"].update({str(k): str(v) for k, v in labels.items()})
+        artists = payload.get("artists", {}) or {}
+        if not isinstance(artists, dict):
+            continue
+
+        for canonical, entry in artists.items():
+            if not isinstance(entry, dict):
+                continue
+            bucket = merged["artists"].setdefault(canonical, {"aliases": [], "tracks": []})
+            aliases = [canonical] + list(entry.get("aliases") or [])
+            for alias in aliases:
+                alias = str(alias or "").strip()
+                if alias and alias not in bucket["aliases"]:
+                    bucket["aliases"].append(alias)
+
+            seen = seen_by_artist.setdefault(canonical, set())
+            for track in list(entry.get("tracks") or []):
+                if not isinstance(track, dict):
+                    continue
+                clean = {str(k): v for k, v in track.items() if v is not None}
+                title = str(clean.get("title") or "").strip()
+                if not title:
+                    continue
+                sig = (
+                    title.lower(),
+                    str(clean.get("bpm") or ""),
+                    str(clean.get("key") or "").lower(),
+                )
+                if sig in seen:
+                    continue
+                seen.add(sig)
+                clean["title"] = title
+                clean["source"] = "TuneBat"
+                clean["metadata_only"] = True
+                clean["id"] = "catalog-" + reference_slug(canonical) + "-" + reference_slug(title)
+                bucket["tracks"].append(clean)
+
+    return merged
+
+def catalog_artist_entry(artist_name: str) -> dict | None:
+    target = _catalog_norm(artist_name)
+    if not target:
+        return None
+    catalog = load_tunebat_catalog_metadata()
+    for canonical, entry in (catalog.get("artists", {}) or {}).items():
+        aliases = [canonical] + list((entry or {}).get("aliases") or [])
+        if any(_catalog_norm(alias) == target for alias in aliases):
+            out = dict(entry or {})
+            out["canonical_name"] = canonical
+            out["display_labels"] = dict(catalog.get("display_labels") or TUNEBAT_DISPLAY_LABELS)
+            return out
+    return None
+
 def public_reference_report(payload: dict) -> dict:
     """Remove machine-local paths while preserving analysis + visual_map."""
     out = json.loads(json.dumps(payload))
@@ -344,12 +433,16 @@ def reference_library_summary() -> dict:
     artists_out = []
     for artist in data.get("artists", {}).values():
         projects = artist.get("projects", {}) or {}
-        track_count = sum(len((p or {}).get("tracks", []) or []) for p in projects.values())
+        analyzed_track_count = sum(len((p or {}).get("tracks", []) or []) for p in projects.values())
+        catalog_entry = catalog_artist_entry(str(artist.get("name") or ""))
+        catalog_track_count = len((catalog_entry or {}).get("tracks") or [])
         artists_out.append({
             "id": artist.get("id"),
             "name": artist.get("name"),
-            "project_count": len(projects),
-            "track_count": track_count,
+            "project_count": len(projects) + (1 if catalog_track_count else 0),
+            "analyzed_track_count": analyzed_track_count,
+            "catalog_track_count": catalog_track_count,
+            "track_count": analyzed_track_count + catalog_track_count,
         })
     artists_out.sort(key=lambda a: str(a.get("name") or "").lower())
     return {"artists": artists_out}
@@ -1622,10 +1715,53 @@ def get_reference_artist(artist_id: str):
             "tracks": tracks,
         })
 
-    projects.sort(key=lambda p: (str(p.get("year") or ""), str(p.get("title") or "").lower()), reverse=True)
+    catalog_entry = catalog_artist_entry(str(artist.get("name") or ""))
+    catalog_tracks = list((catalog_entry or {}).get("tracks") or [])
+    if catalog_tracks:
+        labels = dict((catalog_entry or {}).get("display_labels") or TUNEBAT_DISPLAY_LABELS)
+        metadata_tracks = []
+        for track in catalog_tracks:
+            metadata_tracks.append({
+                "id": track.get("id"),
+                "title": track.get("title"),
+                "metadata_only": True,
+                "source": "TuneBat",
+                "bpm": track.get("bpm"),
+                "key": track.get("key"),
+                "energy": track.get("energy"),
+                "danceability": track.get("danceability"),
+                "loudness_db": track.get("loudness_db"),
+                "speechiness": track.get("speechiness"),
+                "acousticness": track.get("acousticness"),
+                "instrumentalness": track.get("instrumentalness"),
+                "liveness": track.get("liveness"),
+                "happiness": track.get("happiness"),
+                "popularity": track.get("popularity"),
+                "duration": track.get("duration"),
+                "metadata_labels": labels,
+            })
+        projects.append({
+            "id": "catalog-metadata",
+            "title": "Catalog Metadata",
+            "type": "metadata",
+            "year": None,
+            "cover_url": None,
+            "source": "TuneBat",
+            "tracks": metadata_tracks,
+        })
+
+    projects.sort(
+        key=lambda p: (
+            1 if p.get("type") == "metadata" else 0,
+            str(p.get("year") or ""),
+            str(p.get("title") or "").lower(),
+        ),
+        reverse=True,
+    )
     return {
         "artist": {"id": artist.get("id"), "name": artist.get("name")},
         "projects": projects,
+        "catalog_track_count": len(catalog_tracks),
     }
 
 
