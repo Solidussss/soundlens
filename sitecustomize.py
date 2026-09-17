@@ -13,6 +13,7 @@ import soundlens_3d as event_model
 import accuracy_v2
 import contrastive_artist_profiles
 import tunebat_catalog_prior
+import artist_match_v3
 
 
 _base_fuse_candidates = event_model._fuse_candidates
@@ -56,8 +57,6 @@ def _quality_fuse_candidates(candidates, times, sections, duration):
         reverse=True,
     )
 
-    # Deduplicate only events that are both close in time and driven by nearly
-    # the same measured evidence. Different musical phenomena remain separate.
     chosen: list[dict[str, Any]] = []
     redundancy_window = max(2.0, min(5.0, float(duration or 0.0) / 45.0))
     for event in ranked:
@@ -89,7 +88,6 @@ def _quality_fuse_candidates(candidates, times, sections, duration):
     for rank, event in enumerate(standout_order, start=1):
         event["standout_rank"] = rank
 
-    # Pins stay chronological for the 3D timeline.
     return sorted(chosen, key=lambda e: float(e.get("time") or 0.0))
 
 
@@ -125,4 +123,5 @@ event_model.build_visual_map = _quality_build_visual_map
 accuracy_v2.install()
 contrastive_artist_profiles.install()
 tunebat_catalog_prior.install()
-print("[soundlens] event quality model v3.2 startup hook loaded")
+artist_match_v3.install()
+print("[soundlens] event quality model v3.2 + Artist Match v3 startup hooks loaded")
