@@ -12,6 +12,7 @@ from typing import Any
 import soundlens_3d as event_model
 import accuracy_v2
 import contrastive_artist_profiles
+import tunebat_catalog_prior
 
 
 _base_fuse_candidates = event_model._fuse_candidates
@@ -123,4 +124,5 @@ event_model._fuse_candidates = _quality_fuse_candidates
 event_model.build_visual_map = _quality_build_visual_map
 accuracy_v2.install()
 contrastive_artist_profiles.install()
+tunebat_catalog_prior.install()
 print("[soundlens] event quality model v3.2 startup hook loaded")
