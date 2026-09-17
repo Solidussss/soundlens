@@ -331,9 +331,7 @@ def save_reference_library(data: dict) -> None:
 
 TUNEBAT_CATALOG_FILES = [
     "tunebat_catalog.json",
-    "tunebat_catalog_expansion.json",
-    "tunebat_catalog_expansion_2.json",
-    "tunebat_catalog_remaining.json",
+    *[path.name for path in sorted(Path(__file__).parent.glob("tunebat_catalog_expansion*.json"))],
 ]
 TUNEBAT_DISPLAY_LABELS = {
     "bpm": "Tempo",
