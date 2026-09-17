@@ -19,7 +19,7 @@ from typing import Any, Dict, List, Tuple
 import compare_to_profile_pro as compare
 
 CATALOG_PATH = Path(__file__).with_name("tunebat_catalog.json")
-EXPANSION_PATH = Path(__file__).with_name("tunebat_catalog_expansion.json")
+CATALOG_DIR = Path(__file__).parent
 EPS = 1e-9
 
 _base_compare_library = compare.compare_against_track_library
@@ -50,10 +50,23 @@ def _read_catalog_file(path: Path) -> Dict[str, Any]:
         return {}
 
 
+def _catalog_files() -> List[Path]:
+    files = [CATALOG_PATH]
+    files.extend(sorted(CATALOG_DIR.glob("tunebat_catalog_expansion*.json")))
+    seen = set()
+    ordered = []
+    for path in files:
+        key = str(path.resolve())
+        if key not in seen and path.exists():
+            seen.add(key)
+            ordered.append(path)
+    return ordered
+
+
 def _merge_catalogs() -> Tuple[Dict[str, Any], Dict[str, str]]:
     artists: Dict[str, Any] = {}
     labels = dict(DEFAULT_DISPLAY_LABELS)
-    for path in (CATALOG_PATH, EXPANSION_PATH):
+    for path in _catalog_files():
         data = _read_catalog_file(path)
         labels.update(data.get("display_labels") or {})
         for canonical, entry in (data.get("artists") or {}).items():
@@ -119,7 +132,6 @@ def _summary(values: List[float]) -> Dict[str, float]:
 
 
 def _public_track(track: Dict[str, Any]) -> Dict[str, Any]:
-    """Expose SoundLens wording while preserving raw numeric meaning."""
     row = {"Song": track.get("title")}
     for raw_key, label in DISPLAY_LABELS.items():
         if raw_key in track and track.get(raw_key) is not None:
@@ -134,7 +146,6 @@ def load_track_library_with_catalog(profile_files):
         tracks = list((entry or {}).get("tracks") or []) if entry else []
         bpms = _numeric([track.get("bpm") for track in tracks])
         if tracks and isinstance(profile, dict):
-            # Keep catalog metadata separate from measured audio features.
             profile["catalog_context"] = {
                 "source": "TuneBat public track metadata",
                 "status": "metadata_profile",
@@ -304,4 +315,4 @@ def install() -> None:
     compare.load_track_library = load_track_library_with_catalog
     compare.track_style_similarity = track_style_similarity_without_legacy_bpm
     compare.compare_against_track_library = compare_against_track_library_with_catalog
-    print(f"[soundlens] TuneBat catalog context loaded for {len(CATALOG)} artists")
+    print(f"[soundlens] TuneBat catalog context loaded for {len(CATALOG)} artists across {len(_catalog_files())} files")
