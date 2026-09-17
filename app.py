@@ -333,6 +333,26 @@ TUNEBAT_CATALOG_FILES = [
     "tunebat_catalog.json",
     *[path.name for path in sorted(Path(__file__).parent.glob("tunebat_catalog_expansion*.json"))],
 ]
+ARTIST_IMAGES_PATH = Path(__file__).with_name("artist_images.json")
+
+def load_artist_images() -> dict:
+    payload = read_json_file(ARTIST_IMAGES_PATH, {})
+    artists = payload.get("artists", {}) if isinstance(payload, dict) else {}
+    return artists if isinstance(artists, dict) else {}
+
+def artist_image_entry(artist_name: str) -> dict:
+    target = _catalog_norm(artist_name)
+    if not target:
+        return {}
+    for name, entry in load_artist_images().items():
+        if _catalog_norm(name) == target and isinstance(entry, dict):
+            return {
+                "image_url": str(entry.get("image_url") or "").strip() or None,
+                "image_source": str(entry.get("source") or "").strip() or None,
+                "image_source_url": str(entry.get("source_url") or "").strip() or None,
+            }
+    return {}
+
 TUNEBAT_DISPLAY_LABELS = {
     "bpm": "Tempo",
     "key": "Tonal Center",
@@ -432,8 +452,10 @@ def reference_library_summary() -> dict:
     for artist in data.get("artists", {}).values():
         projects = artist.get("projects", {}) or {}
         analyzed_track_count = sum(len((p or {}).get("tracks", []) or []) for p in projects.values())
-        catalog_entry = catalog_artist_entry(str(artist.get("name") or ""))
+        artist_name = str(artist.get("name") or "")
+        catalog_entry = catalog_artist_entry(artist_name)
         catalog_track_count = len((catalog_entry or {}).get("tracks") or [])
+        image_entry = artist_image_entry(artist_name)
         artists_out.append({
             "id": artist.get("id"),
             "name": artist.get("name"),
@@ -441,6 +463,7 @@ def reference_library_summary() -> dict:
             "analyzed_track_count": analyzed_track_count,
             "catalog_track_count": catalog_track_count,
             "track_count": analyzed_track_count + catalog_track_count,
+            **image_entry,
         })
     artists_out.sort(key=lambda a: str(a.get("name") or "").lower())
     return {"artists": artists_out}
@@ -1756,8 +1779,9 @@ def get_reference_artist(artist_id: str):
         ),
         reverse=True,
     )
+    image_entry = artist_image_entry(str(artist.get("name") or ""))
     return {
-        "artist": {"id": artist.get("id"), "name": artist.get("name")},
+        "artist": {"id": artist.get("id"), "name": artist.get("name"), **image_entry},
         "projects": projects,
         "catalog_track_count": len(catalog_tracks),
     }
