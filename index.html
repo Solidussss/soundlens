@@ -96,7 +96,27 @@ backdrop-filter:none!important;
 
 .artist-chip{cursor:pointer;transition:.2s ease}
 .artist-chip:hover{border-color:rgba(139,142,255,.28);background:rgba(114,117,255,.07);transform:translateY(-1px)}
-.artist-chip-meta{display:block;color:#6f778a;font-size:8px;margin-top:4px}
+.artist-chip-meta{display:block;color:#7f879a;font-size:9px;margin-top:5px;line-height:1.45}
+.database-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.artist-chip{padding:0;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.075);font-size:11px;color:#eef0f7;overflow:hidden;min-width:0;box-shadow:0 12px 34px rgba(0,0,0,.16)}
+.artist-chip:hover{border-color:rgba(139,142,255,.34);background:rgba(114,117,255,.075);transform:translateY(-4px);box-shadow:0 18px 44px rgba(0,0,0,.28)}
+.artist-chip-photo{position:relative;width:100%;aspect-ratio:1/1.03;overflow:hidden;background:radial-gradient(circle at 35% 25%,rgba(120,124,255,.25),rgba(22,24,32,.96) 68%);border-bottom:1px solid rgba(255,255,255,.055)}
+.artist-chip-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .35s ease,filter .35s ease}
+.artist-chip:hover .artist-chip-photo img{transform:scale(1.035);filter:brightness(1.04)}
+.artist-image-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;font-weight:900;letter-spacing:-.06em;color:rgba(225,228,255,.38)}
+.artist-chip-copy{padding:13px 14px 15px}
+.artist-chip-name{font-size:15px;font-weight:850;letter-spacing:-.035em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.artist-profile-hero{display:grid;grid-template-columns:190px minmax(0,1fr);gap:20px;align-items:stretch;margin-bottom:18px}
+.artist-profile-photo{position:relative;width:190px;height:190px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:radial-gradient(circle at 35% 25%,rgba(120,124,255,.25),rgba(22,24,32,.96));box-shadow:0 18px 50px rgba(0,0,0,.28)}
+.artist-profile-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.artist-profile-copy{display:flex;flex-direction:column;justify-content:flex-end;padding:7px 0 9px}
+.artist-profile-kicker{font-size:9px;text-transform:uppercase;letter-spacing:.15em;color:#7f879a;margin-bottom:9px}
+.artist-profile-name{font-size:42px;line-height:.96;font-weight:900;letter-spacing:-.055em;margin:0 0 12px}
+.artist-profile-stats{display:flex;gap:7px;flex-wrap:wrap}
+.artist-profile-stat{font-size:9px;color:#aeb5c8;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);padding:6px 9px;border-radius:999px}
+.artist-image-source{font-size:8px;color:#687087;margin-top:10px}
+.artist-image-source a{color:#858da2;text-decoration:none}
+.artist-image-source a:hover{color:#c8cce0}
 .artist-dashboard-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
 .artist-projects{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .artist-project-card{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:18px;padding:14px;cursor:pointer;min-height:120px;transition:.2s ease;position:relative;overflow:hidden}
@@ -125,7 +145,7 @@ backdrop-filter:none!important;
 .reference-library-admin{margin-top:14px}
 .reference-admin-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:9px;color:#9299ad}
 @media(max-width:850px){.artist-projects{grid-template-columns:1fr 1fr}.reference-viewer{grid-template-columns:1fr}.reference-import-grid{grid-template-columns:1fr}.reference-import-grid .wide{grid-column:auto}}
-@media(max-width:850px){.launch-grid{grid-template-columns:1fr 1fr}.launch-card.primary{grid-column:1/-1;grid-row:auto;min-height:240px}.plans{grid-template-columns:1fr}.database-grid{grid-template-columns:repeat(2,1fr)}.launch-nav .navbtn.hide-mobile{display:none}}
+@media(max-width:850px){.launch-grid{grid-template-columns:1fr 1fr}.launch-card.primary{grid-column:1/-1;grid-row:auto;min-height:240px}.plans{grid-template-columns:1fr}.database-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.artist-profile-hero{grid-template-columns:120px minmax(0,1fr);gap:13px}.artist-profile-photo{width:120px;height:120px;border-radius:18px}.artist-profile-name{font-size:30px}.launch-nav .navbtn.hide-mobile{display:none}}
 .admin-kpis-v2{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:14px}
 .admin-kpi-v2{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:16px;padding:13px;min-height:74px}
 .admin-kpi-v2 span{display:block;font-size:8px;color:#7e8699;text-transform:uppercase;letter-spacing:.13em;margin-bottom:6px}
@@ -894,6 +914,13 @@ async function loadReferenceLibrary(){
   }
 }
 
+function artistPortraitMarkup(artist,klass='artist-chip-photo'){
+  const name=String(artist?.name||'Artist');
+  const initial=esc(name.trim().charAt(0).toUpperCase()||'S');
+  const url=String(artist?.image_url||'').trim();
+  return `<div class="${klass}"><div class="artist-image-fallback">${initial}</div>${url?`<img src="${esc(url)}" alt="${esc(name)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'">`:''}</div>`;
+}
+
 function renderReferenceArtists(){
   currentReferenceArtist=null;currentReferenceProject=null;currentReferenceTrack=null;
   document.getElementById('databaseTitle').textContent='Artist Database';
@@ -906,7 +933,7 @@ function renderReferenceArtists(){
     if(catalog)parts.push(`${catalog} catalog songs`);
     if(analyzed)parts.push(`${analyzed} analyzed tracks`);
     if(!parts.length)parts.push('No songs added yet');
-    return `<div class="artist-chip" onclick="openReferenceArtist('${esc(a.id)}')">${esc(a.name)}<span class="artist-chip-meta">${parts.join(' · ')}</span></div>`;
+    return `<div class="artist-chip" onclick="openReferenceArtist('${esc(a.id)}')">${artistPortraitMarkup(a)}<div class="artist-chip-copy"><div class="artist-chip-name">${esc(a.name)}</div><span class="artist-chip-meta">${parts.join(' · ')}</span></div></div>`;
   }).join('');
 }
 
@@ -917,7 +944,11 @@ async function openReferenceArtist(artistId){
     document.getElementById('databaseTitle').textContent=d.artist.name;
     document.getElementById('databaseBreadcrumb').innerHTML=`<button class="navbtn" onclick="renderReferenceArtists()">Artist Database</button> → ${esc(d.artist.name)}`;
     const projects=d.projects||[];
-    document.getElementById('databaseView').innerHTML=projects.length
+    const catalog=Number(d.catalog_track_count||0);
+    const analyzed=projects.filter(p=>p.type!=='metadata').reduce((n,p)=>n+(p.tracks||[]).length,0);
+    const source=(d.artist.image_source&&d.artist.image_source_url)?`<div class="artist-image-source">Image via <a href="${esc(d.artist.image_source_url)}" target="_blank" rel="noopener noreferrer">${esc(d.artist.image_source)}</a></div>`:'';
+    const hero=`<div class="artist-profile-hero">${artistPortraitMarkup(d.artist,'artist-profile-photo')}<div class="artist-profile-copy"><div class="artist-profile-kicker">SoundLens artist profile</div><h2 class="artist-profile-name">${esc(d.artist.name)}</h2><div class="artist-profile-stats">${catalog?`<span class="artist-profile-stat">${catalog} catalog songs</span>`:''}${analyzed?`<span class="artist-profile-stat">${analyzed} analyzed tracks</span>`:''}<span class="artist-profile-stat">${projects.length} collections</span></div>${source}</div></div>`;
+    const body=projects.length
       ? `<div class="artist-projects">${projects.map(p=>{
           const isMeta=p.type==='metadata';
           const count=(p.tracks||[]).length;
@@ -925,6 +956,7 @@ async function openReferenceArtist(artistId){
           return `<div class="artist-project-card" onclick='openReferenceProject(${JSON.stringify(JSON.stringify(p))})'><div class="project-type">${isMeta?'catalog':esc(p.type||'album')}</div><h3>${esc(p.title)}</h3><p>${copy}</p></div>`;
         }).join('')}</div>`
       : `<div class="empty-history">No reference songs are available for this artist yet.</div>`;
+    document.getElementById('databaseView').innerHTML=hero+body;
   }catch(e){document.getElementById('databaseView').innerHTML=`<div class="empty-history">${esc(e.message)}</div>`}
 }
 
