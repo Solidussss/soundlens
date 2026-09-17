@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import secrets
+import shutil
 import uuid
+from datetime import datetime, timezone
+from pathlib import Path
 
 from fastapi import HTTPException
 
@@ -9,6 +12,61 @@ import app as legacy
 import hardened_app as hardened
 
 app = hardened.app
+
+
+# ---------------------------------------------------------------------------
+# One-time production session rotation
+# ---------------------------------------------------------------------------
+# A legacy users file was previously tracked in the public repository. The
+# current file is removed from GitHub, but any bearer sessions that may have
+# existed at that time must be invalidated once. This runs during application
+# import, which happens after Railway mounts the real /data volume. If /data is
+# not mounted (for example a build/probe container), it deliberately does
+# nothing and does NOT write the marker.
+
+_SESSION_ROTATION_MARKER = legacy.DATA_DIR / ".sessions_rotated_20260917"
+
+
+def _rotate_legacy_sessions_once() -> None:
+    users_path = legacy.USERS_DB_PATH
+    if _SESSION_ROTATION_MARKER.exists():
+        return
+    if not users_path.exists():
+        print("[security] persistent user database not mounted yet; session rotation deferred")
+        return
+
+    db = legacy.read_json_file(users_path, {})
+    if not isinstance(db, dict):
+        raise RuntimeError("SoundLens user database is not a JSON object")
+
+    tokens = db.get("tokens")
+    token_count = len(tokens) if isinstance(tokens, dict) else 0
+
+    legacy.BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    backup = legacy.BACKUPS_DIR / f"soundlens_users_before_session_rotation_{stamp}.json"
+    shutil.copy2(users_path, backup)
+
+    db["tokens"] = {}
+    legacy.write_json_file(users_path, db)
+    verify = legacy.read_json_file(users_path, {})
+    remaining = len((verify.get("tokens") or {})) if isinstance(verify, dict) else -1
+    if remaining != 0:
+        raise RuntimeError("SoundLens session rotation verification failed")
+
+    _SESSION_ROTATION_MARKER.write_text(datetime.now(timezone.utc).isoformat(), encoding="utf-8")
+    print(f"[security] rotated {token_count} legacy sessions; backup created; remaining=0")
+
+
+_rotate_legacy_sessions_once()
+
+
+# hardened_app briefly added a compatibility wrapper for an old standalone
+# comparison endpoint. Artist Match is part of /analyze in the current product,
+# so remove that dead route instead of exposing a handler that has no legacy
+# implementation behind it.
+hardened._remove_route("/compare-profile", "POST")
+
 
 # Replace only the legacy signup route. hardened_app already replaced login,
 # resend verification, analysis, Stripe and deferred AI routes.
