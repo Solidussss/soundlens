@@ -5,9 +5,134 @@ from pathlib import Path
 from fastapi.responses import HTMLResponse
 
 import production_app as production
+import soundlens_3d as event_model
 
 app = production.app
 _INDEX_PATH = Path(__file__).with_name("index.html")
+
+
+# ---------------------------------------------------------------------------
+# Musical-event semantics v3.1
+# ---------------------------------------------------------------------------
+# The v3 detector already fuses aligned measurements. This light semantic pass
+# keeps its confidence/importance math intact while making event names describe
+# the measured direction of change instead of falling back to generic labels.
+
+_original_fuse_candidates = event_model._fuse_candidates
+
+
+def _directional_fuse_candidates(candidates, times, sections, duration):
+    # Give structural regions honest positional names without pretending we can
+    # identify verse/hook/chorus from acoustic novelty alone.
+    section_count = len(sections)
+    for i, section in enumerate(sections):
+        if section_count <= 1:
+            label = "Full track"
+        elif i == 0:
+            label = "Opening section"
+        elif i == section_count - 1:
+            label = "Closing section"
+        else:
+            label = f"Middle section {i}"
+        section["label"] = label
+
+    events = _original_fuse_candidates(candidates, times, sections, duration)
+
+    for event in events:
+        evidence = event.get("evidence") or []
+        summaries = " | ".join(str(item.get("summary") or "").lower() for item in evidence)
+        kinds = set(event.get("evidence_types") or [])
+        direction = None
+
+        energy_up = "energy rises" in summaries
+        energy_down = "energy drops" in summaries
+        bass_up = "low end enters" in summaries
+        bass_down = "low end pulls back" in summaries
+        stereo_up = "stereo opens" in summaries
+        stereo_down = "stereo narrows" in summaries
+        brighter = "tone brighter" in summaries
+        darker = "tone darker" in summaries
+
+        if "clip" in kinds:
+            event["title"] = "Digital ceiling hit"
+            direction = "ceiling_hit"
+        elif "section" in kinds:
+            if bass_up and (energy_up or "transient" in kinds):
+                event["title"] = "Section lift + low-end entrance"
+                direction = "lift"
+            elif energy_up:
+                event["title"] = "Section lift"
+                direction = "lift"
+            elif bass_up:
+                event["title"] = "Low-end entrance at section change"
+                direction = "lift"
+            elif energy_down or bass_down:
+                event["title"] = "Section drop"
+                direction = "drop"
+            elif stereo_up:
+                event["title"] = "Section opens wider"
+                direction = "widen"
+            elif stereo_down:
+                event["title"] = "Section narrows"
+                direction = "narrow"
+            elif brighter:
+                event["title"] = "Section brightens"
+                direction = "brighten"
+            elif darker:
+                event["title"] = "Section darkens"
+                direction = "darken"
+            else:
+                event["title"] = "Structural transition"
+                direction = "transition"
+        elif "bass" in kinds and "energy" in kinds:
+            if bass_up and energy_up:
+                event["title"] = "Low-end + energy lift"
+                direction = "lift"
+            elif bass_down and energy_down:
+                event["title"] = "Low-end + energy pullback"
+                direction = "drop"
+            elif bass_up:
+                event["title"] = "Low-end entrance"
+                direction = "lift"
+            elif bass_down:
+                event["title"] = "Low-end pullback"
+                direction = "drop"
+        elif "bass" in kinds:
+            if bass_up:
+                event["title"] = "Low-end entrance"
+                direction = "lift"
+            elif bass_down:
+                event["title"] = "Low-end pullback"
+                direction = "drop"
+        elif "energy" in kinds:
+            if energy_up:
+                event["title"] = "Energy lift"
+                direction = "lift"
+            elif energy_down:
+                event["title"] = "Energy drop"
+                direction = "drop"
+        elif "stereo" in kinds:
+            if stereo_up:
+                event["title"] = "Stereo field opens"
+                direction = "widen"
+            elif stereo_down:
+                event["title"] = "Stereo field narrows"
+                direction = "narrow"
+        elif "brightness" in kinds:
+            if brighter:
+                event["title"] = "Tonal brightening"
+                direction = "brighten"
+            elif darker:
+                event["title"] = "Tonal darkening"
+                direction = "darken"
+
+        if direction:
+            event["direction"] = direction
+
+    return events
+
+
+event_model._fuse_candidates = _directional_fuse_candidates
 
 
 def _patch_visual_hierarchy(html: str) -> str:
