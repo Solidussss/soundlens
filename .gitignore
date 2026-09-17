@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+.env.*
+
+# macOS / editors
+.DS_Store
+.vscode/
+.idea/
+
+# SoundLens runtime/generated data
+uploads/
+stems/
+saved_reports/
+soundlens_backups/
+reference_library/
+soundlens_users.json
+soundlens_admin_events.json
+soundlens_feedback.json
+soundlens_contact_messages.json
+soundlens_plugin_links.json
+
+# Temporary / logs
+*.tmp
+*.log
+*.bak
+*.backup
+
+# Build/package artifacts
+dist/
+build/
+*.zip
