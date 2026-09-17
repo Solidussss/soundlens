@@ -287,7 +287,7 @@ def write_json_file(path: Path, data) -> None:
             temp_path.unlink(missing_ok=True)
 
 
-REFERENCE_ARTIST_SEED = ["1oneam", "Autumn", "Bktharula", "BoofPaxkMooky", "Cheromani", "D Savage", "Destroy Lonely", "Dom Corleo", "Duwap Kaine", "Eem Triplin", "Eskdeekid", "Fakemink", "Feng", "Fimiguerrero", "Glokk40Spaz", "Hardrock", "Homixide Gang", "Izaya Tiji", "Jaydes", "Kankan", "Ken Carson", "Lazer Dim 700", "Lelo", "Lil Tony", "Midwxst", "Molly Santana", "Nettspend", "Nine Vicious", "Nino Paid", "OhSxnta", "Osamason", "Prettifun", "Protect", "Rekover Jet", "Rexv2", "Rich Amiri", "Slayr", "SoFaygo", "Sosocamo", "Southsidesilhouette", "Summrs", "Tana", "UntilJapan", "Xaviersobased", "Yeat", "Yung Fazo"]
+REFERENCE_ARTIST_SEED = ["1oneam", "Autumn", "Bktharula", "BoofPaxkMooky", "Cheromani", "D Savage", "Destroy Lonely", "Dom Corleo", "Duwap Kaine", "Eem Triplin", "Eskdeekid", "Fakemink", "Feng", "Fimiguerrero", "Glokk40Spaz", "Hardrock", "Homixide Gang", "Izaya Tiji", "Jane Remover", "Jaydes", "Kankan", "Ken Carson", "Lazer Dim 700", "Lelo", "Lil Tony", "Midwxst", "Molly Santana", "Nettspend", "Nine Vicious", "Nino Paid", "OhSxnta", "Osamason", "Prettifun", "Protect", "Rekover Jet", "Rexv2", "Rich Amiri", "Slayr", "SoFaygo", "Sosocamo", "Southsidesilhouette", "Summrs", "Tana", "UntilJapan", "Xaviersobased", "Yeat", "Yung Fazo"]
 
 def reference_slug(value: str) -> str:
     value = unicodedata.normalize("NFKD", str(value or "")).encode("ascii", "ignore").decode("ascii")
