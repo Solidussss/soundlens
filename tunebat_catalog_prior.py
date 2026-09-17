@@ -2,14 +2,12 @@ from __future__ import annotations
 
 """TuneBat catalog context for SoundLens Artist Match.
 
-This layer intentionally stays small. Raw SoundLens audio embeddings remain the
-primary identity signal. TuneBat metadata is used to:
+Raw SoundLens audio embeddings remain the primary identity signal. TuneBat metadata is used to:
 1) repair historically broken profile BPM summaries,
-2) remove the old prototype BPM-style bias, and
-3) provide a low-weight catalog tempo/key prior for ranking.
-
-The catalog lives in tunebat_catalog.json and can be expanded without changing
-matching code.
+2) remove the old prototype BPM-style bias,
+3) provide a low-weight catalog tempo/key prior for ranking, and
+4) enrich artist database entries with provisional song-level metadata until
+   full audio fingerprints are available.
 """
 
 import copy
@@ -21,22 +19,63 @@ from typing import Any, Dict, List, Tuple
 import compare_to_profile_pro as compare
 
 CATALOG_PATH = Path(__file__).with_name("tunebat_catalog.json")
+EXPANSION_PATH = Path(__file__).with_name("tunebat_catalog_expansion.json")
 EPS = 1e-9
 
 _base_compare_library = compare.compare_against_track_library
 _base_load_track_library = compare.load_track_library
 _base_track_style_similarity = compare.track_style_similarity
 
+DEFAULT_DISPLAY_LABELS = {
+    "bpm": "Tempo",
+    "key": "Tonal Center",
+    "energy": "Intensity",
+    "danceability": "Groove",
+    "loudness_db": "Master Level",
+    "speechiness": "Vocal Density",
+    "acousticness": "Acoustic Character",
+    "instrumentalness": "Instrumental Lean",
+    "liveness": "Live Feel",
+    "happiness": "Mood Lift",
+    "popularity": "Catalog Reach",
+    "duration": "Length",
+}
 
-def _load_catalog() -> Dict[str, Any]:
+
+def _read_catalog_file(path: Path) -> Dict[str, Any]:
     try:
-        data = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
-        return data.get("artists", {}) if isinstance(data, dict) else {}
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
     except Exception:
         return {}
 
 
-CATALOG = _load_catalog()
+def _merge_catalogs() -> Tuple[Dict[str, Any], Dict[str, str]]:
+    artists: Dict[str, Any] = {}
+    labels = dict(DEFAULT_DISPLAY_LABELS)
+    for path in (CATALOG_PATH, EXPANSION_PATH):
+        data = _read_catalog_file(path)
+        labels.update(data.get("display_labels") or {})
+        for canonical, entry in (data.get("artists") or {}).items():
+            if canonical not in artists:
+                artists[canonical] = copy.deepcopy(entry)
+                continue
+            target = artists[canonical]
+            target_aliases = list(target.get("aliases") or [])
+            for alias in list((entry or {}).get("aliases") or []):
+                if alias not in target_aliases:
+                    target_aliases.append(alias)
+            target["aliases"] = target_aliases
+            existing_titles = {str(t.get("title") or "").strip().lower() for t in target.get("tracks") or []}
+            for track in list((entry or {}).get("tracks") or []):
+                title = str(track.get("title") or "").strip().lower()
+                if title and title not in existing_titles:
+                    target.setdefault("tracks", []).append(copy.deepcopy(track))
+                    existing_titles.add(title)
+    return artists, labels
+
+
+CATALOG, DISPLAY_LABELS = _merge_catalogs()
 
 
 def _norm_name(value: Any) -> str:
@@ -79,34 +118,43 @@ def _summary(values: List[float]) -> Dict[str, float]:
     }
 
 
+def _public_track(track: Dict[str, Any]) -> Dict[str, Any]:
+    """Expose SoundLens wording while preserving raw numeric meaning."""
+    row = {"Song": track.get("title")}
+    for raw_key, label in DISPLAY_LABELS.items():
+        if raw_key in track and track.get(raw_key) is not None:
+            row[label] = track.get(raw_key)
+    return row
+
+
 def load_track_library_with_catalog(profile_files):
     library, profiles = _base_load_track_library(profile_files)
-    # Repair profile-level BPM metadata when TuneBat has at least two direct
-    # artist tracks. Keep the original analyzer values under legacy_bpm.
     for artist_name, profile in profiles.items():
         canonical, entry = _catalog_entry(artist_name)
         tracks = list((entry or {}).get("tracks") or []) if entry else []
         bpms = _numeric([track.get("bpm") for track in tracks])
+        if tracks and isinstance(profile, dict):
+            # Keep catalog metadata separate from measured audio features.
+            profile["catalog_context"] = {
+                "source": "TuneBat public track metadata",
+                "status": "metadata_profile",
+                "canonical_artist": canonical,
+                "track_count": len(tracks),
+                "songs": [_public_track(track) for track in tracks],
+                "display_labels": DISPLAY_LABELS,
+                "bpm": _summary(bpms) if bpms else None,
+                "keys": [str(track.get("key")) for track in tracks if track.get("key")],
+            }
         if len(bpms) >= 2 and isinstance(profile, dict):
             averages = profile.setdefault("averages", {})
             if isinstance(averages, dict):
                 old = copy.deepcopy(averages.get("bpm"))
                 averages["legacy_bpm"] = old
                 averages["bpm"] = _summary(bpms)
-            profile["catalog_context"] = {
-                "source": "TuneBat",
-                "canonical_artist": canonical,
-                "track_count": len(tracks),
-                "bpm": _summary(bpms),
-                "keys": [str(track.get("key")) for track in tracks if track.get("key")],
-            }
     return library, profiles
 
 
 def track_style_similarity_without_legacy_bpm(report_dict, prototype):
-    # Old track prototypes were created when BPM frequently collapsed to 140.
-    # Remove bpm_style from that legacy style bonus. Tempo now comes from the
-    # independent catalog prior below and from the newly improved BPM detector.
     if not isinstance(prototype, dict):
         return _base_track_style_similarity(report_dict, prototype)
     clone = dict(prototype)
@@ -138,7 +186,6 @@ def _bpm_fit(song_bpm: float, tracks: List[Dict[str, Any]]) -> float | None:
     if not bpms or song_bpm <= 0:
         return None
     distances = sorted(_bpm_distance(song_bpm, value) for value in bpms)
-    # Use several closest catalog songs rather than one lucky neighbor.
     nearest = distances[: min(4, len(distances))]
     d = sum(nearest) / len(nearest)
     return max(0.0, min(100.0, 100.0 * math.exp(-((d / 14.0) ** 2))))
@@ -221,10 +268,7 @@ def compare_against_track_library_with_catalog(report_dict, profile_files, top_n
             continue
         prior = sum(score * weight for score, weight in pieces) / sum(weight for _, weight in pieces)
 
-        # Coverage limits how much a small TuneBat sample can influence ranking.
         coverage = min(1.0, len(tracks) / 6.0)
-        # Maximum movement is only about +/-4 points at full coverage. The audio
-        # identity engine remains primary.
         adjustment = ((prior - 50.0) / 50.0) * 4.0 * coverage
         raw = float(item.get("match_score") or 0.0)
         item["match_score"] = round(max(0.0, min(96.0, raw + adjustment)), 2)
@@ -238,7 +282,6 @@ def compare_against_track_library_with_catalog(report_dict, profile_files, top_n
 
     ranked.sort(key=lambda row: float(row.get("match_score") or 0.0), reverse=True)
 
-    # Recompute confidence and labels after the small catalog adjustment.
     for index, item in enumerate(ranked):
         score = float(item.get("match_score") or 0.0)
         competitor = float(ranked[1]["match_score"] if index == 0 and len(ranked) > 1 else ranked[0]["match_score"])
