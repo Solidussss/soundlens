@@ -58,6 +58,14 @@ def _patch_visual_hierarchy(html: str) -> str:
     if old_mode_piece in html:
         html = html.replace(old_mode_piece, new_mode_piece, 1)
 
+    # Ask SoundLens should reason from the same v3 musical-event model the user sees.
+    old_ai_context = """const compact={basic:report.basic,loudness:report.loudness,frequency:report.frequency,rhythm:report.rhythm,sections:report.sections,artist_comparison:report.artist_comparison,visual_map:{duration:visual.duration,pins:visual.pins,legend:visual.legend}};"""
+    new_ai_context = """const compact={basic:report.basic,loudness:report.loudness,frequency:report.frequency,rhythm:report.rhythm,scores:report.scores,stem_balance:report.stem_balance,top_problems:report.top_problems,next_steps:report.next_steps,sections:(Array.isArray(visual.sections)&&visual.sections.length?visual.sections:report.sections),artist_comparison:report.artist_comparison,visual_map:{version:visual.version,duration:visual.duration,pins:visual.pins,legend:visual.legend,sections:visual.sections,event_count:visual.pin_count,ai_timeline_summary:visual.ai_timeline_summary}};"""
+    if old_ai_context in html:
+        html = html.replace(old_ai_context, new_ai_context, 1)
+    else:
+        print("[visual-ui] patch target missing: Ask SoundLens context")
+
     return html
 
 
