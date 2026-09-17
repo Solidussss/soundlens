@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import HTTPException
+from fastapi.responses import HTMLResponse
 
 import app as legacy
 import hardened_app as hardened
@@ -17,12 +18,6 @@ app = hardened.app
 # ---------------------------------------------------------------------------
 # One-time production session rotation
 # ---------------------------------------------------------------------------
-# A legacy users file was previously tracked in the public repository. The
-# current file is removed from GitHub, but any bearer sessions that may have
-# existed at that time must be invalidated once. This runs during application
-# import, which happens after Railway mounts the real /data volume. If /data is
-# not mounted (for example a build/probe container), it deliberately does
-# nothing and does NOT write the marker.
 
 _SESSION_ROTATION_MARKER = legacy.DATA_DIR / ".sessions_rotated_20260917"
 
@@ -61,15 +56,14 @@ def _rotate_legacy_sessions_once() -> None:
 _rotate_legacy_sessions_once()
 
 
-# hardened_app briefly added a compatibility wrapper for an old standalone
-# comparison endpoint. Artist Match is part of /analyze in the current product,
-# so remove that dead route instead of exposing a handler that has no legacy
-# implementation behind it.
+# Remove dead legacy comparison endpoint.
 hardened._remove_route("/compare-profile", "POST")
 
 
-# Replace only the legacy signup route. hardened_app already replaced login,
-# resend verification, analysis, Stripe and deferred AI routes.
+# ---------------------------------------------------------------------------
+# Stable signup verification
+# ---------------------------------------------------------------------------
+
 hardened._remove_route("/auth/signup", "POST")
 
 
@@ -86,8 +80,6 @@ def hardened_signup(payload: legacy.AuthPayload):
         if existing.get("email_verified"):
             raise HTTPException(status_code=400, detail="An account with this email already exists.")
 
-        # Keep the existing verification token valid. Repeated signup attempts must
-        # never make a verification email already sitting in the inbox go stale.
         hardened._ensure_verification_token(existing)
         allowed, remaining = hardened._verification_can_send(existing)
         sent = False
@@ -126,8 +118,6 @@ def hardened_signup(payload: legacy.AuthPayload):
 
     sent = legacy.send_signup_verification_email(user)
     if not sent:
-        # Preserve the old safety behavior: if account verification cannot be
-        # delivered, do not strand a half-created account.
         db = legacy.load_users_db()
         db.get("users", {}).pop(user_id, None)
         legacy.save_users_db(db)
@@ -141,3 +131,60 @@ def hardened_signup(payload: legacy.AuthPayload):
         "email": email,
         "message": f"Verification email sent to {email}. Confirm it before signing in.",
     }
+
+
+# ---------------------------------------------------------------------------
+# 3D event-model UI wiring
+# ---------------------------------------------------------------------------
+# Keep index.html itself stable while replacing only the small runtime functions
+# that need to understand visual_map v3. This can be removed once index.html is
+# split into normal JS modules.
+
+_INDEX_PATH = Path(__file__).with_name("index.html")
+
+
+def _patch_3d_frontend(html: str) -> str:
+    old_build = """function buildPins(){const colors={energy:0xffffff,bass:0x8174ff,transient:0xffcf72,stereo:0x58d7ff,clip:0xff647c,resonance:0xff79db,brightness:0xa8efff};(visual.pins||[]).forEach((pin,idx)=>{const p=pointForPin(pin);const sphere=new THREE.Mesh(new THREE.SphereGeometry(.19,20,20),new THREE.MeshBasicMaterial({color:colors[pin.kind]||0xffffff}));sphere.position.copy(p);sphere.userData={pin,index:idx};pinGroup.add(sphere);pinMeshes.push(sphere);const lineGeo=new THREE.BufferGeometry().setFromPoints([p,new THREE.Vector3(p.x,p.y+1.8,p.z)]);const line=new THREE.Line(lineGeo,new THREE.LineBasicMaterial({color:colors[pin.kind]||0xffffff,transparent:true,opacity:.34}));pinGroup.add(line);});}"""
+    new_build = """function pinMatchesMode(pin,mode){if(mode==='full')return true;const kinds=new Set([pin.kind,...(Array.isArray(pin.evidence_types)?pin.evidence_types:[])]);if(mode==='bass')return kinds.has('bass');if(mode==='stereo')return kinds.has('stereo');if(mode==='transient')return kinds.has('transient');return true}
+function applyPinMode(mode){pinGroup.children.forEach(o=>{if(o.userData?.pin)o.visible=pinMatchesMode(o.userData.pin,mode)});if(selectedPin&&!pinMatchesMode(selectedPin,mode)){selectedPin=null;document.getElementById('pinCard').classList.remove('on');document.getElementById('aiState').textContent='track context loaded'}}
+function buildPins(){const colors={energy:0xffffff,bass:0x8174ff,transient:0xffcf72,stereo:0x58d7ff,clip:0xff647c,resonance:0xff79db,brightness:0xa8efff};(visual.pins||[]).forEach((pin,idx)=>{const p=pointForPin(pin);const sphere=new THREE.Mesh(new THREE.SphereGeometry(.19,20,20),new THREE.MeshBasicMaterial({color:colors[pin.kind]||0xffffff}));sphere.position.copy(p);sphere.userData={pin,index:idx};pinGroup.add(sphere);pinMeshes.push(sphere);const lineGeo=new THREE.BufferGeometry().setFromPoints([p,new THREE.Vector3(p.x,p.y+1.8,p.z)]);const line=new THREE.Line(lineGeo,new THREE.LineBasicMaterial({color:colors[pin.kind]||0xffffff,transparent:true,opacity:.34}));line.userData={pin,index:idx};pinGroup.add(line);});applyPinMode(currentMode)}"""
+
+    old_mode = """function setMode(mode){currentMode=mode;document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('on',b.dataset.mode===mode));sculpture.children.forEach(m=>{if(!m.material||!m.userData.band)return;const b=m.userData.band;let op=b==='skin'?.075:.55;if(mode==='bass')op=['sub','bass'].includes(b)?.85:(b==='skin'?.025:.055);if(mode==='stereo')op=b==='skin'?.28:.16;if(mode==='transient')op=b==='skin'?.04:.31;m.material.opacity=op;});}"""
+    new_mode = """function setMode(mode){currentMode=mode;document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('on',b.dataset.mode===mode));sculpture.children.forEach(m=>{if(!m.material||!m.userData.band)return;const b=m.userData.band;let op=b==='skin'?.075:.55;if(mode==='bass')op=['sub','bass'].includes(b)?.85:(b==='skin'?.025:.055);if(mode==='stereo')op=b==='skin'?.28:.16;if(mode==='transient')op=b==='skin'?.04:.31;m.material.opacity=op;});applyPinMode(mode);}"""
+
+    old_show = """function showPin(pin){selectedPin=pin;document.getElementById('pinKind').textContent=pin.kind;document.getElementById('pinTitle').textContent=pin.title;document.getElementById('pinDetail').textContent=pin.detail;document.getElementById('pinTime').textContent=`${fmt(pin.time)} · click play to hear this point`;document.getElementById('pinCard').classList.add('on');const p=pointForPin(pin);focusCamera(p);audio.currentTime=Math.min(audio.duration||pin.time,pin.time);updatePlayhead();}"""
+    new_show = """function showPin(pin){selectedPin=pin;const conf=Number(pin.confidence);const confText=Number.isFinite(conf)?` · ${Math.round(conf*100)}% confidence`:'';const section=pin.section_label?` · ${pin.section_label}`:'';document.getElementById('pinKind').textContent=`${pin.kind}${section}${confText}`;document.getElementById('pinTitle').textContent=pin.title;const types=Array.isArray(pin.evidence_types)?pin.evidence_types:[];const evidence=types.length?` Evidence: ${types.join(' + ')}.`:'';document.getElementById('pinDetail').textContent=`${pin.detail||''}${evidence}`;document.getElementById('pinTime').textContent=`${fmt(pin.time)} · ${pin.evidence_count||types.length||1} signal${(pin.evidence_count||types.length||1)===1?'':'s'} agree · click play to hear this point`;document.getElementById('pinCard').classList.add('on');document.getElementById('aiState').textContent=`focused on ${pin.title||pin.kind}`;const p=pointForPin(pin);focusCamera(p);const dur=Number.isFinite(audio.duration)?audio.duration:Number(visual?.duration||0);audio.currentTime=Math.min(dur||pin.time,pin.time);updatePlayhead();}"""
+
+    old_audio = """const audio=document.getElementById('audio');
+function updatePlayhead(){if(!playhead||!audio.duration)return;const progress=Math.max(0,Math.min(1,audio.currentTime/audio.duration));playhead.position.x=-trackLength/2+progress*trackLength;document.getElementById('scrub').value=Math.round(progress*1000);document.getElementById('time').textContent=`${fmt(audio.currentTime)} / ${fmt(audio.duration)}`}
+audio.addEventListener('timeupdate',updatePlayhead);audio.addEventListener('play',()=>document.getElementById('play').textContent='❚❚');audio.addEventListener('pause',()=>document.getElementById('play').textContent='▶');"""
+    new_audio = """const audio=document.getElementById('audio');
+function authoritativeDuration(){const native=Number(audio.duration);if(Number.isFinite(native)&&native>0)return native;const mapped=Number(visual?.duration);return Number.isFinite(mapped)&&mapped>0?mapped:0}
+function updatePlayhead(){const dur=authoritativeDuration();if(!dur)return;const progress=Math.max(0,Math.min(1,Number(audio.currentTime||0)/dur));if(playhead)playhead.position.x=-trackLength/2+progress*trackLength;document.getElementById('scrub').value=Math.round(progress*1000);document.getElementById('time').textContent=`${fmt(audio.currentTime||0)} / ${fmt(dur)}`}
+['loadedmetadata','durationchange','canplay','timeupdate'].forEach(evt=>audio.addEventListener(evt,updatePlayhead));audio.addEventListener('play',()=>document.getElementById('play').textContent='❚❚');audio.addEventListener('pause',()=>document.getElementById('play').textContent='▶');"""
+
+    old_analyze_piece = """audio.src=audioURL;audio.load();buildSculpture();setMode('full');const basic="""
+    new_analyze_piece = """audio.src=audioURL;audio.load();buildSculpture();setMode('full');updatePlayhead();const basic="""
+
+    replacements = [
+        (old_build, new_build, "pins"),
+        (old_mode, new_mode, "mode"),
+        (old_show, new_show, "pin card"),
+        (old_audio, new_audio, "audio timeline"),
+        (old_analyze_piece, new_analyze_piece, "initial timeline"),
+    ]
+    for old, new, label in replacements:
+        if old not in html:
+            print(f"[3d-ui] patch target missing: {label}")
+            continue
+        html = html.replace(old, new, 1)
+    return html
+
+
+hardened._remove_route("/", "GET")
+
+
+@app.get("/", response_class=HTMLResponse)
+def production_index():
+    html = _INDEX_PATH.read_text(encoding="utf-8")
+    return HTMLResponse(_patch_3d_frontend(html))
