@@ -18,7 +18,7 @@ BANDS = [
     ("air", 10000, 16000),
 ]
 
-MAX_PINS = 28
+MAX_PINS = 14
 
 
 def _safe(v: float, digits: int = 4) -> float:
@@ -28,7 +28,7 @@ def _safe(v: float, digits: int = 4) -> float:
 
 
 def _norm(values: np.ndarray, low_pct: float = 5, high_pct: float = 95) -> np.ndarray:
-    values = np.nan_to_num(values.astype(float), nan=0.0, posinf=0.0, neginf=0.0)
+    values = np.nan_to_num(np.asarray(values, dtype=float), nan=0.0, posinf=0.0, neginf=0.0)
     if values.size == 0:
         return values
     lo = float(np.percentile(values, low_pct))
@@ -38,10 +38,23 @@ def _norm(values: np.ndarray, low_pct: float = 5, high_pct: float = 95) -> np.nd
     return np.clip((values - lo) / (hi - lo), 0.0, 1.0)
 
 
-def _aggregate(values: np.ndarray, starts: np.ndarray, ends: np.ndarray, reducer="mean") -> np.ndarray:
-    out = []
+def _smooth(values: np.ndarray, radius: int = 2) -> np.ndarray:
+    values = np.asarray(values, dtype=float)
+    if values.size < 3 or radius <= 0:
+        return values.copy()
+    width = radius * 2 + 1
+    kernel = np.ones(width, dtype=float) / width
+    padded = np.pad(values, (radius, radius), mode="edge")
+    return np.convolve(padded, kernel, mode="valid")
+
+
+def _aggregate(values: np.ndarray, starts: np.ndarray, ends: np.ndarray, reducer: str = "mean") -> np.ndarray:
+    values = np.asarray(values, dtype=float)
+    out: List[float] = []
     for a, b in zip(starts, ends):
-        chunk = values[int(a):max(int(a) + 1, int(b))]
+        a = int(np.clip(a, 0, max(0, len(values) - 1)))
+        b = int(np.clip(max(a + 1, b), a + 1, len(values)))
+        chunk = values[a:b]
         if chunk.size == 0:
             out.append(0.0)
         elif reducer == "max":
@@ -49,6 +62,14 @@ def _aggregate(values: np.ndarray, starts: np.ndarray, ends: np.ndarray, reducer
         else:
             out.append(float(np.mean(chunk)))
     return np.asarray(out, dtype=float)
+
+
+def _local_delta(values: np.ndarray, idx: int, lookback: int) -> float:
+    if idx <= 0 or values.size == 0:
+        return 0.0
+    a = max(0, idx - lookback)
+    baseline = float(np.mean(values[a:idx])) if idx > a else float(values[idx])
+    return float(values[idx] - baseline)
 
 
 def _local_peak_prominence(spectrum: np.ndarray, freqs: np.ndarray) -> tuple[float, float]:
@@ -68,10 +89,9 @@ def _local_peak_prominence(spectrum: np.ndarray, freqs: np.ndarray) -> tuple[flo
 
 
 def _candidate_peaks(values: np.ndarray, min_strength: float, max_count: int, min_gap: int = 3) -> List[int]:
-    """Return strongest local peaks without allowing a cluster of near-duplicates."""
     if values.size == 0:
         return []
-    candidates = []
+    candidates: List[int] = []
     for i in range(1, len(values) - 1):
         if values[i] >= min_strength and values[i] >= values[i - 1] and values[i] >= values[i + 1]:
             candidates.append(i)
@@ -85,81 +105,234 @@ def _candidate_peaks(values: np.ndarray, min_strength: float, max_count: int, mi
     return chosen
 
 
-def _candidate_changes(values: np.ndarray, min_delta: float, max_count: int, min_gap: int = 3) -> List[int]:
-    if values.size < 3:
+def _detect_sections(feature_matrix: np.ndarray, times: np.ndarray, duration: float) -> tuple[List[Dict[str, Any]], List[int]]:
+    """Detect coarse musical sections from multi-feature change, not fixed percentages."""
+    n = feature_matrix.shape[1] if feature_matrix.ndim == 2 else 0
+    if n < 12:
+        return [{"id": "section_1", "label": "Section 1", "start": 0.0, "end": _safe(duration, 2)}], []
+
+    normed = []
+    for row in feature_matrix:
+        normed.append(_norm(row, 8, 92))
+    mat = np.vstack(normed)
+    mat = np.vstack([_smooth(row, 2) for row in mat])
+
+    win = max(2, min(7, n // 35))
+    novelty = np.zeros(n, dtype=float)
+    for i in range(win, n - win):
+        before = np.mean(mat[:, i - win:i], axis=1)
+        after = np.mean(mat[:, i:i + win], axis=1)
+        novelty[i] = float(np.mean(np.abs(after - before)))
+    novelty = _smooth(novelty, 1)
+
+    if float(np.max(novelty)) <= EPS:
+        boundaries: List[int] = []
+    else:
+        threshold = max(float(np.percentile(novelty, 82)), float(np.mean(novelty) + 0.7 * np.std(novelty)))
+        ranked = [int(i) for i in np.argsort(novelty)[::-1] if novelty[i] >= threshold]
+        min_gap = max(5, n // 10)
+        boundaries = []
+        for idx in ranked:
+            if idx < min_gap or idx > n - min_gap:
+                continue
+            if all(abs(idx - old) >= min_gap for old in boundaries):
+                boundaries.append(idx)
+            if len(boundaries) >= 6:
+                break
+        boundaries.sort()
+
+    edges = [0] + boundaries + [n - 1]
+    sections: List[Dict[str, Any]] = []
+    for j in range(len(edges) - 1):
+        a = edges[j]
+        b = edges[j + 1]
+        start = 0.0 if j == 0 else float(times[a])
+        end = duration if j == len(edges) - 2 else float(times[b])
+        sections.append({
+            "id": f"section_{j + 1}",
+            "label": f"Section {j + 1}",
+            "start": _safe(start, 2),
+            "end": _safe(max(start, end), 2),
+            "boundary_strength": _safe(novelty[a] if a < len(novelty) else 0.0, 4),
+        })
+    return sections, boundaries
+
+
+def _section_for_index(sections: List[Dict[str, Any]], t: float) -> Dict[str, Any]:
+    for section in sections:
+        if float(section["start"]) <= t <= float(section["end"]) + 1e-6:
+            return section
+    return sections[-1] if sections else {"id": "section_1", "label": "Section 1", "start": 0.0, "end": t}
+
+
+def _fuse_candidates(
+    candidates: List[Dict[str, Any]],
+    times: np.ndarray,
+    sections: List[Dict[str, Any]],
+    duration: float,
+) -> List[Dict[str, Any]]:
+    """Fuse nearby measurements into one musically meaningful event."""
+    if not candidates:
         return []
-    delta = np.abs(np.diff(values, prepend=values[0]))
-    ranked = [i for i in np.argsort(delta)[::-1] if delta[i] >= min_delta]
-    chosen: List[int] = []
-    for idx in ranked:
-        idx = int(idx)
-        if all(abs(idx - old) >= min_gap for old in chosen):
-            chosen.append(idx)
-        if len(chosen) >= max_count:
-            break
-    return chosen
 
+    candidates = sorted(candidates, key=lambda x: float(x["time"]))
+    fuse_window = max(0.45, min(1.15, duration / 150.0))
+    groups: List[List[Dict[str, Any]]] = []
+    current: List[Dict[str, Any]] = [candidates[0]]
 
+    for item in candidates[1:]:
+        if float(item["time"]) - float(current[-1]["time"]) <= fuse_window:
+            current.append(item)
+        else:
+            groups.append(current)
+            current = [item]
+    groups.append(current)
 
-def _build_ai_timeline_from_existing_3d(duration, sr, hop, rms, centroid, rolloff, onset, flatness):
-    times = librosa.frames_to_time(np.arange(len(rms)), sr=sr, hop_length=hop)
-    n = min(len(times), len(rms), len(centroid), len(rolloff), len(onset), len(flatness))
-    if n <= 0:
-        return {"enabled": False, "reason": "No aligned 3D frames."}
-    times = times[:n]
-    rms = np.asarray(rms[:n], dtype=float)
-    centroid = np.asarray(centroid[:n], dtype=float)
-    rolloff = np.asarray(rolloff[:n], dtype=float)
-    onset = np.asarray(onset[:n], dtype=float)
-    flatness = np.asarray(flatness[:n], dtype=float)
-
-    def seg(a, b):
-        idx = np.where((times >= duration*a) & (times <= duration*b))[0]
-        if idx.size == 0:
-            return {}
-        return {
-            "range_sec": [round(duration*a, 2), round(duration*b, 2)],
-            "avg_rms": round(float(np.mean(rms[idx])), 6),
-            "peak_rms": round(float(np.max(rms[idx])), 6),
-            "brightness_hz": round(float(np.mean(centroid[idx])), 2),
-            "rolloff_hz": round(float(np.mean(rolloff[idx])), 2),
-            "zero_crossing": round(float(np.mean(flatness[idx])), 6),
-            "onset_strength": round(float(np.mean(onset[idx])), 4),
-        }
-
-    loudest = int(np.argmax(rms))
-    quietest = int(np.argmin(rms))
-    return {
-        "enabled": True,
-        "duration_analyzed_sec": round(float(duration), 2),
-        "overall": {
-            "avg_rms": round(float(np.mean(rms)), 6),
-            "rms_variation": round(float(np.std(rms)), 6),
-            "avg_brightness_hz": round(float(np.mean(centroid)), 2),
-            "avg_rolloff_hz": round(float(np.mean(rolloff)), 2),
-            "avg_zero_crossing": round(float(np.mean(flatness)), 6),
-            "avg_onset_strength": round(float(np.mean(onset)), 4),
-        },
-        "segments": {
-            "intro": seg(0, .2),
-            "early_middle": seg(.2, .45),
-            "middle": seg(.45, .7),
-            "ending": seg(.7, 1),
-        },
-        "moments": {
-            "loudest_sec": round(float(times[loudest]), 2),
-            "quietest_sec": round(float(times[quietest]), 2),
-        },
-        "source": "visual_map_reuse",
+    fused: List[Dict[str, Any]] = []
+    type_weight = {
+        "section": 1.35,
+        "clip": 1.30,
+        "bass": 1.18,
+        "energy": 1.12,
+        "transient": 1.00,
+        "stereo": 0.95,
+        "brightness": 0.90,
+        "resonance": 0.95,
+        "texture": 0.80,
     }
 
-def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str, Any]:
-    """Build dense, time-resolved data for the SoundLens 3D experience.
+    for group in groups:
+        by_kind: Dict[str, Dict[str, Any]] = {}
+        for item in group:
+            kind = str(item["kind"])
+            score = float(item.get("evidence", 0.0)) * type_weight.get(kind, 1.0)
+            old = by_kind.get(kind)
+            if old is None or score > float(old.get("_weighted", 0.0)):
+                clone = dict(item)
+                clone["_weighted"] = score
+                by_kind[kind] = clone
 
-    Pins describe measurable events in the WAV. They intentionally avoid claims
-    about whether a creative choice is "good" or "bad". Up to ~28 high-value
-    events are selected, with spacing so the 3D view does not become cluttered.
-    """
+        evidence = list(by_kind.values())
+        weights = np.asarray([max(0.05, float(e.get("_weighted", 0.0))) for e in evidence], dtype=float)
+        event_time = float(np.average([float(e["time"]) for e in evidence], weights=weights))
+        idx = int(np.argmin(np.abs(times - event_time)))
+        section = _section_for_index(sections, event_time)
+
+        kinds = set(by_kind)
+        if "clip" in kinds:
+            title = "Digital ceiling hit"
+            primary_kind = "clip"
+        elif "section" in kinds and ({"energy", "bass", "transient"} & kinds):
+            title = "Section impact"
+            primary_kind = "energy" if "energy" in kinds else "bass"
+        elif "bass" in kinds and "energy" in kinds and "transient" in kinds:
+            title = "Low-end impact"
+            primary_kind = "bass"
+        elif "bass" in kinds and "energy" in kinds:
+            title = "Low-end energy shift"
+            primary_kind = "bass"
+        elif "energy" in kinds and "transient" in kinds:
+            title = "Energy impact"
+            primary_kind = "energy"
+        elif "stereo" in kinds and ("energy" in kinds or "section" in kinds):
+            title = "Spatial transition"
+            primary_kind = "stereo"
+        elif "brightness" in kinds and ("section" in kinds or "energy" in kinds):
+            title = "Tonal transition"
+            primary_kind = "brightness"
+        else:
+            strongest = max(evidence, key=lambda e: float(e.get("_weighted", 0.0)))
+            title = str(strongest.get("title") or "Measured event")
+            primary_kind = str(strongest["kind"])
+
+        independent = len(kinds)
+        strongest_score = max(float(e.get("evidence", 0.0)) for e in evidence)
+        agreement_bonus = min(0.28, max(0, independent - 1) * 0.09)
+        confidence = float(np.clip(0.48 + 0.38 * strongest_score + agreement_bonus, 0.0, 0.99))
+        importance = float(np.clip(
+            0.50 * strongest_score
+            + 0.12 * min(independent, 4)
+            + (0.12 if "section" in kinds else 0.0)
+            + (0.06 if {"bass", "energy"} <= kinds else 0.0),
+            0.0,
+            1.0,
+        ))
+
+        parts: List[str] = []
+        for kind in ("section", "bass", "energy", "transient", "stereo", "brightness", "clip", "resonance", "texture"):
+            item = by_kind.get(kind)
+            if item and item.get("summary"):
+                parts.append(str(item["summary"]))
+        detail = " · ".join(parts[:4])
+        if not detail:
+            detail = str(max(evidence, key=lambda e: float(e.get("_weighted", 0.0))).get("detail") or "")
+
+        fused.append({
+            "kind": primary_kind,
+            "index": idx,
+            "time": _safe(event_time, 2),
+            "title": title,
+            "detail": detail,
+            "strength": _safe(strongest_score, 3),
+            "confidence": _safe(confidence, 3),
+            "importance": _safe(importance, 4),
+            "section_id": section.get("id"),
+            "section_label": section.get("label"),
+            "evidence_types": sorted(kinds),
+            "evidence_count": independent,
+            "evidence": [
+                {
+                    "kind": e["kind"],
+                    "value": _safe(float(e.get("evidence", 0.0)), 3),
+                    "summary": e.get("summary", ""),
+                }
+                for e in sorted(evidence, key=lambda x: float(x.get("_weighted", 0.0)), reverse=True)
+            ],
+        })
+
+    ranked = sorted(fused, key=lambda e: (float(e["importance"]), float(e["confidence"])), reverse=True)
+    chosen: List[Dict[str, Any]] = []
+    min_gap = max(1.2, min(3.0, duration / 65.0))
+    section_counts: Dict[str, int] = {}
+
+    for event in ranked:
+        if float(event["confidence"]) < 0.58:
+            continue
+        if any(abs(float(event["time"]) - float(old["time"])) < min_gap for old in chosen):
+            continue
+        sid = str(event.get("section_id") or "")
+        if section_counts.get(sid, 0) >= 3:
+            continue
+        chosen.append(event)
+        section_counts[sid] = section_counts.get(sid, 0) + 1
+        if len(chosen) >= MAX_PINS:
+            break
+
+    return sorted(chosen, key=lambda e: float(e["time"]))
+
+
+def _build_ai_timeline(
+    duration: float,
+    sections: List[Dict[str, Any]],
+    pins: List[Dict[str, Any]],
+    slices: List[Dict[str, Any]],
+) -> Dict[str, Any]:
+    return {
+        "enabled": True,
+        "duration_analyzed_sec": _safe(duration, 2),
+        "sections": sections,
+        "events": pins,
+        "event_count": len(pins),
+        "source": "musical_event_model_v3",
+        "guidance": (
+            "Use these fused events as the authoritative timeline. Each event combines aligned "
+            "measurements and includes confidence, evidence types, and section context."
+        ),
+    }
+
+
+def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str, Any]:
+    """Build SoundLens 3D data with section-aware fused musical events."""
     path = Path(audio_path)
     y, sr = librosa.load(path, sr=22050, mono=False)
     if y.size == 0:
@@ -179,8 +352,8 @@ def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str,
     n_fft = 2048
     hop = 512
 
-    complex_stft = librosa.stft(mono, n_fft=n_fft, hop_length=hop)
-    stft = np.abs(complex_stft)
+    stft_complex = librosa.stft(mono, n_fft=n_fft, hop_length=hop)
+    stft = np.abs(stft_complex)
     power = stft ** 2
     freqs = librosa.fft_frequencies(sr=sr, n_fft=n_fft)
     frame_count = stft.shape[1]
@@ -188,7 +361,7 @@ def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str,
     rms = librosa.feature.rms(S=stft, frame_length=n_fft, hop_length=hop)[0]
     centroid = librosa.feature.spectral_centroid(S=stft, sr=sr)[0]
     rolloff = librosa.feature.spectral_rolloff(S=stft, sr=sr)[0]
-    onset = librosa.onset.onset_strength(y=mono, sr=sr, hop_length=hop)
+    onset = librosa.onset.onset_strength(S=librosa.amplitude_to_db(stft + EPS, ref=np.max), sr=sr, hop_length=hop)
     flatness = librosa.feature.spectral_flatness(S=stft)[0]
 
     side = (left - right) * 0.5
@@ -199,23 +372,33 @@ def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str,
     if not stereo_source:
         stereo_width[:] = 0.0
 
+    aligned_n = min(frame_count, len(rms), len(centroid), len(rolloff), len(onset), len(flatness), len(stereo_width))
+    stft = stft[:, :aligned_n]
+    power = power[:, :aligned_n]
+    rms = rms[:aligned_n]
+    centroid = centroid[:aligned_n]
+    rolloff = rolloff[:aligned_n]
+    onset = onset[:aligned_n]
+    flatness = flatness[:aligned_n]
+    stereo_width = stereo_width[:aligned_n]
+    frame_count = aligned_n
+
     clip_frame = np.zeros(frame_count, dtype=float)
     abs_mono = np.abs(mono)
-    frame_samples = librosa.util.frame(abs_mono, frame_length=n_fft, hop_length=hop)
-    usable = min(frame_samples.shape[1], frame_count)
-    clip_frame[:usable] = np.mean(frame_samples[:, :usable] >= 0.999, axis=0)
+    if len(abs_mono) >= n_fft:
+        frame_samples = librosa.util.frame(abs_mono, frame_length=n_fft, hop_length=hop)
+        usable = min(frame_samples.shape[1], frame_count)
+        clip_frame[:usable] = np.mean(frame_samples[:, :usable] >= 0.999, axis=0)
 
     band_frames: Dict[str, np.ndarray] = {}
-    for name, lo, hi in BANDS:
-        idx = np.where((freqs >= lo) & (freqs < hi))[0]
-        band_frames[name] = np.sum(power[idx], axis=0) if idx.size else np.zeros(frame_count)
-
     total_power = np.sum(power, axis=0) + EPS
-    for key in list(band_frames):
-        band_frames[key] = band_frames[key] / total_power
+    for name, lo, hi in BANDS:
+        band_idx = np.where((freqs >= lo) & (freqs < hi))[0]
+        raw = np.sum(power[band_idx], axis=0) if band_idx.size else np.zeros(frame_count)
+        band_frames[name] = raw / total_power
 
-    # Around 2.5 visual samples/sec while keeping browser payload reasonable.
-    slice_count = int(min(max_slices, max(64, math.ceil(duration * 2.5))))
+    slice_count = int(min(max_slices, max(64, math.ceil(max(duration, 1.0) * 2.5))))
+    slice_count = min(slice_count, max(1, frame_count))
     starts = np.linspace(0, frame_count, slice_count, endpoint=False).astype(int)
     ends = np.concatenate([starts[1:], [frame_count]])
     times = (starts + np.maximum(1, ends - starts) / 2.0) * hop / sr
@@ -223,19 +406,19 @@ def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str,
     rms_s = _aggregate(rms, starts, ends)
     onset_s = _aggregate(onset, starts, ends, reducer="max")
     cent_s = _aggregate(centroid, starts, ends)
+    rolloff_s = _aggregate(rolloff, starts, ends)
     flat_s = _aggregate(flatness, starts, ends)
     width_s = _aggregate(stereo_width, starts, ends)
     clip_s = _aggregate(clip_frame, starts, ends, reducer="max")
     band_s = {k: _aggregate(v, starts, ends) for k, v in band_frames.items()}
 
-    rms_n = _norm(rms_s)
+    rms_n = _norm(_smooth(rms_s, 1))
     onset_n = _norm(onset_s)
-    brightness_n = np.clip(cent_s / 9000.0, 0.0, 1.0)
-    width_n = np.clip(width_s * 2.1, 0.0, 1.0)
-    texture_n = _norm(flat_s)
+    brightness_n = _norm(_smooth(cent_s, 1))
+    width_n = _norm(_smooth(width_s, 1)) if stereo_source else np.zeros_like(width_s)
+    texture_n = _norm(_smooth(flat_s, 1))
     bass_mix = np.clip(band_s["sub"] + band_s["bass"], 0.0, 1.0)
-    sub_n = _norm(band_s["sub"])
-    bass_n = _norm(band_s["bass"])
+    bass_n = _norm(_smooth(bass_mix, 1))
 
     slices: List[Dict[str, Any]] = []
     for i in range(slice_count):
@@ -247,224 +430,142 @@ def build_visual_map(audio_path: str | Path, max_slices: int = 320) -> Dict[str,
             "transient": _safe(onset_n[i], 4),
             "brightness": _safe(brightness_n[i], 4),
             "centroid_hz": _safe(cent_s[i], 1),
+            "rolloff_hz": _safe(rolloff_s[i], 1),
             "stereo": _safe(width_n[i], 4),
-            "texture": _safe(flat_s[i], 5),
+            "texture": _safe(texture_n[i], 5),
             "clipping": _safe(clip_s[i], 6),
             "bands": bands,
         })
 
+    feature_matrix = np.vstack([
+        rms_n,
+        bass_n,
+        onset_n,
+        brightness_n,
+        width_n,
+        texture_n,
+    ])
+    sections, boundary_indices = _detect_sections(feature_matrix, times, duration)
+
     candidates: List[Dict[str, Any]] = []
 
-    def candidate(kind: str, idx: int, title: str, detail: str, strength: float = 1.0,
-                  priority: float = 1.0, extra: dict | None = None):
+    def add(kind: str, idx: int, title: str, evidence: float, summary: str, detail: str = "") -> None:
         idx = int(np.clip(idx, 0, slice_count - 1))
-        item = {
+        candidates.append({
             "kind": kind,
             "index": idx,
-            "time": _safe(times[idx], 2),
+            "time": _safe(times[idx], 3),
             "title": title,
-            "detail": detail,
-            "strength": _safe(np.clip(strength, 0, 1), 3),
-            "importance": _safe(np.clip(strength, 0, 1) * priority, 4),
-        }
-        if extra:
-            item.update(extra)
-        candidates.append(item)
+            "evidence": float(np.clip(evidence, 0.0, 1.0)),
+            "summary": summary,
+            "detail": detail or summary,
+        })
 
-    # 1) Energy: strongest regions + major jumps/drops.
-    energy_peaks = _candidate_peaks(rms_n, 0.58, 5, min_gap=max(3, slice_count // 45))
-    if not energy_peaks:
-        energy_peaks = [int(np.argmax(rms_n))]
-    for rank, idx in enumerate(energy_peaks[:4]):
-        candidate(
-            "energy", idx,
-            "Energy peak" if rank == 0 else "High-energy region",
-            f"Measured track energy is especially dense here ({rms_n[idx]*100:.0f}% relative intensity).",
-            rms_n[idx], 1.15,
-        )
+    for idx in boundary_indices:
+        add("section", idx, "Section transition", 0.82, "structural transition")
 
-    energy_delta = np.diff(rms_n, prepend=rms_n[0])
-    for idx in _candidate_changes(rms_n, 0.22, 4, min_gap=max(4, slice_count // 40)):
-        direction = "rises" if energy_delta[idx] >= 0 else "drops"
-        candidate(
-            "energy", idx, f"Energy {direction}",
-            f"The overall level {direction} sharply at this point.",
-            min(1.0, abs(energy_delta[idx]) * 2.3), 0.92,
-        )
+    lookback = max(3, slice_count // 50)
 
-    # 2) Low end / 808: separate sub-heavy and bass-body moments, plus transitions.
-    for rank, idx in enumerate(_candidate_peaks(bass_mix, float(np.percentile(bass_mix, 68)), 6,
-                                                min_gap=max(3, slice_count // 48))[:4]):
-        sub_share = float(band_s["sub"][idx])
-        bass_share = float(band_s["bass"][idx])
-        label = "808 / low-end focus" if rank == 0 else "Low-end event"
-        candidate(
-            "bass", idx, label,
-            f"Sub + bass energy is concentrated here. Sub {sub_share*100:.1f}% · bass/body {bass_share*100:.1f}% of measured spectrum.",
-            max(sub_n[idx], bass_n[idx]), 1.18,
-            {"sub_share": _safe(sub_share, 4), "bass_share": _safe(bass_share, 4)},
-        )
+    for idx in _candidate_peaks(rms_n, max(0.56, float(np.percentile(rms_n, 72))), 8, max(3, slice_count // 55)):
+        local = _local_delta(rms_n, idx, lookback)
+        score = max(float(rms_n[idx]) * 0.72, min(1.0, max(0.0, local) * 2.8))
+        add("energy", idx, "Energy peak", score, f"energy {rms_n[idx]*100:.0f}%")
 
-    bass_delta = np.diff(bass_mix, prepend=bass_mix[0])
-    for idx in _candidate_changes(bass_mix, max(0.035, float(np.std(bass_mix) * 0.85)), 3,
-                                  min_gap=max(4, slice_count // 42)):
-        direction = "enters / expands" if bass_delta[idx] > 0 else "pulls back"
-        candidate(
-            "bass", idx, f"Low end {direction}",
-            f"The 20–250 Hz share changes noticeably here.",
-            min(1.0, abs(bass_delta[idx]) * 8.0), 0.95,
-            {"sub_share": _safe(band_s["sub"][idx], 4), "bass_share": _safe(band_s["bass"][idx], 4)},
-        )
+    energy_change = np.asarray([_local_delta(rms_n, i, lookback) for i in range(slice_count)])
+    for idx in np.argsort(np.abs(energy_change))[::-1][:8]:
+        if abs(float(energy_change[idx])) < 0.16:
+            break
+        direction = "rises" if energy_change[idx] > 0 else "drops"
+        add("energy", int(idx), f"Energy {direction}", min(1.0, abs(float(energy_change[idx])) * 2.7),
+            f"energy {direction} {abs(float(energy_change[idx]))*100:.0f}% vs local context")
 
-    # 3) Transients: multiple genuinely strong rhythmic attacks.
-    for rank, idx in enumerate(_candidate_peaks(onset_n, 0.60, 6, min_gap=max(3, slice_count // 55))[:4]):
-        candidate(
-            "transient", idx,
-            "Hardest transient" if rank == 0 else "Strong transient",
-            f"A sharp attack / rhythmic hit stands out here ({onset_n[idx]*100:.0f}% relative onset strength).",
-            onset_n[idx], 1.02,
-        )
+    for idx in _candidate_peaks(bass_n, max(0.58, float(np.percentile(bass_n, 72))), 8, max(3, slice_count // 55)):
+        local = _local_delta(bass_n, idx, lookback)
+        score = max(float(bass_n[idx]) * 0.70, min(1.0, max(0.0, local) * 2.7))
+        add("bass", idx, "Low-end focus", score,
+            f"low end {bass_n[idx]*100:.0f}% · sub {band_s['sub'][idx]*100:.1f}% · bass {band_s['bass'][idx]*100:.1f}%")
 
-    # 4) Stereo: strongest width + major opening/closing moments.
-    if stereo_source and float(np.max(width_n)) > 0.12:
-        for rank, idx in enumerate(_candidate_peaks(width_n, max(0.16, float(np.percentile(width_n, 70))), 4,
-                                                    min_gap=max(4, slice_count // 44))[:3]):
-            candidate(
-                "stereo", idx,
-                "Widest stereo moment" if rank == 0 else "Wide stereo region",
-                f"Side information is strongest here ({width_n[idx]*100:.0f}% relative width).",
-                width_n[idx], 1.03,
-            )
+    bass_change = np.asarray([_local_delta(bass_n, i, lookback) for i in range(slice_count)])
+    for idx in np.argsort(np.abs(bass_change))[::-1][:7]:
+        if abs(float(bass_change[idx])) < 0.17:
+            break
+        direction = "enters" if bass_change[idx] > 0 else "pulls back"
+        add("bass", int(idx), f"Low end {direction}", min(1.0, abs(float(bass_change[idx])) * 2.8),
+            f"low end {direction} {abs(float(bass_change[idx]))*100:.0f}% vs local context")
 
-        width_delta = np.diff(width_n, prepend=width_n[0])
-        for idx in _candidate_changes(width_n, 0.18, 3, min_gap=max(5, slice_count // 40))[:2]:
-            direction = "opens" if width_delta[idx] > 0 else "narrows"
-            candidate(
-                "stereo", idx, f"Stereo field {direction}",
-                f"The left/right image {direction} noticeably at this point.",
-                min(1.0, abs(width_delta[idx]) * 2.5), 0.92,
-            )
+    for idx in _candidate_peaks(onset_n, max(0.62, float(np.percentile(onset_n, 78))), 8, max(3, slice_count // 60)):
+        add("transient", idx, "Transient impact", float(onset_n[idx]), f"transient {onset_n[idx]*100:.0f}%")
 
-    # 5) Tone / brightness changes. These are more useful than simply flagging the brightest frame.
-    bright_delta = np.diff(brightness_n, prepend=brightness_n[0])
-    for idx in _candidate_changes(brightness_n, 0.075, 5, min_gap=max(4, slice_count // 45))[:4]:
-        direction = "brighter" if bright_delta[idx] >= 0 else "darker"
-        candidate(
-            "brightness", idx, "Tone shift",
-            f"The spectral center moves {direction} here (centroid ~{cent_s[idx]:.0f} Hz).",
-            min(1.0, abs(bright_delta[idx]) * 4.2), 0.93,
-            {"centroid_hz": _safe(cent_s[idx], 1)},
-        )
+    if stereo_source and float(np.max(width_n)) > 0.08:
+        width_change = np.asarray([_local_delta(width_n, i, lookback) for i in range(slice_count)])
+        for idx in np.argsort(np.abs(width_change))[::-1][:6]:
+            if abs(float(width_change[idx])) < 0.18:
+                break
+            direction = "opens" if width_change[idx] > 0 else "narrows"
+            add("stereo", int(idx), f"Stereo {direction}", min(1.0, abs(float(width_change[idx])) * 2.5),
+                f"stereo {direction} {abs(float(width_change[idx]))*100:.0f}%")
 
-    # 6) Clipping: only report real digital-ceiling hits, and group nearby occurrences.
+    bright_change = np.asarray([_local_delta(brightness_n, i, lookback) for i in range(slice_count)])
+    for idx in np.argsort(np.abs(bright_change))[::-1][:6]:
+        if abs(float(bright_change[idx])) < 0.16:
+            break
+        direction = "brighter" if bright_change[idx] > 0 else "darker"
+        add("brightness", int(idx), "Tone shift", min(1.0, abs(float(bright_change[idx])) * 2.7),
+            f"tone {direction} · centroid {cent_s[idx]:.0f} Hz")
+
+    texture_change = np.asarray([_local_delta(texture_n, i, lookback) for i in range(slice_count)])
+    for idx in np.argsort(np.abs(texture_change))[::-1][:4]:
+        if abs(float(texture_change[idx])) < 0.22:
+            break
+        direction = "noisier" if texture_change[idx] > 0 else "more tonal"
+        add("texture", int(idx), "Texture shift", min(1.0, abs(float(texture_change[idx])) * 2.3),
+            f"texture becomes {direction}")
+
     clip_indices = np.where(clip_s > 0)[0]
-    if clip_indices.size:
-        groups: List[List[int]] = []
-        current = [int(clip_indices[0])]
-        for raw in clip_indices[1:]:
-            idx = int(raw)
-            if idx - current[-1] <= max(2, slice_count // 100):
-                current.append(idx)
-            else:
-                groups.append(current)
-                current = [idx]
-        groups.append(current)
-        ranked_groups = sorted(groups, key=lambda g: max(float(clip_s[i]) for i in g), reverse=True)
-        for group in ranked_groups[:3]:
-            idx = max(group, key=lambda i: float(clip_s[i]))
-            candidate(
-                "clip", idx, "Digital clipping detected",
-                f"Samples touch the digital ceiling in this region ({clip_s[idx]*100:.3f}% of analyzed frame samples).",
-                min(1.0, float(clip_s[idx]) * 80.0 + 0.35), 1.12,
-                {"clip_fraction": _safe(clip_s[idx], 7)},
-            )
+    for idx in sorted(clip_indices, key=lambda i: float(clip_s[i]), reverse=True)[:4]:
+        add("clip", int(idx), "Digital clipping detected",
+            min(1.0, 0.55 + float(clip_s[idx]) * 60.0),
+            f"digital ceiling hit · {clip_s[idx]*100:.3f}% frame samples")
 
-    # 7) Narrow spectral concentrations / resonance-like focuses.
-    resonance_candidates = []
+    resonance: List[tuple[float, int, float]] = []
     for i, (a, b) in enumerate(zip(starts, ends)):
         segment_spec = np.mean(stft[:, int(a):max(int(a) + 1, int(b))], axis=1)
         hz, prominence = _local_peak_prominence(segment_spec, freqs)
-        if prominence >= 8.5:
-            resonance_candidates.append((prominence, i, hz))
-    resonance_candidates.sort(reverse=True)
-    chosen_res: List[int] = []
-    for prom, idx, hz in resonance_candidates:
-        if all(abs(idx - old) >= max(4, slice_count // 45) for old in chosen_res):
-            chosen_res.append(idx)
-            candidate(
-                "resonance", idx, "Narrow frequency focus",
-                f"A narrow spectral concentration stands ~{prom:.1f} dB above nearby frequencies around {hz:.0f} Hz.",
-                min(1.0, prom / 18.0), 1.08,
-                {"frequency_hz": round(hz, 1), "prominence_db": round(prom, 2)},
-            )
-        if len(chosen_res) >= 4:
+        if prominence >= 9.0:
+            resonance.append((prominence, i, hz))
+    resonance.sort(reverse=True)
+    used_res: List[int] = []
+    for prominence, idx, hz in resonance:
+        if all(abs(idx - old) >= max(5, slice_count // 45) for old in used_res):
+            used_res.append(idx)
+            add("resonance", idx, "Narrow frequency focus", min(1.0, prominence / 18.0),
+                f"narrow focus {hz:.0f} Hz · +{prominence:.1f} dB")
+        if len(used_res) >= 3:
             break
 
-    # 8) Texture changes: measurable noisier/smoother spectral behavior. Reuse brightness pin style.
-    texture_delta = np.diff(texture_n, prepend=texture_n[0])
-    for idx in _candidate_changes(texture_n, 0.26, 3, min_gap=max(5, slice_count // 42))[:2]:
-        direction = "grittier / noisier" if texture_delta[idx] > 0 else "smoother / more tonal"
-        candidate(
-            "brightness", idx, "Texture shift",
-            f"Spectral texture becomes {direction} here.",
-            min(1.0, abs(texture_delta[idx]) * 2.8), 0.78,
-            {"spectral_flatness": _safe(flat_s[idx], 5)},
-        )
-
-    # Select only the most important events while keeping good coverage across time.
-    # Start by ranking significance, then suppress near-identical time clusters.
-    candidates.sort(key=lambda p: p["importance"], reverse=True)
-    selected: List[Dict[str, Any]] = []
-    min_time_gap = max(0.7, min(2.2, duration / 95.0))
-
-    for item in candidates:
-        # Different event types may coexist in the same musical moment, but avoid a pile-up.
-        nearby = [p for p in selected if abs(float(p["time"]) - float(item["time"])) < min_time_gap]
-        same_kind_nearby = [p for p in nearby if p["kind"] == item["kind"]]
-        if same_kind_nearby:
-            continue
-        if len(nearby) >= 2:
-            continue
-        selected.append(item)
-        if len(selected) >= MAX_PINS:
-            break
-
-    # Guarantee core measurements appear when actually detectable.
-    core_kinds = ["energy", "bass", "transient"] + (["stereo"] if stereo_source else [])
-    for kind in core_kinds:
-        if not any(p["kind"] == kind for p in selected):
-            fallback = next((p for p in candidates if p["kind"] == kind), None)
-            if fallback:
-                selected.append(fallback)
-
-    # Final cap and chronological order. Remove internal ranking field from API output.
-    selected = sorted(selected, key=lambda p: p["importance"], reverse=True)[:MAX_PINS]
-    pins = []
-    for item in sorted(selected, key=lambda p: p["time"]):
-        item = dict(item)
-        item.pop("importance", None)
-        pins.append(item)
-
-    ai_timeline_summary = _build_ai_timeline_from_existing_3d(
-        duration, sr, hop, rms, centroid, rolloff, onset, flatness
-    )
+    pins = _fuse_candidates(candidates, times, sections, duration)
+    ai_timeline = _build_ai_timeline(duration, sections, pins, slices)
 
     return {
-        "ai_timeline_summary": ai_timeline_summary,
-        "version": 2,
+        "ai_timeline_summary": ai_timeline,
+        "version": 3,
+        "event_model": "section_aware_fusion_v3",
         "duration": _safe(duration, 3),
         "sample_rate": int(sr),
         "stereo_source": stereo_source,
         "slice_count": slice_count,
         "bands": [{"id": name, "low_hz": lo, "high_hz": hi} for name, lo, hi in BANDS],
+        "sections": sections,
         "slices": slices,
         "pins": pins,
+        "events": pins,
         "pin_count": len(pins),
         "legend": {
             "x": "time",
-            "height": "energy + frequency-band intensity",
+            "height": "smoothed energy + frequency-band intensity",
             "depth": "stereo width / frequency layer",
             "glow": "transient intensity",
             "surface_detail": "spectral texture",
+            "pins": "section-aware fused musical events",
         },
     }
