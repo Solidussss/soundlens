@@ -13,7 +13,7 @@ and deliberately modest so they improve separation without making Railway analys
 
 import math
 from collections import defaultdict
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List
 
 import librosa
 import numpy as np
@@ -24,11 +24,10 @@ import compare_to_profile_pro as compare
 EPS = 1e-9
 
 _original_fingerprint = core.analyze_audio_fingerprint
-_original_compare_library = compare.compare_against_track_library
+_base_compare_library = None
 
 
 def _segment_vector(piece: np.ndarray, sr: int) -> List[float]:
-    """Build the same 91-ish feature ordering used by audio_embedding_vector_from_report."""
     y = np.asarray(piece, dtype=np.float32)
     y = np.nan_to_num(y, nan=0.0, posinf=0.0, neginf=0.0)
     if y.size < sr * 3:
@@ -97,8 +96,6 @@ def analyze_audio_fingerprint_v3(y: np.ndarray, sr: int):
         if duration < 12:
             return fp
 
-        # Five windows across the song. 12s is long enough for stable timbre/rhythm
-        # while remaining cheap enough for production analysis.
         window_sec = min(12.0, max(7.0, duration / 8.0))
         window = int(window_sec * work_sr)
         centers = (0.12, 0.31, 0.50, 0.69, 0.88) if duration >= 45 else (0.18, 0.40, 0.62, 0.84)
@@ -138,7 +135,6 @@ def _kmeans(vectors: List[List[float]], k: int, iterations: int = 10) -> List[Li
     if not clean:
         return []
     k = max(1, min(k, len(clean)))
-    # Deterministic far-apart initialization.
     centroids = [clean[0]]
     while len(centroids) < k:
         candidate = max(clean, key=lambda v: min(_euclidean(v, c) for c in centroids))
@@ -201,7 +197,6 @@ def _segment_votes(report_dict, library, means, stdevs, weights) -> Dict[str, An
             score = _distance_similarity(vec, proto, means, stdevs, weights)
             nearest.append((score, str(item.get("artist") or "Unknown")))
         nearest.sort(reverse=True)
-        # Top 8 neighbors vote with rank decay so one exact-ish prototype does not dominate.
         local: Dict[str, float] = defaultdict(float)
         for rank, (score, artist) in enumerate(nearest[:8], start=1):
             local[artist] += (score / 100.0) / (rank ** 0.75)
@@ -228,8 +223,11 @@ def _segment_votes(report_dict, library, means, stdevs, weights) -> Dict[str, An
 
 
 def compare_against_track_library_v3(report_dict, profile_files, top_n):
-    # Start with the already-hardened v2 + contrastive + TuneBat matcher.
-    ranked, profiles, nearest = _original_compare_library(report_dict, profile_files, max(top_n, 12))
+    if _base_compare_library is None:
+        return [], {}, []
+
+    # Start with the fully installed v2 + contrastive + TuneBat matcher.
+    ranked, profiles, nearest = _base_compare_library(report_dict, profile_files, max(top_n, 12))
     if not ranked:
         return ranked, profiles, nearest
 
@@ -238,7 +236,10 @@ def compare_against_track_library_v3(report_dict, profile_files, top_n):
     if not library or not song_vector:
         return ranked[:top_n], profiles, nearest
 
-    dims = min(len(song_vector), min(len(item.get("vector") or []) for item in library if item.get("vector")))
+    valid_vectors = [item.get("vector") or [] for item in library if item.get("vector")]
+    if not valid_vectors:
+        return ranked[:top_n], profiles, nearest
+    dims = min(len(song_vector), min(len(v) for v in valid_vectors))
     if dims <= 0:
         return ranked[:top_n], profiles, nearest
     song_vector = song_vector[:dims]
@@ -299,6 +300,12 @@ def compare_against_track_library_v3(report_dict, profile_files, top_n):
 
 
 def install() -> None:
+    global _base_compare_library
+    # Capture whatever matcher is active *now* (after accuracy/contrastive/TuneBat
+    # installers), then layer v3 on top. This prevents installer ordering from
+    # accidentally bypassing earlier hardening.
+    if compare.compare_against_track_library is not compare_against_track_library_v3:
+        _base_compare_library = compare.compare_against_track_library
     core.analyze_audio_fingerprint = analyze_audio_fingerprint_v3
     compare.compare_against_track_library = compare_against_track_library_v3
     print("[soundlens] Artist Match v3 loaded: substyle clusters + segment voting")
