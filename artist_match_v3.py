@@ -1,14 +1,11 @@
 from __future__ import annotations
 
-"""SoundLens Artist Match v3.
+"""SoundLens Artist Match v3.1.
 
-Adds three things without replacing the existing public API:
-1. Internal sub-style clusters per artist so one averaged artist identity does not blur eras/lanes.
-2. Lightweight segment embeddings so several parts of the upload vote independently.
-3. Cluster/segment diagnostics that can be used by the UI/AI and offline confusion tests.
-
-The existing whole-song matcher remains the primary signal. These additions are bounded
-and deliberately modest so they improve separation without making Railway analysis slow.
+Adds internal sub-style clusters, segment-level artist voting, and explicit
+runtime diagnostics while layering on top of the existing TuneBat + contrastive
+matcher. Whole-song similarity remains important, but no longer dominates when
+segment/cluster evidence disagrees.
 """
 
 import math
@@ -22,7 +19,7 @@ import soundlens_pro as core
 import compare_to_profile_pro as compare
 
 EPS = 1e-9
-
+VERSION = "3.1"
 _original_fingerprint = core.analyze_audio_fingerprint
 _base_compare_library = None
 
@@ -114,7 +111,7 @@ def analyze_audio_fingerprint_v3(y: np.ndarray, sr: int):
         if segments:
             fp["segment_embeddings"] = segments
             fp["segment_embedding_count"] = len(segments)
-            fp["fingerprint_version"] = max(float(fp.get("fingerprint_version") or 0), 3.0)
+            fp["fingerprint_version"] = max(float(fp.get("fingerprint_version") or 0), 3.1)
     except Exception:
         pass
     return fp
@@ -127,47 +124,66 @@ def _euclidean(a: List[float], b: List[float]) -> float:
     return math.sqrt(sum((float(a[i]) - float(b[i])) ** 2 for i in range(n)) / n)
 
 
-def _kmeans(vectors: List[List[float]], k: int, iterations: int = 10) -> List[List[float]]:
-    if not vectors:
+def _z_vector(vector: List[float], means: List[float], stdevs: List[float], dims: int) -> List[float]:
+    out = []
+    for i in range(dims):
+        sd = float(stdevs[i]) if i < len(stdevs) and float(stdevs[i]) > 1e-9 else 1.0
+        mean = float(means[i]) if i < len(means) else 0.0
+        out.append((float(vector[i]) - mean) / sd)
+    return out
+
+
+def _cluster_artist(vectors: List[List[float]], k: int, means: List[float], stdevs: List[float], dims: int) -> List[List[float]]:
+    raw = [list(map(float, v[:dims])) for v in vectors if len(v) >= dims]
+    if not raw:
         return []
-    dims = min(len(v) for v in vectors if v)
-    clean = [list(map(float, v[:dims])) for v in vectors if len(v) >= dims]
-    if not clean:
-        return []
-    k = max(1, min(k, len(clean)))
-    centroids = [clean[0]]
+    k = max(1, min(k, len(raw)))
+    zrows = [_z_vector(v, means, stdevs, dims) for v in raw]
+
+    centroids = [zrows[0][:]]
     while len(centroids) < k:
-        candidate = max(clean, key=lambda v: min(_euclidean(v, c) for c in centroids))
+        candidate = max(zrows, key=lambda v: min(_euclidean(v, c) for c in centroids))
         centroids.append(candidate[:])
-    for _ in range(iterations):
+
+    assignments = [0] * len(raw)
+    for _ in range(12):
         groups = [[] for _ in range(k)]
-        for v in clean:
-            idx = min(range(k), key=lambda i: _euclidean(v, centroids[i]))
-            groups[idx].append(v)
-        changed = False
+        new_assignments = []
+        for idx, z in enumerate(zrows):
+            cidx = min(range(k), key=lambda i: _euclidean(z, centroids[i]))
+            new_assignments.append(cidx)
+            groups[cidx].append(z)
+        changed = new_assignments != assignments
+        assignments = new_assignments
         for i, group in enumerate(groups):
-            if not group:
-                continue
-            new = [sum(v[d] for v in group) / len(group) for d in range(dims)]
-            if _euclidean(new, centroids[i]) > 1e-6:
-                changed = True
-            centroids[i] = new
+            if group:
+                centroids[i] = [sum(v[d] for v in group) / len(group) for d in range(dims)]
         if not changed:
             break
-    return centroids
+
+    raw_groups = [[] for _ in range(k)]
+    for idx, cidx in enumerate(assignments):
+        raw_groups[cidx].append(raw[idx])
+
+    raw_centroids = []
+    for group in raw_groups:
+        if group:
+            raw_centroids.append([sum(v[d] for v in group) / len(group) for d in range(dims)])
+    return raw_centroids
 
 
-def _build_clusters(library: List[Dict[str, Any]]) -> Dict[str, List[List[float]]]:
+def _build_clusters(library: List[Dict[str, Any]], means: List[float], stdevs: List[float], dims: int) -> Dict[str, List[List[float]]]:
     by_artist: Dict[str, List[List[float]]] = defaultdict(list)
     for item in library:
         vec = item.get("vector") or []
-        if isinstance(vec, list) and vec:
+        if isinstance(vec, list) and len(vec) >= dims:
             by_artist[str(item.get("artist") or "Unknown")].append(vec)
+
     clusters: Dict[str, List[List[float]]] = {}
     for artist, vectors in by_artist.items():
         n = len(vectors)
         k = 1 if n < 12 else (2 if n < 28 else (3 if n < 55 else 4))
-        clusters[artist] = _kmeans(vectors, k)
+        clusters[artist] = _cluster_artist(vectors, k, means, stdevs, dims)
     return clusters
 
 
@@ -181,36 +197,46 @@ def _distance_similarity(song_vector, target_vector, means, stdevs, weights) -> 
 def _segment_votes(report_dict, library, means, stdevs, weights) -> Dict[str, Any]:
     segments = ((report_dict.get("fingerprint") or {}).get("segment_embeddings") or [])
     if not isinstance(segments, list) or not segments:
-        return {"count": 0, "votes": {}, "winner": None, "consensus": 0.0}
+        return {"count": 0, "votes": {}, "winner": None, "consensus": 0.0, "segment_winners": []}
 
     votes: Dict[str, float] = defaultdict(float)
-    winners = []
+    winners: List[str] = []
+
     for seg in segments[:5]:
         vec = seg.get("vector") if isinstance(seg, dict) else None
         if not isinstance(vec, list) or not vec:
             continue
-        nearest = []
+
+        # One best score per artist prevents large prototype libraries from
+        # getting more lottery tickets in each segment.
+        best_by_artist: Dict[str, float] = {}
         for item in library:
             proto = item.get("vector") or []
             if not proto:
                 continue
+            artist = str(item.get("artist") or "Unknown")
             score = _distance_similarity(vec, proto, means, stdevs, weights)
-            nearest.append((score, str(item.get("artist") or "Unknown")))
-        nearest.sort(reverse=True)
-        local: Dict[str, float] = defaultdict(float)
-        for rank, (score, artist) in enumerate(nearest[:8], start=1):
-            local[artist] += (score / 100.0) / (rank ** 0.75)
-        if local:
-            winner = max(local, key=local.get)
-            winners.append(winner)
-            total = sum(local.values()) or 1.0
-            for artist, value in local.items():
-                votes[artist] += value / total
+            if score > best_by_artist.get(artist, -1.0):
+                best_by_artist[artist] = score
+
+        ordered = sorted(((score, artist) for artist, score in best_by_artist.items()), reverse=True)[:8]
+        if not ordered:
+            continue
+
+        winner = ordered[0][1]
+        winners.append(winner)
+        local: Dict[str, float] = {}
+        for rank, (score, artist) in enumerate(ordered, start=1):
+            local[artist] = max(0.0, score / 100.0) / (rank ** 0.72)
+        total = sum(local.values()) or 1.0
+        for artist, value in local.items():
+            votes[artist] += value / total
 
     count = len(winners)
     if not count:
-        return {"count": 0, "votes": {}, "winner": None, "consensus": 0.0}
-    normalized = {a: v / count for a, v in votes.items()}
+        return {"count": 0, "votes": {}, "winner": None, "consensus": 0.0, "segment_winners": []}
+
+    normalized = {artist: value / count for artist, value in votes.items()}
     winner = max(normalized, key=normalized.get)
     consensus = winners.count(winner) / count
     return {
@@ -226,27 +252,25 @@ def compare_against_track_library_v3(report_dict, profile_files, top_n):
     if _base_compare_library is None:
         return [], {}, []
 
-    # Start with the fully installed v2 + contrastive + TuneBat matcher.
     ranked, profiles, nearest = _base_compare_library(report_dict, profile_files, max(top_n, 12))
     if not ranked:
         return ranked, profiles, nearest
 
     library, _ = compare.load_track_library(profile_files)
     song_vector = compare.audio_embedding_vector_from_report(report_dict)
-    if not library or not song_vector:
+    valid_vectors = [item.get("vector") or [] for item in library if item.get("vector")]
+    if not library or not song_vector or not valid_vectors:
         return ranked[:top_n], profiles, nearest
 
-    valid_vectors = [item.get("vector") or [] for item in library if item.get("vector")]
-    if not valid_vectors:
-        return ranked[:top_n], profiles, nearest
     dims = min(len(song_vector), min(len(v) for v in valid_vectors))
     if dims <= 0:
         return ranked[:top_n], profiles, nearest
+
     song_vector = song_vector[:dims]
     means, stdevs = compare.library_stats(library, dims)
     weights = compare.vector_weights(dims)
 
-    clusters = _build_clusters(library)
+    clusters = _build_clusters(library, means, stdevs, dims)
     cluster_scores: Dict[str, float] = {}
     cluster_ids: Dict[str, int] = {}
     for artist, centroids in clusters.items():
@@ -266,17 +290,20 @@ def compare_against_track_library_v3(report_dict, profile_files, top_n):
         cluster = cluster_scores.get(artist)
         segment = float(seg_votes.get(artist, 0.0)) * 100.0 if seg.get("count") else None
 
-        parts = [(base, 0.72)]
+        parts = [(base, 0.55)]
         if cluster is not None:
-            parts.append((cluster, 0.18))
+            parts.append((cluster, 0.25))
         if segment is not None:
-            parts.append((segment, 0.10))
-        adjusted = sum(v * w for v, w in parts) / sum(w for _, w in parts)
+            parts.append((segment, 0.20))
+        adjusted = sum(value * weight for value, weight in parts) / sum(weight for _, weight in parts)
 
         components = item.get("score_components") or {}
-        components["substyle_cluster"] = round(cluster, 2) if cluster is not None else None
-        components["segment_consensus"] = round(segment, 2) if segment is not None else None
+        components["artist_match_version"] = VERSION
+        components["substyle_cluster_score"] = round(cluster, 2) if cluster is not None else None
+        components["segment_vote_score"] = round(segment, 2) if segment is not None else None
+        components["blend_weights"] = {"whole_song": 55, "substyle": 25, "segments": 20 if segment is not None else 0}
         item["score_components"] = components
+        item["artist_match_version"] = VERSION
         item["substyle_cluster"] = cluster_ids.get(artist)
         item["segment_vote"] = round(segment, 2) if segment is not None else None
         item["match_score"] = round(max(0.0, min(96.0, adjusted)), 2)
@@ -291,21 +318,22 @@ def compare_against_track_library_v3(report_dict, profile_files, top_n):
 
     if ranked:
         ranked[0]["segment_analysis"] = {
+            "version": VERSION,
             "segments": int(seg.get("count") or 0),
             "winner": seg.get("winner"),
             "consensus": round(float(seg.get("consensus") or 0.0) * 100.0, 1),
             "segment_winners": seg.get("segment_winners") or [],
         }
+        top_names = ", ".join(str(item.get("profile_name") or "?") for item in ranked[:3])
+        print(f"[artist-match-v{VERSION}] segments={seg.get('count', 0)} segment_winner={seg.get('winner')} top3={top_names}")
+
     return ranked[:top_n], profiles, nearest
 
 
 def install() -> None:
     global _base_compare_library
-    # Capture whatever matcher is active *now* (after accuracy/contrastive/TuneBat
-    # installers), then layer v3 on top. This prevents installer ordering from
-    # accidentally bypassing earlier hardening.
     if compare.compare_against_track_library is not compare_against_track_library_v3:
         _base_compare_library = compare.compare_against_track_library
     core.analyze_audio_fingerprint = analyze_audio_fingerprint_v3
     compare.compare_against_track_library = compare_against_track_library_v3
-    print("[soundlens] Artist Match v3 loaded: substyle clusters + segment voting")
+    print(f"[soundlens] Artist Match v{VERSION} loaded: standardized substyles + artist-balanced segment voting")
