@@ -274,6 +274,70 @@ canvas {
   overscroll-behavior: contain;
 }
 
+
+/* SoundLens account dashboard v2 */
+#accountModal .modal{width:min(1040px,100%);padding:30px}
+.dashboard-v2{display:grid;gap:18px}
+.dashboard-v2-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.dashboard-v2-title{font-size:34px;line-height:1;letter-spacing:-.055em;margin:5px 0 8px}
+.dashboard-v2-sub{font-size:11px;color:#858da2;line-height:1.55}
+.dashboard-v2-plan{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.dashboard-hero-v2{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.075);background:
+ radial-gradient(circle at 84% 12%,rgba(114,117,255,.16),transparent 34%),
+ linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,255,255,.015));border-radius:25px;padding:22px}
+.dashboard-hero-v2:after{content:"";position:absolute;width:300px;height:300px;right:-135px;top:-145px;border-radius:50%;border:1px solid rgba(144,148,255,.13);box-shadow:0 0 0 28px rgba(126,130,255,.025),0 0 0 58px rgba(126,130,255,.018);pointer-events:none}
+.dashboard-hero-copy{position:relative;z-index:1;max-width:640px}
+.dashboard-eyebrow{font-size:9px;color:#8a92a7;text-transform:uppercase;letter-spacing:.17em}
+.dashboard-hero-v2 h3{font-size:27px;letter-spacing:-.045em;margin:8px 0 7px}
+.dashboard-hero-v2 p{font-size:11px;color:#9299ad;line-height:1.55;margin:0;max-width:590px}
+.dashboard-hero-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px;position:relative;z-index:1}
+.dashboard-grid-v2{display:grid;grid-template-columns:1.08fr .92fr;gap:12px}
+.dashboard-panel-v2{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.019);border-radius:22px;padding:17px}
+.dashboard-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px}
+.dashboard-panel-title{font-size:18px;font-weight:830;letter-spacing:-.035em;margin-top:4px}
+.dashboard-stats-v2{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dashboard-stat-v2{min-height:86px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.022);border-radius:16px;padding:12px}
+.dashboard-stat-v2 span{display:block;font-size:8px;color:#747c90;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.dashboard-stat-v2 strong{display:block;font-size:19px;letter-spacing:-.04em;color:#edf0ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dashboard-stat-v2 small{display:block;color:#687086;font-size:8px;margin-top:4px;line-height:1.35}
+.sound-profile-v2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sound-profile-cell{border:1px solid rgba(255,255,255,.06);background:linear-gradient(145deg,rgba(114,117,255,.045),rgba(255,255,255,.018));border-radius:15px;padding:12px;min-width:0}
+.sound-profile-cell span{display:block;font-size:8px;color:#767e92;text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
+.sound-profile-cell strong{display:block;font-size:13px;color:#e7e9f4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sound-profile-cell small{display:block;font-size:8px;color:#687086;margin-top:4px;line-height:1.4}
+.dashboard-empty-profile{border:1px dashed rgba(255,255,255,.09);border-radius:15px;padding:16px;color:#777f94;font-size:10px;line-height:1.5;grid-column:1/-1}
+.dashboard-quick-v2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dashboard-quick-card{position:relative;text-align:left;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.024);border-radius:15px;padding:13px 34px 13px 13px;color:#e8eaf5;cursor:pointer;transition:.2s ease;min-height:74px}
+.dashboard-quick-card:hover{transform:translateY(-2px);border-color:rgba(139,142,255,.27);background:rgba(114,117,255,.055)}
+.dashboard-quick-card strong{display:block;font-size:11px;margin-bottom:5px}
+.dashboard-quick-card span{display:block;font-size:8px;color:#747c90;line-height:1.4}
+.dashboard-quick-card:after{content:"↗";position:absolute;right:13px;top:12px;color:#737b91;font-size:11px}
+.dashboard-recent-v2{border-top:1px solid rgba(255,255,255,.06);padding-top:18px}
+.dashboard-recent-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.dashboard-recent-head .history-note{margin:0;text-align:right}
+.dashboard-v2 .report-list{max-height:430px;margin-top:12px}
+.dashboard-footer-v2{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:2px}
+.dashboard-account-email{font-size:9px;color:#666f84;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dashboard-text-btn{border:0;background:transparent;color:#7f879a;font-size:9px;cursor:pointer;padding:7px}
+.dashboard-text-btn:hover{color:#fff}
+.dashboard-progress{height:3px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;margin-top:8px}
+.dashboard-progress i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#7376ff,#9e91ff)}
+@media(max-width:760px){
+ #accountModal .modal{padding:20px}
+ .dashboard-v2-head{display:block}.dashboard-v2-plan{justify-content:flex-start;margin-top:12px}
+ .dashboard-v2-title{font-size:29px}
+ .dashboard-grid-v2{grid-template-columns:1fr}
+ .dashboard-stats-v2{grid-template-columns:1fr 1fr}
+ .dashboard-stat-v2:last-child{grid-column:1/-1}
+ .dashboard-recent-head{align-items:flex-start;flex-direction:column}.dashboard-recent-head .history-note{text-align:left}
+}
+@media(max-width:460px){
+ .sound-profile-v2,.dashboard-quick-v2{grid-template-columns:1fr}
+ .dashboard-stats-v2{grid-template-columns:1fr}.dashboard-stat-v2:last-child{grid-column:auto}
+ .dashboard-hero-v2{padding:18px}.dashboard-v2-title{font-size:26px}
+ .dashboard-footer-v2{align-items:flex-start;flex-direction:column}
+}
+
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.179.1/build/three.module.js","three/addons/":"https://unpkg.com/three@0.179.1/examples/jsm/"}}
@@ -400,7 +464,7 @@ canvas {
     </div>
   </div>
 </div></div>
-<div class="modal-wrap" id="accountModal"><div class="modal small glass"><div class="modal-head"><h2>Your SoundLens</h2><button class="closebtn" onclick="closeModal('accountModal')">×</button></div><div id="accountContent"></div></div></div>
+<div class="modal-wrap" id="accountModal"><div class="modal glass"><div class="modal-head"><h2>Your SoundLens</h2><button class="closebtn" onclick="closeModal('accountModal')">×</button></div><div id="accountContent"></div></div></div>
 
 <div class="upload-stage" id="uploadStage">
   <div class="upload-card glass">
@@ -504,50 +568,161 @@ async function openAccount(){
   if(!slUser){openModal('authModal');return}
   const box=document.getElementById('accountContent');
   const plan=String(slUser.plan||'free').toLowerCase(),label=plan.toUpperCase();
-  box.innerHTML=`<div class="dashboard-head">
-    <div>
-      <div class="card-kicker">Account dashboard</div>
-      <div class="dashboard-name">${esc(slUser.display_name||'Your SoundLens')}</div>
-      <div class="dashboard-sub">Your account, usage and recent analyses.</div>
+
+  box.innerHTML=`<div class="dashboard-v2">
+    <div class="dashboard-v2-head">
+      <div>
+        <div class="dashboard-eyebrow">Your SoundLens</div>
+        <div class="dashboard-v2-title">Welcome back, ${esc(slUser.display_name||'producer')}.</div>
+        <div class="dashboard-v2-sub">Your analysis history, listening patterns and SoundLens tools in one place.</div>
+      </div>
+      <div class="dashboard-v2-plan"><span class="status-badge ${esc(plan)}">${esc(label)}</span></div>
     </div>
-    <span class="status-badge ${esc(plan)}">${esc(label)}</span>
-  </div>
-  <div class="account-row"><span>Email</span><strong>${esc(slUser.email)}</strong></div>
-  <div class="account-row"><span>Uploads today</span><strong>${slUser.uploads_today??0}${slUser.daily_limit?` / ${slUser.daily_limit}`:' · Unlimited'}</strong></div>
-  <div class="account-row"><span>Ask SoundLens today</span><strong>${slUser.ai_questions_today??0}${slUser.ai_daily_limit?` / ${slUser.ai_daily_limit}`:' · Unlimited'}</strong></div>
-  <div class="card-kicker" style="margin-top:22px">Recent analyses</div>
-  <div class="report-list" id="dashboardReports"><div class="empty-history">Loading your tracks…</div></div>
-  <div class="history-note" id="historyNote"></div>
-  <div class="account-actions-row">
-    <button class="primary-btn" onclick="closeModal('accountModal');openModal('pricingModal')">Plans</button>
-    <button class="navpill" onclick="logoutSL()">Log out</button>
+
+    <div class="dashboard-hero-v2">
+      <div class="dashboard-hero-copy">
+        <div class="dashboard-eyebrow">Continue working</div>
+        <h3>See what your next track is doing.</h3>
+        <p>Analyze a new track, compare it against the reference library, then use your saved history to see the patterns forming across your sound.</p>
+      </div>
+      <div class="dashboard-hero-actions">
+        <button class="primary-btn" onclick="dashboardAnalyze()">Analyze a track</button>
+        <button class="navpill" onclick="closeModal('accountModal');loadReferenceLibrary();openModal('databaseModal')">Artist Database</button>
+      </div>
+    </div>
+
+    <div class="dashboard-grid-v2">
+      <div class="dashboard-panel-v2">
+        <div class="dashboard-panel-head"><div><div class="dashboard-eyebrow">Account pulse</div><div class="dashboard-panel-title">Today</div></div></div>
+        <div class="dashboard-stats-v2">
+          <div class="dashboard-stat-v2"><span>Uploads</span><strong>${slUser.uploads_today??0}${slUser.daily_limit?` / ${slUser.daily_limit}`:' ∞'}</strong><small>${slUser.daily_limit?'Daily analysis usage':'Unlimited on your plan'}</small>${dashboardUsageBar(slUser.uploads_today,slUser.daily_limit)}</div>
+          <div class="dashboard-stat-v2"><span>Ask SoundLens</span><strong>${slUser.ai_questions_today??0}${slUser.ai_daily_limit?` / ${slUser.ai_daily_limit}`:' ∞'}</strong><small>${slUser.ai_daily_limit?'Questions used today':'Unlimited track questions'}</small>${dashboardUsageBar(slUser.ai_questions_today,slUser.ai_daily_limit)}</div>
+          <div class="dashboard-stat-v2"><span>Saved analyses</span><strong id="dashboardSavedCount">—</strong><small>Your personal SoundLens history</small></div>
+        </div>
+      </div>
+
+      <div class="dashboard-panel-v2">
+        <div class="dashboard-panel-head"><div><div class="dashboard-eyebrow">Your library</div><div class="dashboard-panel-title">Quick access</div></div></div>
+        <div class="dashboard-quick-v2">
+          <button class="dashboard-quick-card" onclick="dashboardAnalyze()"><strong>New analysis</strong><span>Upload audio and open the 3D Lab.</span></button>
+          <button class="dashboard-quick-card" onclick="closeModal('accountModal');loadReferenceLibrary();openModal('databaseModal')"><strong>Artist Database</strong><span>Explore the reference profiles behind Artist Match.</span></button>
+          <button class="dashboard-quick-card" onclick="closeModal('accountModal');openModal('studioModal')"><strong>SoundLens Studio</strong><span>Plugin access and DAW tools.</span></button>
+          <button class="dashboard-quick-card" onclick="closeModal('accountModal');openModal('pricingModal')"><strong>Plan & access</strong><span>Review Free, Pro and Studio features.</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-panel-v2">
+      <div class="dashboard-panel-head">
+        <div><div class="dashboard-eyebrow">Across your tracks</div><div class="dashboard-panel-title">Your Sound Profile</div></div>
+        <div class="dashboard-sub" id="soundProfileSample"></div>
+      </div>
+      <div class="sound-profile-v2" id="soundProfileGrid"><div class="dashboard-empty-profile">Loading patterns from your saved analyses…</div></div>
+    </div>
+
+    <div class="dashboard-recent-v2">
+      <div class="dashboard-recent-head">
+        <div><div class="dashboard-eyebrow">History</div><div class="dashboard-panel-title">Recent analyses</div></div>
+        <div class="history-note" id="historyNote"></div>
+      </div>
+      <div class="report-list" id="dashboardReports"><div class="empty-history">Loading your tracks…</div></div>
+    </div>
+
+    <div class="dashboard-footer-v2">
+      <div class="dashboard-account-email">${esc(slUser.email)}</div>
+      <div><button class="dashboard-text-btn" onclick="closeModal('accountModal');openModal('pricingModal')">Manage plan</button><button class="dashboard-text-btn" onclick="logoutSL()">Log out</button></div>
+    </div>
   </div>`;
+
   openModal('accountModal');
   try{
     const d=await jsonReq('/reports');
-    renderDashboardReports(d.reports||[],plan);
+    const reports=Array.isArray(d.reports)?d.reports:[];
+    renderSoundProfile(reports);
+    renderDashboardReports(reports,plan);
+    const count=document.getElementById('dashboardSavedCount');
+    if(count)count.textContent=String(reports.length);
   }catch(e){
     const reports=document.getElementById('dashboardReports');
     if(reports)reports.innerHTML=`<div class="empty-history">${esc(e.message)}</div>`;
+    const profile=document.getElementById('soundProfileGrid');
+    if(profile)profile.innerHTML='<div class="dashboard-empty-profile">Your profile will build as SoundLens analyzes and saves more tracks.</div>';
   }
 }
+
+function dashboardUsageBar(value,limit){
+  if(!limit)return '';
+  const pct=Math.max(0,Math.min(100,(Number(value||0)/Math.max(1,Number(limit)))*100));
+  return `<div class="dashboard-progress"><i style="width:${pct.toFixed(1)}%"></i></div>`;
+}
+
+function dashboardAnalyze(){
+  closeModal('accountModal');
+  const input=document.getElementById('fileInput');
+  if(input){input.value='';input.click()}
+}
+
+function dashboardMode(values){
+  const counts={};
+  values.filter(Boolean).forEach(v=>{const k=String(v).trim();if(k)counts[k]=(counts[k]||0)+1});
+  return Object.entries(counts).sort((a,b)=>b[1]-a[1])[0]||null;
+}
+
+function renderSoundProfile(reports){
+  const grid=document.getElementById('soundProfileGrid'),sample=document.getElementById('soundProfileSample');
+  if(!grid)return;
+  const usable=reports.filter(r=>r&&typeof r==='object');
+  if(sample)sample.textContent=usable.length?`${usable.length} saved ${usable.length===1?'track':'tracks'}`:'';
+  if(!usable.length){
+    grid.innerHTML='<div class="dashboard-empty-profile">Analyze and save a few tracks and SoundLens will start showing the patterns across your music here.</div>';
+    return;
+  }
+
+  const bpms=usable.map(r=>Number(r.bpm)).filter(v=>Number.isFinite(v)&&v>0).sort((a,b)=>a-b);
+  let tempo='—',tempoNote='Waiting for more BPM data';
+  if(bpms.length){
+    const lo=Math.round(bpms[Math.floor((bpms.length-1)*.2)]);
+    const hi=Math.round(bpms[Math.ceil((bpms.length-1)*.8)]);
+    const med=Math.round(bpms[Math.floor(bpms.length/2)]);
+    tempo=bpms.length>=3?`${lo}–${hi} BPM`:`${med} BPM`;
+    tempoNote=bpms.length>=3?`Median ${med} BPM`:'Current saved-track center';
+  }
+
+  const artist=dashboardMode(usable.map(r=>r.closest_artist));
+  const key=dashboardMode(usable.map(r=>r.key));
+  const points=usable.map(r=>Number(r.pin_count)).filter(Number.isFinite);
+  const avgPoints=points.length?Math.round(points.reduce((a,b)=>a+b,0)/points.length):null;
+  const event=dashboardMode(usable.map(r=>r.top_event));
+
+  const cells=[
+    ['Tempo pocket',tempo,tempoNote],
+    ['Closest reference',artist?artist[0]:'—',artist?`${artist[1]} of ${usable.length} saved tracks`:'More matches will sharpen this'],
+    ['Most common key',key?key[0]:'—',key?`${key[1]} saved ${key[1]===1?'track':'tracks'}`:'No key pattern yet'],
+    ['Analysis density',avgPoints!=null?`${avgPoints} points`:'—',avgPoints!=null?'Average detected timeline points':'No point history yet']
+  ];
+  if(event)cells.push(['Recurring standout',event[0],`${event[1]} ${event[1]===1?'appearance':'appearances'} across saved analyses`]);
+
+  grid.innerHTML=cells.map(([label,value,note])=>`<div class="sound-profile-cell"><span>${esc(label)}</span><strong title="${esc(value)}">${esc(value)}</strong><small>${esc(note)}</small></div>`).join('');
+}
+
 function formatDuration(sec){
   sec=Math.max(0,Number(sec)||0);
   const m=Math.floor(sec/60),ss=Math.floor(sec%60);
   return `${m}:${String(ss).padStart(2,'0')}`;
 }
+
 function renderDashboardReports(reports,plan){
   const box=document.getElementById('dashboardReports'),note=document.getElementById('historyNote');
   if(!box)return;
   const paid=['pro','studio','lifetime'].includes(plan);
   const visible=paid?reports:reports.slice(0,5);
   if(!visible.length){
-    box.innerHTML='<div class="empty-history">Analyze a track and it will appear here.</div>';
+    box.innerHTML='<div class="empty-history">Your analyzed tracks will collect here. Start with a new analysis above.</div>';
     if(note)note.textContent='';
     return;
   }
   box.innerHTML=visible.map(r=>{
-    const dt=r.created_at?new Date(r.created_at).toLocaleString():'';
+    const dt=r.created_at?new Date(r.created_at).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}):'';
     const chips=[];
     if(r.bpm)chips.push(`${Math.round(Number(r.bpm))} BPM`);
     if(r.key)chips.push(esc(r.key));
@@ -576,8 +751,8 @@ function renderDashboardReports(reports,plan){
   }).join('');
   if(note){
     note.textContent=!paid&&reports.length>5
-      ? `Showing your 5 most recent analyses. Pro unlocks your full history (${reports.length} saved).`
-      : `${reports.length} saved ${reports.length===1?'analysis':'analyses'}.`;
+      ? `5 recent · Pro unlocks all ${reports.length} saved analyses`
+      : `${reports.length} saved ${reports.length===1?'analysis':'analyses'}`;
   }
 }
 
@@ -598,7 +773,7 @@ async function deleteSavedReport(id,event){
       card.style.transform='scale(.985)';
       setTimeout(()=>card.remove(),160);
     }
-    await loadDashboard();
+    await openAccount();
   }catch(e){
     if(btn){btn.disabled=false;btn.textContent=oldText||'Delete';}
     alert(e.message||'Could not delete report.');
