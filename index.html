@@ -338,6 +338,110 @@ canvas {
  .dashboard-footer-v2{align-items:flex-start;flex-direction:column}
 }
 
+
+/* SoundLens responsive hardening — tablet + mobile */
+@media(max-width:900px){
+  .topbar{left:10px;right:10px;top:10px;height:58px;padding:0 12px;gap:10px}
+  .topbar .brand{font-size:18px}
+  .topbar .hide-mobile{display:none!important}
+  .mobile-page-rail{display:flex!important;position:fixed;z-index:22;top:76px;left:10px;right:10px;height:48px;align-items:center;gap:6px;padding:6px;overflow-x:auto;overflow-y:hidden;border-radius:15px;scrollbar-width:none;white-space:nowrap}
+  .mobile-page-rail::-webkit-scrollbar{display:none}
+  .mobile-page-rail button{flex:0 0 auto;border:0;background:transparent;color:#aab0c2;border-radius:10px;padding:9px 11px;font-size:10px;font-weight:650;white-space:nowrap}
+  .track-meta{display:none}
+  .modal-wrap{padding:10px;align-items:center}
+  .modal{width:min(100%,900px);max-height:calc(100dvh - 20px);padding:20px;border-radius:22px}
+  .modal-head{position:sticky;top:-20px;z-index:4;margin:-20px -20px 18px;padding:18px 20px 12px;background:linear-gradient(180deg,rgba(8,9,15,.98),rgba(8,9,15,.9) 75%,transparent);backdrop-filter:blur(16px)}
+  .modal-head h2{font-size:24px}
+  .database-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .artist-chip-name{font-size:13px}
+  .artist-profile-hero{grid-template-columns:140px minmax(0,1fr);gap:16px}
+  .artist-profile-photo{width:140px;height:140px}
+  .artist-profile-name{font-size:34px}
+  .admin-kpis-v2{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .admin-grid-v2,.admin-lower-grid{grid-template-columns:1fr}
+  #accountModal .modal{width:min(100%,860px);padding:20px}
+  .dashboard-grid-v2{grid-template-columns:1fr}
+}
+@media(max-width:800px){
+  .upload-stage{padding-top:110px}
+  .upload-card{max-height:calc(100dvh - 145px);overflow:auto}
+  .launch{padding:136px 12px 36px}
+  .launch-shell{width:100%}
+  .launch-hero{padding:24px 0 20px}
+  .launch h1{font-size:clamp(46px,14vw,72px)}
+  .launch-grid{grid-template-columns:1fr}
+  .launch-card.primary{grid-column:auto;grid-row:auto;min-height:250px}
+  .plans{grid-template-columns:1fr}
+  .modebar{bottom:72px!important}
+  .viewbar{bottom:126px}
+  .ai{bottom:180px}
+  .pin-card{top:134px}
+  .database-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .reference-viewer,.reference-import-grid{grid-template-columns:1fr}
+  .artist-projects{grid-template-columns:1fr 1fr}
+  .compare-grid{grid-template-columns:1fr}
+  .dashboard-v2-head{display:block}
+  .dashboard-v2-plan{justify-content:flex-start;margin-top:12px}
+  .dashboard-stats-v2{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .dashboard-quick-v2,.sound-profile-v2{grid-template-columns:1fr 1fr}
+  .report-top{gap:8px}
+  .report-title{max-width:62%}
+}
+@media(max-width:600px){
+  .topbar .labtag{display:none}
+  .topbar #accountButton{max-width:118px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .topbar .status-badge{padding:5px 7px;font-size:8px}
+  .mobile-page-rail{top:74px}
+  .modal-wrap{padding:0;align-items:end}
+  .modal,.modal.small,#accountModal .modal{width:100%;max-height:calc(100dvh - 8px);border-radius:22px 22px 0 0;padding:18px 14px calc(18px + env(safe-area-inset-bottom))}
+  .modal-head{top:-18px;margin:-18px -14px 16px;padding:16px 14px 10px}
+  .modal-head h2{font-size:22px}
+  .database-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .artist-chip{border-radius:16px}
+  .artist-chip-copy{padding:10px 11px 12px}
+  .artist-chip-name{font-size:12px}
+  .artist-chip-meta{font-size:8px}
+  .artist-profile-hero{grid-template-columns:92px minmax(0,1fr);gap:11px}
+  .artist-profile-photo{width:92px;height:92px;border-radius:15px}
+  .artist-profile-name{font-size:25px;margin-bottom:8px}
+  .artist-profile-stats{gap:5px}
+  .artist-profile-stat{font-size:8px;padding:5px 7px}
+  .artist-projects{grid-template-columns:1fr}
+  .reference-visual{height:210px}
+  .admin-kpis-v2{grid-template-columns:1fr 1fr}
+  .dashboard-v2{gap:13px}
+  .dashboard-v2-title{font-size:27px}
+  .dashboard-hero-v2{padding:17px;border-radius:19px}
+  .dashboard-hero-v2 h3{font-size:23px}
+  .dashboard-hero-actions{display:grid;grid-template-columns:1fr}
+  .dashboard-hero-actions .primary-btn,.dashboard-hero-actions .navpill{width:100%;min-height:44px}
+  .dashboard-panel-v2{padding:14px;border-radius:18px}
+  .dashboard-stats-v2{grid-template-columns:1fr 1fr}
+  .dashboard-stat-v2:last-child{grid-column:1/-1}
+  .dashboard-quick-v2,.sound-profile-v2{grid-template-columns:1fr}
+  .dashboard-quick-card{min-height:68px}
+  .dashboard-recent-head{align-items:flex-start;flex-direction:column}
+  .dashboard-recent-head .history-note{text-align:left}
+  .report-list{max-height:none}
+  .report-top{display:block}
+  .report-title{max-width:100%;white-space:normal;line-height:1.35}
+  .report-date-actions{margin-top:8px;justify-content:space-between}
+  .report-delete-btn{margin-left:0}
+  .report-meta{gap:5px}
+  .report-open-hint{width:100%;margin:2px 0 0}
+  .report-preview{height:135px}
+  .report-details-grid{grid-template-columns:1fr}
+  .dashboard-footer-v2{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:390px){
+  .database-grid{grid-template-columns:1fr}
+  .dashboard-stats-v2{grid-template-columns:1fr}
+  .dashboard-stat-v2:last-child{grid-column:auto}
+  .controls{grid-template-columns:40px 66px minmax(0,1fr) 76px!important}
+  .controls .iconbtn{padding:0 7px}
+  .mode{font-size:8px}
+}
+
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.179.1/build/three.module.js","three/addons/":"https://unpkg.com/three@0.179.1/examples/jsm/"}}
