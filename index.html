@@ -442,6 +442,87 @@ canvas {
   .mode{font-size:8px}
 }
 
+/* SoundLens mobile artist database + lab polish */
+@media(max-width:600px){
+  #databaseModal .modal{
+    width:100%!important;
+    max-height:100dvh!important;
+    height:100dvh;
+    border-radius:0!important;
+    padding:16px 12px calc(22px + env(safe-area-inset-bottom))!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch;
+  }
+  #databaseModal .modal-head{
+    position:sticky!important;
+    top:0!important;
+    z-index:5;
+    margin:-16px -12px 14px!important;
+    padding:14px 12px 10px!important;
+    background:rgba(5,6,10,.94);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+  }
+  #databaseBreadcrumb{
+    white-space:normal;
+    line-height:1.5;
+    margin-bottom:12px!important;
+  }
+  .database-grid{
+    grid-template-columns:1fr 1fr!important;
+    gap:8px!important;
+  }
+  .artist-chip{
+    appearance:none;
+    -webkit-appearance:none;
+    width:100%;
+    padding:0!important;
+    color:inherit;
+    text-align:left;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .artist-chip:active{transform:scale(.985)}
+  .artist-chip-photo{aspect-ratio:1/1!important}
+  .artist-chip-copy{padding:10px 10px 12px!important}
+  .artist-chip-name{font-size:13px!important}
+  .artist-chip-meta{font-size:8px!important}
+  .artist-profile-hero{
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+    align-items:start!important;
+  }
+  .artist-profile-photo{
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:1/1!important;
+    border-radius:18px!important;
+  }
+  .artist-profile-copy{padding:0!important}
+  .artist-profile-name{font-size:30px!important}
+  .artist-profile-stats{gap:6px!important}
+  .artist-projects{grid-template-columns:1fr!important}
+  .artist-project-card{min-height:96px!important;padding:13px!important}
+  .artist-track-row{grid-template-columns:1fr!important;gap:7px!important}
+  .artist-track-row .admin-mini-badge{justify-self:start}
+  .reference-viewer{grid-template-columns:1fr!important}
+  .reference-visual{height:220px!important}
+  .compare-grid{grid-template-columns:1fr!important}
+
+  /* Lab: reduce persistent chrome without changing functionality. */
+  .viewbar{padding:5px!important}
+  .viewbtn{height:36px!important}
+  .modebar{padding:5px!important}
+  .mode{padding:9px 4px!important}
+  .ai:not(.ai-collapsed){max-height:38vh!important}
+  .pin-card{max-height:34vh;overflow:auto}
+}
+@media(max-width:390px){
+  .database-grid{grid-template-columns:1fr!important}
+  .artist-chip{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:center}
+  .artist-chip-photo{width:92px!important;height:92px!important;aspect-ratio:auto!important;border-bottom:0!important;border-right:1px solid rgba(255,255,255,.055)}
+  .artist-chip-copy{padding:12px!important}
+}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.179.1/build/three.module.js","three/addons/":"https://unpkg.com/three@0.179.1/examples/jsm/"}}
@@ -1212,7 +1293,7 @@ function renderReferenceArtists(){
     if(catalog)parts.push(`${catalog} catalog songs`);
     if(analyzed)parts.push(`${analyzed} analyzed tracks`);
     if(!parts.length)parts.push('No songs added yet');
-    return `<div class="artist-chip" onclick="openReferenceArtist('${esc(a.id)}')">${artistPortraitMarkup(a)}<div class="artist-chip-copy"><div class="artist-chip-name">${esc(a.name)}</div><span class="artist-chip-meta">${parts.join(' · ')}</span></div></div>`;
+    return `<button type="button" class="artist-chip" data-artist-id="${esc(a.id)}">${artistPortraitMarkup(a)}<div class="artist-chip-copy"><div class="artist-chip-name">${esc(a.name)}</div><span class="artist-chip-meta">${parts.join(' · ')}</span></div></button>`;
   }).join('');
 }
 
@@ -1235,7 +1316,7 @@ async function openReferenceArtist(artistId){
           return `<div class="artist-project-card" onclick='openReferenceProject(${JSON.stringify(JSON.stringify(p))})'><div class="project-type">${isMeta?'catalog':esc(p.type||'album')}</div><h3>${esc(p.title)}</h3><p>${copy}</p></div>`;
         }).join('')}</div>`
       : `<div class="empty-history">No reference songs are available for this artist yet.</div>`;
-    document.getElementById('databaseView').innerHTML=hero+body;
+    document.getElementById('databaseView').innerHTML=hero+body;const modal=document.querySelector('#databaseModal .modal');if(modal)modal.scrollTop=0;
   }catch(e){document.getElementById('databaseView').innerHTML=`<div class="empty-history">${esc(e.message)}</div>`}
 }
 
