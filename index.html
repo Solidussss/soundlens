@@ -442,6 +442,35 @@ canvas {
   .mode{font-size:8px}
 }
 
+/* SoundLens mobile performance pass */
+@media(max-width:800px){
+  .glass{
+    backdrop-filter:blur(14px) saturate(118%)!important;
+    -webkit-backdrop-filter:blur(14px) saturate(118%)!important;
+    box-shadow:0 12px 42px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.05)!important;
+  }
+  .modal-wrap{
+    backdrop-filter:blur(9px)!important;
+    -webkit-backdrop-filter:blur(9px)!important;
+  }
+  .artist-chip,
+  .artist-project-card,
+  .report-item,
+  .dashboard-panel-v2,
+  .dashboard-hero-v2{
+    box-shadow:none!important;
+  }
+  .database-grid,
+  .artist-projects,
+  .report-list,
+  .dashboard-v2,
+  .launch-grid{
+    content-visibility:auto;
+    contain-intrinsic-size:auto 700px;
+  }
+  .artist-chip-photo img{will-change:auto!important}
+}
+
 /* SoundLens mobile artist database + lab polish */
 @media(max-width:600px){
   #databaseModal .modal{
@@ -1457,7 +1486,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const AUTH_TOKEN_KEY='soundlens_auth_token';
 const container=document.getElementById('scene');
 const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;container.appendChild(renderer.domElement);
+const isMobileDevice=matchMedia('(max-width:800px)').matches;renderer.setPixelRatio(Math.min(devicePixelRatio,isMobileDevice?1.25:2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;container.appendChild(renderer.domElement);
 const scene=new THREE.Scene(); scene.fog=new THREE.FogExp2(0x05060a,.014);
 const camera=new THREE.PerspectiveCamera(44,innerWidth/innerHeight,.1,1000);camera.position.set(0,14,36);
 const controls=new OrbitControls(camera,renderer.domElement);
@@ -1548,8 +1577,28 @@ document.getElementById('fileInput').addEventListener('change',e=>{const file=e.
 
 const aiForm=document.getElementById('aiForm');aiForm.addEventListener('submit',async e=>{e.preventDefault();const q=document.getElementById('question');const text=q.value.trim();if(!text||!report)return;q.value='';const log=document.getElementById('aiLog');log.insertAdjacentHTML('beforeend',`<div class="bubble you">${escapeHTML(text)}</div>`);document.getElementById('aiState').textContent='thinking…';try{const token=localStorage.getItem(AUTH_TOKEN_KEY);const compact={basic:report.basic,loudness:report.loudness,frequency:report.frequency,rhythm:report.rhythm,sections:report.sections,artist_comparison:report.artist_comparison,visual_map:{duration:visual.duration,pins:visual.pins,legend:visual.legend}};const res=await fetch('/lab/ask',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`},body:JSON.stringify({question:text,context:compact,selected_pin:selectedPin})});const data=await res.json();if(!res.ok){if(res.status===429){openModal('pricingModal');}throw new Error(data.detail||'AI failed');}log.insertAdjacentHTML('beforeend',`<div class="bubble">${escapeHTML(data.answer||'No answer returned.')}</div>`)}catch(err){log.insertAdjacentHTML('beforeend',`<div class="bubble">${escapeHTML(err.message||String(err))}</div>`)}finally{document.getElementById('aiState').textContent=selectedPin?`focused on ${selectedPin.kind}`:'track context loaded';log.scrollTop=log.scrollHeight}});
 
-function animate(){requestAnimationFrame(animate);controls.update();if(focusTween){focusTween.t=Math.min(1,focusTween.t+.035);const t=1-Math.pow(1-focusTween.t,3);camera.position.lerpVectors(focusTween.start,focusTween.end,t);controls.target.lerpVectors(focusTween.targetStart,focusTween.endTarget,t);if(focusTween.t>=1)focusTween=null}const time=performance.now()*.001;pinMeshes.forEach((m,i)=>{const s=1+Math.sin(time*2.2+i)*.13;m.scale.setScalar(s)});renderer.render(scene,camera)}animate();
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+let lastFrame=0;
+function shouldRender3D(){
+  if(document.hidden)return false;
+  const launch=document.querySelector('.launch');
+  if(launch && !launch.classList.contains('hidden'))return false;
+  if(document.querySelector('.modal-wrap.on'))return false;
+  return true;
+}
+function animate(now=0){
+  requestAnimationFrame(animate);
+  if(!shouldRender3D())return;
+  const minFrameMs=isMobileDevice?33:0;
+  if(minFrameMs && now-lastFrame<minFrameMs)return;
+  lastFrame=now;
+  controls.update();
+  if(focusTween){focusTween.t=Math.min(1,focusTween.t+.035);const t=1-Math.pow(1-focusTween.t,3);camera.position.lerpVectors(focusTween.start,focusTween.end,t);controls.target.lerpVectors(focusTween.targetStart,focusTween.endTarget,t);if(focusTween.t>=1)focusTween=null}
+  const time=performance.now()*.001;
+  pinMeshes.forEach((m,i)=>{const s=1+Math.sin(time*2.2+i)*.13;m.scale.setScalar(s)});
+  renderer.render(scene,camera);
+}
+animate();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,matchMedia('(max-width:800px)').matches?1.25:2));renderer.setSize(innerWidth,innerHeight)});
 </script>
 </body>
 </html>
