@@ -1,7 +1,7 @@
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 const canvas=$('#roll'),ctx=canvas.getContext('2d');
-const state={shape:'heart',notes:[],playing:false,seed:1};
+const state={shape:'heart',notes:[],playing:false,seed:1,customPoints:[]};
 
 const KEYS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const SCALE_STEPS={major:[0,2,4,5,7,9,11],minor:[0,2,3,5,7,8,10],dorian:[0,2,3,5,7,9,10],phrygian:[0,1,3,5,7,8,10]};
@@ -17,7 +17,16 @@ function heart(x){const a=Math.PI*(2*x-1);return {top:0.67+0.18*Math.cos(a)-0.06
 function star(x){const teeth=5;const wave=Math.abs((((x*teeth)%1)*2)-1);const mid=.5;const spread=.12+.24*(1-wave);return {top:mid+spread,bottom:mid-spread}}
 function butterfly(x){const wing=Math.sin(Math.PI*x);const ripple=.06*Math.sin(x*Math.PI*6);const spread=.10+.28*wing;const shift=.05*Math.sin(x*Math.PI*2);return {top:.5+shift+spread+ripple,bottom:.5+shift-spread-ripple}}
 function wave(x){const c=.5+.23*Math.sin(x*Math.PI*3.2);return {top:c+.11,bottom:c-.11}}
-function shapeAt(x){return ({heart,star,butterfly,wave}[state.shape]||heart)(x)}
+function customShape(x){
+  if(state.customPoints.length<2)return wave(x);
+  let pts=state.customPoints.slice().sort((a,b)=>a.x-b.x);
+  let a=pts[0],b=pts[pts.length-1];
+  for(let i=1;i<pts.length;i++){if(pts[i].x>=x){a=pts[i-1];b=pts[i];break}}
+  const span=Math.max(.0001,b.x-a.x),t=Math.max(0,Math.min(1,(x-a.x)/span));
+  const y=a.y+(b.y-a.y)*t,spread=.055;
+  return {top:Math.min(.95,y+spread),bottom:Math.max(.05,y-spread)};
+}
+function shapeAt(x){return state.shape==='custom'?customShape(x):({heart,star,butterfly,wave}[state.shape]||heart)(x)}
 
 function params(){return {key:$('#key').value,scale:$('#scale').value,bpm:+$('#bpm').value,bars:+$('#bars').value,density:$('#density').value,balance:+$('#balance').value}}
 function progression(root,mode,bars){
@@ -106,7 +115,26 @@ function preview(){
   const ac=new AC(),p=params(),secPerBeat=60/p.bpm,start=ac.currentTime+.05;
   state.notes.slice(0,180).forEach(n=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=440*Math.pow(2,(n.pitch-69)/12);g.gain.setValueAtTime(0,start+n.beat*secPerBeat);g.gain.linearRampToValueAtTime(.025,start+n.beat*secPerBeat+.01);g.gain.exponentialRampToValueAtTime(.001,start+(n.beat+n.dur)*secPerBeat);o.connect(g).connect(ac.destination);o.start(start+n.beat*secPerBeat);o.stop(start+(n.beat+n.dur)*secPerBeat+.03)});
 }
-$$('.shape').forEach(b=>b.addEventListener('click',()=>{$$('.shape').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.shape=b.dataset.shape;generate()}));
+$('.shape').forEach(b=>b.addEventListener('click',()=>{$('.shape').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.shape=b.dataset.shape;$('#drawCard').hidden=state.shape!=='custom';generate()}));
+
+const drawPad=$('#drawPad'),dctx=drawPad.getContext('2d');
+function renderDrawing(){
+  dctx.clearRect(0,0,drawPad.width,drawPad.height);
+  if(state.customPoints.length<2)return;
+  dctx.strokeStyle='#8d96ff';dctx.lineWidth=6;dctx.lineCap='round';dctx.lineJoin='round';dctx.beginPath();
+  state.customPoints.forEach((p,i)=>{const x=p.x*drawPad.width,y=(1-p.y)*drawPad.height;i?dctx.lineTo(x,y):dctx.moveTo(x,y)});dctx.stroke();
+}
+let drawing=false;
+function drawPoint(e){
+  const r=drawPad.getBoundingClientRect(),clientX=e.touches?e.touches[0].clientX:e.clientX,clientY=e.touches?e.touches[0].clientY:e.clientY;
+  const x=Math.max(0,Math.min(1,(clientX-r.left)/r.width)),y=1-Math.max(0,Math.min(1,(clientY-r.top)/r.height));
+  if(!state.customPoints.length||Math.abs(x-state.customPoints[state.customPoints.length-1].x)>.008)state.customPoints.push({x,y});
+  renderDrawing();
+}
+['pointerdown'].forEach(ev=>drawPad.addEventListener(ev,e=>{drawing=true;state.customPoints=[];drawPoint(e);drawPad.setPointerCapture?.(e.pointerId)}));
+drawPad.addEventListener('pointermove',e=>{if(drawing)drawPoint(e)});
+['pointerup','pointercancel','pointerleave'].forEach(ev=>drawPad.addEventListener(ev,e=>{if(!drawing)return;drawing=false;renderDrawing();state.shape='custom';$('.shape').forEach(x=>x.classList.toggle('active',x.dataset.shape==='custom'));generate()}));
+$('#clearDrawBtn').onclick=()=>{state.customPoints=[];renderDrawing();generate()};
 $('#generateBtn').onclick=()=>{state.seed=Date.now()>>>0;generate()};$('#randomizeBtn').onclick=()=>{state.seed=(Date.now()^0x9e3779b9)>>>0;generate()};$('#exportBtn').onclick=exportMidi;$('#playBtn').onclick=preview;$('#clearBtn').onclick=()=>{state.notes=[];updateMeta();draw()};
 ['balance','key','scale','bpm','bars','density'].forEach(id=>$('#'+id).addEventListener('input',()=>{updateMeta();if(id==='balance')draw()}));
 window.addEventListener('resize',resize);resize();generate();
