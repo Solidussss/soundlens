@@ -50,6 +50,13 @@
             <button class="shape" data-shape="star">☆<span>Star</span></button>
             <button class="shape" data-shape="butterfly">⌁<span>Butterfly</span></button>
             <button class="shape" data-shape="wave">∿<span>Wave</span></button>
+            <button class="shape" data-shape="custom">✎<span>Draw</span></button>
+          </div>
+
+          <div class="draw-card" id="drawCard" hidden>
+            <div class="draw-head"><span>Draw a contour</span><button id="clearDrawBtn" type="button">Clear</button></div>
+            <canvas id="drawPad" width="540" height="190"></canvas>
+            <small>Draw left → right. SoundLens turns the stroke into a scale-safe melodic contour.</small>
           </div>
 
           <label class="field">
