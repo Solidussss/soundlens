@@ -244,9 +244,17 @@ def _last_bar_before_hook(ctx: _Ctx, bar: int) -> bool:
 
 def gen_kick(ctx: _Ctx, seed: int, only=None) -> list[dict]:
     spec = ctx.c["drums"].get("kick") or {}
-    pats = KICK_PATTERNS.get(spec.get("pattern", "trap"), KICK_PATTERNS["trap"])
+    if spec.get("pattern") == "learned" and spec.get("patterns"):
+        pats = [p for p in spec["patterns"] if len(p) == 16 and "x" in p] or KICK_PATTERNS["trap"]
+    else:
+        pats = KICK_PATTERNS.get(spec.get("pattern", "trap"), KICK_PATTERNS["trap"])
     rng = np.random.default_rng(seed)
-    base = [pats[int(rng.integers(len(pats)))] for _ in range(2)]  # an A/B pair keeps the groove recognisable
+    if spec.get("pattern") == "learned":
+        # learned libraries are ordered by how often the artist uses each groove: favour the top ones
+        w = np.array([1.0 / (i + 1) for i in range(len(pats))]); w /= w.sum()
+        base = [pats[int(rng.choice(len(pats), p=w))] for _ in range(2)]
+    else:
+        base = [pats[int(rng.integers(len(pats)))] for _ in range(2)]  # an A/B pair keeps the groove recognisable
     notes = []
     for bar in range(ctx.total_bars):
         if not ctx.plays("kick", bar, only):
@@ -267,13 +275,21 @@ def _backbeat_steps(ctx: _Ctx) -> list[int]:
 
 def gen_snare(ctx: _Ctx, seed: int, only=None, role: str = "snare") -> list[dict]:
     rng = np.random.default_rng(seed)
+    spec = ctx.c["drums"].get(role) or {}
+    learned = [p for p in (spec.get("patterns") or []) if len(p) == 16 and "x" in p]
+    backbeat = _backbeat_steps(ctx)
+    # a learned snare groove is only trusted if it keeps the song's backbeat
+    learned = [p for p in learned if all(p[b] == "x" for b in backbeat)]
     notes = []
     for bar in range(ctx.total_bars):
         if not ctx.plays(role, bar, only):
             continue
         s = ctx.section_of_bar(bar)
-        for st in _backbeat_steps(ctx):
-            notes.append({"t": ctx.step_time(bar, st), "d": 0.25, "p": 38, "v": 0.9})
+        steps = backbeat
+        if learned and rng.random() < 0.7:
+            steps = [i for i, ch in enumerate(learned[int(rng.integers(len(learned)))]) if ch == "x"]
+        for st in steps:
+            notes.append({"t": ctx.step_time(bar, st), "d": 0.25, "p": 38, "v": 0.9 if st in backbeat else 0.6})
         is_phrase_end = (bar - s["start_bar"]) % 4 == 3
         if is_phrase_end and s["name"] == "hook" and rng.random() < 0.6 * ctx.energy:
             for st in (14, 15) if rng.random() < 0.5 else (13, 15):
@@ -337,8 +353,12 @@ def gen_perc(ctx: _Ctx, seed: int, only=None) -> list[dict]:
 # 808 / bass
 # ---------------------------------------------------------------------------
 
-def _bass_pitch(root_pc: int) -> int:
-    return 28 + ((root_pc - 4) % 12)  # E1..D#2: 41–78 Hz fundamentals
+def _bass_pitch(root_pc: int, centre: float | None = None) -> int:
+    if centre is None:
+        return 28 + ((root_pc - 4) % 12)  # E1..D#2: 41–78 Hz fundamentals
+    # learned register: the octave of this root closest to where the artist's 808 sits
+    base = root_pc + 12 * round((centre - root_pc) / 12)
+    return int(min(max(base, 21), 47))
 
 
 def gen_808(ctx: _Ctx, seed: int, only=None, kick_notes: list[dict] | None = None, glide_prob: float | None = None) -> list[dict]:
@@ -357,7 +377,7 @@ def gen_808(ctx: _Ctx, seed: int, only=None, kick_notes: list[dict] | None = Non
                 continue
             nxt = hits[i + 1] if i + 1 < len(hits) else t + 2.0
             length = max(0.25, min(nxt - t, 3.0))
-            p = _bass_pitch(h["root_pc"])
+            p = _bass_pitch(h["root_pc"], ctx.c["bass"].get("register_midi"))
             notes.append({"t": t, "d": length * 0.97, "p": p, "v": 0.95})
             if length >= 1.0 and rng.random() < gp:
                 # 808 slide: jump up an octave (or a fifth) and glide back down
@@ -371,7 +391,7 @@ def gen_808(ctx: _Ctx, seed: int, only=None, kick_notes: list[dict] | None = Non
             if not ctx.plays("808", bar, only):
                 continue
             h = ctx.harmony[bar]
-            p = _bass_pitch(h["root_pc"])
+            p = _bass_pitch(h["root_pc"], ctx.c["bass"].get("register_midi"))
             if _last_bar_before_hook(ctx, bar):
                 notes.append({"t": bar * 4, "d": 1.9, "p": p, "v": 0.95})
                 continue
@@ -620,6 +640,8 @@ def build_track(project: dict, character: dict, role: str, seed: int, preset_nam
     instrument = synth.preset(preset_name)
     if role == "808" and character["bass"].get("decay_s"):
         instrument["params"]["decay_s"] = character["bass"]["decay_s"]
+    if role == "808" and character["bass"].get("drive") is not None:
+        instrument["params"]["drive"] = float(character["bass"]["drive"])
     notes = generate_role_notes(project, character, role, seed, **overrides)
     gains = character["mix"].get("track_gains", {})
     return make_track(

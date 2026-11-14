@@ -67,7 +67,10 @@ def create_router(get_user: Callable[[str | None], tuple[dict, dict]], data_dir:
     root = Path(data_dir) / "studio"
     store = ProjectStore(root)
     jobs = JobQueue(root)
-    custom_chars = root / "characters"
+    custom_chars_root = root / "characters"
+
+    def owner_chars(owner: str) -> Path:
+        return custom_chars_root / safe_id(owner)
     router = APIRouter()
 
     def renderer(owner: str, pid: str) -> Renderer:
@@ -87,7 +90,7 @@ def create_router(get_user: Callable[[str | None], tuple[dict, dict]], data_dir:
 
     def character_for(project: dict) -> dict | None:
         try:
-            return characters.get(project.get("character_id", ""), custom_chars)
+            return characters.get(project.get("character_id", ""), owner_chars(project.get("owner", "")) if project.get("owner") else [])
         except ValueError:
             return None
 
@@ -123,8 +126,13 @@ def create_router(get_user: Callable[[str | None], tuple[dict, dict]], data_dir:
         return HTMLResponse(STUDIO_HTML.read_text(encoding="utf-8"))
 
     @router.get("/studio-api/characters")
-    def list_characters():
-        return {"characters": [characters.public_view(c) for c in characters.load_all(custom_chars).values()]}
+    def list_characters(authorization: str | None = Header(default=None)):
+        try:
+            owner, _ = owner_of(authorization)
+        except HTTPException:
+            owner = None
+        chars = characters.load_all(owner_chars(owner) if owner else [])
+        return {"characters": [characters.public_view(c, owner_view=bool(c.get("custom"))) for c in chars.values()]}
 
     @router.get("/studio-api/catalog")
     def catalog():
@@ -134,6 +142,127 @@ def create_router(get_user: Callable[[str | None], tuple[dict, dict]], data_dir:
             "scales": sorted(__import__("studio.theory", fromlist=["SCALES"]).SCALES),
             "providers": providers.status(),
         }
+
+    # -- characters learned from songs ------------------------------------------
+    @router.get("/studio-api/avatars/options")
+    def avatar_options():
+        from . import avatars
+        return avatars.options()
+
+    @router.post("/studio-api/avatars/render")
+    def avatar_render(payload: dict):
+        from . import avatars
+        look = payload.get("look") or avatars.random_look(payload.get("seed") or uuid.uuid4().hex[:8], payload.get("mood"))
+        try:
+            look = avatars.validate_look(look)
+        except ValueError as e:
+            raise HTTPException(400, str(e))
+        return {"look": look, "svg": avatars.render_svg(look, 256)}
+
+    @router.post("/studio-api/characters/learn")
+    async def learn_character(files: list[UploadFile] = File(...), name: str = Form(...), tagline: str = Form(""),
+                              look: str = Form("{}"), rights: str = Form(""), authorization: str | None = Header(default=None)):
+        """Upload songs → learn a character. Audio is analysed then deleted; only statistics are kept."""
+        owner, _ = owner_of(authorization)
+        from . import avatars, learn
+        if rights != "yes":
+            raise HTTPException(400, "Confirm you're allowed to use these songs for analysis.")
+        name = name.strip()[:40]
+        if not name:
+            raise HTTPException(400, "Give the character a name.")
+        if not 1 <= len(files) <= 20:
+            raise HTTPException(400, "Upload between 1 and 20 songs (5–10 is a good amount).")
+        try:
+            look_d = avatars.validate_look(json.loads(look or "{}") or avatars.random_look(uuid.uuid4().hex[:8]))
+        except (ValueError, json.JSONDecodeError) as e:
+            raise HTTPException(400, f"Bad look: {e}")
+        work_dir = root / "learning" / f"{owner}_{uuid.uuid4().hex[:8]}"
+        work_dir.mkdir(parents=True)
+        saved = []
+        for f in files:
+            suffix = Path(f.filename or "song.wav").suffix.lower()
+            if suffix not in (".wav", ".mp3", ".flac", ".aif", ".aiff", ".m4a", ".ogg"):
+                shutil.rmtree(work_dir, ignore_errors=True)
+                raise HTTPException(400, f"{f.filename}: upload WAV, MP3, FLAC, AIFF, M4A or OGG.")
+            dest = work_dir / f"{len(saved):02d}{suffix}"
+            size = 0
+            with dest.open("wb") as fh:
+                while chunk := await f.read(1024 * 1024):
+                    size += len(chunk)
+                    if size > MAX_UPLOAD_BYTES:
+                        shutil.rmtree(work_dir, ignore_errors=True)
+                        raise HTTPException(413, f"{f.filename} is larger than 80 MB.")
+                    fh.write(chunk)
+            saved.append((dest, Path(f.filename or dest.name).name[:120]))
+
+        def work(progress):
+            try:
+                results = []
+                for i, (path, orig) in enumerate(saved):
+                    progress(0.05 + 0.45 * i / len(saved), f"listening to song {i + 1} of {len(saved)}")
+                    try:
+                        r = learn.analyze_track(path)
+                    except Exception as e:  # one bad file shouldn't sink the rest
+                        r = {"file": orig, "error": f"{type(e).__name__}"}
+                    r["file"] = orig
+                    results.append(r)
+                progress(0.5, "building the character")
+                style = learn.aggregate(results)
+                cid = f"c_{uuid.uuid4().hex[:10]}"
+                char = learn.character_from_style(style, cid, name, {"look": look_d, "palette": list(avatars.BG[look_d["bg"]])},
+                                                  tagline.strip()[:100])
+                # calibration: generate test beats and tune the sound until they measure like the uploads
+                steps = iter(range(100))
+                fit = learn.fit_character(char, learn.targets_from([t for t in results if "error" not in t]), iterations=4, seconds=28,
+                                          progress=lambda m: progress(0.55 + 0.4 * min(next(steps), 4) / 4, m), work_dir=work_dir / "fit")
+                char = fit["character"]
+                char["custom"] = True
+                char["owner"] = owner
+                d = owner_chars(owner)
+                d.mkdir(parents=True, exist_ok=True)
+                (d / f"{cid}.json").write_text(json.dumps(char, indent=2))
+                summary = characters.learned_summary(char)
+                summary["fit"] = {k: fit["report"].get(k) for k in ("start_distance", "best_distance")}
+                return {"character_id": cid, "summary": summary}
+            finally:
+                shutil.rmtree(work_dir, ignore_errors=True)  # never keep the uploaded songs
+
+        return jobs.submit(owner, "learn_character", work, {"name": name, "songs": len(saved)})
+
+    @router.post("/studio-api/characters/{cid}")
+    def update_character(cid: str, payload: dict, authorization: str | None = Header(default=None)):
+        owner, _ = owner_of(authorization)
+        from . import avatars
+        path = owner_chars(owner) / f"{safe_id(cid)}.json"
+        if not path.exists():
+            raise HTTPException(404, "Character not found.")
+        c = json.loads(path.read_text())
+        if "name" in payload:
+            n = str(payload["name"]).strip()[:40]
+            if not n:
+                raise HTTPException(400, "Name can't be empty.")
+            c["name"] = n
+        if "tagline" in payload:
+            c["tagline"] = str(payload["tagline"]).strip()[:100]
+        if "look" in payload:
+            try:
+                c["visual"]["look"] = avatars.validate_look(payload["look"])
+            except ValueError as e:
+                raise HTTPException(400, str(e))
+        characters.validate_character(c)
+        path.write_text(json.dumps(c, indent=2))
+        return characters.public_view(c, owner_view=True)
+
+    @router.delete("/studio-api/characters/{cid}")
+    def delete_character(cid: str, authorization: str | None = Header(default=None)):
+        owner, _ = owner_of(authorization)
+        path = owner_chars(owner) / f"{safe_id(cid)}.json"
+        if not path.exists():
+            raise HTTPException(404, "Character not found.")
+        trash = root / "trash" / f"char_{owner}_{safe_id(cid)}_{int(time.time())}.json"
+        trash.parent.mkdir(parents=True, exist_ok=True)
+        path.replace(trash)
+        return {"ok": True}
 
     # -- jobs --------------------------------------------------------------------
     @router.get("/studio-api/jobs/{job_id}")
@@ -157,7 +286,7 @@ def create_router(get_user: Callable[[str | None], tuple[dict, dict]], data_dir:
     def create_project(payload: GeneratePayload, authorization: str | None = Header(default=None)):
         owner, user = owner_of(authorization)
         try:
-            character = characters.get(payload.character_id, custom_chars)
+            character = characters.get(payload.character_id, owner_chars(owner))
         except ValueError as e:
             raise HTTPException(400, str(e))
         if payload.scale and payload.scale not in __import__("studio.theory", fromlist=["SCALES"]).SCALES:
@@ -172,6 +301,7 @@ def create_router(get_user: Callable[[str | None], tuple[dict, dict]], data_dir:
             progress(0.05, "composing")
             t0 = time.time()
             project = composer.generate_project(character, params, seed=params.get("seed"))
+            project["owner"] = owner
             store.create(owner, project)
             r = renderer(owner, project["id"])
             for i, t in enumerate(project["tracks"]):

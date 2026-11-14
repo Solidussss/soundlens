@@ -26,7 +26,7 @@ import soundfile as sf
 from . import SAMPLE_RATE, dsp, synth
 from .project import MIXER_FIELDS, beats_to_seconds, total_beats, track_notes_absolute
 
-RENDER_VERSION = "2"  # bump when synth/dsp changes alter output, to invalidate caches
+RENDER_VERSION = "3"  # bump when synth/dsp changes alter output, to invalidate caches
 TAIL_SECONDS = 2.0
 
 

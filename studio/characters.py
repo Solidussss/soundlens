@@ -13,8 +13,8 @@ from . import dsp, synth
 from .theory import SCALES, pitch_class
 
 BUILTIN_DIR = Path(__file__).with_name("characters")
-KICK_PATTERNS = {"rage", "plugg", "sparse", "boombap", "jersey", "trap"}
-BASS_STYLES = {"follow_kick", "sustained"}
+KICK_PATTERNS = {"rage", "plugg", "sparse", "boombap", "jersey", "trap", "learned"}
+BASS_STYLES = {"follow_kick", "sustained", "learned"}
 REQUIRED = ["id", "name", "tagline", "visual", "genre", "tempo", "keys", "drums", "bass", "melody", "harmony", "arrangement", "mix", "vocals"]
 
 
@@ -56,8 +56,9 @@ def validate_character(c: dict) -> dict:
     return c
 
 
-def _dirs(extra_dir: Path | None) -> list[Path]:
-    return [BUILTIN_DIR] + ([extra_dir] if extra_dir and extra_dir.exists() else [])
+def _dirs(extra_dir) -> list[Path]:
+    extra = extra_dir if isinstance(extra_dir, (list, tuple)) else [extra_dir]
+    return [BUILTIN_DIR] + [Path(d) for d in extra if d and Path(d).exists()]
 
 
 def load_all(extra_dir: Path | None = None) -> dict[str, dict]:
@@ -76,18 +77,33 @@ def get(character_id: str, extra_dir: Path | None = None) -> dict:
     return chars[character_id]
 
 
-def public_view(c: dict) -> dict:
+def public_view(c: dict, owner_view: bool = False) -> dict:
     """What the character picker needs (no engine internals)."""
     return {
         "id": c["id"], "name": c["name"], "tagline": c["tagline"], "description": c.get("description", ""),
         "genre": c["genre"], "subgenre": c.get("subgenre"), "visual": c["visual"],
         "tempo": c["tempo"], "scales": c["keys"]["preferred_scales"], "vocals": c["vocals"],
         "avatar_svg": avatar_svg(c),
+        "custom": bool(c.get("custom")),
+        **({"learned_summary": learned_summary(c)} if owner_view and c.get("learned") else {}),
     }
+
+
+def learned_summary(c: dict) -> dict:
+    """What the learner found, in plain words (shown only to the character's owner)."""
+    st = c["learned"]["style"]
+    return {"songs": st.get("tracks"), "bpm": st.get("bpm"), "feel": st.get("feel"),
+            "keys": [k for k, _ in st.get("keys", [])[:3]], "808": c["bass"]["preset"].replace("_", " "),
+            "hat_rolls": st.get("hat_roll_rate"), "loudness_lufs": st.get("mix", {}).get("lufs"),
+            "grooves": [p["pattern"] for p in (st.get("low_patterns") or st.get("kick_patterns") or [])][:3],
+            "skipped": st.get("skipped", [])}
 
 
 def avatar_svg(c: dict, size: int = 160) -> str:
     """A simple original emblem drawn from the character's palette (no likeness of anyone)."""
+    if c["visual"].get("look"):
+        from .avatars import render_svg
+        return render_svg(c["visual"]["look"], size, c["name"])
     bg, main, accent = (c["visual"].get("palette", []) + ["#111", "#888", "#fff"])[:3]
     emblem = c["visual"].get("emblem", "circle")
     s = size

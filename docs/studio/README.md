@@ -45,6 +45,8 @@ python experiments/poc_phase2.py          # the measured PoC (~3 min) → experi
 | `studio/actions.py` | 23 validated edit operations + per-edit diff of changed vs untouched tracks |
 | `studio/orchestrator.py` | natural language → actions (rules; optional LLM), with honest refusals |
 | `studio/analysis.py` | LUFS, true peak, clipping, silence, BPM, key, stereo, 808 distortion profile, drum timing, null tests, export integrity |
+| `studio/learn.py` | learns a character from songs (tempo, grooves, hats, 808, keys, structure, mix), then calibrates it by generating and measuring test beats. See `characters.md` |
+| `studio/avatars.py` | original cartoon rapper avatars built from parts (hair, eyewear, grill, outfit, chain…) |
 | `studio/references.py` | reference collections with rights records and permitted-use enforcement |
 | `studio/providers/` | `acestep` (REST client, untested here), `demucs`, `basic_pitch` |
 | `studio/store.py` | projects, snapshot undo/redo, jobs, cache pruning |
@@ -57,4 +59,5 @@ python experiments/poc_phase2.py          # the measured PoC (~3 min) → experi
 - `research_generation_models.md`, `research_separation_transcription.md`: model research with sources and verification status
 - `poc_results.md`: measured results, failures, listening rubric; audio in `poc/`
 - `costs.md`: development vs production cost estimates
+- `characters.md`: characters learned from songs: how it works, accuracy, what is and isn't copied
 - `plan.md`: status by phase, next steps, risks

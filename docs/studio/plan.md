@@ -28,6 +28,13 @@ Run `experiments/poc_phase2.py`. Results are in `poc_results.md`.
 - ⬜ Retrieval-assisted conditioning.
 - ⬜ LoRA (needs training rights and a GPU).
 
+### Phase 3b: Characters learned from songs ✅ (first version)
+- `studio/learn.py`: listen to an artist's songs (tempo, grooves, rolls, 808, keys, structure, mix), build a character, then calibrate it by generating and measuring test beats.
+- `studio/avatars.py`: original cartoon rapper avatars (no real-person likeness); users name characters themselves.
+- In the Studio: "+ New character", then upload songs and learn. Songs are deleted after analysis; characters are private to their owner.
+- Measured: learner accuracy on ground-truth beats, and whether generated songs land closest to their own artist. See `characters.md`.
+- ⬜ Demucs stems during learning (better drums/808); more songs per character; ACE-Step conditioning per character (needs GPU + rights).
+
 ## Phase 4: Multitrack editor ✅ (first version)
 `studio.html` at `/studio`:
 - character picker, prompt, advanced settings, job progress;

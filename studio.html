@@ -37,7 +37,24 @@ h2{font-size:18px;margin:0 0 10px}
 .char{padding:14px;cursor:pointer;transition:transform .12s,border-color .12s;display:flex;flex-direction:column;gap:8px}
 .char:hover{transform:translateY(-2px)}
 .char.sel{border-color:var(--purple);box-shadow:0 0 0 1px var(--purple) inset}
-.char .av svg{width:56px;height:56px;border-radius:12px}
+.char .av svg{width:72px;height:72px;border-radius:16px}
+.char.new{align-items:center;justify-content:center;text-align:center;border-style:dashed;min-height:180px}
+.char.new .plus{font-size:40px;line-height:1;color:var(--purple)}
+.char .learned{font-size:11px;color:var(--ok)}
+.creator{display:grid;grid-template-columns:280px 1fr;gap:18px}
+.creator .preview svg{width:256px;height:256px;border-radius:40px;display:block}
+.parts{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
+.drop{border:1px dashed var(--line);border-radius:14px;padding:16px;text-align:center;cursor:pointer}
+.drop.over{border-color:var(--purple);background:rgba(114,117,255,.1)}
+.filelist{font-size:12px;color:var(--muted);margin-top:6px;max-height:110px;overflow:auto}
+.learnres{font-size:13px;margin-top:10px}
+#edAvatar svg{width:64px;height:64px;border-radius:14px;display:block}
+#edAvatar .sl-head,#edAvatar .sl-body{transform-box:fill-box;transform-origin:50% 100%}
+#edAvatar.bob .sl-head{animation:slbob var(--beat,0.4s) ease-in-out infinite}
+#edAvatar.bob .sl-body{animation:slsway calc(var(--beat,0.4s)*2) ease-in-out infinite}
+@keyframes slbob{0%,100%{transform:translateY(0) rotate(0)}40%{transform:translateY(5px) rotate(-3deg)}}
+@keyframes slsway{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+@media (max-width:760px){.creator{grid-template-columns:1fr}.creator .preview svg{width:200px;height:200px}}
 .char .nm{font-weight:700;font-size:16px}
 .char .tg{font-size:12px;color:var(--muted)}
 .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
@@ -116,6 +133,28 @@ summary{cursor:pointer;color:var(--muted)}
   <div class="muted">Choose a character, describe the vibe, hit generate. Every instrument comes out as its own track you can change.</div>
   <div id="loginNote" class="card glass hidden">Log in on the <a href="/">SoundLens home page</a> first, then come back here.</div>
   <div class="chars" id="chars"></div>
+  <div class="card glass hidden" id="creator">
+    <div class="row"><h2 style="margin:0">New character from songs</h2><span class="grow" style="flex:1"></span><button class="small" id="creatorClose">Close</button></div>
+    <div class="note" style="margin:6px 0 12px">Upload songs with the sound you want (5–10 tracks by one artist works best). SoundLens learns the style: tempo, drum grooves, hi-hat rolls, 808 behaviour, keys and chord moves, structure and loudness. The songs are analyzed and then deleted. No melodies, samples or vocals are copied.</div>
+    <div class="creator">
+      <div>
+        <div class="preview" id="lookPreview"></div>
+        <div class="row" style="margin-top:8px"><button id="lookShuffle">🎲 New look</button></div>
+        <div class="parts" id="lookParts"></div>
+      </div>
+      <div>
+        <label class="f">Character name <input type="text" id="cName" maxlength="40" placeholder="e.g. Nova Kid"></label>
+        <label class="f" style="margin-top:8px">Tagline (optional) <input type="text" id="cTag" maxlength="100" placeholder="what they sound like in a few words"></label>
+        <div class="drop" id="drop" style="margin-top:12px">Drop songs here or click to choose<br><span class="note">WAV, MP3, FLAC, AIFF, M4A · up to 20 songs</span><input type="file" id="cFiles" multiple accept=".wav,.mp3,.flac,.aif,.aiff,.m4a,.ogg" class="hidden"></div>
+        <div class="filelist" id="cList"></div>
+        <label class="row note" style="margin-top:10px"><input type="checkbox" id="cRights"> I'm allowed to use these songs for analysis.</label>
+        <div class="note">The character's look is original: it's a cartoon built from parts, not a portrait of a real artist.</div>
+        <div class="row" style="margin-top:12px"><button class="primary" id="cLearn">Learn this character</button><span id="cStatus" class="muted"></span></div>
+        <div class="progress"><div id="cBar"></div></div>
+        <div class="learnres" id="cResult"></div>
+      </div>
+    </div>
+  </div>
   <div class="card glass">
     <label class="f">Describe the song (optional)
       <textarea id="prompt" rows="2" maxlength="500" placeholder="dark and aggressive, blown-out 808s, bells in the hook"></textarea></label>
@@ -151,7 +190,7 @@ summary{cursor:pointer;color:var(--muted)}
 </div>
 
 <div class="wrap hidden" id="editView" style="max-width:1500px">
-  <div class="row"><button class="small" id="backBtn">← Projects</button><h2 id="ptitle" style="margin:0"></h2><span id="pmeta" class="muted"></span></div>
+  <div class="row"><button class="small" id="backBtn">← Projects</button><div id="edAvatar"></div><div><h2 id="ptitle" style="margin:0"></h2><span id="pmeta" class="muted"></span></div></div>
   <div class="transport glass" style="margin-top:10px">
     <button class="primary" id="playBtn">▶ Play</button>
     <button id="stopBtn">■</button>
@@ -257,9 +296,8 @@ async function boot(){
     chars=c.characters;catalog=cat;
   }catch(e){toast(e.message);return}
   catalog.scales.forEach(s=>$('scale').insertAdjacentHTML('beforeend',`<option value="${s}">${s.replace('_',' ')}</option>`));
-  $('chars').innerHTML=chars.map(c=>`<div class="char glass" data-id="${c.id}"><div class="av">${c.avatar_svg}</div><div class="nm">${esc(c.name)}</div><div class="tg">${esc(c.tagline)}</div><div><span class="pill">${esc(c.subgenre||c.genre)}</span> <span class="pill">${c.tempo.min}–${c.tempo.max} BPM</span></div></div>`).join('');
-  document.querySelectorAll('.char').forEach(el=>el.onclick=()=>{document.querySelectorAll('.char').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');selChar=el.dataset.id});
-  document.querySelector('.char')?.click();
+  renderChars();
+  setupCreator();
   const ace=catalog.providers.find(p=>p.name==='acestep');
   $('providers').innerHTML=catalog.providers.map(p=>`<div><b>${p.name}</b>: <span class="${p.available?'ok':'warn'}">${p.available?'available':'off'}</span> — ${esc(p.reason)}${p.cost_note?' · '+esc(p.cost_note):''}</div>`).join('');
   $('vocalNote').innerHTML=ace&&ace.available?'Vocals will be generated with ACE-Step after the beat is ready.':`<span class="warn">Vocal generation needs the ACE-Step engine, which is off (${esc(ace?ace.reason:'not configured')}). Your song will be instrumental; you can add vocals later by uploading a recording.</span>`;
@@ -268,6 +306,51 @@ async function boot(){
   $('genBtn').onclick=generate;
   await loadProjects();
   const pid=new URLSearchParams(location.search).get('project');if(pid)openProject(pid);
+}
+function renderChars(selectId){
+  const mine=chars.filter(c=>c.custom),builtin=chars.filter(c=>!c.custom);
+  const card=c=>{const ls=c.learned_summary;return `<div class="char glass" data-id="${c.id}"><div class="av">${c.avatar_svg}</div><div class="nm">${esc(c.name)}</div><div class="tg">${esc(c.tagline)}</div>`+
+    (ls?`<div class="learned">Learned from ${ls.songs} song${ls.songs===1?'':'s'} · ${Math.round(ls.bpm.median)} BPM · ${esc(ls['808'])}</div>`:`<div><span class="pill">${esc(c.subgenre||c.genre)}</span> <span class="pill">${c.tempo.min}–${c.tempo.max} BPM</span></div>`)+`</div>`};
+  $('chars').innerHTML=mine.map(card).join('')+`<div class="char glass new" id="newChar"><div class="plus">+</div><div class="nm">New character</div><div class="tg">Learn a sound from songs</div></div>`+builtin.map(card).join('');
+  document.querySelectorAll('.char:not(.new)').forEach(el=>el.onclick=()=>{document.querySelectorAll('.char').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');selChar=el.dataset.id});
+  $('newChar').onclick=()=>{$('creator').classList.remove('hidden');$('creator').scrollIntoView({behavior:'smooth'})};
+  const pick=selectId?document.querySelector(`.char[data-id="${selectId}"]`):document.querySelector('.char:not(.new)');pick?.click();
+}
+let look=null,lookOpts=null,cFiles=[];
+async function setupCreator(){
+  lookOpts=await api('/studio-api/avatars/options');
+  const labels={hair:'Hair',hair_color:'Hair colour',eyes:'Eyes',mouth:'Mouth',outfit:'Outfit',outfit_color:'Outfit colour',chain:'Chain',extra:'Extra',skin:'Skin'};
+  $('lookParts').innerHTML=Object.entries(labels).map(([k,l])=>`<label class="f">${l}<select data-part="${k}">${lookOpts[k].map((v,i)=>k==='skin'||k==='outfit_color'?`<option value="${esc(v)}" style="background:${esc(v)};color:${esc(v)}">██████ ${i+1}</option>`:`<option value="${esc(v)}">${esc(String(v).replace('_',' '))}</option>`).join('')}</select></label>`).join('');
+  document.querySelectorAll('#lookParts select').forEach(sel=>sel.onchange=()=>{look[sel.dataset.part]=sel.value;renderLook()});
+  $('lookShuffle').onclick=()=>shuffleLook();
+  $('creatorClose').onclick=()=>$('creator').classList.add('hidden');
+  const drop=$('drop');drop.onclick=()=>$('cFiles').click();
+  drop.ondragover=e=>{e.preventDefault();drop.classList.add('over')};drop.ondragleave=()=>drop.classList.remove('over');
+  drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');addFiles(e.dataTransfer.files)};
+  $('cFiles').onchange=()=>addFiles($('cFiles').files);
+  $('cLearn').onclick=learnCharacter;
+  await shuffleLook();
+}
+function addFiles(list){for(const f of list){if(cFiles.length<20&&!cFiles.some(x=>x.name===f.name&&x.size===f.size))cFiles.push(f)}
+  $('cList').innerHTML=cFiles.map((f,i)=>`<div>${esc(f.name)} <span>(${(f.size/1048576).toFixed(1)} MB)</span> <a href="#" data-i="${i}">remove</a></div>`).join('');
+  $('cList').querySelectorAll('a').forEach(a=>a.onclick=e=>{e.preventDefault();cFiles.splice(+a.dataset.i,1);addFiles([])})}
+async function shuffleLook(){const d=await api('/studio-api/avatars/render',{method:'POST',body:{seed:Math.random().toString(36).slice(2)}});look=d.look;$('lookPreview').innerHTML=d.svg;syncParts()}
+async function renderLook(){const d=await api('/studio-api/avatars/render',{method:'POST',body:{look}});look=d.look;$('lookPreview').innerHTML=d.svg}
+function syncParts(){document.querySelectorAll('#lookParts select').forEach(sel=>sel.value=look[sel.dataset.part])}
+async function learnCharacter(){
+  const name=$('cName').value.trim();
+  if(!name)return toast('Give your character a name.');if(!cFiles.length)return toast('Add some songs first.');if(!$('cRights').checked)return toast('Tick the box to confirm you can use these songs.');
+  const fd=new FormData();cFiles.forEach(f=>fd.append('files',f));fd.append('name',name);fd.append('tagline',$('cTag').value);fd.append('look',JSON.stringify(look));fd.append('rights','yes');
+  $('cLearn').disabled=true;$('cStatus').textContent='Uploading…';$('cResult').innerHTML='';
+  try{
+    const job=await api('/studio-api/characters/learn',{method:'POST',body:fd});
+    const res=await waitJob(job,j=>{$('cStatus').textContent=j.message;$('cBar').style.width=(j.progress*100)+'%'});
+    const s=res.summary;
+    $('cResult').innerHTML=`<b class="ok">✓ ${esc(name)} learned from ${s.songs} song${s.songs===1?'':'s'}</b><br>Tempo ${Math.round(s.bpm.min)}–${Math.round(s.bpm.max)} BPM (usually ${Math.round(s.bpm.median)}), ${esc(s.feel)}-time drums · ${esc(s['808'])} · keys: ${s.keys.map(esc).join(', ')} · loudness ${s.loudness_lufs} LUFS`+
+      (s.grooves.length?`<br><span class="note">Signature low-end grooves: ${s.grooves.map(g=>`<code>${g}</code>`).join(' ')}</span>`:'')+(s.fit&&s.fit.best_distance!=null?`<br><span class="note">Sound tuned to match your songs: style gap ${s.fit.start_distance} → ${s.fit.best_distance} (lower is closer)</span>`:'')+(s.skipped.length?`<br><span class="warn">Skipped (no steady beat found): ${s.skipped.map(esc).join(', ')}</span>`:'');
+    $('cStatus').textContent='';cFiles=[];addFiles([]);$('cName').value='';$('cTag').value='';
+    chars=(await api('/studio-api/characters')).characters;renderChars(res.character_id);
+  }catch(e){$('cStatus').textContent='';toast(e.message,6000)}finally{$('cLearn').disabled=false;$('cBar').style.width='0'}
 }
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 async function loadProjects(){
@@ -333,7 +416,8 @@ async function loadStems(){
   audio.exact=null;
   updateMeta();
 }
-function updateMeta(){const p=P();$('pmeta').textContent=`${p.params.bpm} BPM · ${p.params.key} ${p.params.scale.replace('_',' ')} · ${fmtTime(state.duration_s)}`}
+function updateAvatar(){const c=chars.find(x=>x.id===P().character_id);const el=$('edAvatar');el.innerHTML=c?c.avatar_svg:'';el.style.setProperty('--beat',(60/P().params.bpm)+'s');el.title=c?c.name:''}
+function updateMeta(){const p=P();updateAvatar();$('pmeta').textContent=`${p.params.bpm} BPM · ${p.params.key} ${p.params.scale.replace('_',' ')} · ${fmtTime(state.duration_s)}`}
 function trackGainLin(t){
   const soloed=P().tracks.some(x=>x.solo);
   if(t.mute||(soloed&&!t.solo))return 0;
@@ -361,6 +445,7 @@ function play(){
       audio.nodes[t.id]={g,pan};startSrc(buf,g);
     });
   }
+  $('edAvatar').classList.add('bob');
   audio.playing=true;audio.startAt=when;audio.loop=sec?[loopStart,loopEnd]:null;
   $('playBtn').textContent='❚❚ Pause';tick();
 }
@@ -372,6 +457,7 @@ function currentTime(){
   return t;
 }
 function stop(keepOffset){
+  $('edAvatar')&&$('edAvatar').classList.remove('bob');
   if(audio.playing&&keepOffset)audio.offset=currentTime();
   audio.sources.forEach(s=>{try{s.stop()}catch{}});audio.sources=[];audio.nodes={};
   audio.playing=false;if($('playBtn'))$('playBtn').textContent='▶ Play';

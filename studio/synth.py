@@ -267,11 +267,14 @@ def _render_808(notes: list[dict], p: dict, bpm: float, n: int, sr: int, seed: i
     wave = np.sin(phase) * (1 - tri_mix) + tri_mix * (2 / math.pi) * np.arcsin(np.sin(phase))
     # 2nd harmonic helps small speakers hear the 808 (like real 808 "tops")
     wave += p.get("harmonic2", 0.08) * np.sin(2 * phase)
-    y = wave * amp
     drive = p.get("drive", 0.0)
     if drive > 0:
+        # Distort the oscillator, then apply the envelope: the grit stays but the 808 still decays
+        # and punches. (Distorting after the envelope squashed every 808 into a solid block:
+        # crest ≈ 1 dB versus 3–8 dB measured on real bass stems.)
         k = 1.0 + drive * 14.0
-        y = np.tanh(y * k) / math.tanh(k)
+        wave = np.tanh(wave * k) / math.tanh(k)
+    y = wave * amp
     # tiny anti-click fade where amplitude jumps (retriggers)
     return y
 

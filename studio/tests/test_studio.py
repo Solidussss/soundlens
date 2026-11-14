@@ -297,3 +297,94 @@ def test_cache_prune_evicts_and_rerenders(tmp_path, project):
     first = r.stem(project, t)
     assert st.prune_cache(max_bytes=0)["removed"] >= 1
     assert np.array_equal(Renderer(st.cache).stem(project, t), first)
+
+
+# -- learning characters from songs ---------------------------------------------------------------
+
+@pytest.fixture(scope="module")
+def reference_song(tmp_path_factory):
+    """A rendered beat with known tempo/feel stands in for an uploaded song."""
+    c = characters.get("mercury_halo")
+    p = composer.generate_project(c, {"duration_s": 40}, seed=4)
+    import soundfile as sf
+    r = Renderer(tmp_path_factory.mktemp("refcache"))
+    path = tmp_path_factory.mktemp("ref") / "ref.wav"
+    sf.write(str(path), np.clip(r.mix(p), -1, 1).T, SR)
+    return path, p
+
+
+def test_learner_recovers_tempo_and_feel(reference_song):
+    from studio import learn
+    path, p = reference_song
+    t = learn.analyze_track(path)
+    assert abs(t["bpm"] - p["params"]["bpm"]) / p["params"]["bpm"] < 0.01
+    assert t["feel"] == "half"
+    assert t["low_bars"] and t["mix"]["lufs"] < 0
+
+
+def test_learned_character_generates(reference_song, tmp_path):
+    from studio import learn
+    path, _ = reference_song
+    style = learn.aggregate([learn.analyze_track(path)])
+    c = learn.character_from_style(style, "c_test", "Test Kid", {"look": {"seed": "t"}})
+    assert c["drums"]["kick"]["pattern"] == "learned" and c["drums"]["kick"]["patterns"]
+    p = composer.generate_project(c, {"duration_s": 16}, seed=1)
+    validate_project(p)
+    assert p["params"]["bpm"] == pytest.approx(style["bpm"]["median"], abs=1)
+    assert "<svg" in characters.avatar_svg(c)
+
+
+def test_pattern_library_clusters_noise():
+    from studio import learn
+    bars = ["x.......x.x....."] * 8 + ["x.......x.x...x."] * 2 + ["x...x...x.x....."]
+    lib = learn._pattern_library(bars)
+    assert lib[0]["pattern"] == "x.......x.x....." and lib[0]["share"] > 0.9
+
+
+def test_avatars_are_valid_svg_and_validated():
+    from studio import avatars
+    import xml.dom.minidom
+    for i in range(12):
+        xml.dom.minidom.parseString(avatars.render_svg(avatars.random_look(i)))
+    with pytest.raises(ValueError):
+        avatars.validate_look({"hair": "not-a-hair"})
+
+
+def test_api_learn_character_flow(tmp_path, monkeypatch, reference_song):
+    monkeypatch.setenv("SOUNDLENS_STUDIO_DEV_AUTH", "1")
+    from fastapi import FastAPI, HTTPException
+    from fastapi.testclient import TestClient
+    from studio.api import create_router
+    import time
+
+    def no_users(authorization):
+        raise HTTPException(401, "login")
+
+    app = FastAPI()
+    app.include_router(create_router(no_users, tmp_path))
+    c = TestClient(app)
+    path, _ = reference_song
+    with open(path, "rb") as fh:
+        r = c.post("/studio-api/characters/learn", data={"name": "Test Kid", "rights": ""}, files=[("files", ("a.wav", fh, "audio/wav"))])
+    assert r.status_code == 400  # rights must be confirmed
+    with open(path, "rb") as fh:
+        job = c.post("/studio-api/characters/learn", data={"name": "Test Kid", "rights": "yes"}, files=[("files", ("a.wav", fh, "audio/wav"))]).json()
+    for _ in range(900):
+        j = c.get(f"/studio-api/jobs/{job['id']}").json()
+        if j["status"] in ("done", "failed"):
+            break
+        time.sleep(0.3)
+    assert j["status"] == "done", j
+    cid = j["result"]["character_id"]
+    assert not list((tmp_path / "studio" / "learning").glob("*/*.wav")), "uploaded songs must be deleted"
+    listed = {x["id"]: x for x in c.get("/studio-api/characters").json()["characters"]}
+    assert cid in listed and listed[cid]["custom"] and listed[cid]["learned_summary"]["songs"] == 1
+    gen = c.post("/studio-api/projects", json={"character_id": cid, "duration_s": 12, "seed": 2}).json()
+    for _ in range(300):
+        g = c.get(f"/studio-api/jobs/{gen['id']}").json()
+        if g["status"] in ("done", "failed"):
+            break
+        time.sleep(0.2)
+    assert g["status"] == "done", g
+    assert c.post(f"/studio-api/characters/{cid}", json={"name": "Renamed"}).json()["name"] == "Renamed"
+    assert c.delete(f"/studio-api/characters/{cid}").json()["ok"]

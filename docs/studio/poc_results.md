@@ -113,7 +113,7 @@ Our 808 renders on the same 32-beat pattern:
 | warm + tube + clipper | 41.0 | −9.1 | 0.2 |
 
 - **Spread:** a clean render plus DSP covers THD from 5 % to 56 % and harmonic ratio from −34 to −7 dB. That spans and exceeds the reference range (THD 9–27 %, ratio −29 to −12 dB), with the parameters explicit and adjustable after generation.
-- **Mismatch:** our distorted presets are far more compressed (crest about 1 dB) than the reference bass stems (3–8 dB). The references keep their transient punch and decay. Our tanh drive flattens the whole envelope. **Action:** add envelope-aware drive (drive that follows the amplitude envelope) and calibrate presets to the reference crest.
+- **Mismatch (since fixed):** our distorted presets were far more compressed (crest about 1 dB) than the reference bass stems (3–8 dB). The 808 now applies drive before its amplitude envelope, which brings crest to about 2.5–2.8 dB at full drive. The references keep their transient punch and decay. Our tanh drive flattens the whole envelope. **Action:** add envelope-aware drive (drive that follows the amplitude envelope) and calibrate presets to the reference crest.
 - **What this does *not* show:** that DSP beats a neural model generating a distorted mix directly. That needs ACE-Step on a GPU (not available here) and a listening test. The protocol is in `plan.md`.
 
 ## Character consistency (5 characters × 3 seeds)
