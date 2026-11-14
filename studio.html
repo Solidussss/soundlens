@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SoundLens Studio</title>
+<link rel="icon" href="/static/favicon.png" />
+<style>
+:root{
+  --bg:#05060a;--glass:rgba(18,20,30,.46);--glass2:rgba(12,14,23,.66);
+  --line:rgba(255,255,255,.12);--text:#f7f8ff;--muted:#9fa6bb;--purple:#7275ff;
+  --ok:#3ee0c5;--warn:#ffb347;--bad:#ff5d73;--lane:#0b0d15;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+body{min-height:100vh;background:radial-gradient(1200px 600px at 10% -10%,rgba(114,117,255,.18),transparent 60%),radial-gradient(900px 500px at 110% 0,rgba(62,224,197,.08),transparent 60%),var(--bg)}
+a{color:var(--purple)}
+button,select,input,textarea{font:inherit;color:var(--text)}
+button{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:10px;padding:7px 12px;cursor:pointer}
+button:hover:not(:disabled){border-color:rgba(114,117,255,.7)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.primary{background:var(--purple);border-color:var(--purple);font-weight:600}
+button.small{padding:3px 8px;font-size:12px;border-radius:8px}
+button.on{background:rgba(114,117,255,.35);border-color:var(--purple)}
+select,input[type=text],input[type=number],textarea{background:var(--glass2);border:1px solid var(--line);border-radius:10px;padding:7px 10px}
+textarea{width:100%;resize:vertical}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:18px;backdrop-filter:blur(14px)}
+header{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;background:rgba(5,6,10,.8);backdrop-filter:blur(10px)}
+header .brand{font-weight:700;letter-spacing:.3px}
+header .brand span{color:var(--purple)}
+header .grow{flex:1}
+.muted{color:var(--muted)}
+.wrap{max-width:1200px;margin:0 auto;padding:20px 16px 80px}
+h1{font-size:30px;margin:8px 0 4px}
+h2{font-size:18px;margin:0 0 10px}
+.chars{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:16px 0}
+.char{padding:14px;cursor:pointer;transition:transform .12s,border-color .12s;display:flex;flex-direction:column;gap:8px}
+.char:hover{transform:translateY(-2px)}
+.char.sel{border-color:var(--purple);box-shadow:0 0 0 1px var(--purple) inset}
+.char .av svg{width:56px;height:56px;border-radius:12px}
+.char .nm{font-weight:700;font-size:16px}
+.char .tg{font-size:12px;color:var(--muted)}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+details{margin-top:12px}
+summary{cursor:pointer;color:var(--muted)}
+.card{padding:16px;margin-top:14px}
+.progress{height:6px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:10px}
+.progress>div{height:100%;background:var(--purple);width:0;transition:width .3s}
+.note{font-size:12px;color:var(--muted)}
+.warn{color:var(--warn)}.bad{color:var(--bad)}.ok{color:var(--ok)}
+/* editor */
+.transport{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px}
+.transport .time{font-variant-numeric:tabular-nums;min-width:110px}
+.editor{display:grid;grid-template-columns:290px 1fr;margin-top:12px;overflow:hidden}
+.heads{border-right:1px solid var(--line)}
+.lanes{overflow-x:auto;position:relative}
+.lanes-inner{position:relative}
+.ruler{height:34px;border-bottom:1px solid var(--line);position:relative;background:rgba(255,255,255,.02)}
+.ruler .sec{position:absolute;top:0;height:34px;border-left:1px solid var(--line);padding:2px 6px;font-size:11px;color:var(--muted);cursor:pointer;overflow:hidden;white-space:nowrap}
+.ruler .sec.sel{background:rgba(114,117,255,.22);color:var(--text)}
+.headspacer{height:34px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 10px;font-size:12px;color:var(--muted)}
+.th{height:92px;border-bottom:1px solid var(--line);padding:6px 8px;display:flex;flex-direction:column;gap:5px;cursor:pointer;overflow:hidden}
+.th.sel{background:rgba(114,117,255,.1)}
+.th .top{display:flex;align-items:center;gap:6px}
+.th .sw{width:8px;height:28px;border-radius:4px;flex:none}
+.th .name{font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.th .ctrls{display:flex;gap:6px;align-items:center;min-width:0}
+.th .ctrls select{min-width:0;flex:1;max-width:130px;padding:2px 4px;font-size:12px;border-radius:7px}
+.th .ctrls .pill{white-space:nowrap}
+.th input[type=range]{width:70px;flex:none}
+.lane{height:92px;border-bottom:1px solid var(--line);position:relative;background:var(--lane)}
+.lane canvas{position:absolute;left:0;top:0}
+.clip{position:absolute;top:4px;height:84px;border:1px solid rgba(255,255,255,.35);border-radius:6px;background:rgba(255,255,255,.04);cursor:grab}
+.clip.sel{border-color:#fff;box-shadow:0 0 0 1px #fff inset}
+.clip .h{position:absolute;top:0;bottom:0;width:7px;cursor:ew-resize}
+.clip .h.l{left:0}.clip .h.r{right:0}
+.playhead{position:absolute;top:0;bottom:0;width:2px;background:#fff;pointer-events:none;z-index:5}
+.loopband{position:absolute;top:0;bottom:0;background:rgba(114,117,255,.08);pointer-events:none}
+.fxchips{display:flex;gap:4px;flex-wrap:nowrap;overflow:hidden;align-items:center;min-height:20px}
+.fxchips select{padding:0 4px;font-size:11px;border-radius:6px;flex:none}
+.chip{font-size:11px;padding:1px 6px;border-radius:6px;border:1px solid var(--line);cursor:pointer;white-space:nowrap;flex:none}
+.chip.off{opacity:.4;text-decoration:line-through}
+.ai{padding:14px;margin-top:12px}
+.ai .examples{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.ai .examples button{font-size:12px;padding:3px 9px}
+.result{margin-top:10px;font-size:13px}
+.panel{padding:14px;margin-top:12px}
+#roll{display:block;background:#0a0b12;border-radius:10px;cursor:crosshair}
+.rollwrap{overflow:auto;max-height:360px;border:1px solid var(--line);border-radius:10px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--glass2);border:1px solid var(--line);padding:10px 16px;border-radius:12px;z-index:50;max-width:90vw}
+.hidden{display:none!important}
+.projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.projects .p{padding:10px 12px;cursor:pointer}
+@media (max-width:760px){
+  .editor{grid-template-columns:170px 1fr}
+  .th .ctrls input[type=range]:nth-child(2){display:none}
+  .th input[type=range]{width:52px}
+  .th .fxchips{display:none}
+  h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">SoundLens <span>Studio</span></div>
+  <a href="/" class="muted" style="text-decoration:none">← SoundLens</a>
+  <div class="grow"></div>
+  <span id="who" class="muted"></span>
+</header>
+
+<div class="wrap" id="createView">
+  <h1>Pick your sound. Generate your song. Change anything.</h1>
+  <div class="muted">Choose a character, describe the vibe, hit generate. Every instrument comes out as its own track you can change.</div>
+  <div id="loginNote" class="card glass hidden">Log in on the <a href="/">SoundLens home page</a> first, then come back here.</div>
+  <div class="chars" id="chars"></div>
+  <div class="card glass">
+    <label class="f">Describe the song (optional)
+      <textarea id="prompt" rows="2" maxlength="500" placeholder="dark and aggressive, blown-out 808s, bells in the hook"></textarea></label>
+    <details>
+      <summary>Advanced settings</summary>
+      <div class="grid2" style="margin-top:10px">
+        <label class="f">Tempo (BPM) <span class="row"><input id="bpm" type="number" min="40" max="240" placeholder="auto" style="width:90px"><span class="note">blank = character default</span></span></label>
+        <label class="f">Key <select id="key"><option value="">Auto</option></select></label>
+        <label class="f">Scale <select id="scale"><option value="">Auto</option></select></label>
+        <label class="f">Length <span class="row"><input id="dur" type="range" min="20" max="180" value="60"><span id="durv">60 s</span></span></label>
+        <label class="f">Energy <span class="row"><input id="energy" type="range" min="0" max="100" value="70"><span id="energyv">70%</span></span></label>
+        <label class="f">Vocals <select id="vocals"><option value="instrumental">Instrumental</option><option value="vocals">Vocals</option></select></label>
+      </div>
+      <div id="vocalBox" class="hidden" style="margin-top:10px">
+        <label class="f">Lyrics <textarea id="lyrics" rows="4" placeholder="[Verse]&#10;...&#10;[Chorus]&#10;..."></textarea></label>
+        <div class="note" id="vocalNote"></div>
+      </div>
+    </details>
+    <div class="row" style="margin-top:14px">
+      <button class="primary" id="genBtn">Generate song</button>
+      <span id="genStatus" class="muted"></span>
+    </div>
+    <div class="progress"><div id="genBar"></div></div>
+  </div>
+  <div class="card glass">
+    <h2>Your projects</h2>
+    <div class="projects" id="projects"><span class="muted">No projects yet.</span></div>
+  </div>
+  <div class="card glass">
+    <h2>Engines</h2>
+    <div id="providers" class="note"></div>
+  </div>
+</div>
+
+<div class="wrap hidden" id="editView" style="max-width:1500px">
+  <div class="row"><button class="small" id="backBtn">← Projects</button><h2 id="ptitle" style="margin:0"></h2><span id="pmeta" class="muted"></span></div>
+  <div class="transport glass" style="margin-top:10px">
+    <button class="primary" id="playBtn">▶ Play</button>
+    <button id="stopBtn">■</button>
+    <button id="loopBtn" title="Loop the selected section">⟲ Loop</button>
+    <span class="time" id="time">0:00.0</span>
+    <select id="monitor" title="Live: instant stem mix with an approximate master. Exact: the server's mastered render (what Export gives you)."><option value="live">Live preview</option><option value="exact">Exact master</option></select>
+    <span class="grow" style="flex:1"></span>
+    <button id="undoBtn">↶ Undo</button><button id="redoBtn">↷ Redo</button>
+    <select id="exportFmt"><option value="wav">WAV</option><option value="mp3">MP3</option><option value="stems">Stems + MIDI (zip)</option></select>
+    <button id="exportBtn">Export</button>
+    <button id="qaBtn" title="Measure loudness, clipping, timing, key">Check quality</button>
+    <label class="row note">Zoom <input id="zoom" type="range" min="20" max="200" value="60"></label>
+  </div>
+
+  <div class="ai glass">
+    <div class="row">
+      <input id="cmd" type="text" maxlength="500" style="flex:1;min-width:220px" placeholder="Tell SoundLens what to change, e.g. “make the 808 more distorted”">
+      <button class="primary" id="cmdBtn">Apply</button>
+    </div>
+    <div class="examples" id="examples"></div>
+    <div class="result" id="cmdResult"></div>
+  </div>
+
+  <div class="editor glass">
+    <div class="heads" id="heads"></div>
+    <div class="lanes" id="lanes"><div class="lanes-inner" id="lanesInner"></div></div>
+  </div>
+
+  <div class="row" style="margin-top:10px" id="trackTools">
+    <select id="addPart"><option value="">+ Add part…</option><option value="counter_melody">Counter melody</option><option value="bell">Bells</option><option value="atmosphere">Atmosphere</option><option value="perc">Percussion</option><option value="clap">Clap</option><option value="snare">Snare</option></select>
+    <label class="row"><button id="uploadBtn">Upload audio</button><input id="uploadFile" type="file" accept=".wav,.flac,.aif,.aiff" class="hidden"></label>
+    <button id="clipSplit" disabled>Split at playhead</button>
+    <button id="clipDup" disabled>Duplicate clip</button>
+    <button id="clipDel" disabled>Delete clip</button>
+    <button id="regenTrack" disabled>New pattern for track</button>
+    <button id="transcribeBtn" disabled title="Basic Pitch: suggests notes from audio (not exact)">Transcribe to MIDI</button>
+    <button id="separateBtn" disabled>Separate stems</button>
+    <button id="layerBtn" disabled title="ACE-Step lego task">Generate vocals (AI)</button>
+    <button id="removeTrack" disabled>Remove track</button>
+  </div>
+  <div class="row" style="margin-top:8px" id="sectionTools">
+    <span class="muted" id="secLabel">Click a section on the ruler to select it.</span>
+    <button id="secRegen" disabled>Regenerate section</button>
+    <button id="secNoDrums" disabled>Remove drums here</button>
+    <button id="secDup" disabled>Duplicate section</button>
+    <button id="secDel" disabled>Delete section</button>
+  </div>
+
+  <div class="panel glass" id="trackPanel">
+    <div class="row"><h2 id="tpName" style="margin:0">Select a track</h2><span id="tpInfo" class="muted"></span></div>
+    <div class="row" style="margin-top:8px" id="tpControls"></div>
+    <div class="rollwrap" style="margin-top:10px" id="rollWrap"><canvas id="roll" height="300"></canvas></div>
+    <div class="row note" style="margin-top:6px" id="rollTools">
+      Click empty space to add a note · drag to move · drag the right edge to resize · Delete removes ·
+      <label class="row">velocity <input id="vel" type="range" min="1" max="100" value="80"></label>
+      <button class="small" id="quantBtn">Quantize 1/16</button>
+      <button class="small primary" id="saveNotes" disabled>Save notes</button>
+    </div>
+  </div>
+  <div class="panel glass hidden" id="qaPanel"></div>
+</div>
+<div class="toast hidden" id="toast"></div>
+
+<script>
+const TOKEN_KEY='soundlens_auth_token';
+const NOTE_NAMES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const $=id=>document.getElementById(id);
+let catalog=null, chars=[], selChar=null;
+let state=null;          // server view: {project, stems, revision, can_undo, ...}
+let selTrack=null, selClip=null, selSection=null, loopOn=false;
+let pxPerSec=60;
+const audio={ctx:null, buffers:{}, scales:{}, nodes:{}, master:null, sources:[], playing:false, startAt:0, offset:0, exact:null};
+
+function toast(msg,ms=3500){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.add('hidden'),ms)}
+function authHeaders(){const t=localStorage.getItem(TOKEN_KEY);return t?{Authorization:'Bearer '+t}:{}}
+async function api(url,opt={}){
+  const headers={...authHeaders(),...(opt.headers||{})};
+  if(opt.body&&!(opt.body instanceof FormData)){headers['Content-Type']='application/json';if(typeof opt.body!=='string')opt.body=JSON.stringify(opt.body)}
+  const r=await fetch(url,{...opt,headers});
+  let d={};try{d=await r.json()}catch{}
+  if(!r.ok){const e=new Error(d.detail||('Request failed ('+r.status+')'));e.status=r.status;throw e}
+  return d;
+}
+async function waitJob(job,onProgress){
+  while(true){
+    const j=await api('/studio-api/jobs/'+job.id);
+    onProgress&&onProgress(j);
+    if(j.status==='done')return j.result;
+    if(j.status==='failed')throw new Error(j.error||'Job failed');
+    await new Promise(r=>setTimeout(r,700));
+  }
+}
+const fmtTime=s=>{s=Math.max(0,s);const m=Math.floor(s/60);return m+':'+(s%60).toFixed(1).padStart(4,'0')};
+const P=()=>state.project;
+const spb=()=>60/P().params.bpm;
+const beatToPx=b=>b*spb()*pxPerSec;
+
+/* ---------------- create view ---------------- */
+async function boot(){
+  NOTE_NAMES.forEach(n=>$('key').insertAdjacentHTML('beforeend',`<option>${n}</option>`));
+  try{
+    const [c,cat]=await Promise.all([api('/studio-api/characters'),api('/studio-api/catalog')]);
+    chars=c.characters;catalog=cat;
+  }catch(e){toast(e.message);return}
+  catalog.scales.forEach(s=>$('scale').insertAdjacentHTML('beforeend',`<option value="${s}">${s.replace('_',' ')}</option>`));
+  $('chars').innerHTML=chars.map(c=>`<div class="char glass" data-id="${c.id}"><div class="av">${c.avatar_svg}</div><div class="nm">${esc(c.name)}</div><div class="tg">${esc(c.tagline)}</div><div><span class="pill">${esc(c.subgenre||c.genre)}</span> <span class="pill">${c.tempo.min}–${c.tempo.max} BPM</span></div></div>`).join('');
+  document.querySelectorAll('.char').forEach(el=>el.onclick=()=>{document.querySelectorAll('.char').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');selChar=el.dataset.id});
+  document.querySelector('.char')?.click();
+  const ace=catalog.providers.find(p=>p.name==='acestep');
+  $('providers').innerHTML=catalog.providers.map(p=>`<div><b>${p.name}</b>: <span class="${p.available?'ok':'warn'}">${p.available?'available':'off'}</span> — ${esc(p.reason)}${p.cost_note?' · '+esc(p.cost_note):''}</div>`).join('');
+  $('vocalNote').innerHTML=ace&&ace.available?'Vocals will be generated with ACE-Step after the beat is ready.':`<span class="warn">Vocal generation needs the ACE-Step engine, which is off (${esc(ace?ace.reason:'not configured')}). Your song will be instrumental; you can add vocals later by uploading a recording.</span>`;
+  ['dur','energy'].forEach(id=>$(id).oninput=()=>{$(id+'v').textContent=id==='dur'?$(id).value+' s':$(id).value+'%'});
+  $('vocals').onchange=()=>$('vocalBox').classList.toggle('hidden',$('vocals').value!=='vocals');
+  $('genBtn').onclick=generate;
+  await loadProjects();
+  const pid=new URLSearchParams(location.search).get('project');if(pid)openProject(pid);
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+async function loadProjects(){
+  try{
+    const d=await api('/studio-api/projects');
+    $('loginNote').classList.add('hidden');
+    $('who').textContent='';
+    $('projects').innerHTML=d.projects.length?d.projects.map(p=>`<div class="p glass" data-id="${p.id}"><b>${esc(p.title)}</b><div class="note">${p.bpm} BPM · ${p.key} ${esc(p.scale)} · ${p.tracks} tracks</div></div>`).join(''):'<span class="muted">No projects yet.</span>';
+    document.querySelectorAll('.projects .p').forEach(el=>el.onclick=()=>openProject(el.dataset.id));
+  }catch(e){if(e.status===401||e.status===403){$('loginNote').classList.remove('hidden');$('loginNote').innerHTML=esc(e.message)+' <a href="/">Go to SoundLens to log in</a>.';$('genBtn').disabled=true}}
+}
+async function generate(){
+  if(!selChar)return toast('Pick a character first.');
+  const body={character_id:selChar,prompt:$('prompt').value,duration_s:+$('dur').value,energy:+$('energy').value/100,
+    vocals:{mode:$('vocals').value,lyrics:$('lyrics').value}};
+  if($('bpm').value)body.bpm=+$('bpm').value;if($('key').value)body.key=$('key').value;if($('scale').value)body.scale=$('scale').value;
+  $('genBtn').disabled=true;$('genStatus').textContent='Starting…';
+  try{
+    const job=await api('/studio-api/projects',{method:'POST',body});
+    const res=await waitJob(job,j=>{$('genStatus').textContent=j.message;$('genBar').style.width=(j.progress*100)+'%'});
+    $('genStatus').textContent='Done';await openProject(res.project_id);
+  }catch(e){$('genStatus').textContent='';toast(e.message)}finally{$('genBtn').disabled=false;$('genBar').style.width='0'}
+}
+
+/* ---------------- editor ---------------- */
+async function openProject(pid){
+  stop();
+  state=await api('/studio-api/projects/'+pid);
+  history.replaceState(null,'','/studio?project='+pid);
+  $('createView').classList.add('hidden');$('editView').classList.remove('hidden');
+  selTrack=P().tracks[0]?.id||null;selClip=null;selSection=null;
+  renderAll();await loadStems();renderAll();
+}
+function ensureCtx(){
+  if(!audio.ctx){
+    audio.ctx=new (window.AudioContext||window.webkitAudioContext)();
+    audio.master=audio.ctx.createGain();
+    audio.clip=audio.ctx.createWaveShaper();
+    audio.lim=audio.ctx.createDynamicsCompressor();
+    audio.lim.threshold.value=-1;audio.lim.knee.value=0;audio.lim.ratio.value=20;audio.lim.attack.value=0.002;audio.lim.release.value=0.08;
+    audio.master.connect(audio.clip);audio.clip.connect(audio.lim);audio.lim.connect(audio.ctx.destination);
+  }
+  return audio.ctx;
+}
+function applyMasterApprox(){
+  const m=P().master||{};audio.master.gain.value=Math.pow(10,(m.gain_db||0)/20);
+  const clip=(m.fx||[]).find(f=>f.type==='clipper'&&f.enabled!==false);
+  if(clip){const c=Math.pow(10,((clip.params||{}).ceiling_db??-0.3)/20),k=Math.pow(10,((clip.params||{}).drive_db||0)/20);const n=4096,curve=new Float32Array(n);for(let i=0;i<n;i++){const x=(i/(n-1))*2-1;curve[i]=Math.max(-c,Math.min(c,x*k))}audio.clip.curve=curve;audio.clip.oversample='4x'}
+  else audio.clip.curve=null;
+}
+async function loadStems(){
+  ensureCtx();
+  const need=P().tracks.filter(t=>!audio.buffers[state.stems[t.id]]);
+  let done=0;
+  await Promise.all(need.map(async t=>{
+    const key=state.stems[t.id];
+    const r=await fetch(`/studio-api/projects/${P().id}/stems/${t.id}`,{headers:authHeaders()});
+    if(!r.ok){toast('Could not load '+t.name);return}
+    audio.scales[key]=parseFloat(r.headers.get('X-Stem-Scale')||'1');
+    audio.buffers[key]=await audio.ctx.decodeAudioData(await r.arrayBuffer());
+    done++;$('pmeta').textContent=`loading audio ${done}/${need.length}`;
+  }));
+  audio.exact=null;
+  updateMeta();
+}
+function updateMeta(){const p=P();$('pmeta').textContent=`${p.params.bpm} BPM · ${p.params.key} ${p.params.scale.replace('_',' ')} · ${fmtTime(state.duration_s)}`}
+function trackGainLin(t){
+  const soloed=P().tracks.some(x=>x.solo);
+  if(t.mute||(soloed&&!t.solo))return 0;
+  return Math.pow(10,t.gain_db/20)/(audio.scales[state.stems[t.id]]||1);
+}
+function play(){
+  const ctx=ensureCtx();if(ctx.state==='suspended')ctx.resume();
+  stop(true);
+  applyMasterApprox();
+  const when=ctx.currentTime+0.06;
+  const sec=loopOn&&selSection?P().sections.find(s=>s.id===selSection):null;
+  const loopStart=sec?sec.start_bar*4*spb():0,loopEnd=sec?(sec.start_bar+sec.bars)*4*spb():0;
+  if(sec&&(audio.offset<loopStart||audio.offset>=loopEnd))audio.offset=loopStart;
+  const exact=$('monitor').value==='exact';
+  const startSrc=(buf,dest)=>{const s=ctx.createBufferSource();s.buffer=buf;if(sec){s.loop=true;s.loopStart=loopStart;s.loopEnd=loopEnd}s.connect(dest);s.start(when,audio.offset);audio.sources.push(s)};
+  if(exact){
+    if(!audio.exact){toast('Rendering exact master…');return loadExact().then(play)}
+    startSrc(audio.exact,ctx.destination);
+  }else{
+    P().tracks.forEach(t=>{
+      const buf=audio.buffers[state.stems[t.id]];if(!buf)return;
+      const g=ctx.createGain();g.gain.value=trackGainLin(t);
+      const pan=ctx.createStereoPanner();pan.pan.value=t.pan||0;
+      g.connect(pan);pan.connect(audio.master);
+      audio.nodes[t.id]={g,pan};startSrc(buf,g);
+    });
+  }
+  audio.playing=true;audio.startAt=when;audio.loop=sec?[loopStart,loopEnd]:null;
+  $('playBtn').textContent='❚❚ Pause';tick();
+}
+async function loadExact(){const r=await fetch(`/studio-api/projects/${P().id}/mix`,{headers:authHeaders()});audio.exact=await ensureCtx().decodeAudioData(await r.arrayBuffer())}
+function currentTime(){
+  if(!audio.playing)return audio.offset;
+  let t=audio.offset+(audio.ctx.currentTime-audio.startAt);
+  if(audio.loop){const [a,b]=audio.loop;if(t>=b)t=a+((t-a)%(b-a))}
+  return t;
+}
+function stop(keepOffset){
+  if(audio.playing&&keepOffset)audio.offset=currentTime();
+  audio.sources.forEach(s=>{try{s.stop()}catch{}});audio.sources=[];audio.nodes={};
+  audio.playing=false;if($('playBtn'))$('playBtn').textContent='▶ Play';
+}
+function pause(){stop(true)}
+function tick(){
+  const t=currentTime();$('time').textContent=fmtTime(t);
+  const ph=$('playhead');if(ph)ph.style.left=(t*pxPerSec)+'px';
+  if(audio.playing&&!audio.loop&&t>=state.duration_s){stop();audio.offset=0}
+  if(audio.playing)requestAnimationFrame(tick);
+}
+function liveMixerUpdate(){P().tracks.forEach(t=>{const n=audio.nodes[t.id];if(n){n.g.gain.value=trackGainLin(t);n.pan.pan.value=t.pan||0}})}
+
+function renderAll(){
+  const p=P();$('ptitle').textContent=p.title;updateMeta();
+  $('undoBtn').disabled=!state.can_undo;$('redoBtn').disabled=!state.can_redo;
+  renderHeads();renderLanes();renderTrackPanel();renderSectionTools();renderExamples();
+}
+function fxLabel(f){return f.type+(f.type==='distortion'?' '+Math.round((f.params||{}).drive_db??12)+'dB':'')}
+function renderHeads(){
+  const presets=catalog.presets;
+  $('heads').innerHTML='<div class="headspacer">Tracks</div>'+P().tracks.map(t=>{
+    const inst=t.instrument;let sel='';
+    if(t.kind==='midi'&&inst){
+      const drum=['kick','snare','clap','hat','perc'].includes(inst.engine);
+      sel=`<select class="small inst" data-id="${t.id}" title="Instrument">`+Object.entries(presets).filter(([k,v])=>drum?v.engine===inst.engine:!['kick','snare','clap','hat','perc'].includes(v.engine)).map(([k,v])=>`<option value="${k}" ${k===inst.preset?'selected':''}>${esc(v.label)}</option>`).join('')+'</select>';
+    }else sel=`<span class="pill">${t.generator?.engine||'audio'}</span>`;
+    return `<div class="th ${t.id===selTrack?'sel':''}" data-id="${t.id}">
+      <div class="top"><span class="sw" style="background:${t.color||'#888'}"></span><span class="name" title="Double-click to rename">${esc(t.name)}</span>
+        <button class="small ${t.mute?'on':''}" data-act="mute" title="Mute">M</button><button class="small ${t.solo?'on':''}" data-act="solo" title="Solo">S</button></div>
+      <div class="ctrls"><input type="range" min="-40" max="12" step="0.5" value="${t.gain_db}" data-act="gain" title="Volume ${t.gain_db} dB"><input type="range" min="-1" max="1" step="0.05" value="${t.pan}" data-act="pan" title="Pan">${sel}</div>
+      <div class="fxchips"><select class="small addfx" title="Add effect"><option value="">+ fx</option>${Object.keys(catalog.effects).map(k=>`<option>${k}</option>`).join('')}</select>${(t.fx||[]).map((f,i)=>`<span class="chip ${f.enabled===false?'off':''}" data-fx="${i}" title="Click: bypass · Shift-click: remove">${esc(fxLabel(f))}</span>`).join('')}</div>
+    </div>`}).join('');
+  document.querySelectorAll('.th').forEach(el=>{
+    const id=el.dataset.id,t=P().tracks.find(x=>x.id===id);
+    el.onclick=e=>{if(e.target.closest('input,select,button,.chip'))return;selTrack=id;selClip=null;renderAll()};
+    el.querySelector('.name').ondblclick=()=>{const n=prompt('Track name',t.name);if(n)edit([{op:'set_mixer',track:id,name:n}],'rename')};
+    el.querySelectorAll('button[data-act]').forEach(b=>b.onclick=()=>{const k=b.dataset.act;t[k]=!t[k];liveMixerUpdate();renderHeads();persistMixer(id,{[k]:t[k]})});
+    el.querySelectorAll('input[data-act]').forEach(inp=>{inp.oninput=()=>{const k=inp.dataset.act;if(k==='gain')t.gain_db=+inp.value;else t.pan=+inp.value;liveMixerUpdate()};
+      inp.onchange=()=>persistMixer(id,inp.dataset.act==='gain'?{gain_db:t.gain_db}:{pan:t.pan})});
+    const is=el.querySelector('select.inst');if(is)is.onchange=()=>edit([{op:'set_instrument',track:id,preset:is.value}],'instrument '+is.value);
+    el.querySelectorAll('.chip').forEach(ch=>ch.onclick=e=>{const i=+ch.dataset.fx;const f=t.fx[i];
+      if(e.shiftKey)edit([{op:'remove_effect',track:id,index:i}],'remove '+f.type);else edit([{op:'update_effect',track:id,index:i,enabled:f.enabled===false}],'bypass '+f.type)});
+    el.querySelector('.addfx').onchange=ev=>{const v=ev.target.value;if(v)edit([{op:'add_effect',track:id,type:v,params:{}}],'add '+v)};
+  });
+}
+let mixerTimer=null,mixerQueue={};
+function persistMixer(id,fields){mixerQueue[id]={...(mixerQueue[id]||{}),...fields};clearTimeout(mixerTimer);mixerTimer=setTimeout(async()=>{const q=mixerQueue;mixerQueue={};
+  const actions=Object.entries(q).map(([track,f])=>({op:'set_mixer',track,...f}));try{const d=await api(`/studio-api/projects/${P().id}/edit`,{method:'POST',body:{actions,note:'mixer'}});state={...d};renderAll()}catch(e){toast(e.message)}},400)}
+
+function renderLanes(){
+  const p=P(),W=Math.ceil(state.duration_s*pxPerSec),inner=$('lanesInner');
+  inner.style.width=W+'px';
+  const bars=p.sections.reduce((a,s)=>Math.max(a,s.start_bar+s.bars),0);
+  let html=`<div class="ruler">${p.sections.map(s=>`<div class="sec ${s.id===selSection?'sel':''}" data-id="${s.id}" style="left:${beatToPx(s.start_bar*4)}px;width:${beatToPx(s.bars*4)}px">${esc(s.label)}</div>`).join('')}</div>`;
+  html+=p.tracks.map(t=>`<div class="lane" data-id="${t.id}"><canvas width="${W}" height="92"></canvas>${t.clips.map(c=>`<div class="clip ${c.id===selClip?'sel':''}" data-track="${t.id}" data-clip="${c.id}" style="left:${beatToPx(c.start)}px;width:${Math.max(4,beatToPx(c.length))}px"><div class="h l"></div><div class="h r"></div></div>`).join('')}</div>`).join('');
+  const sec=selSection&&p.sections.find(s=>s.id===selSection);
+  html+=sec?`<div class="loopband" style="left:${beatToPx(sec.start_bar*4)}px;width:${beatToPx(sec.bars*4)}px"></div>`:'';
+  html+=`<div class="playhead" id="playhead" style="left:${currentTime()*pxPerSec}px"></div>`;
+  inner.innerHTML=html;
+  p.tracks.forEach(t=>drawWave(t));
+  inner.querySelectorAll('.sec').forEach(el=>el.onclick=()=>{selSection=selSection===el.dataset.id?null:el.dataset.id;renderLanes();renderSectionTools()});
+  inner.querySelector('.ruler').addEventListener('dblclick',e=>{const x=e.clientX-inner.getBoundingClientRect().left;seek(x/pxPerSec)});
+  inner.querySelectorAll('.lane').forEach(l=>l.addEventListener('click',e=>{if(e.target.closest('.clip'))return;const x=e.clientX-inner.getBoundingClientRect().left;selTrack=l.dataset.id;seek(x/pxPerSec);renderHeads();renderTrackPanel()}));
+  inner.querySelectorAll('.clip').forEach(bindClip);
+}
+function seek(t){const was=audio.playing;stop();audio.offset=Math.max(0,Math.min(t,state.duration_s));tick();if(was)play()}
+function drawWave(t){
+  const lane=document.querySelector(`.lane[data-id="${t.id}"]`);if(!lane)return;
+  const cv=lane.querySelector('canvas'),g=cv.getContext('2d'),buf=audio.buffers[state.stems[t.id]];
+  g.clearRect(0,0,cv.width,cv.height);
+  if(!buf){g.fillStyle='#555';g.fillText('loading…',8,40);return}
+  const a=buf.getChannelData(0),b=buf.numberOfChannels>1?buf.getChannelData(1):a,per=buf.sampleRate/pxPerSec,mid=46;
+  g.fillStyle=t.color||'#9fa6bb';g.globalAlpha=t.mute?0.25:0.85;
+  for(let x=0;x<cv.width;x++){
+    const s=Math.floor(x*per),e=Math.min(a.length,Math.floor((x+1)*per));let mn=0,mx=0;
+    for(let i=s;i<e;i+=8){const v=(a[i]+b[i])*0.5;if(v<mn)mn=v;if(v>mx)mx=v}
+    g.fillRect(x,mid-mx*40,1,Math.max(1,(mx-mn)*40));
+  }
+}
+function bindClip(el){
+  const tid=el.dataset.track,cid=el.dataset.clip;
+  el.onmousedown=e=>{
+    e.preventDefault();selTrack=tid;selClip=cid;
+    const t=P().tracks.find(x=>x.id===tid),c=t.clips.find(x=>x.id===cid);
+    const mode=e.target.classList.contains('l')?'l':e.target.classList.contains('r')?'r':'move';
+    const x0=e.clientX,start0=c.start,len0=c.length,off0=c.offset||0;const snap=1;
+    document.querySelectorAll('.clip').forEach(x=>x.classList.toggle('sel',x===el));
+    const mm=ev=>{const db=Math.round(((ev.clientX-x0)/pxPerSec/spb())/snap)*snap;
+      if(mode==='move'){c.start=Math.max(0,start0+db)}else if(mode==='r'){c.length=Math.max(snap,len0+db)}else{const d=Math.max(-off0,Math.min(len0-snap,db));c.start=start0+d;c.offset=off0+d;c.length=len0-d}
+      el.style.left=beatToPx(c.start)+'px';el.style.width=beatToPx(c.length)+'px'};
+    const mu=()=>{document.removeEventListener('mousemove',mm);document.removeEventListener('mouseup',mu);
+      if(c.start===start0&&c.length===len0){renderHeads();renderTrackPanel();updateClipButtons();return}
+      const act=mode==='move'?{op:'move_clip',track:tid,clip:cid,start:c.start}:mode==='r'?{op:'trim_clip',track:tid,clip:cid,length:c.length}:{op:'trim_clip',track:tid,clip:cid,left:c.start};
+      c.start=start0;c.length=len0;c.offset=off0;edit([act],mode==='move'?'move clip':'trim clip')};
+    document.addEventListener('mousemove',mm);document.addEventListener('mouseup',mu);
+    updateClipButtons();
+  };
+}
+function updateClipButtons(){['clipSplit','clipDup','clipDel'].forEach(id=>$(id).disabled=!selClip)}
+function renderSectionTools(){
+  const s=selSection&&P().sections.find(x=>x.id===selSection);
+  $('secLabel').textContent=s?`Section: ${s.label} (${s.bars} bars)`:'Click a section on the ruler to select it.';
+  ['secRegen','secNoDrums','secDup','secDel'].forEach(id=>$(id).disabled=!s);
+}
+function renderExamples(){
+  const ex=['Make the 808 more distorted','Change the melody to a bell','Make the hi-hats faster','Add a counter melody','Remove the drums from this section','Regenerate the second verse','Make the vocals more aggressive','Make the entire song faster'];
+  $('examples').innerHTML=ex.map(x=>`<button>${esc(x)}</button>`).join('');
+  $('examples').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('cmd').value=b.textContent;runCommand()});
+}
+
+/* ---------------- edits ---------------- */
+async function afterChange(d,label){
+  const before=state.stems;state=d;
+  const changed=P().tracks.filter(t=>before[t.id]!==state.stems[t.id]).length;
+  if(selTrack&&!P().tracks.find(t=>t.id===selTrack))selTrack=P().tracks[0]?.id||null;
+  if(selSection&&!P().sections.find(s=>s.id===selSection))selSection=null;
+  selClip=null;roll.dirty=false;
+  const was=audio.playing;if(was)pause();
+  renderAll();await loadStems();renderAll();if(was)play();
+  return changed;
+}
+async function edit(actions,note){
+  try{const d=await api(`/studio-api/projects/${P().id}/edit`,{method:'POST',body:{actions,note}});await afterChange(d,note);describeDiff(d.diff,note)}
+  catch(e){toast(e.message);renderAll()}
+}
+function describeDiff(diff,label){
+  if(!diff)return;
+  const ch=diff.sound_changed.map(x=>x.name),keep=diff.untouched.length+diff.mixer_changed.length;
+  $('cmdResult').innerHTML=`<span class="ok">✓ ${esc(label||'Done')}</span> — changed: <b>${esc(ch.join(', ')||(diff.mixer_changed.map(x=>x.name).join(', ')+' (mixer)')||'master')}</b>${diff.removed.length?' · removed: '+esc(diff.removed.map(x=>x.name).join(', ')):''} · <span class="muted">${keep} other track${keep===1?'':'s'} untouched</span>`;
+}
+async function runCommand(){
+  const text=$('cmd').value.trim();if(!text)return;
+  const t=P().tracks.find(x=>x.id===selTrack);
+  $('cmdBtn').disabled=true;$('cmdResult').textContent='Working…';
+  try{
+    const d=await api(`/studio-api/projects/${P().id}/command`,{method:'POST',body:{text,context:{track_role:t?.role,section:selSection}}});
+    const it=d.interpretation;
+    $('cmdResult').innerHTML='';
+    if(d.project){await afterChange(d,text);describeDiff(d.diff,it.explanation.join('; '))}
+    if(it.problems.length)$('cmdResult').innerHTML+=(d.project?'<br>':'')+it.problems.map(p=>`<span class="warn">⚠ ${esc(p)}</span>`).join('<br>');
+    if(!d.project&&!it.problems.length)$('cmdResult').innerHTML='<span class="warn">Nothing to change.</span>';
+  }catch(e){$('cmdResult').innerHTML=`<span class="bad">${esc(e.message)}</span>`}finally{$('cmdBtn').disabled=false}
+}
+
+/* ---------------- piano roll ---------------- */
+const roll={notes:[],sel:-1,lo:24,hi:96,ppb:48,rowH:9,dirty:false,drag:null};
+function renderTrackPanel(){
+  const t=P().tracks.find(x=>x.id===selTrack);
+  ['regenTrack','transcribeBtn','separateBtn','layerBtn','removeTrack'].forEach(id=>$(id).disabled=!t);
+  const prov=Object.fromEntries(catalog.providers.map(p=>[p.name,p]));
+  if(t){
+    $('regenTrack').disabled=!(t.kind==='midi'&&t.generator?.engine==='procedural');
+    $('transcribeBtn').disabled=!(prov.basic_pitch?.available);
+    $('separateBtn').disabled=!(t.kind==='audio'&&prov.demucs?.available);
+    $('separateBtn').title=prov.demucs?.available?'Split an audio track into vocals/drums/bass/other (Demucs)':'Demucs: '+(prov.demucs?.reason||'off');
+    $('layerBtn').disabled=!prov.acestep?.available;$('layerBtn').title=prov.acestep?.available?'ACE-Step lego':'ACE-Step: '+(prov.acestep?.reason||'off');
+  }
+  updateClipButtons();
+  if(!t){$('tpName').textContent='Select a track';$('rollWrap').classList.add('hidden');$('rollTools').classList.add('hidden');return}
+  $('tpName').textContent=t.name;
+  const notesCount=t.clips.reduce((a,c)=>a+(c.notes||[]).length,0);
+  $('tpInfo').textContent=t.kind==='midi'?`${catalog.presets[t.instrument?.preset]?.label||''} · ${notesCount} notes · ${t.generator?.engine||''}${t.generator?.warning?' · ⚠ '+t.generator.warning:''}`:`audio · ${t.generator?.engine||''}${t.generator?.warning?' · ⚠ '+t.generator.warning:''}`;
+  const ip=t.instrument?.params||{};
+  $('tpControls').innerHTML=t.kind==='midi'&&t.role==='808'?`<label class="row note">808 drive <input type="range" min="0" max="1" step="0.05" value="${ip.drive||0}" id="p_drive"></label><label class="row note">decay <input type="range" min="0.2" max="3" step="0.1" value="${ip.decay_s||1.5}" id="p_decay"></label><label class="row note">glide <input type="range" min="10" max="250" step="5" value="${ip.glide_ms||70}" id="p_glide"></label>`:'';
+  [['p_drive','drive'],['p_decay','decay_s'],['p_glide','glide_ms']].forEach(([id,k])=>{const el=$(id);if(el)el.onchange=()=>edit([{op:'set_instrument_params',track:t.id,params:{[k]:+el.value}}],'808 '+k)});
+  if(t.kind!=='midi'){$('rollWrap').classList.add('hidden');$('rollTools').classList.add('hidden');return}
+  $('rollWrap').classList.remove('hidden');$('rollTools').classList.remove('hidden');
+  if(!roll.dirty||roll.track!==t.id){
+    roll.track=t.id;roll.notes=[];
+    t.clips.forEach(c=>(c.notes||[]).forEach(n=>{if(n.t>=(c.offset||0)&&n.t<(c.offset||0)+c.length)roll.notes.push({...n,t:c.start+n.t-(c.offset||0)})}));
+    const ps=roll.notes.map(n=>n.p);roll.lo=Math.max(0,(ps.length?Math.min(...ps):48)-4);roll.hi=Math.min(127,(ps.length?Math.max(...ps):72)+4);roll.sel=-1;roll.dirty=false;
+  }
+  $('saveNotes').disabled=!roll.dirty;drawRoll();
+}
+function drawRoll(){
+  const cv=$('roll'),g=cv.getContext('2d'),rows=roll.hi-roll.lo+1,beats=state.total_beats;
+  cv.width=Math.ceil(beats*roll.ppb)+40;cv.height=rows*roll.rowH;
+  g.fillStyle='#0a0b12';g.fillRect(0,0,cv.width,cv.height);
+  for(let p=roll.lo;p<=roll.hi;p++){const y=(roll.hi-p)*roll.rowH;if([1,3,6,8,10].includes(p%12)){g.fillStyle='#0e1019';g.fillRect(0,y,cv.width,roll.rowH)}if(p%12===0){g.fillStyle='#667';g.font='9px sans-serif';g.fillText(NOTE_NAMES[0]+(p/12-1),2,y+roll.rowH-1)}}
+  for(let b=0;b<=beats;b++){g.fillStyle=b%4===0?'rgba(255,255,255,.18)':'rgba(255,255,255,.06)';g.fillRect(b*roll.ppb,0,1,cv.height)}
+  const t=P().tracks.find(x=>x.id===roll.track);
+  roll.notes.forEach((n,i)=>{const x=n.t*roll.ppb,y=(roll.hi-n.p)*roll.rowH,w=Math.max(3,n.d*roll.ppb-1);
+    g.globalAlpha=0.35+0.65*(n.v??0.8);g.fillStyle=i===roll.sel?'#fff':(t?.color||'#7275ff');g.fillRect(x,y+1,w,roll.rowH-2);g.globalAlpha=1;
+    if(n.slide){g.fillStyle='#000';g.fillRect(x,y+roll.rowH/2-1,4,2)}});
+}
+function rollHit(x,y){const p=roll.hi-Math.floor(y/roll.rowH),b=x/roll.ppb;for(let i=roll.notes.length-1;i>=0;i--){const n=roll.notes[i];if(n.p===p&&b>=n.t&&b<=n.t+n.d)return {i,edge:(n.t+n.d-b)*roll.ppb<6}}return null}
+$('roll').addEventListener('mousedown',e=>{
+  const r=$('roll').getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,h=rollHit(x,y);
+  if(h){roll.sel=h.i;$('vel').value=Math.round((roll.notes[h.i].v??0.8)*100);roll.drag={i:h.i,mode:h.edge?'resize':'move',x0:x,y0:y,orig:{...roll.notes[h.i]}}}
+  else{const p=roll.hi-Math.floor(y/roll.rowH),t=Math.floor(x/roll.ppb*4)/4;roll.notes.push({t,d:0.5,p,v:+$('vel').value/100});roll.sel=roll.notes.length-1;roll.dirty=true}
+  $('saveNotes').disabled=!roll.dirty;drawRoll();
+});
+document.addEventListener('mousemove',e=>{if(!roll.drag)return;const r=$('roll').getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,d=roll.drag,n=roll.notes[d.i];
+  const db=Math.round((x-d.x0)/roll.ppb*4)/4;
+  if(d.mode==='move'){n.t=Math.max(0,d.orig.t+db);n.p=Math.max(0,Math.min(127,d.orig.p-Math.round((y-d.y0)/roll.rowH)))}else n.d=Math.max(0.0625,d.orig.d+db);
+  roll.dirty=true;$('saveNotes').disabled=false;drawRoll()});
+document.addEventListener('mouseup',()=>{roll.drag=null});
+document.addEventListener('keydown',e=>{
+  if(e.target.matches('input,textarea,select'))return;
+  if((e.key==='Delete'||e.key==='Backspace')&&roll.sel>=0&&!$('editView').classList.contains('hidden')){roll.notes.splice(roll.sel,1);roll.sel=-1;roll.dirty=true;$('saveNotes').disabled=false;drawRoll();e.preventDefault()}
+  if(e.key===' '&&state&&!$('editView').classList.contains('hidden')){e.preventDefault();audio.playing?pause():play()}
+  if((e.metaKey||e.ctrlKey)&&e.key==='z'&&state){e.preventDefault();e.shiftKey?$('redoBtn').click():$('undoBtn').click()}
+});
+$('vel').oninput=()=>{if(roll.sel>=0){roll.notes[roll.sel].v=+$('vel').value/100;roll.dirty=true;$('saveNotes').disabled=false;drawRoll()}};
+$('quantBtn').onclick=()=>{roll.notes.forEach(n=>n.t=Math.round(n.t*4)/4);roll.dirty=true;$('saveNotes').disabled=false;drawRoll()};
+$('saveNotes').onclick=()=>{const notes=roll.notes.map(n=>({t:+n.t.toFixed(5),d:+n.d.toFixed(5),p:n.p,v:+(n.v??0.8).toFixed(3),...(n.slide?{slide:true}:{})}));roll.dirty=false;edit([{op:'set_notes',track:roll.track,notes}],'edit notes')};
+
+/* ---------------- buttons ---------------- */
+$('playBtn').onclick=()=>audio.playing?pause():play();
+$('stopBtn').onclick=()=>{stop();audio.offset=0;tick()};
+$('loopBtn').onclick=()=>{loopOn=!loopOn;$('loopBtn').classList.toggle('on',loopOn);if(loopOn&&!selSection)toast('Select a section on the ruler to loop it.');if(audio.playing)play()};
+$('monitor').onchange=()=>{if(audio.playing)play()};
+$('zoom').oninput=()=>{pxPerSec=+$('zoom').value;renderLanes()};
+$('backBtn').onclick=()=>{stop();$('editView').classList.add('hidden');$('createView').classList.remove('hidden');history.replaceState(null,'','/studio');loadProjects()};
+$('cmdBtn').onclick=runCommand;$('cmd').onkeydown=e=>{if(e.key==='Enter')runCommand()};
+$('undoBtn').onclick=async()=>{try{await afterChange(await api(`/studio-api/projects/${P().id}/undo`,{method:'POST'}));$('cmdResult').textContent='Undone.'}catch(e){toast(e.message)}};
+$('redoBtn').onclick=async()=>{try{await afterChange(await api(`/studio-api/projects/${P().id}/redo`,{method:'POST'}));$('cmdResult').textContent='Redone.'}catch(e){toast(e.message)}};
+$('exportBtn').onclick=async()=>{const fmt=$('exportFmt').value;$('exportBtn').disabled=true;try{const job=await api(`/studio-api/projects/${P().id}/export`,{method:'POST',body:{format:fmt}});const res=await waitJob(job,j=>$('exportBtn').textContent=Math.round(j.progress*100)+'%');
+  const r=await fetch(`/studio-api/projects/${P().id}/exports/${encodeURIComponent(res.file)}`,{headers:authHeaders()});const blob=await r.blob();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=res.file;a.click();toast('Exported '+res.file)}
+  catch(e){toast(e.message)}finally{$('exportBtn').disabled=false;$('exportBtn').textContent='Export'}};
+$('qaBtn').onclick=async()=>{$('qaBtn').disabled=true;try{const job=await api(`/studio-api/projects/${P().id}/qa`,{method:'POST'});const q=await waitJob(job);const el=$('qaPanel');el.classList.remove('hidden');
+  const tm=Object.entries(q.timing_alignment||{}).map(([k,v])=>`${k}: ${v.matched_pct}% on grid (median ${v.median_abs_error_ms} ms)`).join(' · ');
+  el.innerHTML=`<h2>Quality check</h2><div class="grid2"><div>Loudness <b>${q.lufs} LUFS</b></div><div>True peak <b>${q.true_peak_db} dBTP</b></div><div>Clipped runs <b>${q.clipping.clip_runs}</b></div><div>Key estimate <b>${esc(q.key.key_estimate)}</b> ${q.key.same_pitch_collection?'<span class="ok">matches</span>':'<span class="warn">differs</span>'}</div><div>Tempo estimate <b>${q.tempo.bpm_matched}</b> (${q.tempo.bpm_error_pct}% off)</div><div>Silent gaps <b>${q.silence_gaps.length}</b></div></div><div class="note" style="margin-top:8px">${esc(tm)}</div><div class="note">${(q.notes||[]).map(esc).join('<br>')}</div><div class="note">Numbers support your ears; they don't replace them.</div>`}
+  catch(e){toast(e.message)}finally{$('qaBtn').disabled=false}};
+$('addPart').onchange=()=>{const v=$('addPart').value;$('addPart').value='';if(v)edit([{op:'add_part',role:v}],'add '+v)};
+$('uploadBtn').onclick=()=>$('uploadFile').click();
+$('uploadFile').onchange=async()=>{const f=$('uploadFile').files[0];if(!f)return;const fd=new FormData();fd.append('file',f);fd.append('role',/vocal|vox|acapella/i.test(f.name)?'lead_vocal':'other');fd.append('name',f.name.replace(/\.[^.]+$/,''));
+  try{toast('Uploading…');const d=await api(`/studio-api/projects/${P().id}/upload-audio`,{method:'POST',body:fd});await afterChange(d);describeDiff(d.diff,'uploaded '+f.name)}catch(e){toast(e.message)}$('uploadFile').value=''};
+$('clipSplit').onclick=()=>{const t=currentTime()/spb();edit([{op:'split_clip',track:selTrack,clip:selClip,at:+t.toFixed(4)}],'split clip')};
+$('clipDup').onclick=()=>edit([{op:'duplicate_clip',track:selTrack,clip:selClip}],'duplicate clip');
+$('clipDel').onclick=()=>edit([{op:'delete_clip',track:selTrack,clip:selClip}],'delete clip');
+$('regenTrack').onclick=()=>edit([{op:'regenerate_part',track:selTrack}],'new pattern');
+$('removeTrack').onclick=()=>{const t=P().tracks.find(x=>x.id===selTrack);if(t&&confirm(`Remove ${t.name}? (Undo brings it back.)`))edit([{op:'remove_track',track:selTrack}],'remove '+t.name)};
+$('secRegen').onclick=()=>edit([{op:'regenerate_part',track:P().tracks.filter(t=>t.generator?.engine==='procedural').map(t=>t.id),sections:[selSection]}],'regenerate section');
+$('secNoDrums').onclick=()=>edit([{op:'clear_section',track:'drums',sections:[selSection]}],'remove drums from section');
+$('secDup').onclick=()=>edit([{op:'duplicate_section',section:selSection}],'duplicate section');
+$('secDel').onclick=()=>{if(confirm('Delete this section from every track? (Undo brings it back.)'))edit([{op:'delete_section',section:selSection}],'delete section')};
+async function runJob(url,body,label){try{toast(label+'…',60000);const job=await api(url,{method:'POST',body});await waitJob(job,j=>toast(`${label}: ${j.message}`,60000));await afterChange(await api('/studio-api/projects/'+P().id));toast(label+' done')}catch(e){toast(e.message,6000)}}
+$('transcribeBtn').onclick=()=>runJob(`/studio-api/projects/${P().id}/tracks/${selTrack}/transcribe`,undefined,'Transcribing');
+$('separateBtn').onclick=()=>runJob(`/studio-api/projects/${P().id}/tracks/${selTrack}/separate`,undefined,'Separating');
+$('layerBtn').onclick=()=>{const lyrics=prompt('Lyrics for the vocal (use [Verse] / [Chorus] tags):','');if(lyrics===null)return;runJob(`/studio-api/projects/${P().id}/generate-layer`,{role:'lead_vocal',lyrics,caption:''},'Generating vocals')};
+
+boot();
+</script>
+</body>
+</html>

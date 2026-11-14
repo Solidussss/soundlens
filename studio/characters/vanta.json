@@ -1,0 +1,199 @@
+{
+  "id": "vanta",
+  "name": "VANTA",
+  "tagline": "Blown-out 808s, screaming synths, no brakes.",
+  "description": "A restless figure in a matte-black hood with a cracked red visor. Plays everything loud on purpose: clipped 808s, wide detuned leads and fast hat rolls.",
+  "visual": {
+    "palette": [
+      "#0b0b10",
+      "#ff2a4d",
+      "#ff8a3d"
+    ],
+    "emblem": "visor",
+    "appearance": "matte-black hood, cracked red visor, ember sparks"
+  },
+  "genre": "trap",
+  "subgenre": "rage",
+  "tempo": {
+    "min": 150,
+    "max": 168,
+    "default": 160,
+    "feel": "half"
+  },
+  "swing": 0.0,
+  "keys": {
+    "preferred_scales": [
+      "minor",
+      "phrygian",
+      "harmonic_minor"
+    ],
+    "preferred_roots": [
+      "C#",
+      "F",
+      "G#",
+      "A#"
+    ]
+  },
+  "drums": {
+    "kick": {
+      "preset": "kick_hard",
+      "pattern": "rage"
+    },
+    "snare": {
+      "preset": "snare_tight"
+    },
+    "clap": {
+      "preset": "clap_snappy"
+    },
+    "hat": {
+      "preset": "hat_crisp",
+      "rate": 0.5,
+      "roll_density": 0.45,
+      "triplet_rolls": true,
+      "open_prob": 0.05
+    },
+    "perc": null
+  },
+  "bass": {
+    "preset": "808_blown",
+    "style": "follow_kick",
+    "glide_prob": 0.35,
+    "octave": 1,
+    "fx": [
+      {
+        "type": "distortion",
+        "params": {
+          "drive_db": 14,
+          "mode": "hard",
+          "keep_sub_hz": 70,
+          "tone_hz": 6000
+        }
+      }
+    ]
+  },
+  "melody": {
+    "preset": "rage_lead",
+    "register": [
+      70,
+      86
+    ],
+    "density": 0.75,
+    "motif_bars": 1,
+    "repetition": 0.85,
+    "step_bias": 0.55,
+    "fx": [
+      {
+        "type": "delay",
+        "params": {
+          "beats": 0.75,
+          "feedback": 0.3,
+          "mix": 0.18
+        }
+      },
+      {
+        "type": "reverb",
+        "params": {
+          "mix": 0.18,
+          "decay_s": 1.6
+        }
+      }
+    ]
+  },
+  "harmony": {
+    "preset": "pad_warm",
+    "progressions": [
+      [
+        0,
+        5,
+        3,
+        4
+      ],
+      [
+        0,
+        0,
+        5,
+        6
+      ],
+      [
+        0,
+        3,
+        5,
+        4
+      ]
+    ],
+    "rhythm": "sustain",
+    "register": [
+      52,
+      68
+    ]
+  },
+  "extra": [
+    {
+      "role": "atmosphere",
+      "preset": "atmos_dark",
+      "gain_db": -10
+    }
+  ],
+  "arrangement": {
+    "template": [
+      "intro:4",
+      "hook:8",
+      "verse:8",
+      "hook:8",
+      "verse:8",
+      "hook:8",
+      "outro:4"
+    ]
+  },
+  "mix": {
+    "master_fx": [
+      {
+        "type": "clipper",
+        "params": {
+          "ceiling_db": -0.3,
+          "drive_db": 4.0
+        }
+      },
+      {
+        "type": "limiter",
+        "params": {
+          "ceiling_db": -0.5
+        }
+      }
+    ],
+    "track_gains": {
+      "kick": -4,
+      "snare": -6,
+      "clap": -7,
+      "hat": -14,
+      "808": -5,
+      "melody": -9,
+      "chords": -16,
+      "atmosphere": -12
+    },
+    "target_lufs": -6.0
+  },
+  "vocals": {
+    "default_mode": "instrumental",
+    "delivery": "aggressive, shouted, short punchy bars",
+    "energy": 0.95,
+    "tags": [
+      "shouted",
+      "ad-lib heavy",
+      "auto-tune hard"
+    ]
+  },
+  "generation_hints": {
+    "caption_tags": [
+      "rage",
+      "hyper trap",
+      "distorted 808",
+      "supersaw synth lead",
+      "aggressive",
+      "hard clipping"
+    ]
+  },
+  "references": {
+    "collections": []
+  }
+}

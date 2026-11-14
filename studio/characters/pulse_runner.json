@@ -1,0 +1,179 @@
+{
+  "id": "pulse_runner",
+  "name": "Pulse Runner",
+  "tagline": "Bouncing kicks, chopped plucks, nonstop motion.",
+  "description": "A sprinter made of light trails who never stops moving. Club energy: bouncing kick patterns, snappy claps, bright plucks and a bouncy 808.",
+  "visual": {
+    "palette": [
+      "#0a1030",
+      "#38f9ff",
+      "#fff35c"
+    ],
+    "emblem": "bolt",
+    "appearance": "light-trail body, visor of scrolling LEDs, lightning sneakers"
+  },
+  "genre": "club",
+  "subgenre": "jersey club",
+  "tempo": {
+    "min": 138,
+    "max": 146,
+    "default": 142,
+    "feel": "full"
+  },
+  "swing": 0.0,
+  "keys": {
+    "preferred_scales": [
+      "minor",
+      "dorian",
+      "major"
+    ],
+    "preferred_roots": [
+      "F",
+      "G",
+      "A",
+      "C"
+    ]
+  },
+  "drums": {
+    "kick": {
+      "preset": "kick_punch",
+      "pattern": "jersey"
+    },
+    "snare": null,
+    "clap": {
+      "preset": "clap_snappy"
+    },
+    "hat": {
+      "preset": "hat_crisp",
+      "rate": 0.25,
+      "roll_density": 0.1,
+      "triplet_rolls": false,
+      "open_prob": 0.12
+    },
+    "perc": {
+      "preset": "perc_rim",
+      "density": 0.35
+    }
+  },
+  "bass": {
+    "preset": "808_warm",
+    "style": "follow_kick",
+    "glide_prob": 0.1,
+    "octave": 1,
+    "decay_s": 0.45,
+    "fx": []
+  },
+  "melody": {
+    "preset": "pluck_soft",
+    "register": [
+      67,
+      86
+    ],
+    "density": 0.8,
+    "motif_bars": 1,
+    "repetition": 0.9,
+    "step_bias": 0.5,
+    "fx": [
+      {
+        "type": "delay",
+        "params": {
+          "beats": 0.375,
+          "feedback": 0.3,
+          "mix": 0.2
+        }
+      },
+      {
+        "type": "reverb",
+        "params": {
+          "mix": 0.15,
+          "decay_s": 1.2
+        }
+      }
+    ]
+  },
+  "harmony": {
+    "preset": "pad_warm",
+    "progressions": [
+      [
+        0,
+        5,
+        3,
+        4
+      ],
+      [
+        5,
+        3,
+        0,
+        4
+      ]
+    ],
+    "rhythm": "stabs",
+    "register": [
+      55,
+      70
+    ]
+  },
+  "extra": [],
+  "arrangement": {
+    "template": [
+      "intro:4",
+      "hook:8",
+      "verse:8",
+      "hook:8",
+      "verse:8",
+      "hook:8",
+      "outro:4"
+    ]
+  },
+  "mix": {
+    "master_fx": [
+      {
+        "type": "compressor",
+        "params": {
+          "threshold_db": -12,
+          "ratio": 3.0,
+          "attack_ms": 10,
+          "release_ms": 100
+        }
+      },
+      {
+        "type": "limiter",
+        "params": {
+          "ceiling_db": -0.8
+        }
+      }
+    ],
+    "track_gains": {
+      "kick": -4,
+      "clap": -7,
+      "hat": -16,
+      "perc": -15,
+      "808": -7,
+      "melody": -9,
+      "chords": -14
+    },
+    "target_lufs": -9.0
+  },
+  "vocals": {
+    "default_mode": "instrumental",
+    "delivery": "chanted hooks, call and response, chopped vocal samples",
+    "energy": 0.85,
+    "tags": [
+      "chant",
+      "call and response"
+    ]
+  },
+  "generation_hints": {
+    "caption_tags": [
+      "jersey club",
+      "bouncy kicks",
+      "club",
+      "plucks",
+      "energetic",
+      "dance"
+    ]
+  },
+  "references": {
+    "collections": []
+  }
+}

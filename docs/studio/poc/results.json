@@ -1,0 +1,1568 @@
+{
+  "started": "2026-11-13 23:59:00",
+  "seconds": 32.0,
+  "generation": {
+    "character": "vanta",
+    "params": {
+      "bpm": 165.0,
+      "key": "F",
+      "scale": "phrygian",
+      "time_signature": 4,
+      "energy": 0.85,
+      "duration_s": 32.0,
+      "prompt": "dark aggressive rage beat",
+      "mood": "dark",
+      "vocals": {
+        "mode": "instrumental"
+      }
+    },
+    "sections": [
+      [
+        "Intro",
+        2
+      ],
+      [
+        "Hook 1",
+        4
+      ],
+      [
+        "Verse 1",
+        4
+      ],
+      [
+        "Hook 2",
+        4
+      ],
+      [
+        "Verse 2",
+        4
+      ],
+      [
+        "Hook 3",
+        4
+      ],
+      [
+        "Outro",
+        2
+      ]
+    ],
+    "tracks": [
+      {
+        "name": "Kick",
+        "role": "kick",
+        "instrument": "kick_hard",
+        "notes": 69
+      },
+      {
+        "name": "Snare",
+        "role": "snare",
+        "instrument": "snare_tight",
+        "notes": 24
+      },
+      {
+        "name": "Clap",
+        "role": "clap",
+        "instrument": "clap_snappy",
+        "notes": 26
+      },
+      {
+        "name": "Hi-Hats",
+        "role": "hat",
+        "instrument": "hat_crisp",
+        "notes": 268
+      },
+      {
+        "name": "808",
+        "role": "808",
+        "instrument": "808_blown",
+        "notes": 97
+      },
+      {
+        "name": "Chords",
+        "role": "chords",
+        "instrument": "pad_warm",
+        "notes": 72
+      },
+      {
+        "name": "Melody",
+        "role": "melody",
+        "instrument": "rage_lead",
+        "notes": 183
+      },
+      {
+        "name": "Atmosphere",
+        "role": "atmosphere",
+        "instrument": "atmos_dark",
+        "notes": 7
+      }
+    ],
+    "compose_seconds": 0.004,
+    "render_seconds": 11.15,
+    "audio_seconds": 36.91,
+    "qa": {
+      "duration_s": 36.909,
+      "sample_peak_db": -0.5,
+      "true_peak_db": 0.26,
+      "lufs": -5.8,
+      "clipping": {
+        "clip_runs": 0,
+        "clipped_ratio": 0.0,
+        "samples_over_full_scale": 0
+      },
+      "silence_gaps": [],
+      "stereo": {
+        "correlation": 0.998,
+        "side_to_mid_db": -29.8
+      },
+      "bands": {
+        "sub_20_60": 0.4246,
+        "bass_60_250": 0.4751,
+        "lowmid_250_2k": 0.0892,
+        "highmid_2k_6k": 0.0073,
+        "high_6k_20k": 0.0027
+      },
+      "finite": true,
+      "duration_error_s": -0.0,
+      "tempo": {
+        "bpm_estimate": 215.33,
+        "bpm_matched": 143.55,
+        "bpm_error_pct": 13.0,
+        "octave_relation": "3/2"
+      },
+      "key": {
+        "key_estimate": "F major",
+        "tonic_pc": 5,
+        "mode": "major",
+        "correlation": 0.619,
+        "exact_tonic_and_mode": false,
+        "same_pitch_collection": false
+      }
+    },
+    "export_integrity": {
+      "ok": true,
+      "sr": 44100,
+      "channels": 2,
+      "duration_s": 36.909,
+      "subtype": "PCM_24",
+      "bytes": 9766190
+    },
+    "prompt_hints": {
+      "applied": [
+        "dark mood \u2192 minor-family scale",
+        "high energy \u2192 upper tempo range"
+      ],
+      "unsupported": [],
+      "instruments": {},
+      "mood": "dark",
+      "tempo_bias": 1.0,
+      "energy_bias": 0.15
+    },
+    "master_calibration": {
+      "calibrated": true,
+      "gain_db": -11.53,
+      "lufs": -5.8,
+      "target": -6.0
+    },
+    "timing_alignment": {
+      "kick": {
+        "expected": 69,
+        "detected": 110,
+        "matched_pct": 100.0,
+        "median_abs_error_ms": 1.48,
+        "p95_abs_error_ms": 8.8
+      },
+      "snare": {
+        "expected": 24,
+        "detected": 22,
+        "matched_pct": 87.5,
+        "median_abs_error_ms": 1.52,
+        "p95_abs_error_ms": 4.02
+      },
+      "clap": {
+        "expected": 26,
+        "detected": 23,
+        "matched_pct": 88.5,
+        "median_abs_error_ms": 2.18,
+        "p95_abs_error_ms": 3.88
+      }
+    }
+  },
+  "edits": [
+    {
+      "label": "02_808_replaced_clean",
+      "actions": [
+        {
+          "op": "set_instrument",
+          "track": "808",
+          "preset": "808_clean"
+        },
+        {
+          "op": "remove_effect",
+          "track": "808",
+          "type": "distortion"
+        }
+      ],
+      "diff": {
+        "sound_changed": [
+          {
+            "id": "trk_8a1965c9be",
+            "name": "808",
+            "change": "sound"
+          }
+        ],
+        "mixer_changed": [],
+        "untouched": [
+          {
+            "id": "trk_3cd3c91748",
+            "name": "Kick"
+          },
+          {
+            "id": "trk_9dc8c3be87",
+            "name": "Snare"
+          },
+          {
+            "id": "trk_6751564c55",
+            "name": "Clap"
+          },
+          {
+            "id": "trk_80c118f0e3",
+            "name": "Hi-Hats"
+          },
+          {
+            "id": "trk_3fd73ef600",
+            "name": "Chords"
+          },
+          {
+            "id": "trk_a42868517b",
+            "name": "Melody"
+          },
+          {
+            "id": "trk_5119622ac8",
+            "name": "Atmosphere"
+          }
+        ],
+        "removed": [],
+        "master_changed": false
+      },
+      "seconds_to_apply_and_render": 0.14,
+      "render_stats": {
+        "rendered": 1,
+        "cached": 7
+      },
+      "untouched_tracks_null_test": [
+        {
+          "track": "Kick",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Snare",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Clap",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Hi-Hats",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Chords",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Melody",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Atmosphere",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        }
+      ],
+      "all_untouched_identical": true,
+      "mix_difference_explained_by_changed_tracks": {
+        "identical": false,
+        "max_abs_diff": 1.1102230246251565e-15,
+        "residual_db": -317.5
+      },
+      "post_master_difference_vs_changed_tracks": {
+        "identical": false,
+        "max_abs_diff": 0.3415129187980134,
+        "residual_db": -8.9
+      },
+      "changed_tracks": [
+        {
+          "track": "808",
+          "residual_db_vs_before": 0.5
+        }
+      ],
+      "qa": {
+        "duration_s": 36.909,
+        "sample_peak_db": -0.5,
+        "true_peak_db": -0.1,
+        "lufs": -11.27,
+        "clipping": {
+          "clip_runs": 0,
+          "clipped_ratio": 0.0,
+          "samples_over_full_scale": 0
+        },
+        "silence_gaps": [],
+        "stereo": {
+          "correlation": 0.993,
+          "side_to_mid_db": -24.6
+        },
+        "bands": {
+          "sub_20_60": 0.7193,
+          "bass_60_250": 0.2423,
+          "lowmid_250_2k": 0.0208,
+          "highmid_2k_6k": 0.0087,
+          "high_6k_20k": 0.0084
+        },
+        "finite": true,
+        "tempo": {
+          "bpm_estimate": 215.33,
+          "bpm_matched": 143.55,
+          "bpm_error_pct": 13.0,
+          "octave_relation": "3/2"
+        },
+        "key": {
+          "key_estimate": "A minor",
+          "tonic_pc": 9,
+          "mode": "minor",
+          "correlation": 0.641,
+          "exact_tonic_and_mode": false,
+          "same_pitch_collection": false
+        }
+      }
+    },
+    {
+      "label": "03_808_more_distorted_nl",
+      "actions": [
+        {
+          "op": "add_effect",
+          "track": [
+            "808"
+          ],
+          "type": "distortion",
+          "params": {
+            "drive_db": 22.0,
+            "mode": "soft",
+            "keep_sub_hz": 70.0,
+            "tone_hz": 6500.0
+          }
+        },
+        {
+          "op": "set_instrument_params",
+          "track": "808",
+          "delta": {
+            "drive": 0.25
+          }
+        }
+      ],
+      "diff": {
+        "sound_changed": [
+          {
+            "id": "trk_8a1965c9be",
+            "name": "808",
+            "change": "sound"
+          }
+        ],
+        "mixer_changed": [],
+        "untouched": [
+          {
+            "id": "trk_3cd3c91748",
+            "name": "Kick"
+          },
+          {
+            "id": "trk_9dc8c3be87",
+            "name": "Snare"
+          },
+          {
+            "id": "trk_6751564c55",
+            "name": "Clap"
+          },
+          {
+            "id": "trk_80c118f0e3",
+            "name": "Hi-Hats"
+          },
+          {
+            "id": "trk_3fd73ef600",
+            "name": "Chords"
+          },
+          {
+            "id": "trk_a42868517b",
+            "name": "Melody"
+          },
+          {
+            "id": "trk_5119622ac8",
+            "name": "Atmosphere"
+          }
+        ],
+        "removed": [],
+        "master_changed": false
+      },
+      "seconds_to_apply_and_render": 0.65,
+      "render_stats": {
+        "rendered": 1,
+        "cached": 7
+      },
+      "untouched_tracks_null_test": [
+        {
+          "track": "Kick",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Snare",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Clap",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Hi-Hats",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Chords",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Melody",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Atmosphere",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        }
+      ],
+      "all_untouched_identical": true,
+      "mix_difference_explained_by_changed_tracks": {
+        "identical": false,
+        "max_abs_diff": 1.1102230246251565e-15,
+        "residual_db": -315.0
+      },
+      "post_master_difference_vs_changed_tracks": {
+        "identical": false,
+        "max_abs_diff": 0.2414270086648166,
+        "residual_db": -8.9
+      },
+      "changed_tracks": [
+        {
+          "track": "808",
+          "residual_db_vs_before": 7.2
+        }
+      ],
+      "qa": {
+        "duration_s": 36.909,
+        "sample_peak_db": -0.5,
+        "true_peak_db": 0.15,
+        "lufs": -6.18,
+        "clipping": {
+          "clip_runs": 0,
+          "clipped_ratio": 0.0,
+          "samples_over_full_scale": 0
+        },
+        "silence_gaps": [],
+        "stereo": {
+          "correlation": 0.998,
+          "side_to_mid_db": -29.4
+        },
+        "bands": {
+          "sub_20_60": 0.4484,
+          "bass_60_250": 0.4544,
+          "lowmid_250_2k": 0.0873,
+          "highmid_2k_6k": 0.0067,
+          "high_6k_20k": 0.0029
+        },
+        "finite": true,
+        "tempo": {
+          "bpm_estimate": 161.5,
+          "bpm_matched": 161.5,
+          "bpm_error_pct": 2.12,
+          "octave_relation": "same"
+        },
+        "key": {
+          "key_estimate": "F major",
+          "tonic_pc": 5,
+          "mode": "major",
+          "correlation": 0.618,
+          "exact_tonic_and_mode": false,
+          "same_pitch_collection": false
+        }
+      },
+      "nl_explanation": [
+        "more distortion on 808 (DSP waveshaper, sub kept clean below 70 Hz)"
+      ]
+    },
+    {
+      "label": "04_melody_to_bell_nl",
+      "actions": [
+        {
+          "op": "set_instrument",
+          "track": [
+            "melody"
+          ],
+          "preset": "bell_bright"
+        }
+      ],
+      "diff": {
+        "sound_changed": [
+          {
+            "id": "trk_a42868517b",
+            "name": "Melody",
+            "change": "sound"
+          }
+        ],
+        "mixer_changed": [],
+        "untouched": [
+          {
+            "id": "trk_3cd3c91748",
+            "name": "Kick"
+          },
+          {
+            "id": "trk_9dc8c3be87",
+            "name": "Snare"
+          },
+          {
+            "id": "trk_6751564c55",
+            "name": "Clap"
+          },
+          {
+            "id": "trk_80c118f0e3",
+            "name": "Hi-Hats"
+          },
+          {
+            "id": "trk_8a1965c9be",
+            "name": "808"
+          },
+          {
+            "id": "trk_3fd73ef600",
+            "name": "Chords"
+          },
+          {
+            "id": "trk_5119622ac8",
+            "name": "Atmosphere"
+          }
+        ],
+        "removed": [],
+        "master_changed": false
+      },
+      "seconds_to_apply_and_render": 1.63,
+      "render_stats": {
+        "rendered": 1,
+        "cached": 7
+      },
+      "untouched_tracks_null_test": [
+        {
+          "track": "Kick",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Snare",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Clap",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Hi-Hats",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "808",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Chords",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Atmosphere",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        }
+      ],
+      "all_untouched_identical": true,
+      "mix_difference_explained_by_changed_tracks": {
+        "identical": false,
+        "max_abs_diff": 8.326672684688674e-16,
+        "residual_db": -307.8
+      },
+      "post_master_difference_vs_changed_tracks": {
+        "identical": false,
+        "max_abs_diff": 0.20777205762055495,
+        "residual_db": -8.7
+      },
+      "changed_tracks": [
+        {
+          "track": "Melody",
+          "residual_db_vs_before": 11.2
+        }
+      ],
+      "qa": {
+        "duration_s": 36.909,
+        "sample_peak_db": -0.5,
+        "true_peak_db": 0.09,
+        "lufs": -6.23,
+        "clipping": {
+          "clip_runs": 0,
+          "clipped_ratio": 0.0,
+          "samples_over_full_scale": 0
+        },
+        "silence_gaps": [],
+        "stereo": {
+          "correlation": 0.999,
+          "side_to_mid_db": -31.7
+        },
+        "bands": {
+          "sub_20_60": 0.4382,
+          "bass_60_250": 0.4441,
+          "lowmid_250_2k": 0.0959,
+          "highmid_2k_6k": 0.0154,
+          "high_6k_20k": 0.006
+        },
+        "finite": true,
+        "tempo": {
+          "bpm_estimate": 161.5,
+          "bpm_matched": 161.5,
+          "bpm_error_pct": 2.12,
+          "octave_relation": "same"
+        },
+        "key": {
+          "key_estimate": "F major",
+          "tonic_pc": 5,
+          "mode": "major",
+          "correlation": 0.588,
+          "exact_tonic_and_mode": false,
+          "same_pitch_collection": false
+        }
+      },
+      "nl_explanation": [
+        "melody now plays the same notes on Bright bell"
+      ]
+    },
+    {
+      "label": "05_regenerate_verse_melody",
+      "actions": [
+        {
+          "op": "regenerate_part",
+          "track": "melody",
+          "sections": [
+            "sec_fb2c1ee6a4"
+          ]
+        }
+      ],
+      "diff": {
+        "sound_changed": [
+          {
+            "id": "trk_a42868517b",
+            "name": "Melody",
+            "change": "sound"
+          }
+        ],
+        "mixer_changed": [],
+        "untouched": [
+          {
+            "id": "trk_3cd3c91748",
+            "name": "Kick"
+          },
+          {
+            "id": "trk_9dc8c3be87",
+            "name": "Snare"
+          },
+          {
+            "id": "trk_6751564c55",
+            "name": "Clap"
+          },
+          {
+            "id": "trk_80c118f0e3",
+            "name": "Hi-Hats"
+          },
+          {
+            "id": "trk_8a1965c9be",
+            "name": "808"
+          },
+          {
+            "id": "trk_3fd73ef600",
+            "name": "Chords"
+          },
+          {
+            "id": "trk_5119622ac8",
+            "name": "Atmosphere"
+          }
+        ],
+        "removed": [],
+        "master_changed": false
+      },
+      "seconds_to_apply_and_render": 1.67,
+      "render_stats": {
+        "rendered": 1,
+        "cached": 7
+      },
+      "untouched_tracks_null_test": [
+        {
+          "track": "Kick",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Snare",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Clap",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Hi-Hats",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "808",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Chords",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Atmosphere",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        }
+      ],
+      "all_untouched_identical": true,
+      "mix_difference_explained_by_changed_tracks": {
+        "identical": false,
+        "max_abs_diff": 8.326672684688674e-16,
+        "residual_db": -303.2
+      },
+      "post_master_difference_vs_changed_tracks": {
+        "identical": false,
+        "max_abs_diff": 0.1480090655871321,
+        "residual_db": -8.8
+      },
+      "changed_tracks": [
+        {
+          "track": "Melody",
+          "residual_db_vs_before": -8.6,
+          "section_seconds": [
+            8.727,
+            14.545
+          ],
+          "before_section_identical": false,
+          "first_difference_s": 9.364,
+          "last_difference_s": 20.769,
+          "difference_extends_past_section_s": 6.223,
+          "explanation": "differences after the section are release + reverb/delay tails of the new notes"
+        }
+      ],
+      "qa": {
+        "duration_s": 36.909,
+        "sample_peak_db": -0.5,
+        "true_peak_db": 0.09,
+        "lufs": -6.22,
+        "clipping": {
+          "clip_runs": 0,
+          "clipped_ratio": 0.0,
+          "samples_over_full_scale": 0
+        },
+        "silence_gaps": [],
+        "stereo": {
+          "correlation": 0.999,
+          "side_to_mid_db": -31.6
+        },
+        "bands": {
+          "sub_20_60": 0.4371,
+          "bass_60_250": 0.4432,
+          "lowmid_250_2k": 0.0981,
+          "highmid_2k_6k": 0.0153,
+          "high_6k_20k": 0.0059
+        },
+        "finite": true,
+        "tempo": {
+          "bpm_estimate": 161.5,
+          "bpm_matched": 161.5,
+          "bpm_error_pct": 2.12,
+          "octave_relation": "same"
+        },
+        "key": {
+          "key_estimate": "F major",
+          "tonic_pc": 5,
+          "mode": "major",
+          "correlation": 0.59,
+          "exact_tonic_and_mode": false,
+          "same_pitch_collection": false
+        }
+      }
+    },
+    {
+      "label": "06_no_drums_first_hook",
+      "actions": [
+        {
+          "op": "clear_section",
+          "track": [
+            "drums"
+          ],
+          "sections": [
+            "first hook"
+          ]
+        }
+      ],
+      "diff": {
+        "sound_changed": [
+          {
+            "id": "trk_3cd3c91748",
+            "name": "Kick",
+            "change": "sound"
+          },
+          {
+            "id": "trk_9dc8c3be87",
+            "name": "Snare",
+            "change": "sound"
+          },
+          {
+            "id": "trk_6751564c55",
+            "name": "Clap",
+            "change": "sound"
+          },
+          {
+            "id": "trk_80c118f0e3",
+            "name": "Hi-Hats",
+            "change": "sound"
+          }
+        ],
+        "mixer_changed": [],
+        "untouched": [
+          {
+            "id": "trk_8a1965c9be",
+            "name": "808"
+          },
+          {
+            "id": "trk_3fd73ef600",
+            "name": "Chords"
+          },
+          {
+            "id": "trk_a42868517b",
+            "name": "Melody"
+          },
+          {
+            "id": "trk_5119622ac8",
+            "name": "Atmosphere"
+          }
+        ],
+        "removed": [],
+        "master_changed": false
+      },
+      "seconds_to_apply_and_render": 0.8,
+      "render_stats": {
+        "rendered": 4,
+        "cached": 4
+      },
+      "untouched_tracks_null_test": [
+        {
+          "track": "808",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Chords",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Melody",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        },
+        {
+          "track": "Atmosphere",
+          "identical": true,
+          "max_abs_diff": 0.0,
+          "residual_db": -300.0
+        }
+      ],
+      "all_untouched_identical": true,
+      "mix_difference_explained_by_changed_tracks": {
+        "identical": false,
+        "max_abs_diff": 8.881784197001252e-16,
+        "residual_db": -312.8
+      },
+      "post_master_difference_vs_changed_tracks": {
+        "identical": false,
+        "max_abs_diff": 0.2608920566053759,
+        "residual_db": -9.0
+      },
+      "changed_tracks": [
+        {
+          "track": "Kick",
+          "residual_db_vs_before": -7.0
+        },
+        {
+          "track": "Snare",
+          "residual_db_vs_before": -7.2
+        },
+        {
+          "track": "Clap",
+          "residual_db_vs_before": -6.8
+        },
+        {
+          "track": "Hi-Hats",
+          "residual_db_vs_before": -7.0
+        }
+      ],
+      "qa": {
+        "duration_s": 36.909,
+        "sample_peak_db": -0.5,
+        "true_peak_db": 0.09,
+        "lufs": -6.42,
+        "clipping": {
+          "clip_runs": 0,
+          "clipped_ratio": 0.0,
+          "samples_over_full_scale": 0
+        },
+        "silence_gaps": [],
+        "stereo": {
+          "correlation": 0.999,
+          "side_to_mid_db": -31.4
+        },
+        "bands": {
+          "sub_20_60": 0.4347,
+          "bass_60_250": 0.4448,
+          "lowmid_250_2k": 0.0988,
+          "highmid_2k_6k": 0.0154,
+          "high_6k_20k": 0.0059
+        },
+        "finite": true,
+        "tempo": {
+          "bpm_estimate": 161.5,
+          "bpm_matched": 161.5,
+          "bpm_error_pct": 2.12,
+          "octave_relation": "same"
+        },
+        "key": {
+          "key_estimate": "F major",
+          "tonic_pc": 5,
+          "mode": "major",
+          "correlation": 0.621,
+          "exact_tonic_and_mode": false,
+          "same_pitch_collection": false
+        }
+      },
+      "nl_explanation": [
+        "remove drums from Hook 1 (other sections untouched)"
+      ]
+    }
+  ],
+  "stems_zip": {
+    "files": 17,
+    "midi_files": 8,
+    "bytes": 52177755
+  },
+  "transcription_vs_ground_truth": [
+    {
+      "role": "melody",
+      "preset": "rage_lead",
+      "ref_notes": 183,
+      "est_notes": 200,
+      "precision": 0.775,
+      "recall": 0.847,
+      "f1_onset_pitch": 0.809,
+      "f1_ignoring_octave": 0.809,
+      "f1_onset_only": 0.836,
+      "seconds": 0.47
+    },
+    {
+      "role": "808",
+      "preset": "808_blown",
+      "ref_notes": 97,
+      "est_notes": 61,
+      "precision": 0.049,
+      "recall": 0.031,
+      "f1_onset_pitch": 0.038,
+      "f1_ignoring_octave": 0.051,
+      "f1_onset_only": 0.051,
+      "seconds": 0.41
+    },
+    {
+      "role": "chords",
+      "preset": "pad_warm",
+      "ref_notes": 72,
+      "est_notes": 119,
+      "precision": 0.034,
+      "recall": 0.056,
+      "f1_onset_pitch": 0.042,
+      "f1_ignoring_octave": 0.042,
+      "f1_onset_only": 0.052,
+      "seconds": 0.4
+    },
+    {
+      "role": "808",
+      "preset": "808_clean",
+      "ref_notes": 97,
+      "est_notes": 39,
+      "precision": 0.385,
+      "recall": 0.155,
+      "f1_onset_pitch": 0.221,
+      "f1_ignoring_octave": 0.221,
+      "f1_onset_only": 0.221,
+      "seconds": 0.37
+    }
+  ],
+  "808_study": {
+    "references": [
+      {
+        "ref": "ref_1",
+        "crest_db": 7.92,
+        "flat_top_ratio": 1e-05,
+        "harmonic_ratio_db": -17.14,
+        "thd_pct": 26.6,
+        "voiced_frames": 431,
+        "sum_of_stems_vs_mix_residual_db": -8.9,
+        "bass_envelope_corr_with_drums_other": [
+          0.053,
+          -0.116
+        ]
+      },
+      {
+        "ref": "ref_2",
+        "crest_db": 7.95,
+        "flat_top_ratio": 1e-05,
+        "harmonic_ratio_db": -22.52,
+        "thd_pct": 21.6,
+        "voiced_frames": 301,
+        "sum_of_stems_vs_mix_residual_db": 2.8,
+        "bass_envelope_corr_with_drums_other": [
+          0.248,
+          -0.142
+        ]
+      },
+      {
+        "ref": "ref_3",
+        "crest_db": 7.23,
+        "flat_top_ratio": 3e-05,
+        "harmonic_ratio_db": -28.85,
+        "thd_pct": 8.9,
+        "voiced_frames": 323,
+        "sum_of_stems_vs_mix_residual_db": 3.0,
+        "bass_envelope_corr_with_drums_other": [
+          0.224,
+          0.225
+        ]
+      },
+      {
+        "ref": "ref_4",
+        "crest_db": 3.83,
+        "flat_top_ratio": 3e-05,
+        "harmonic_ratio_db": -21.15,
+        "thd_pct": 20.6,
+        "voiced_frames": 209,
+        "sum_of_stems_vs_mix_residual_db": 2.8,
+        "bass_envelope_corr_with_drums_other": [
+          -0.201,
+          -0.469
+        ]
+      },
+      {
+        "ref": "ref_5",
+        "crest_db": 5.51,
+        "flat_top_ratio": 2e-05,
+        "harmonic_ratio_db": -12.31,
+        "thd_pct": 27.4,
+        "voiced_frames": 420,
+        "sum_of_stems_vs_mix_residual_db": -40.0,
+        "bass_envelope_corr_with_drums_other": [
+          0.025,
+          0.443
+        ]
+      },
+      {
+        "ref": "ref_6",
+        "crest_db": 2.74,
+        "flat_top_ratio": 5e-05,
+        "harmonic_ratio_db": -16.15,
+        "thd_pct": 25.0,
+        "voiced_frames": 418,
+        "sum_of_stems_vs_mix_residual_db": -33.2,
+        "bass_envelope_corr_with_drums_other": [
+          -0.004,
+          0.026
+        ]
+      }
+    ],
+    "ours": [
+      {
+        "render": "808_clean",
+        "crest_db": 4.94,
+        "flat_top_ratio": 0.00116,
+        "harmonic_ratio_db": -33.64,
+        "thd_pct": 5.5,
+        "voiced_frames": 155
+      },
+      {
+        "render": "808_warm",
+        "crest_db": 1.39,
+        "flat_top_ratio": 0.33228,
+        "harmonic_ratio_db": -15.88,
+        "thd_pct": 24.0,
+        "voiced_frames": 156
+      },
+      {
+        "render": "808_distorted",
+        "crest_db": 0.86,
+        "flat_top_ratio": 0.60713,
+        "harmonic_ratio_db": -12.37,
+        "thd_pct": 33.4,
+        "voiced_frames": 156
+      },
+      {
+        "render": "808_blown",
+        "crest_db": 0.79,
+        "flat_top_ratio": 0.64446,
+        "harmonic_ratio_db": -11.57,
+        "thd_pct": 34.7,
+        "voiced_frames": 156
+      },
+      {
+        "render": "808_clean + DSP hard distortion (sub kept)",
+        "crest_db": 4.88,
+        "flat_top_ratio": 0.00013,
+        "harmonic_ratio_db": -7.39,
+        "thd_pct": 55.9,
+        "voiced_frames": 156
+      },
+      {
+        "render": "808_clean + DSP clipper +12 dB",
+        "crest_db": 0.97,
+        "flat_top_ratio": 0.6722,
+        "harmonic_ratio_db": -14.13,
+        "thd_pct": 30.6,
+        "voiced_frames": 156
+      },
+      {
+        "render": "808_warm + DSP tube saturation + clipper",
+        "crest_db": 0.18,
+        "flat_top_ratio": 0.8843,
+        "harmonic_ratio_db": -9.13,
+        "thd_pct": 41.0,
+        "voiced_frames": 157
+      }
+    ]
+  },
+  "consistency": {
+    "rows": [
+      {
+        "character": "lowtide",
+        "seed": 1,
+        "bpm": 86.0,
+        "key": "A dorian",
+        "lufs": -11.25,
+        "sub": 0.2909,
+        "bass": 0.4433,
+        "high": 0.0093,
+        "808_thd_pct": 14.9,
+        "808_harmonic_ratio_db": -14.78,
+        "hat_notes_per_bar": 5.33,
+        "tracks": [
+          "kick",
+          "snare",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody",
+          "atmosphere"
+        ]
+      },
+      {
+        "character": "lowtide",
+        "seed": 2,
+        "bpm": 86.0,
+        "key": "C dorian",
+        "lufs": -11.27,
+        "sub": 0.3827,
+        "bass": 0.4241,
+        "high": 0.0068,
+        "808_thd_pct": 13.5,
+        "808_harmonic_ratio_db": -15.29,
+        "hat_notes_per_bar": 5.33,
+        "tracks": [
+          "kick",
+          "snare",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody",
+          "atmosphere"
+        ]
+      },
+      {
+        "character": "lowtide",
+        "seed": 3,
+        "bpm": 86.0,
+        "key": "D dorian",
+        "lufs": -11.28,
+        "sub": 0.3375,
+        "bass": 0.3805,
+        "high": 0.0082,
+        "808_thd_pct": 19.7,
+        "808_harmonic_ratio_db": -15.04,
+        "hat_notes_per_bar": 5.33,
+        "tracks": [
+          "kick",
+          "snare",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody",
+          "atmosphere"
+        ]
+      },
+      {
+        "character": "mercury_halo",
+        "seed": 1,
+        "bpm": 150.0,
+        "key": "A# major",
+        "lufs": -9.25,
+        "sub": 0.5167,
+        "bass": 0.3309,
+        "high": 0.0186,
+        "808_thd_pct": 5.6,
+        "808_harmonic_ratio_db": -26.91,
+        "hat_notes_per_bar": 8.21,
+        "tracks": [
+          "kick",
+          "clap",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody",
+          "bell"
+        ]
+      },
+      {
+        "character": "mercury_halo",
+        "seed": 2,
+        "bpm": 150.0,
+        "key": "C major",
+        "lufs": -9.21,
+        "sub": 0.5948,
+        "bass": 0.2502,
+        "high": 0.017,
+        "808_thd_pct": 6.1,
+        "808_harmonic_ratio_db": -30.32,
+        "hat_notes_per_bar": 6.57,
+        "tracks": [
+          "kick",
+          "clap",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody",
+          "bell"
+        ]
+      },
+      {
+        "character": "mercury_halo",
+        "seed": 3,
+        "bpm": 150.0,
+        "key": "D# major",
+        "lufs": -9.23,
+        "sub": 0.6129,
+        "bass": 0.2608,
+        "high": 0.0104,
+        "808_thd_pct": 5.7,
+        "808_harmonic_ratio_db": -19.24,
+        "hat_notes_per_bar": 6.86,
+        "tracks": [
+          "kick",
+          "clap",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody",
+          "bell"
+        ]
+      },
+      {
+        "character": "pulse_runner",
+        "seed": 1,
+        "bpm": 142.0,
+        "key": "A minor",
+        "lufs": -9.27,
+        "sub": 0.6852,
+        "bass": 0.2551,
+        "high": 0.0054,
+        "808_thd_pct": 21.1,
+        "808_harmonic_ratio_db": -14.05,
+        "hat_notes_per_bar": 11.71,
+        "tracks": [
+          "kick",
+          "clap",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody"
+        ]
+      },
+      {
+        "character": "pulse_runner",
+        "seed": 2,
+        "bpm": 142.0,
+        "key": "C minor",
+        "lufs": -9.29,
+        "sub": 0.7198,
+        "bass": 0.2211,
+        "high": 0.0049,
+        "808_thd_pct": 18.0,
+        "808_harmonic_ratio_db": -13.08,
+        "hat_notes_per_bar": 11.71,
+        "tracks": [
+          "kick",
+          "clap",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody"
+        ]
+      },
+      {
+        "character": "pulse_runner",
+        "seed": 3,
+        "bpm": 142.0,
+        "key": "F minor",
+        "lufs": -9.25,
+        "sub": 0.5799,
+        "bass": 0.3614,
+        "high": 0.0052,
+        "808_thd_pct": 16.2,
+        "808_harmonic_ratio_db": -12.81,
+        "hat_notes_per_bar": 11.71,
+        "tracks": [
+          "kick",
+          "clap",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody"
+        ]
+      },
+      {
+        "character": "static_saint",
+        "seed": 1,
+        "bpm": 138.0,
+        "key": "G phrygian",
+        "lufs": -11.57,
+        "sub": 0.6332,
+        "bass": 0.1952,
+        "high": 0.0048,
+        "808_thd_pct": 39.7,
+        "808_harmonic_ratio_db": -9.79,
+        "hat_notes_per_bar": 6.5,
+        "tracks": [
+          "kick",
+          "snare",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody",
+          "atmosphere"
+        ]
+      },
+      {
+        "character": "static_saint",
+        "seed": 2,
+        "bpm": 138.0,
+        "key": "B phrygian",
+        "lufs": -11.18,
+        "sub": 0.2291,
+        "bass": 0.571,
+        "high": 0.0045,
+        "808_thd_pct": 40.9,
+        "808_harmonic_ratio_db": -7.78,
+        "hat_notes_per_bar": 6.0,
+        "tracks": [
+          "kick",
+          "snare",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody",
+          "atmosphere"
+        ]
+      },
+      {
+        "character": "static_saint",
+        "seed": 3,
+        "bpm": 138.0,
+        "key": "E phrygian",
+        "lufs": -11.56,
+        "sub": 0.4429,
+        "bass": 0.4111,
+        "high": 0.0049,
+        "808_thd_pct": 43.0,
+        "808_harmonic_ratio_db": -9.01,
+        "hat_notes_per_bar": 6.17,
+        "tracks": [
+          "kick",
+          "snare",
+          "hat",
+          "perc",
+          "808",
+          "chords",
+          "melody",
+          "atmosphere"
+        ]
+      },
+      {
+        "character": "vanta",
+        "seed": 1,
+        "bpm": 160.0,
+        "key": "G# minor",
+        "lufs": -5.86,
+        "sub": 0.5102,
+        "bass": 0.3801,
+        "high": 0.0027,
+        "808_thd_pct": 50.0,
+        "808_harmonic_ratio_db": -5.43,
+        "hat_notes_per_bar": 9.79,
+        "tracks": [
+          "kick",
+          "snare",
+          "clap",
+          "hat",
+          "808",
+          "chords",
+          "melody",
+          "atmosphere"
+        ]
+      },
+      {
+        "character": "vanta",
+        "seed": 2,
+        "bpm": 160.0,
+        "key": "A# minor",
+        "lufs": -5.86,
+        "sub": 0.5401,
+        "bass": 0.3384,
+        "high": 0.0024,
+        "808_thd_pct": 48.5,
+        "808_harmonic_ratio_db": -5.46,
+        "hat_notes_per_bar": 7.93,
+        "tracks": [
+          "kick",
+          "snare",
+          "clap",
+          "hat",
+          "808",
+          "chords",
+          "melody",
+          "atmosphere"
+        ]
+      },
+      {
+        "character": "vanta",
+        "seed": 3,
+        "bpm": 160.0,
+        "key": "C# minor",
+        "lufs": -5.9,
+        "sub": 0.2536,
+        "bass": 0.6274,
+        "high": 0.0029,
+        "808_thd_pct": 48.4,
+        "808_harmonic_ratio_db": -5.74,
+        "hat_notes_per_bar": 9.21,
+        "tracks": [
+          "kick",
+          "snare",
+          "clap",
+          "hat",
+          "808",
+          "chords",
+          "melody",
+          "atmosphere"
+        ]
+      }
+    ],
+    "features": [
+      "sub",
+      "high",
+      "808_harmonic_ratio_db",
+      "808_thd_pct",
+      "hat_notes_per_bar",
+      "bpm"
+    ],
+    "mean_within_character_distance": 1.276,
+    "mean_between_character_distance": 3.712,
+    "leave_one_out_identification_accuracy": 1.0
+  },
+  "finished": "2026-11-14 00:01:55"
+}

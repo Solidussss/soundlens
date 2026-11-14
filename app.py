@@ -3120,3 +3120,14 @@ def compare_profile(file: UploadFile = File(...), authorization: str | None = He
             "ranked_profiles": [],
             "style_suggestions": [],
         }
+
+# ---------------------------------------------------------------------------
+# SoundLens Studio (AI music creation). Self-contained package in studio/;
+# a failure to import it must never take the analyzer down.
+# ---------------------------------------------------------------------------
+try:
+    from studio.api import create_router as _create_studio_router
+
+    app.include_router(_create_studio_router(get_current_user, DATA_DIR))
+except Exception as _studio_error:  # pragma: no cover - logged for operators
+    print(f"SoundLens Studio disabled: {_studio_error}")

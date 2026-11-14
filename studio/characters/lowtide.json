@@ -1,0 +1,210 @@
+{
+  "id": "lowtide",
+  "name": "Lowtide",
+  "tagline": "Dusty keys, swung drums, 2 a.m. calm.",
+  "description": "A tide-pool creature with a moon for a head, always half asleep. Lo-fi boom bap: swung drums, felt piano and electric piano chords, warm short bass.",
+  "visual": {
+    "palette": [
+      "#1d2a3a",
+      "#f3d9a4",
+      "#6fb0c8"
+    ],
+    "emblem": "moon",
+    "appearance": "kelp scarf, crescent-moon head, sleepy eyes"
+  },
+  "genre": "hip hop",
+  "subgenre": "lo-fi boom bap",
+  "tempo": {
+    "min": 78,
+    "max": 94,
+    "default": 86,
+    "feel": "full"
+  },
+  "swing": 0.14,
+  "keys": {
+    "preferred_scales": [
+      "dorian",
+      "minor",
+      "major"
+    ],
+    "preferred_roots": [
+      "D",
+      "F",
+      "A",
+      "C"
+    ]
+  },
+  "drums": {
+    "kick": {
+      "preset": "kick_soft",
+      "pattern": "boombap"
+    },
+    "snare": {
+      "preset": "snare_lofi"
+    },
+    "clap": null,
+    "hat": {
+      "preset": "hat_dark",
+      "rate": 0.5,
+      "roll_density": 0.0,
+      "triplet_rolls": false,
+      "open_prob": 0.06
+    },
+    "perc": {
+      "preset": "perc_shaker",
+      "density": 0.5
+    }
+  },
+  "bass": {
+    "preset": "808_warm",
+    "style": "follow_kick",
+    "glide_prob": 0.05,
+    "octave": 1,
+    "decay_s": 0.5,
+    "fx": [
+      {
+        "type": "filter",
+        "params": {
+          "mode": "lowpass",
+          "cutoff": 900
+        }
+      }
+    ]
+  },
+  "melody": {
+    "preset": "piano_felt",
+    "register": [
+      62,
+      79
+    ],
+    "density": 0.45,
+    "motif_bars": 2,
+    "repetition": 0.6,
+    "step_bias": 0.7,
+    "fx": [
+      {
+        "type": "filter",
+        "params": {
+          "mode": "lowpass",
+          "cutoff": 5000
+        }
+      },
+      {
+        "type": "reverb",
+        "params": {
+          "mix": 0.22,
+          "decay_s": 1.4
+        }
+      }
+    ]
+  },
+  "harmony": {
+    "preset": "rhodes",
+    "progressions": [
+      [
+        1,
+        4,
+        0,
+        0
+      ],
+      [
+        0,
+        3,
+        1,
+        4
+      ],
+      [
+        5,
+        1,
+        4,
+        0
+      ]
+    ],
+    "rhythm": "stabs",
+    "chord_size": 4,
+    "register": [
+      50,
+      67
+    ]
+  },
+  "extra": [
+    {
+      "role": "atmosphere",
+      "preset": "atmos_air",
+      "gain_db": -14
+    }
+  ],
+  "arrangement": {
+    "template": [
+      "intro:4",
+      "verse:8",
+      "hook:8",
+      "verse:8",
+      "hook:8",
+      "outro:4"
+    ]
+  },
+  "humanize": {
+    "timing_ms": 8,
+    "velocity": 0.12
+  },
+  "mix": {
+    "master_fx": [
+      {
+        "type": "saturation",
+        "params": {
+          "amount": 0.3
+        }
+      },
+      {
+        "type": "compressor",
+        "params": {
+          "threshold_db": -16,
+          "ratio": 2.5,
+          "attack_ms": 25,
+          "release_ms": 180
+        }
+      },
+      {
+        "type": "limiter",
+        "params": {
+          "ceiling_db": -1.0
+        }
+      }
+    ],
+    "track_gains": {
+      "kick": -4,
+      "snare": -7,
+      "hat": -15,
+      "perc": -17,
+      "808": -7,
+      "melody": -8,
+      "chords": -11,
+      "atmosphere": -12
+    },
+    "target_lufs": -11.0
+  },
+  "vocals": {
+    "default_mode": "instrumental",
+    "delivery": "laid-back, conversational rap, behind the beat",
+    "energy": 0.4,
+    "tags": [
+      "relaxed",
+      "storytelling"
+    ]
+  },
+  "generation_hints": {
+    "caption_tags": [
+      "lo-fi hip hop",
+      "boom bap",
+      "swing",
+      "felt piano",
+      "rhodes",
+      "dusty",
+      "chill"
+    ]
+  },
+  "references": {
+    "collections": []
+  }
+}

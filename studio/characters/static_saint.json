@@ -1,0 +1,198 @@
+{
+  "id": "static_saint",
+  "name": "Static Saint",
+  "tagline": "Cold drones, crushed bells, slow menace.",
+  "description": "A stone saint whose face is always lost in TV static. Dark underground trap: phrygian synths, detuned bells, gritty 808s and long, wet reverbs.",
+  "visual": {
+    "palette": [
+      "#121417",
+      "#8a9099",
+      "#5df2c4"
+    ],
+    "emblem": "static",
+    "appearance": "weathered stone robe, face of TV static, faint green glow"
+  },
+  "genre": "trap",
+  "subgenre": "dark underground",
+  "tempo": {
+    "min": 128,
+    "max": 146,
+    "default": 138,
+    "feel": "half"
+  },
+  "swing": 0.0,
+  "keys": {
+    "preferred_scales": [
+      "phrygian",
+      "minor",
+      "harmonic_minor"
+    ],
+    "preferred_roots": [
+      "E",
+      "F",
+      "G",
+      "B"
+    ]
+  },
+  "drums": {
+    "kick": {
+      "preset": "kick_punch",
+      "pattern": "sparse"
+    },
+    "snare": {
+      "preset": "snare_fat"
+    },
+    "clap": null,
+    "hat": {
+      "preset": "hat_dark",
+      "rate": 0.5,
+      "roll_density": 0.15,
+      "triplet_rolls": true,
+      "open_prob": 0.08
+    },
+    "perc": {
+      "preset": "perc_shaker",
+      "density": 0.3
+    }
+  },
+  "bass": {
+    "preset": "808_distorted",
+    "style": "sustained",
+    "glide_prob": 0.25,
+    "octave": 1,
+    "fx": [
+      {
+        "type": "saturation",
+        "params": {
+          "amount": 0.6
+        }
+      }
+    ]
+  },
+  "melody": {
+    "preset": "bell_dark",
+    "register": [
+      64,
+      82
+    ],
+    "density": 0.4,
+    "motif_bars": 2,
+    "repetition": 0.8,
+    "step_bias": 0.75,
+    "fx": [
+      {
+        "type": "bitcrush",
+        "params": {
+          "bits": 10,
+          "mix": 0.35
+        }
+      },
+      {
+        "type": "reverb",
+        "params": {
+          "mix": 0.4,
+          "decay_s": 3.5,
+          "damping": 0.6
+        }
+      }
+    ]
+  },
+  "harmony": {
+    "preset": "dark_synth",
+    "progressions": [
+      [
+        0,
+        1,
+        0,
+        6
+      ],
+      [
+        0,
+        5,
+        1,
+        0
+      ],
+      [
+        0,
+        6,
+        5,
+        1
+      ]
+    ],
+    "rhythm": "sustain",
+    "register": [
+      48,
+      64
+    ]
+  },
+  "extra": [
+    {
+      "role": "atmosphere",
+      "preset": "atmos_dark",
+      "gain_db": -8
+    }
+  ],
+  "arrangement": {
+    "template": [
+      "intro:8",
+      "verse:8",
+      "hook:8",
+      "verse:8",
+      "hook:8",
+      "outro:4"
+    ]
+  },
+  "mix": {
+    "master_fx": [
+      {
+        "type": "compressor",
+        "params": {
+          "threshold_db": -16,
+          "ratio": 3.0,
+          "attack_ms": 15,
+          "release_ms": 200
+        }
+      },
+      {
+        "type": "limiter",
+        "params": {
+          "ceiling_db": -1.0
+        }
+      }
+    ],
+    "track_gains": {
+      "kick": -6,
+      "snare": -8,
+      "hat": -17,
+      "perc": -18,
+      "808": -6,
+      "melody": -9,
+      "chords": -14,
+      "atmosphere": -10
+    },
+    "target_lufs": -10.5
+  },
+  "vocals": {
+    "default_mode": "instrumental",
+    "delivery": "low, whispered, menacing, slow cadence",
+    "energy": 0.35,
+    "tags": [
+      "whispered",
+      "low register",
+      "dark"
+    ]
+  },
+  "generation_hints": {
+    "caption_tags": [
+      "dark trap",
+      "underground",
+      "phrygian",
+      "detuned bells",
+      "distorted 808",
+      "eerie"
+    ]
+  },
+  "references": {
+    "collections": []
+  }
+}

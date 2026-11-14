@@ -1,0 +1,194 @@
+{
+  "id": "mercury_halo",
+  "name": "Mercury Halo",
+  "tagline": "Glassy bells, soft slides, floating chords.",
+  "description": "A chrome figure with a thin floating halo that rings when it moves. Plugg and pluggnb energy: glossy bells, sweet seventh chords and clean sliding 808s.",
+  "visual": {
+    "palette": [
+      "#e9ecff",
+      "#9fb7ff",
+      "#c98bff"
+    ],
+    "emblem": "halo",
+    "appearance": "liquid-chrome skin, ringing halo, pastel glow"
+  },
+  "genre": "trap",
+  "subgenre": "pluggnb",
+  "tempo": {
+    "min": 140,
+    "max": 156,
+    "default": 150,
+    "feel": "half"
+  },
+  "swing": 0.0,
+  "keys": {
+    "preferred_scales": [
+      "major",
+      "lydian",
+      "dorian"
+    ],
+    "preferred_roots": [
+      "D#",
+      "F#",
+      "A#",
+      "C"
+    ]
+  },
+  "drums": {
+    "kick": {
+      "preset": "kick_punch",
+      "pattern": "plugg"
+    },
+    "snare": null,
+    "clap": {
+      "preset": "clap_wide"
+    },
+    "hat": {
+      "preset": "hat_tick",
+      "rate": 0.5,
+      "roll_density": 0.2,
+      "triplet_rolls": true,
+      "open_prob": 0.0
+    },
+    "perc": {
+      "preset": "perc_rim",
+      "density": 0.25
+    }
+  },
+  "bass": {
+    "preset": "808_clean",
+    "style": "follow_kick",
+    "glide_prob": 0.5,
+    "octave": 1,
+    "fx": []
+  },
+  "melody": {
+    "preset": "bell_bright",
+    "register": [
+      72,
+      91
+    ],
+    "density": 0.55,
+    "motif_bars": 2,
+    "repetition": 0.7,
+    "step_bias": 0.7,
+    "fx": [
+      {
+        "type": "reverb",
+        "params": {
+          "mix": 0.3,
+          "decay_s": 2.4,
+          "damping": 0.3
+        }
+      },
+      {
+        "type": "delay",
+        "params": {
+          "beats": 0.5,
+          "feedback": 0.35,
+          "mix": 0.2
+        }
+      }
+    ]
+  },
+  "harmony": {
+    "preset": "pad_glass",
+    "progressions": [
+      [
+        0,
+        5,
+        3,
+        4
+      ],
+      [
+        3,
+        4,
+        2,
+        5
+      ],
+      [
+        0,
+        2,
+        3,
+        4
+      ]
+    ],
+    "rhythm": "sustain",
+    "chord_size": 4,
+    "register": [
+      55,
+      72
+    ]
+  },
+  "extra": [
+    {
+      "role": "bell",
+      "preset": "glass_keys",
+      "gain_db": -15
+    }
+  ],
+  "arrangement": {
+    "template": [
+      "intro:4",
+      "hook:8",
+      "verse:8",
+      "hook:8",
+      "verse:8",
+      "hook:8",
+      "outro:4"
+    ]
+  },
+  "mix": {
+    "master_fx": [
+      {
+        "type": "compressor",
+        "params": {
+          "threshold_db": -14,
+          "ratio": 2.0,
+          "attack_ms": 20,
+          "release_ms": 150
+        }
+      },
+      {
+        "type": "limiter",
+        "params": {
+          "ceiling_db": -1.0
+        }
+      }
+    ],
+    "track_gains": {
+      "kick": -6,
+      "clap": -8,
+      "hat": -16,
+      "perc": -16,
+      "808": -6,
+      "melody": -10,
+      "chords": -15,
+      "bell": -16
+    },
+    "target_lufs": -9.0
+  },
+  "vocals": {
+    "default_mode": "instrumental",
+    "delivery": "melodic, airy, heavily tuned, floating",
+    "energy": 0.5,
+    "tags": [
+      "melodic",
+      "falsetto",
+      "auto-tune"
+    ]
+  },
+  "generation_hints": {
+    "caption_tags": [
+      "pluggnb",
+      "plugg",
+      "bells",
+      "soft 808 slides",
+      "dreamy",
+      "major seventh chords"
+    ]
+  },
+  "references": {
+    "collections": []
+  }
+}
