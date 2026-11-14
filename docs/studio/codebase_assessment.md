@@ -9,7 +9,7 @@ desktop app, the Haze plugin, and the account server that hosts Beat Battles).
 | Area | What it is | Where |
 |---|---|---|
 | Frontend | One 135 KB `index.html`: vanilla JS, no build step, three.js via importmap (3D "Galaxy" event map), dark glass design tokens (`--bg #05060a`, `--purple #7275ff`, …) | `index.html` |
-| Backend | FastAPI. Production entry is a wrapper chain `visual_app` → `production_app` → `hardened_app` → `app`, where each layer replaces routes (`_remove_route`). `Procfile` still says `uvicorn app:app` | `app.py`, `hardened_app.py`, `production_app.py`, `visual_app.py`, `sitecustomize.py` |
+| Backend | FastAPI. One app built in four layers: `visual_app` → `production_app` → `hardened_app` → `app`, where each layer replaces routes (`_remove_route`). The Procfile now points at `visual_app:app` (it said `app:app`, which skipped the hardening layers) | `app.py`, `hardened_app.py`, `production_app.py`, `visual_app.py`, `sitecustomize.py` |
 | Storage | JSON files with atomic writes in `SOUNDLENS_DATA_DIR` (Railway volume at `/data`): users + tokens, admin events, feedback, saved reports, reference library, backups | `app.py` top |
 | Auth | Email + password, email verification (Resend/SMTP), bearer tokens stored in the users JSON, `localStorage['soundlens_auth_token']` in the browser; plans free/pro/studio/lifetime | `app.py` `/auth/*` |
 | Payments | Stripe checkout, confirm and webhook | `/stripe/*` |
@@ -17,7 +17,7 @@ desktop app, the Haze plugin, and the account server that hosts Beat Battles).
 | Samples / music library | No sample library. There are reference *analysis* assets: artist profiles, Tunebat catalogue JSON, and test audio in `uploads/`, `tracks/`, `stems/` | repo root |
 | Beat Battle | **Not in this repo.** It lives in `soundlens-haze/license-server/src/battles/` (plain Node `http`, SQLite `battles.db`, media on a `/data` volume) and is served at beatbattle.soundlensapp.com. Entries are submitted with `PUT /api/battles/c/:slug/entry` (raw WAV/MP3 body, validated from its bytes) and require a "rights" confirmation. **Separate account system** (cookie `sl_session`), not shared with this app's users | haze repo |
 | Desktop | "SoundLens" Electron app that controls FL Studio from text ("make the drums brighter") through an intent parser, plus the Haze JUCE plugin | haze repo |
-| Deployment | The Railway workspace I could see has a `soundlens` project with one service, `license-server` (the haze repo). **I could not find the Python web analyzer's deployment there.** Please tell me where it runs before any infrastructure change | Railway |
+| Deployment | Railway project `soundlens` runs `license-server` (Beat Battle, beatbattle.soundlensapp.com). www.soundlensapp.com is still served from a separate project. **The Python analyzer is not deployed.** Full map and the move plan: `docs/INFRASTRUCTURE.md` | Railway |
 | Tests | `tests/` holds 9 tests (accuracy layer, event model). All pass before and after this change | `tests/` |
 
 ## Reuse, modify, build

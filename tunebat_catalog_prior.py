@@ -18,8 +18,8 @@ from typing import Any, Dict, List, Tuple
 
 import compare_to_profile_pro as compare
 
-CATALOG_PATH = Path(__file__).with_name("tunebat_catalog.json")
-CATALOG_DIR = Path(__file__).parent
+CATALOG_DIR = Path(__file__).parent / "data" / "catalog"
+CATALOG_PATH = CATALOG_DIR / "tunebat_catalog.json"
 EPS = 1e-9
 
 _base_compare_library = compare.compare_against_track_library

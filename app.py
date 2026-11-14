@@ -329,9 +329,10 @@ def load_reference_library() -> dict:
 def save_reference_library(data: dict) -> None:
     write_json_file(REFERENCE_LIBRARY_INDEX, data)
 
+CATALOG_DIR = Path(__file__).parent / "data" / "catalog"
 TUNEBAT_CATALOG_FILES = [
     "tunebat_catalog.json",
-    *[path.name for path in sorted(Path(__file__).parent.glob("tunebat_catalog_expansion*.json"))],
+    *[path.name for path in sorted(CATALOG_DIR.glob("tunebat_catalog_expansion*.json"))],
 ]
 ARTIST_IMAGES_PATH = Path(__file__).with_name("artist_images.json")
 
@@ -377,7 +378,7 @@ def load_tunebat_catalog_metadata() -> dict:
     seen_by_artist: dict[str, set[tuple]] = {}
 
     for filename in TUNEBAT_CATALOG_FILES:
-        path = Path(__file__).with_name(filename)
+        path = CATALOG_DIR / filename
         payload = read_json_file(path, {})
         if not isinstance(payload, dict):
             continue
